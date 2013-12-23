@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>F5EFA065-BF3F-4DDE-A739-E79949D93A11</string>
+	<key>IDESourceControlProjectName</key>
+	<string>stardazed</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>736DCB7F-0EC5-4F91-8914-6C33C97786D2</key>
+		<string>ssh://github.com/zenmumbler/stardazed.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>stardazed/stardazed.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>736DCB7F-0EC5-4F91-8914-6C33C97786D2</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/zenmumbler/stardazed.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>736DCB7F-0EC5-4F91-8914-6C33C97786D2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>736DCB7F-0EC5-4F91-8914-6C33C97786D2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>stardazed</string>
+		</dict>
+	</array>
+</dict>
+</plist>
