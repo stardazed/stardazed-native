@@ -7,8 +7,8 @@
 
 namespace stardazed {
 
-	std::string Config::value(const std::string& keyPath, const std::string& defaultValue) {
-		return defaultValue;
-	}
-
+std::string Config::value(const std::string& keyPath, const std::string& defaultValue) {
+	return defaultValue;
 }
+
+} // stardazed namespace

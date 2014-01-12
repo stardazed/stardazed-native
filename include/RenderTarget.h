@@ -6,25 +6,25 @@
 #ifndef SD_RENDERTARGET_H
 #define SD_RENDERTARGET_H
 
+#include "RenderTargetOptions.h"
 #include <string>
 #include <memory>
 
 namespace stardazed {
 
-	class RenderTarget {
-		int width, height;
-		bool fullscreen;
-		
-		class Impl;
-		std::unique_ptr<Impl> pimpl;
-
-	public:
-		RenderTarget(int width, int height, bool fullscreen);
-		~RenderTarget();
-		
-		void swap();
-	};
+class RenderTarget {
+	RenderTargetOptions options;
 	
-}
+	class Impl;
+	std::unique_ptr<Impl> pimpl;
+
+public:
+	RenderTarget(RenderTargetOptions options);
+	~RenderTarget();
+	
+	void swap();
+};
+	
+} // stardazed namespace
 
 #endif

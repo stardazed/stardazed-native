@@ -10,11 +10,11 @@
 
 namespace stardazed {
 
-	class Config {
-	public:
-		std::string value(const std::string& keyPath, const std::string& defaultValue);
-	};
-	
-}
+class Config {
+public:
+	std::string value(const std::string& keyPath, const std::string& defaultValue);
+};
+
+} // stardazed namespace
 
 #endif
