@@ -25,6 +25,12 @@
 namespace stardazed {
 
 namespace {
+	void changeToResourcesDirectory() {
+		const char * resourcePath = [[[NSBundle mainBundle] resourcePath] UTF8String];
+		chdir(resourcePath);
+	}
+
+
 	void initApplication() {
 		[NSApplication sharedApplication];
 		[NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
@@ -35,13 +41,15 @@ namespace {
 		NSArray *tlo;
 		[[NSBundle mainBundle] loadNibNamed:@"MainMenu" owner:appDelegate topLevelObjects: &tlo];
 		appDelegate.xibObjects = tlo;
+		
+		changeToResourcesDirectory();
 
 		[NSApp finishLaunching];
 	}
 
-	std::unique_ptr<RenderTarget> renderTarget;
 	bool quit = false;
 } // anonymous namespace
+
 
 
 void quitNow() {
@@ -49,16 +57,16 @@ void quitNow() {
 }
 
 
+
 Application::Application() {
 	initApplication();
-
-	RenderTargetOptions options;
-	renderTarget = std::make_unique<RenderTarget>(options);
 }
+
 
 bool Application::shouldQuit() {
 	return quit;
 }
+
 
 void Application::yieldSystem() {
 	@autoreleasepool {
@@ -69,11 +77,12 @@ void Application::yieldSystem() {
 									untilDate: nil
 									   inMode: NSDefaultRunLoopMode
 									  dequeue: YES];
-			if (ev)
+			if (ev) {
 				[NSApp sendEvent: ev];
+				
+				NSLog(@"Event: %lu, mods: %x", [ev type], (uint32_t)[ev modifierFlags]);
+			}
 		} while (ev);
-		
-		renderTarget->swap();
 	}
 }
 
