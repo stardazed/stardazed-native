@@ -6,6 +6,7 @@
 #include "../include/RenderTarget.h"
 #include "../include/Application.h"
 #import <AppKit/AppKit.h>
+#import <OpenGL/gl3.h>
 #include <vector>
 #include <cassert>
 
@@ -20,6 +21,7 @@
 	return YES;
 }
 @end
+
 
 @interface SDWindowDelegate : NSObject<NSWindowDelegate> {}
 @end
@@ -117,7 +119,7 @@ static NSWindow* createRenderWindow(const stardazed::RenderTargetOptions &option
 		styleOptions = NSTitledWindowMask | NSClosableWindowMask;
 	}
 	
-	NSWindow *window = [[NSWindow alloc]
+	SDWindow *window = [[SDWindow alloc]
 		initWithContentRect: frame
 				  styleMask: styleOptions
 					backing: NSBackingStoreBuffered
@@ -144,13 +146,23 @@ static NSWindow* createRenderWindow(const stardazed::RenderTargetOptions &option
 }
 
 
+static void setupGL(const stardazed::RenderTargetOptions& rto) {
+	glViewport(0, 0, rto.width, rto.height);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+	glClearColor(0, 0, 0, 0);
+}
+
+
 namespace stardazed {
 
 class RenderTarget::Impl {
 public:
-	NSWindow *coverWindow;
+	NSWindow* coverWindow;
 	id windowDelegate;
+	NSOpenGLContext* glContext;
 };
+
 
 RenderTarget::RenderTarget(RenderTargetOptions rto)
 : options(rto)
@@ -165,12 +177,18 @@ RenderTarget::RenderTarget(RenderTargetOptions rto)
 	
 	pimpl->coverWindow = window;
 	pimpl->windowDelegate = delegate;
+	pimpl->glContext = [[pimpl->coverWindow contentView] openGLContext];
+	
+	setupGL(rto);
 }
 
-RenderTarget::~RenderTarget() {}
+
+RenderTarget::~RenderTarget() {
+}
+
 
 void RenderTarget::swap() {
-	[[[pimpl->coverWindow contentView] openGLContext] flushBuffer];
+	[pimpl->glContext flushBuffer];
 }
 
 } // stardazed namespace
