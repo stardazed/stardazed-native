@@ -26,8 +26,8 @@ struct RenderTargetOptions {
 	bool verticalSync = false;
 	BufferingMethod bufferMethod = BufferingMethod::DoubleBuffer;
 
-	FullscreenAntiAliasMethod fsaa = FullscreenAntiAliasMethod::None;
-	int antiAliasSamples = 2;
+	FullscreenAntiAliasMethod fsaa = FullscreenAntiAliasMethod::MSAA;
+	int antiAliasSamples = 4;
 
 	// buffer sizes for non-colour buffers
 	// the colour buffer is fixed at 24+8 bits
