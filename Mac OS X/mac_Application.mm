@@ -80,7 +80,7 @@ void Application::yieldSystem() {
 			if (ev) {
 				[NSApp sendEvent: ev];
 				
-				NSLog(@"Event: %lu, mods: %x", [ev type], (uint32_t)[ev modifierFlags]);
+//				NSLog(@"Event: %lu, mods: %x", [ev type], (uint32_t)[ev modifierFlags]);
 			}
 		} while (ev);
 	}
