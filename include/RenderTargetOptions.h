@@ -21,7 +21,7 @@ enum class BufferingMethod {
 
 
 struct RenderTargetOptions {
-	int	width = 1280, height = 960;
+	int	width = 1024, height = 768;
 	bool fullscreen = false;
 	bool verticalSync = false;
 	BufferingMethod bufferMethod = BufferingMethod::DoubleBuffer;
