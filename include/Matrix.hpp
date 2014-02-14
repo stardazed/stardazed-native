@@ -6,6 +6,7 @@
 #ifndef SD_MATH_MATRIX_H
 #define SD_MATH_MATRIX_H
 
+#include "Vector.hpp"
 #include <array>
 #include <type_traits>
 
@@ -131,9 +132,20 @@ TMATRIX3_SCALAR_ASSIGN_OPERATOR(*=)
 TMATRIX3_SCALAR_ASSIGN_OPERATOR(/=)
 
 #undef TMATRIX3_SCALAR_ASSIGN_OPERATOR
-	
 
-	
+
+template <typename T>
+TVec3<T> operator * (const TMatrix3<T>& mat, const TVec3<T>& vec) {
+	T x = vec[0], y = vec[1], z = vec[2];
+
+	return {
+		(mat[0] * x) + (mat[1] * y) + (mat[2] * z),
+		(mat[3] * x) + (mat[4] * y) + (mat[5] * z),
+		(mat[6] * x) + (mat[7] * y) + (mat[8] * z)
+	};
+}
+
+
 //  __  __       _        _      _  _      ___
 // |  \/  | __ _| |_ _ __(_)_  _| || |    / _ \ _ __  ___
 // | |\/| |/ _` | __| '__| \ \/ / || |_  | | | | '_ \/ __|
@@ -241,6 +253,19 @@ TMATRIX4_SCALAR_ASSIGN_OPERATOR(*=)
 TMATRIX4_SCALAR_ASSIGN_OPERATOR(/=)
 	
 #undef TMATRIX4_SCALAR_ASSIGN_OPERATOR
+
+
+template <typename T>
+TVec4<T> operator * (const TMatrix4<T>& mat, const TVec4<T>& vec) {
+	T x = vec[0], y = vec[1], z = vec[2], w = vec[3];
+	
+	return {
+		(mat[0]  * x) + (mat[1]  * y) + (mat[2]  * z) + (mat[3]  * w),
+		(mat[4]  * x) + (mat[5]  * y) + (mat[6]  * z) + (mat[7]  * w),
+		(mat[8]  * x) + (mat[9]  * y) + (mat[10] * z) + (mat[11] * w),
+		(mat[12] * x) + (mat[13] * y) + (mat[14] * z) + (mat[15] * w)
+	};
+}
 
 
 } // ns math
