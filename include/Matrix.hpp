@@ -45,6 +45,7 @@ TMATRIX3_TMATRIX3_OPERATOR(-)
 TMATRIX3_TMATRIX3_OPERATOR(*)
 TMATRIX3_TMATRIX3_OPERATOR(/)
 
+#undef TMATRIX3_TMATRIX3_OPERATOR
 
 
 #define TMATRIX3_SCALAR_OPERATOR(op) \
@@ -64,9 +65,32 @@ TMATRIX3_SCALAR_OPERATOR(-)
 TMATRIX3_SCALAR_OPERATOR(*)
 TMATRIX3_SCALAR_OPERATOR(/)
 
+#undef TMATRIX3_SCALAR_OPERATOR
 
 
-#define TMATRIX3_TMATRIX3_ASSIGN_OP(op) \
+
+#define SCALAR_TMATRIX3_OPERATOR(op) \
+template <typename T, typename S> \
+constexpr \
+std::enable_if_t<std::is_convertible<S, T>::value, TMatrix3<T>> \
+operator op (const S rhs, const TMatrix3<T>& lhs) { \
+	return { \
+		lhs[0] op rhs, lhs[1] op rhs, lhs[2] op rhs, \
+		lhs[3] op rhs, lhs[4] op rhs, lhs[5] op rhs, \
+		lhs[6] op rhs, lhs[7] op rhs, lhs[8] op rhs  \
+	}; \
+}
+	
+SCALAR_TMATRIX3_OPERATOR(+)
+SCALAR_TMATRIX3_OPERATOR(-)
+SCALAR_TMATRIX3_OPERATOR(*)
+SCALAR_TMATRIX3_OPERATOR(/)
+
+#undef SCALAR_TMATRIX3_OPERATOR
+	
+	
+	
+#define TMATRIX3_TMATRIX3_ASSIGN_OPERATOR(op) \
 template <typename T> \
 TMatrix3<T>& operator op (TMatrix3<T>& lhs, const TMatrix3<T>& rhs) { \
 	lhs[0] op rhs[0]; lhs[1] op rhs[1]; lhs[2] op rhs[2]; \
@@ -75,14 +99,16 @@ TMatrix3<T>& operator op (TMatrix3<T>& lhs, const TMatrix3<T>& rhs) { \
 	return lhs; \
 }
 
-TMATRIX3_TMATRIX3_ASSIGN_OP(+=)
-TMATRIX3_TMATRIX3_ASSIGN_OP(-=)
-TMATRIX3_TMATRIX3_ASSIGN_OP(*=)
-TMATRIX3_TMATRIX3_ASSIGN_OP(/=)
+TMATRIX3_TMATRIX3_ASSIGN_OPERATOR(+=)
+TMATRIX3_TMATRIX3_ASSIGN_OPERATOR(-=)
+TMATRIX3_TMATRIX3_ASSIGN_OPERATOR(*=)
+TMATRIX3_TMATRIX3_ASSIGN_OPERATOR(/=)
+
+#undef TMATRIX3_TMATRIX3_ASSIGN_OP
 
 
 
-#define TMATRIX3_SCALAR_ASSIGN_OP(op) \
+#define TMATRIX3_SCALAR_ASSIGN_OPERATOR(op) \
 template <typename T, typename S> \
 std::enable_if_t<std::is_convertible<S, T>::value, TMatrix3<T>&> \
 operator op (TMatrix3<T>& lhs, const S rhs) { \
@@ -92,10 +118,12 @@ operator op (TMatrix3<T>& lhs, const S rhs) { \
 	return lhs; \
 }
 
-TMATRIX3_SCALAR_ASSIGN_OP(+=)
-TMATRIX3_SCALAR_ASSIGN_OP(-=)
-TMATRIX3_SCALAR_ASSIGN_OP(*=)
-TMATRIX3_SCALAR_ASSIGN_OP(/=)
+TMATRIX3_SCALAR_ASSIGN_OPERATOR(+=)
+TMATRIX3_SCALAR_ASSIGN_OPERATOR(-=)
+TMATRIX3_SCALAR_ASSIGN_OPERATOR(*=)
+TMATRIX3_SCALAR_ASSIGN_OPERATOR(/=)
+
+#undef TMATRIX3_SCALAR_ASSIGN_OPERATOR
 
 
 } // ns math
