@@ -33,6 +33,13 @@ using IVec4 = TVec4<int>;
 
 
 
+// __     __        _____    ___
+// \ \   / /__  ___|___ /   / _ \ _ __  ___
+//  \ \ / / _ \/ __| |_ \  | | | | '_ \/ __|
+//   \ V /  __/ (__ ___) | | |_| | |_) \__ \
+//    \_/ \___|\___|____/   \___/| .__/|___/
+//                               |_|
+
 #define TVEC3_TVEC3_OPERATOR(op) \
 template <typename T> \
 constexpr TVec3<T> operator op (const TVec3<T>& lhs, const TVec3<T>& rhs) { \
@@ -41,8 +48,6 @@ constexpr TVec3<T> operator op (const TVec3<T>& lhs, const TVec3<T>& rhs) { \
 
 TVEC3_TVEC3_OPERATOR(+)
 TVEC3_TVEC3_OPERATOR(-)
-TVEC3_TVEC3_OPERATOR(*)
-TVEC3_TVEC3_OPERATOR(/)
 
 #undef TVEC3_TVEC3_OPERATOR
 
@@ -91,8 +96,6 @@ TVec3<T>& operator op(TVec3<T>& lhs, const TVec3<T>& rhs) { \
 
 TVEC3_TVEC3_ASSIGN_OPERATOR(+=)
 TVEC3_TVEC3_ASSIGN_OPERATOR(-=)
-TVEC3_TVEC3_ASSIGN_OPERATOR(*=)
-TVEC3_TVEC3_ASSIGN_OPERATOR(/=)
 
 #undef TVEC3_TVEC3_ASSIGN_OPERATOR
 
@@ -114,6 +117,13 @@ TVEC3_SCALAR_ASSIGN_OPERATOR(/=)
 
 
 
+// __     __        _  _      ___
+// \ \   / /__  ___| || |    / _ \ _ __  ___
+//  \ \ / / _ \/ __| || |_  | | | | '_ \/ __|
+//   \ V /  __/ (__|__   _| | |_| | |_) \__ \
+//    \_/ \___|\___|  |_|    \___/| .__/|___/
+//                                |_|
+
 #define TVEC4_TVEC4_OPERATOR(op) \
 template <typename T> \
 constexpr TVec4<T> operator op (const TVec4<T>& lhs, const TVec4<T>& rhs) { \
@@ -122,8 +132,6 @@ constexpr TVec4<T> operator op (const TVec4<T>& lhs, const TVec4<T>& rhs) { \
 
 TVEC4_TVEC4_OPERATOR(+)
 TVEC4_TVEC4_OPERATOR(-)
-TVEC4_TVEC4_OPERATOR(*)
-TVEC4_TVEC4_OPERATOR(/)
 
 #undef TVEC4_TVEC4_OPERATOR
 
@@ -172,8 +180,6 @@ TVec4<T>& operator op (TVec4<T>& lhs, const TVec4<T>& rhs) { \
 
 TVEC4_TVEC4_ASSIGN_OPERATOR(+=)
 TVEC4_TVEC4_ASSIGN_OPERATOR(-=)
-TVEC4_TVEC4_ASSIGN_OPERATOR(*=)
-TVEC4_TVEC4_ASSIGN_OPERATOR(/=)
 
 #undef TVEC4_TVEC4_ASSIGN_OPERATOR
 
