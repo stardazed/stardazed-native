@@ -30,6 +30,18 @@ using Matrix4 = TMatrix4<float>;
 using DMatrix4 = TMatrix4<double>;
 
 
+/*
+ideal memory layout for mat3/4 matrices
+xx xy xz
+yx yy yz
+zx zy zz
+px py pz (3x4)
+
+This allows for 0-change Mat3 extraction
+and cached Mat4 generation 0 0 0 1
+*/
+
+
 //  __  __       _        _      _____    ___
 // |  \/  | __ _| |_ _ __(_)_  _|___ /   / _ \ _ __  ___
 // | |\/| |/ _` | __| '__| \ \/ / |_ \  | | | | '_ \/ __|
@@ -49,8 +61,6 @@ constexpr TMatrix3<T> operator op (const TMatrix3<T>& lhs, const TMatrix3<T>& rh
 
 TMATRIX3_TMATRIX3_OPERATOR(+)
 TMATRIX3_TMATRIX3_OPERATOR(-)
-TMATRIX3_TMATRIX3_OPERATOR(*)
-TMATRIX3_TMATRIX3_OPERATOR(/)
 
 #undef TMATRIX3_TMATRIX3_OPERATOR
 
@@ -109,8 +119,6 @@ TMatrix3<T>& operator op (TMatrix3<T>& lhs, const TMatrix3<T>& rhs) { \
 
 TMATRIX3_TMATRIX3_ASSIGN_OPERATOR(+=)
 TMATRIX3_TMATRIX3_ASSIGN_OPERATOR(-=)
-TMATRIX3_TMATRIX3_ASSIGN_OPERATOR(*=)
-TMATRIX3_TMATRIX3_ASSIGN_OPERATOR(/=)
 
 #undef TMATRIX3_TMATRIX3_ASSIGN_OPERATOR
 
