@@ -1,218 +1,94 @@
 // ------------------------------------------------------------------
-// math::Vector - stardazed
+// math::Vector, revision the 3rd - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #ifndef SD_MATH_VECTOR_H
 #define SD_MATH_VECTOR_H
 
-#include <array>
-#include <iostream>
-#include <type_traits>
+#include <cassert>
+#include <cmath>
 
 namespace stardazed {
 namespace math {
 
 
-namespace /* detail */ {
-	template <typename T>
-	using TVec3 = std::array<T, 3>;
-
-	template <typename T>
-	using TVec4 = std::array<T, 4>;
+#define VEC_SUBSCRIPT_OP(size) \
+constexpr T& operator[](const size_t index) { \
+	assert(index < size); \
+	return data[index]; \
+} \
+constexpr T operator[](const size_t index) const { \
+	assert(index < size); \
+	return data[index]; \
 }
 
 
-using Vec3  = TVec3<float>;
-using DVec3 = TVec3<double>;
-using IVec3 = TVec3<int>;
+template <size_t N, typename T = float>
+struct Vector {
+	T data[N];
 
-using Vec4  = TVec4<float>;
-using DVec4 = TVec4<double>;
-using IVec4 = TVec4<int>;
+	VEC_SUBSCRIPT_OP(N)
+};
 
-
-
-// __     __        _____    ___
-// \ \   / /__  ___|___ /   / _ \ _ __  ___
-//  \ \ / / _ \/ __| |_ \  | | | | '_ \/ __|
-//   \ V /  __/ (__ ___) | | |_| | |_) \__ \
-//    \_/ \___|\___|____/   \___/| .__/|___/
-//                               |_|
-
-#define TVEC3_TVEC3_OPERATOR(op) \
-template <typename T> \
-constexpr TVec3<T> operator op (const TVec3<T>& lhs, const TVec3<T>& rhs) { \
-	return { lhs[0] op rhs[0], lhs[1] op rhs[1], lhs[2] op rhs[2] }; \
-}
-
-TVEC3_TVEC3_OPERATOR(+)
-TVEC3_TVEC3_OPERATOR(-)
-
-#undef TVEC3_TVEC3_OPERATOR
+using Vec2 = Vector<2>;
+using Vec3 = Vector<3>;
+using Vec4 = Vector<4>;
 
 
-
-#define TVEC3_SCALAR_OPERATOR(op) \
-template <typename T, typename S> \
-constexpr \
-std::enable_if_t<std::is_convertible<S, T>::value, TVec3<T>> \
-operator op (const TVec3<T>& lhs, const S rhs) { \
-	return { lhs[0] op rhs, lhs[1] op rhs, lhs[2] op rhs }; \
-}
-
-TVEC3_SCALAR_OPERATOR(+)
-TVEC3_SCALAR_OPERATOR(-)
-TVEC3_SCALAR_OPERATOR(*)
-TVEC3_SCALAR_OPERATOR(/)
-
-#undef TVEC3_SCALAR_OPERATOR
-
-
-
-#define SCALAR_TVEC3_OPERATOR(op) \
-template <typename T, typename S> \
-constexpr \
-std::enable_if_t<std::is_convertible<S, T>::value, TVec3<T>> \
-operator op (const S lhs, const TVec3<T>& rhs) { \
-	return { lhs op rhs[0], lhs op rhs[1], lhs op rhs[2] }; \
-}
-
-SCALAR_TVEC3_OPERATOR(+)
-SCALAR_TVEC3_OPERATOR(-)
-SCALAR_TVEC3_OPERATOR(*)
-SCALAR_TVEC3_OPERATOR(/)
-
-#undef SCALAR_TVEC3_OPERATOR
-
-
-
-#define TVEC3_TVEC3_ASSIGN_OPERATOR(op) \
-template <typename T> \
-TVec3<T>& operator op(TVec3<T>& lhs, const TVec3<T>& rhs) { \
-	lhs[0] op rhs[0]; lhs[1] op rhs[1]; lhs[2] op rhs[2]; \
-	return lhs; \
-}
-
-TVEC3_TVEC3_ASSIGN_OPERATOR(+=)
-TVEC3_TVEC3_ASSIGN_OPERATOR(-=)
-
-#undef TVEC3_TVEC3_ASSIGN_OPERATOR
-
-
-
-#define TVEC3_SCALAR_ASSIGN_OPERATOR(op) \
-template <typename T, typename S> \
-TVec3<T>& operator op(TVec3<T>& lhs, const S rhs) { \
-	lhs[0] op rhs; lhs[1] op rhs; lhs[2] op rhs; \
-	return lhs; \
-}
-
-TVEC3_SCALAR_ASSIGN_OPERATOR(+=)
-TVEC3_SCALAR_ASSIGN_OPERATOR(-=)
-TVEC3_SCALAR_ASSIGN_OPERATOR(*=)
-TVEC3_SCALAR_ASSIGN_OPERATOR(/=)
-
-#undef TVEC3_SCALAR_ASSIGN_OPERATOR
-
-
-
-// __     __        _  _      ___
-// \ \   / /__  ___| || |    / _ \ _ __  ___
-//  \ \ / / _ \/ __| || |_  | | | | '_ \/ __|
-//   \ V /  __/ (__|__   _| | |_| | |_) \__ \
-//    \_/ \___|\___|  |_|    \___/| .__/|___/
-//                                |_|
-
-#define TVEC4_TVEC4_OPERATOR(op) \
-template <typename T> \
-constexpr TVec4<T> operator op (const TVec4<T>& lhs, const TVec4<T>& rhs) { \
-	return { lhs[0] op rhs[0], lhs[1] op rhs[1], lhs[2] op rhs[2], lhs[3] op rhs[3] }; \
-}
-
-TVEC4_TVEC4_OPERATOR(+)
-TVEC4_TVEC4_OPERATOR(-)
-
-#undef TVEC4_TVEC4_OPERATOR
-
-
-
-#define TVEC4_SCALAR_OPERATOR(op) \
-template <typename T, typename S> \
-constexpr \
-std::enable_if_t<std::is_convertible<S, T>::value, TVec4<T>> \
-operator op (const TVec4<T>& lhs, const S rhs) { \
-	return { lhs[0] op rhs, lhs[1] op rhs, lhs[2] op rhs, lhs[3] op rhs }; \
-}
-
-TVEC4_SCALAR_OPERATOR(+)
-TVEC4_SCALAR_OPERATOR(-)
-TVEC4_SCALAR_OPERATOR(*)
-TVEC4_SCALAR_OPERATOR(/)
-
-#undef TVEC4_SCALAR_OPERATOR
-
-
-
-#define SCALAR_TVEC4_OPERATOR(op) \
-template <typename T, typename S> \
-constexpr \
-std::enable_if_t<std::is_convertible<S, T>::value, TVec4<T>> \
-operator op (const S lhs, const TVec4<T>& rhs) { \
-	return { lhs op rhs[0], lhs op rhs[1], lhs op rhs[2], lhs op rhs[3] }; \
-}
-
-SCALAR_TVEC4_OPERATOR(+)
-SCALAR_TVEC4_OPERATOR(-)
-SCALAR_TVEC4_OPERATOR(*)
-SCALAR_TVEC4_OPERATOR(/)
-
-#undef SCALAR_TVEC4_OPERATOR
-
-
-
-#define TVEC4_TVEC4_ASSIGN_OPERATOR(op) \
-template <typename T> \
-TVec4<T>& operator op (TVec4<T>& lhs, const TVec4<T>& rhs) { \
-	lhs[0] op rhs[0]; lhs[1] op rhs[1]; lhs[2] op rhs[2]; lhs[3] op rhs[3]; \
-	return lhs; \
-}
-
-TVEC4_TVEC4_ASSIGN_OPERATOR(+=)
-TVEC4_TVEC4_ASSIGN_OPERATOR(-=)
-
-#undef TVEC4_TVEC4_ASSIGN_OPERATOR
-
-
-
-#define TVEC4_SCALAR_ASSIGN_OPERATOR(op) \
-template <typename T, typename S> \
-std::enable_if_t<std::is_convertible<S, T>::value, TVec4<T>&> \
-operator op (TVec4<T>& lhs, const S rhs) { \
-	lhs[0] op rhs; lhs[1] op rhs; lhs[2] op rhs; lhs[3] op rhs; \
-	return lhs; \
-}
-
-TVEC4_SCALAR_ASSIGN_OPERATOR(+=)
-TVEC4_SCALAR_ASSIGN_OPERATOR(-=)
-TVEC4_SCALAR_ASSIGN_OPERATOR(*=)
-TVEC4_SCALAR_ASSIGN_OPERATOR(/=)
+template <typename T>
+struct Vector<2, T> {
+	union {
+		T data[2];
+		struct { T x, y; };
+		struct { T u, v; };
+	};
 	
-#undef TVEC4_SCALAR_ASSIGN_OPERATOR
+	explicit constexpr Vector(const T fill) : x(fill), y(fill) {}
+	constexpr Vector(const T x, const T y) : x(x), y(y) {}
+	constexpr Vector() : Vector(T(0)) {}
+	
+	VEC_SUBSCRIPT_OP(2)
+};
 
 
-// ---- easily print vecs
 template <typename T>
-std::ostream& operator<< (std::ostream& os, const TVec3<T>& vec) {
-	return os << '(' << vec[0] << ',' << vec[1] << ',' << vec[2] << ')';
-}
+struct Vector<3, T> {
+	union {
+		T data[3];
+		struct { T x, y, z; };
+		struct { T r, g, b; };
+		Vector<2, T> xy;
+		Vector<2, T> uv;
+	};
+	
+	explicit constexpr Vector(const T fill) : x(fill), y(fill), z(fill) {}
+	constexpr Vector(const T x, const T y, const T z) : x(x), y(y), z(z) {}
+	constexpr Vector(const Vector<2, T>& xy, const T z) : x(xy.x), y(xy.y), z(z) {}
+	constexpr Vector() : Vector(T(0)) {}
+
+	VEC_SUBSCRIPT_OP(3)
+};
+
 
 template <typename T>
-std::ostream& operator<< (std::ostream& os, const TVec4<T>& vec) {
-	return os << '(' << vec[0] << ',' << vec[1] << ',' << vec[2] << ',' << vec[3] << ')';
-}
+struct Vector<4, T> {
+	union {
+		T data[4];
+		struct { T x, y, z, w; };
+		struct { T r, g, b, a; };
+		Vector<2, T> xy;
+		Vector<2, T> uv;
+		Vector<3, T> xyz;
+		Vector<3, T> rgb;
+	};
 
+	VEC_SUBSCRIPT_OP(4)
+};
 
+#undef VEC_SUBSCRIPT_OP
+
+	
 } // ns math
 } // ns stardazed
 
