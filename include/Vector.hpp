@@ -25,7 +25,7 @@ struct VectorBase {
 
 	constexpr T operator[](const size_t index) const {
 		assert(index < N);
-		return static_cast<Derived* const>(this)->data[index];
+		return static_cast<const Derived*>(this)->data[index];
 	}
 
 	constexpr size_t size() const { return N; }
@@ -119,6 +119,15 @@ namespace detail {
 		std::transform(a.begin(), a.end(), b.begin(), a.begin(), [&op](auto va, auto vb) {
 			return op(va, vb);
 		});
+		return a;
+	}
+	
+	template <typename Op, typename T>
+	Vector<3, T>& componentWiseAssignOperator(Vector<3, T>& a, const Vector<3, T>& b) {
+		auto op = Op();
+		a[0] = op(a[0], b[0]);
+		a[1] = op(a[1], b[1]);
+		a[2] = op(a[2], b[2]);
 		return a;
 	}
 	
