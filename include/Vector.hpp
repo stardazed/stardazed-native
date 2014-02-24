@@ -8,6 +8,7 @@
 
 #include <initializer_list>
 #include <algorithm>
+#include <functional>
 #include <cassert>
 #include <cmath>
 
@@ -28,6 +29,8 @@ struct VectorBase {
 	}
 
 	constexpr size_t size() const { return N; }
+	constexpr T* begin() { return &static_cast<Derived*>(this)->data[0]; }
+	constexpr T* end() { return &static_cast<Derived*>(this)->data[0] + N; }
 	constexpr const T* begin() const { return &static_cast<const Derived*>(this)->data[0]; }
 	constexpr const T* end() const { return &static_cast<const Derived*>(this)->data[0] + N; }
 };
@@ -103,9 +106,127 @@ struct Vector<4, T> : public VectorBase<Vector<4, T>, 4, T> {
 	
 	explicit constexpr Vector(const T fill) : x(fill), y(fill), z(fill), w(1) {}
 	constexpr Vector(const T x, const T y, const T z, const T w = 1) : x(x), y(y), z(z), w(w) {}
-	constexpr Vector(const Vector<3, T>& xyz, const T w = 1) : x(xyz.z), y(xyz.y), z(xyz.z), w(w) {}
+	explicit constexpr Vector(const Vector<3, T>& xyz, const T w = 1) : x(xyz.z), y(xyz.y), z(xyz.z), w(w) {}
 	constexpr Vector() : Vector(T(0)) {}
 };
+
+
+
+namespace detail {
+	template <typename Op, size_t N, typename T>
+	Vector<N, T>& componentWiseAssignOperator(Vector<N, T>& a, const Vector<N, T>& b) {
+		auto op = Op();
+		std::transform(a.begin(), a.end(), b.begin(), a.begin(), [&op](auto va, auto vb) {
+			return op(va, vb);
+		});
+		return a;
+	}
+	
+	template <typename Op, size_t N, typename T>
+	Vector<N, T> componentWiseOperator(const Vector<N, T>& a, const Vector<N, T>& b) {
+		Vector<N, T> result = a;
+		componentWiseAssignOperator<Op>(result, b);
+		return result;
+	}
+
+	template <typename Op, size_t N, typename T>
+	Vector<N, T>& scalarAssignOperator(Vector<N, T>& vec, const T scalar) {
+		auto op = Op();
+		std::transform(vec.begin(), vec.end(), vec.begin(), [&op, scalar](auto va) {
+			return op(va, scalar);
+		});
+		return vec;
+	}
+	
+	template <typename Op, size_t N, typename T>
+	Vector<N, T> scalarOperator(const Vector<N, T>& vec, const T scalar) {
+		Vector<N, T> result = vec;
+		scalarAssignOperator<Op>(result, scalar);
+		return result;
+	}
+}
+
+
+// ---- Addition
+
+template <size_t N, typename T>
+Vector<N, T> operator +(const Vector<N, T>& a, const Vector<N, T>& b) {
+	return detail::componentWiseOperator<std::plus<T>>(a, b);
+}
+
+
+template <size_t N, typename T>
+Vector<N, T>& operator +=(Vector<N, T>& a, const Vector<N, T>& b) {
+	return detail::componentWiseAssignOperator<std::plus<T>>(a, b);
+}
+
+
+template <size_t N, typename T>
+Vector<N, T> operator +(const Vector<N, T>& vec, const T scalar) {
+	return detail::scalarOperator<std::plus<T>>(vec, scalar);
+}
+
+
+template <size_t N, typename T>
+Vector<N, T>& operator +=(Vector<N, T>& vec, const T scalar) {
+	return detail::scalarAssignOperator<std::plus<T>>(vec, scalar);
+}
+
+
+// ---- Subtraction
+
+template <size_t N, typename T>
+Vector<N, T> operator -(const Vector<N, T>& a, const Vector<N, T>& b) {
+	return detail::componentWiseOperator<std::minus<T>>(a, b);
+}
+
+
+template <size_t N, typename T>
+Vector<N, T>& operator -=(Vector<N, T>& a, const Vector<N, T>& b) {
+	return detail::componentWiseAssignOperator<std::minus<T>>(a, b);
+}
+
+
+template <size_t N, typename T>
+Vector<N, T> operator -(const Vector<N, T>& vec, const T scalar) {
+	return detail::scalarOperator<std::minus<T>>(vec, scalar);
+}
+
+
+template <size_t N, typename T>
+Vector<N, T>& operator -=(Vector<N, T>& vec, const T scalar) {
+	return detail::scalarAssignOperator<std::minus<T>>(vec, scalar);
+}
+
+	
+// ---- Multiplication (scalar only)
+
+template <size_t N, typename T>
+Vector<N, T> operator *(const Vector<N, T>& vec, const T scalar) {
+	return detail::scalarOperator<std::multiplies<T>>(vec, scalar);
+}
+
+
+template <size_t N, typename T>
+Vector<N, T>& operator *=(Vector<N, T>& vec, const T scalar) {
+	return detail::scalarAssignOperator<std::multiplies<T>>(vec, scalar);
+}
+
+
+// ---- Division (scalar only)
+
+template <size_t N, typename T>
+Vector<N, T> operator /(const Vector<N, T>& vec, const T scalar) {
+	return detail::scalarOperator<std::divides<T>>(vec, scalar);
+}
+
+
+template <size_t N, typename T>
+Vector<N, T>& operator /=(Vector<N, T>& vec, const T scalar) {
+	return detail::scalarAssignOperator<std::divides<T>>(vec, scalar);
+}
+
+
 
 	
 } // ns math
