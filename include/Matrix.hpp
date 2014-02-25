@@ -12,21 +12,9 @@ namespace stardazed {
 namespace math {
 
 
-class Matrix {
-public:
-	static Matrix identity();
-	static Matrix scale(float sx, float sy, float sz);
-	static Matrix translate(float dx, float dy, float dz);
-	static Matrix rotateX(float phi);
-	static Matrix rotateY(float phi);
-	static Matrix rotateZ(float phi);
-	static Matrix rotate(float rx, float ry, float rz);
+template <size_t rows, size_t cols, typename T = float>
+struct MatrixBase {
 	
-	const float* data() const { return &values[0]; }
-
-private:
-	Matrix();
-	float values[16];
 };
 
 

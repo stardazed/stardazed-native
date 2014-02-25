@@ -9,6 +9,7 @@
 #include <initializer_list>
 #include <algorithm>
 #include <functional>
+#include <numeric>
 #include <cassert>
 #include <cmath>
 
@@ -251,6 +252,44 @@ Vector<N, T> operator /(const Vector<N, T>& vec, const T scalar) {
 template <size_t N, typename T>
 Vector<N, T>& operator /=(Vector<N, T>& vec, const T scalar) {
 	return detail::scalarAssignOperator<std::divides<T>>(vec, scalar);
+}
+
+
+// ---- Dot product
+
+template <size_t N, typename T>
+T dot(const Vector<N, T>& a, const Vector<N, T>& b) {
+	return std::inner_product(a.begin(), a.end(), b.begin(), T(0));
+}
+
+
+template <typename T>
+T dot(const Vector<2, T>& a, const Vector<2, T>& b) {
+	return (a.x * b.x) + (a.y * b.y);
+}
+
+
+template <typename T>
+T dot(const Vector<3, T>& a, const Vector<3, T>& b) {
+	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+}
+
+
+template <typename T>
+T dot(const Vector<4, T>& a, const Vector<4, T>& b) {
+	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w);
+}
+
+
+// ---- Cross product
+
+template <typename T>
+Vector<3, T> cross(const Vector<3, T>& a, const Vector<3, T>& b) {
+	return {
+		(a.y * b.z) - (a.z * b.y),
+		(a.z * b.x) - (a.x * b.z),
+		(a.x * b.y) - (a.y * b.x)
+	};
 }
 
 
