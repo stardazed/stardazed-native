@@ -123,11 +123,29 @@ namespace detail {
 	}
 	
 	template <typename Op, typename T>
+	Vector<2, T>& componentWiseAssignOperator(Vector<2, T>& a, const Vector<2, T>& b) {
+		auto op = Op();
+		a[0] = op(a[0], b[0]);
+		a[1] = op(a[1], b[1]);
+		return a;
+	}
+	
+	template <typename Op, typename T>
 	Vector<3, T>& componentWiseAssignOperator(Vector<3, T>& a, const Vector<3, T>& b) {
 		auto op = Op();
 		a[0] = op(a[0], b[0]);
 		a[1] = op(a[1], b[1]);
 		a[2] = op(a[2], b[2]);
+		return a;
+	}
+	
+	template <typename Op, typename T>
+	Vector<4, T>& componentWiseAssignOperator(Vector<4, T>& a, const Vector<4, T>& b) {
+		auto op = Op();
+		a[0] = op(a[0], b[0]);
+		a[1] = op(a[1], b[1]);
+		a[2] = op(a[2], b[2]);
+		a[3] = op(a[3], b[3]);
 		return a;
 	}
 	
