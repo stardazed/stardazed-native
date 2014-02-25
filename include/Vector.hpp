@@ -253,6 +253,34 @@ template <size_t N, typename T>
 Vector<N, T>& operator /=(Vector<N, T>& vec, const T scalar) {
 	return detail::scalarAssignOperator<std::divides<T>>(vec, scalar);
 }
+	
+	
+// ---- Unary minus
+
+template <size_t N, typename T>
+Vector<N, T> operator -(const Vector<N, T>& vec) {
+	auto result = vec;
+	std::transform(result.begin(), result.end(), result.begin(), std::negate<T>());
+	return result;
+}
+
+
+template <typename T>
+Vector<2, T> operator -(const Vector<2, T>& vec) {
+	return { -vec.x, -vec.y };
+}
+
+
+template <typename T>
+Vector<3, T> operator -(const Vector<3, T>& vec) {
+	return { -vec.x, -vec.y, -vec.z };
+}
+
+
+template <typename T>
+Vector<4, T> operator -(const Vector<4, T>& vec) {
+	return { -vec.x, -vec.y, -vec.z, -vec.w };
+}
 
 
 // ---- Dot product
