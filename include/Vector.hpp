@@ -17,6 +17,8 @@ namespace stardazed {
 namespace math {
 
 	
+// ---- Vector shared data access 
+	
 template <typename Derived, size_t N, typename T>
 struct VectorBase {
 	constexpr T& operator[](const size_t index) {
@@ -56,6 +58,7 @@ struct Vector : public VectorBase<Vector<N, T>, N, T> {
 			std::fill_n(&data[0] + count, N - count, T(0));
 	}
 };
+
 
 using Vec2 = Vector<2>;
 using Vec3 = Vector<3>;
@@ -266,19 +269,19 @@ Vector<N, T> operator -(const Vector<N, T>& vec) {
 
 
 template <typename T>
-Vector<2, T> operator -(const Vector<2, T>& vec) {
+constexpr Vector<2, T> operator -(const Vector<2, T>& vec) {
 	return { -vec.x, -vec.y };
 }
 
 
 template <typename T>
-Vector<3, T> operator -(const Vector<3, T>& vec) {
+constexpr Vector<3, T> operator -(const Vector<3, T>& vec) {
 	return { -vec.x, -vec.y, -vec.z };
 }
 
 
 template <typename T>
-Vector<4, T> operator -(const Vector<4, T>& vec) {
+constexpr Vector<4, T> operator -(const Vector<4, T>& vec) {
 	return { -vec.x, -vec.y, -vec.z, -vec.w };
 }
 
@@ -292,19 +295,19 @@ T dot(const Vector<N, T>& a, const Vector<N, T>& b) {
 
 
 template <typename T>
-T dot(const Vector<2, T>& a, const Vector<2, T>& b) {
+constexpr T dot(const Vector<2, T>& a, const Vector<2, T>& b) {
 	return (a.x * b.x) + (a.y * b.y);
 }
 
 
 template <typename T>
-T dot(const Vector<3, T>& a, const Vector<3, T>& b) {
+constexpr T dot(const Vector<3, T>& a, const Vector<3, T>& b) {
 	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
 }
 
 
 template <typename T>
-T dot(const Vector<4, T>& a, const Vector<4, T>& b) {
+constexpr T dot(const Vector<4, T>& a, const Vector<4, T>& b) {
 	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w);
 }
 
@@ -312,7 +315,7 @@ T dot(const Vector<4, T>& a, const Vector<4, T>& b) {
 // ---- Cross product
 
 template <typename T>
-Vector<3, T> cross(const Vector<3, T>& a, const Vector<3, T>& b) {
+constexpr Vector<3, T> cross(const Vector<3, T>& a, const Vector<3, T>& b) {
 	return {
 		(a.y * b.z) - (a.z * b.y),
 		(a.z * b.x) - (a.x * b.z),
@@ -320,6 +323,31 @@ Vector<3, T> cross(const Vector<3, T>& a, const Vector<3, T>& b) {
 	};
 }
 
+
+// ---- Length
+
+template <size_t N, typename T>
+T length(const Vector<N, T>& a) {
+	return std::sqrt(std::inner_product(a.begin(), a.end(), a.begin(), T(0)));
+}
+
+
+template <typename T>
+constexpr T length(const Vector<2, T>& vec) {
+	return std::sqrt(vec.x * vec.x + vec.y * vec.y);
+}
+
+
+template <typename T>
+constexpr T length(const Vector<3, T>& vec) {
+	return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+}
+
+
+template <typename T>
+constexpr T length(const Vector<4, T>& vec) {
+	return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z + vec.w * vec.w);
+}
 
 
 	
