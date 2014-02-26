@@ -350,6 +350,22 @@ constexpr T length(const Vector<4, T>& vec) {
 }
 
 
+// ---- Normalize (in-place and pure)
+
+template <size_t N, typename T>
+Vector<N, T>& normalizeInPlace(Vector<N, T>& vec) {
+	vec /= length(vec);
+	return vec;
+}
+
+
+template <size_t N, typename T>
+Vector<N, T> normalize(const Vector<N, T>& vec) {
+	auto normal = vec;
+	return normalizeInPlace(normal);
+}
+
+
 	
 } // ns math
 } // ns stardazed
