@@ -16,31 +16,35 @@
 namespace stardazed {
 namespace math {
 
-	
-// ---- Vector shared data access 
-	
-template <typename Derived, size_t N, typename T>
-struct VectorBase {
-	constexpr T& operator[](const size_t index) {
-		assert(index < N);
-		return static_cast<Derived*>(this)->data[index];
-	}
 
-	constexpr T operator[](const size_t index) const {
-		assert(index < N);
-		return static_cast<const Derived*>(this)->data[index];
-	}
+namespace detail {
+	// ---- Vector shared data access
+	
+	template <typename VecImp, size_t N, typename T>
+	struct VectorBase {
+		using ValueType = T;
 
-	constexpr size_t size() const { return N; }
-	constexpr T* begin() { return &static_cast<Derived*>(this)->data[0]; }
-	constexpr T* end() { return &static_cast<Derived*>(this)->data[0] + N; }
-	constexpr const T* begin() const { return &static_cast<const Derived*>(this)->data[0]; }
-	constexpr const T* end() const { return &static_cast<const Derived*>(this)->data[0] + N; }
-};
+		constexpr T& operator[](const size_t index) {
+			assert(index < N);
+			return static_cast<VecImp*>(this)->data[index];
+		}
+		
+		constexpr T operator[](const size_t index) const {
+			assert(index < N);
+			return static_cast<const VecImp*>(this)->data[index];
+		}
+		
+		constexpr size_t size() const { return N; }
+		constexpr T* begin() { return &static_cast<VecImp*>(this)->data[0]; }
+		constexpr T* end() { return &static_cast<VecImp*>(this)->data[0] + N; }
+		constexpr const T* begin() const { return &static_cast<const VecImp*>(this)->data[0]; }
+		constexpr const T* end() const { return &static_cast<const VecImp*>(this)->data[0] + N; }
+	};
+}
 
 
 template <size_t N, typename T = float>
-struct Vector : public VectorBase<Vector<N, T>, N, T> {
+struct Vector : public detail::VectorBase<Vector<N, T>, N, T> {
 	T data[N];
 
 	explicit Vector(const T fill) {
@@ -66,7 +70,7 @@ using Vec4 = Vector<4>;
 
 
 template <typename T>
-struct Vector<2, T> : public VectorBase<Vector<2, T>, 2, T> {
+struct Vector<2, T> : public detail::VectorBase<Vector<2, T>, 2, T> {
 	union {
 		T data[2];
 		struct { T x, y; };
@@ -80,7 +84,7 @@ struct Vector<2, T> : public VectorBase<Vector<2, T>, 2, T> {
 
 
 template <typename T>
-struct Vector<3, T> : public VectorBase<Vector<3, T>, 3, T> {
+struct Vector<3, T> : public detail::VectorBase<Vector<3, T>, 3, T> {
 	union {
 		T data[3];
 		struct { T x, y, z; };
@@ -97,7 +101,7 @@ struct Vector<3, T> : public VectorBase<Vector<3, T>, 3, T> {
 
 
 template <typename T>
-struct Vector<4, T> : public VectorBase<Vector<4, T>, 4, T> {
+struct Vector<4, T> : public detail::VectorBase<Vector<4, T>, 4, T> {
 	union {
 		T data[4];
 		struct { T x, y, z, w; };
@@ -108,9 +112,9 @@ struct Vector<4, T> : public VectorBase<Vector<4, T>, 4, T> {
 		Vector<3, T> rgb;
 	};
 	
-	explicit constexpr Vector(const T fill) : x(fill), y(fill), z(fill), w(1) {}
-	constexpr Vector(const T x, const T y, const T z, const T w = 1) : x(x), y(y), z(z), w(w) {}
-	explicit constexpr Vector(const Vector<3, T>& xyz, const T w = 1) : x(xyz.z), y(xyz.y), z(xyz.z), w(w) {}
+	explicit constexpr Vector(const T fill) : x(fill), y(fill), z(fill), w(fill) {}
+	constexpr Vector(const T x, const T y, const T z, const T w) : x(x), y(y), z(z), w(w) {}
+	explicit constexpr Vector(const Vector<3, T>& xyz, const T w) : x(xyz.z), y(xyz.y), z(xyz.z), w(w) {}
 	constexpr Vector() : Vector(T(0)) {}
 };
 
