@@ -286,6 +286,38 @@ constexpr Vector<4, T> operator -(const Vector<4, T>& vec) {
 }
 
 
+// ---- Exact component-wise comparison
+
+template <size_t N, typename T>
+bool operator ==(const Vector<N, T>& a, const Vector<N, T>& b) {
+	return std::equal(a.begin(), a.end(), b.begin());
+}
+
+
+template <size_t N, typename T>
+constexpr bool operator !=(const Vector<N, T>& a, const Vector<N, T>& b) {
+	return ! (a == b);
+}
+
+
+template <typename T>
+constexpr bool operator ==(const Vector<2, T>& a, const Vector<2, T>& b) {
+	return (a.x == b.x) && (a.y == b.y);
+}
+
+
+template <typename T>
+constexpr bool operator ==(const Vector<3, T>& a, const Vector<3, T>& b) {
+	return (a.x == b.x) && (a.y == b.y) && (a.z == b.z);
+}
+
+
+template <typename T>
+constexpr bool operator ==(const Vector<4, T>& a, const Vector<4, T>& b) {
+	return (a.x == b.x) && (a.y == b.y) && (a.z == b.z) && (a.w == b.w);
+}
+
+	
 // ---- Dot product
 
 template <size_t N, typename T>
