@@ -19,6 +19,12 @@
 namespace stardazed {
 namespace math {
 
+namespace detail {
+	// ---- utility typename to enable methods only for square matrices
+	template <size_t RowCount, size_t ColCount>
+	using isSquare_t = std::enable_if_t<RowCount == ColCount>;
+}
+
 
 template <size_t RowCount, size_t ColCount, typename T = float>
 struct Matrix {
@@ -36,7 +42,7 @@ struct Matrix {
 	
 
 	// enable diagonal constructor only for square matrices
-	template <typename = std::enable_if_t<RowCount == ColCount>>
+	template <typename = detail::isSquare_t<RowCount, ColCount>>
 	explicit constexpr Matrix(T diag) {
 		T* cell = &data[0];
 		const auto stride = ColCount + 1;
@@ -79,8 +85,25 @@ struct Matrix {
 
 // ---- Type aliases
 
+using Mat2 = Matrix<2, 2>;
 using Mat3 = Matrix<3, 3>;
 using Mat4 = Matrix<4, 4>;
+
+
+// ---- Matrix-Vector multiplication
+
+template <size_t N, typename T>
+Vector<N, T> operator *(const Matrix<N, N, T>& mat, const Vector<N, T>& vec) {
+	Vector<N, T> result;
+
+	for (size_t i=0; i<N; ++i) {
+		const auto& matRow = mat[i];
+		result[i] = std::inner_product(matRow.begin(), matRow.end(), vec.begin(), 0);
+	}
+	
+	return result;
+}
+
 
 
 } // ns math
