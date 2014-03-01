@@ -75,11 +75,18 @@ struct Matrix {
 		assert(row < RowCount);
 		return rows[row];
 	}
-	
+
+	// standard begin and end return row type
 	constexpr RowType* begin() { return &rows[0]; }
 	constexpr RowType* end() { return &rows[0] + RowCount; }
 	constexpr const RowType* begin() const { return &rows[0]; }
 	constexpr const RowType* end() const { return &rows[0] + RowCount; }
+
+	// dataBegin & dataEnd for component-level access
+	constexpr T* dataBegin() { return &data[0]; }
+	constexpr T* dataEnd() { return &data[0] + size(); }
+	constexpr const T* dataBegin() const { return &data[0]; }
+	constexpr const T* dataEnd() const { return &data[0] + size(); }
 };
 
 
@@ -90,7 +97,81 @@ using Mat3 = Matrix<3, 3>;
 using Mat4 = Matrix<4, 4>;
 
 
-// ---- Matrix-Vector multiplication
+// ---- Matrix-Matrix Addition
+
+template <size_t M, size_t N, typename T>
+Matrix<M, N, T> operator +(const Matrix<M, N, T>& a, const Matrix<M, N, T>& b) {
+	auto result = a;
+	result += b;
+	return result;
+}
+
+
+template <size_t M, size_t N, typename T>
+Matrix<M, N, T>& operator +=(Matrix<M, N, T>& a, const Matrix<M, N, T>& b) {
+	std::transform(a.dataBegin(), a.dataEnd(), b.dataBegin(), a.dataBegin(), std::plus<T>());
+	return a;
+}
+
+
+// ---- Matrix-Matrix Subtraction
+
+template <size_t M, size_t N, typename T>
+Matrix<M, N, T> operator -(const Matrix<M, N, T>& a, const Matrix<M, N, T>& b) {
+	auto result = a;
+	result -= b;
+	return result;
+}
+
+
+template <size_t M, size_t N, typename T>
+Matrix<M, N, T>& operator -=(Matrix<M, N, T>& a, const Matrix<M, N, T>& b) {
+	std::transform(a.dataBegin(), a.dataEnd(), b.dataBegin(), a.dataBegin(), std::minus<T>());
+	return a;
+}
+
+
+// ---- Matrix-Scalar Multiplication
+
+template <size_t M, size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Matrix<M, N, T>>
+operator *(const Matrix<M, N, T>& mat, const S scalar) {
+	auto result = mat;
+	result *= scalar;
+	return result;
+}
+
+
+template <size_t M, size_t N, typename T, typename S>
+Matrix<M, N, T>& operator *=(Matrix<M, N, T>& mat, const S scalar) {
+	std::transform(mat.dataBegin(), mat.dataEnd(), mat.dataBegin(), [scalar](T a) {
+		return a * scalar;
+	});
+	return mat;
+}
+
+
+// ---- Matrix-Scalar Division
+
+template <size_t M, size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Matrix<M, N, T>>
+operator /(const Matrix<M, N, T>& mat, const S scalar) {
+	auto result = mat;
+	result /= scalar;
+	return result;
+}
+
+
+template <size_t M, size_t N, typename T, typename S>
+Matrix<M, N, T>& operator /=(Matrix<M, N, T>& mat, const S scalar) {
+	std::transform(mat.dataBegin(), mat.dataEnd(), mat.dataBegin(), [scalar](T a) {
+		return a / scalar;
+	});
+	return mat;
+}
+
+
+// ---- Matrix-Vector Multiplication
 
 template <size_t N, typename T>
 Vector<N, T> operator *(const Matrix<N, N, T>& mat, const Vector<N, T>& vec) {
@@ -145,6 +226,9 @@ Vector<3, T> constexpr operator *(const Matrix<4, 4, T>& mat, const Vector<3, T>
 		mat[2].x * vec.x + mat[2].y * vec.y + mat[2].z * vec.z + mat[2].w
 	};
 }
+
+
+// ---- Matrix-Matrix multiplication
 
 
 
