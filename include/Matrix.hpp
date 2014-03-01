@@ -19,73 +19,70 @@
 namespace stardazed {
 namespace math {
 
-namespace detail {
-	// ---- Matrix shared data access and constructors
-	
-	template <typename MatImp, size_t Rows, size_t Cols, typename T>
-	struct MatrixBase {
-		using RowType = Vector<Cols, T>;
 
-		MatrixBase() = default;
-		MatrixBase(std::initializer_list<T> values) {
-			assert(values.size() <= Rows * Cols);
+// ---- Generic Matrix
 
-			T* data = &static_cast<MatImp*>(this)->data[0];
-			auto maxCells = Rows * Cols;
-
-			auto from = values.begin();
-			auto count = std::min(maxCells, values.size());
-			auto to = from + count;
-			std::copy(from, to, data);
-			
-			if (count < maxCells)
-				std::fill_n(data + count, maxCells - count, T(0));
-		}
-
-		// enable diagonal constructor only for square matrices
-		template <typename = std::enable_if_t<Rows == Cols>>
-		explicit constexpr MatrixBase(T diag) {
-			T* data = &static_cast<MatImp*>(this)->data[0];
-			for (size_t ix=0; ix < size(); ++ix)
-				*(data++) = (ix % Cols == 0) ? diag : T(0);
-		}
-
-		constexpr RowType& operator[](const size_t row) {
-			assert(row < Rows);
-			return static_cast<MatImp*>(this)->rows[row];
-		}
-		
-		constexpr const RowType& operator[](const size_t row) const {
-			assert(row < Rows);
-			return static_cast<const MatImp*>(this)->rows[row];
-		}
-		
-		constexpr size_t size() const { return Rows * Cols; }
-		constexpr size_t rows() const { return Rows; }
-		constexpr size_t cols() const { return Cols; }
-
-		constexpr RowType* begin() { return &static_cast<MatImp*>(this)->rows[0]; }
-		constexpr RowType* end() { return &static_cast<MatImp*>(this)->rows[0] + Rows; }
-		constexpr const RowType* begin() const { return &static_cast<const MatImp*>(this)->rows[0]; }
-		constexpr const RowType* end() const { return &static_cast<const MatImp*>(this)->rows[0] + Rows; }
-	};
-}
-
-
-// ---- Generic matrix, can be any shape
-
-template <size_t Rows, size_t Cols, typename T = float>
-struct Matrix : public detail::MatrixBase<Matrix<Rows, Cols, T>, Rows, Cols, T> {
-	using RowType = Vector<Cols, T>;
+template <size_t RowCount, size_t ColCount, typename T = float>
+struct Matrix {
+	using RowType = Vector<ColCount, T>;
 
 	union {
-		T data[Rows * Cols];
-		RowType rows[Rows];
+		T data[RowCount * ColCount];
+		RowType rows[RowCount];
 	};
+
+	// enable diagonal constructor only for square matrices
+	template <typename = std::enable_if_t<RowCount == ColCount>>
+	explicit constexpr Matrix(T diag) {
+		T* cell = &data[0];
+		const auto stride = ColCount + 1;
+		
+		for (size_t ix=0, end = size(); ix < end; ++ix)
+			*(cell++) = (ix % stride == 0) ? diag : 0;
+	}
+
+	// default constructor creates 0-initialized matrix
+	Matrix() : Matrix(0) {}
 	
-	using detail::MatrixBase<Matrix<Rows, Cols, T>, Rows, Cols, T>::MatrixBase;
+	Matrix(std::initializer_list<T> values) {
+		const auto maxCells = RowCount * ColCount;
+		const auto count = values.size();
+		assert(count <= maxCells);
+
+		std::copy(values.begin(), values.end(), data);
+		
+		if (count < maxCells)
+			std::fill_n(data + count, maxCells - count, T(0));
+	}
+
+
+	// ---- subscript operators return row-vector refs
+
+	constexpr RowType& operator[](const size_t row) {
+		assert(row < RowCount);
+		return rows[row];
+	}
+	
+	constexpr const RowType& operator[](const size_t row) const {
+		assert(row < RowCount);
+		return rows[row];
+	}
+	
+	constexpr size_t size() const { return RowCount * ColCount; }
+	constexpr size_t rowCount() const { return RowCount; }
+	constexpr size_t colCount() const { return ColCount; }
+
+	constexpr RowType* begin() { return &rows[0]; }
+	constexpr RowType* end() { return &rows[0] + RowCount; }
+	constexpr const RowType* begin() const { return &rows[0]; }
+	constexpr const RowType* end() const { return &rows[0] + RowCount; }
 };
 
+
+// ---- Type aliases
+
+using Mat3 = Matrix<3, 3>;
+using Mat4 = Matrix<4, 4>;
 
 
 } // ns math
