@@ -24,12 +24,28 @@ namespace detail {
 	
 	template <typename MatImp, size_t Rows, size_t Cols, typename T>
 	struct MatrixBase {
-		constexpr auto& operator[](const size_t row) {
+		using ValueType = Vector<Cols, T>;
+		
+		MatrixBase() = default;
+		MatrixBase(std::initializer_list<T> values) {
+			T* data = &static_cast<MatImp*>(this)->data[0][0];
+			auto maxCells = Rows * Cols;
+
+			auto from = values.begin();
+			auto count = std::min(maxCells, values.size());
+			auto to = from + count;
+			std::copy(from, to, data);
+			
+			if (count < maxCells)
+				std::fill_n(data + count, maxCells - count, T(0));
+		}
+
+		constexpr ValueType& operator[](const size_t row) {
 			assert(row < Rows);
 			return static_cast<MatImp*>(this)->data[row];
 		}
 		
-		constexpr const auto& operator[](const size_t row) const {
+		constexpr const ValueType& operator[](const size_t row) const {
 			assert(row < Rows);
 			return static_cast<const MatImp*>(this)->data[row];
 		}
@@ -38,10 +54,10 @@ namespace detail {
 		constexpr size_t rows() const { return Rows; }
 		constexpr size_t cols() const { return Cols; }
 
-		constexpr auto* begin() { return &static_cast<MatImp*>(this)->data[0]; }
-		constexpr auto* end() { return &static_cast<MatImp*>(this)->data[0] + Rows; }
-		constexpr const auto* begin() const { return &static_cast<const MatImp*>(this)->data[0]; }
-		constexpr const auto* end() const { return &static_cast<const MatImp*>(this)->data[0] + Rows; }
+		constexpr ValueType* begin() { return &static_cast<MatImp*>(this)->data[0]; }
+		constexpr ValueType* end() { return &static_cast<MatImp*>(this)->data[0] + Rows; }
+		constexpr const ValueType* begin() const { return &static_cast<const MatImp*>(this)->data[0]; }
+		constexpr const ValueType* end() const { return &static_cast<const MatImp*>(this)->data[0] + Rows; }
 	};
 }
 
@@ -51,6 +67,8 @@ struct Matrix : public detail::MatrixBase<Matrix<Rows, Cols, T>, Rows, Cols, T> 
 	using ValueType = Vector<Cols, T>;
 
 	ValueType data[Rows];
+	
+	using detail::MatrixBase<Matrix<Rows, Cols, T>, Rows, Cols, T>::MatrixBase;
 };
 
 
