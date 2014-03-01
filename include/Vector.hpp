@@ -53,6 +53,8 @@ struct Vector : public detail::VectorBase<Vector<N, T>, N, T> {
 	Vector() : Vector(T(0)) {}
 
 	Vector(std::initializer_list<T> values) {
+		assert(values.size() <= N);
+
 		auto from = values.begin();
 		auto count = std::min(N, values.size());
 		auto to = from + count;
