@@ -20,8 +20,6 @@ namespace stardazed {
 namespace math {
 
 
-// ---- Generic Matrix
-
 template <size_t RowCount, size_t ColCount, typename T = float>
 struct Matrix {
 	using RowType = Vector<ColCount, T>;
@@ -30,6 +28,12 @@ struct Matrix {
 		T data[RowCount * ColCount];
 		RowType rows[RowCount];
 	};
+
+	// pass-through of template vars
+	constexpr size_t size() const { return RowCount * ColCount; }
+	constexpr size_t rowCount() const { return RowCount; }
+	constexpr size_t colCount() const { return ColCount; }
+	
 
 	// enable diagonal constructor only for square matrices
 	template <typename = std::enable_if_t<RowCount == ColCount>>
@@ -43,7 +47,7 @@ struct Matrix {
 
 	// default constructor creates 0-initialized matrix
 	Matrix() : Matrix(0) {}
-	
+
 	Matrix(std::initializer_list<T> values) {
 		const auto maxCells = RowCount * ColCount;
 		const auto count = values.size();
@@ -56,8 +60,6 @@ struct Matrix {
 	}
 
 
-	// ---- subscript operators return row-vector refs
-
 	constexpr RowType& operator[](const size_t row) {
 		assert(row < RowCount);
 		return rows[row];
@@ -68,10 +70,6 @@ struct Matrix {
 		return rows[row];
 	}
 	
-	constexpr size_t size() const { return RowCount * ColCount; }
-	constexpr size_t rowCount() const { return RowCount; }
-	constexpr size_t colCount() const { return ColCount; }
-
 	constexpr RowType* begin() { return &rows[0]; }
 	constexpr RowType* end() { return &rows[0] + RowCount; }
 	constexpr const RowType* begin() const { return &rows[0]; }
