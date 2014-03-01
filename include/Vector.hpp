@@ -198,15 +198,17 @@ Vector<N, T>& operator +=(Vector<N, T>& a, const Vector<N, T>& b) {
 }
 
 
-template <size_t N, typename T>
-Vector<N, T> operator +(const Vector<N, T>& vec, const T scalar) {
-	return detail::scalarOperator<std::plus<T>>(vec, scalar);
+template <size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
+operator +(const Vector<N, T>& vec, const S scalar) {
+	return detail::scalarOperator<std::plus<T>>(vec, static_cast<T>(scalar));
 }
 
 
-template <size_t N, typename T>
-Vector<N, T>& operator +=(Vector<N, T>& vec, const T scalar) {
-	return detail::scalarAssignOperator<std::plus<T>>(vec, scalar);
+template <size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>&>
+operator +=(Vector<N, T>& vec, const S scalar) {
+	return detail::scalarAssignOperator<std::plus<T>>(vec, static_cast<T>(scalar));
 }
 
 
@@ -224,43 +226,49 @@ Vector<N, T>& operator -=(Vector<N, T>& a, const Vector<N, T>& b) {
 }
 
 
-template <size_t N, typename T>
-Vector<N, T> operator -(const Vector<N, T>& vec, const T scalar) {
-	return detail::scalarOperator<std::minus<T>>(vec, scalar);
+template <size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
+operator -(const Vector<N, T>& vec, const S scalar) {
+	return detail::scalarOperator<std::minus<T>>(vec, static_cast<T>(scalar));
 }
 
 
-template <size_t N, typename T>
-Vector<N, T>& operator -=(Vector<N, T>& vec, const T scalar) {
-	return detail::scalarAssignOperator<std::minus<T>>(vec, scalar);
+template <size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>&>
+operator -=(Vector<N, T>& vec, const S scalar) {
+	return detail::scalarAssignOperator<std::minus<T>>(vec, static_cast<T>(scalar));
 }
 
 	
 // ---- Multiplication (scalar only)
 
-template <size_t N, typename T>
-Vector<N, T> operator *(const Vector<N, T>& vec, const T scalar) {
-	return detail::scalarOperator<std::multiplies<T>>(vec, scalar);
+template <size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
+operator *(const Vector<N, T>& vec, const S scalar) {
+	return detail::scalarOperator<std::multiplies<T>>(vec, static_cast<T>(scalar));
 }
 
 
-template <size_t N, typename T>
-Vector<N, T>& operator *=(Vector<N, T>& vec, const T scalar) {
-	return detail::scalarAssignOperator<std::multiplies<T>>(vec, scalar);
+template <size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>&>
+operator *=(Vector<N, T>& vec, const S scalar) {
+	return detail::scalarAssignOperator<std::multiplies<T>>(vec, static_cast<T>(scalar));
 }
 
 
 // ---- Division (scalar only)
 
-template <size_t N, typename T>
-Vector<N, T> operator /(const Vector<N, T>& vec, const T scalar) {
-	return detail::scalarOperator<std::divides<T>>(vec, scalar);
+template <size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
+operator /(const Vector<N, T>& vec, const S scalar) {
+	return detail::scalarOperator<std::divides<T>>(vec, static_cast<T>(scalar));
 }
 
 
-template <size_t N, typename T>
-Vector<N, T>& operator /=(Vector<N, T>& vec, const T scalar) {
-	return detail::scalarAssignOperator<std::divides<T>>(vec, scalar);
+template <size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>&>
+operator /=(Vector<N, T>& vec, const S scalar) {
+	return detail::scalarAssignOperator<std::divides<T>>(vec, static_cast<T>(scalar));
 }
 	
 	

@@ -105,6 +105,48 @@ Vector<N, T> operator *(const Matrix<N, N, T>& mat, const Vector<N, T>& vec) {
 }
 
 
+template <typename T>
+Vector<2, T> constexpr operator *(const Matrix<2, 2, T>& mat, const Vector<2, T> vec) {
+	return {
+		mat[0].x * vec.x + mat[0].y * vec.y,
+		mat[1].x * vec.x + mat[1].y * vec.y
+	};
+}
+
+
+template <typename T>
+Vector<3, T> constexpr operator *(const Matrix<3, 3, T>& mat, const Vector<3, T> vec) {
+	return {
+		mat[0].x * vec.x + mat[0].y * vec.y + mat[0].z * vec.z,
+		mat[1].x * vec.x + mat[1].y * vec.y + mat[1].z * vec.z,
+		mat[2].x * vec.x + mat[2].y * vec.y + mat[2].z * vec.z
+	};
+}
+
+
+template <typename T>
+Vector<4, T> constexpr operator *(const Matrix<4, 4, T>& mat, const Vector<4, T> vec) {
+	return {
+		mat[0].x * vec.x + mat[0].y * vec.y + mat[0].z * vec.z + mat[0].w * vec.w,
+		mat[1].x * vec.x + mat[1].y * vec.y + mat[1].z * vec.z + mat[1].w * vec.w,
+		mat[2].x * vec.x + mat[2].y * vec.y + mat[2].z * vec.z + mat[2].w * vec.w,
+		mat[3].x * vec.x + mat[3].y * vec.y + mat[3].z * vec.z + mat[3].w * vec.w,
+	};
+}
+
+
+template <typename T>
+Vector<3, T> constexpr operator *(const Matrix<4, 4, T>& mat, const Vector<3, T> vec) {
+	// not a specialization, separate template for m4x4 * v3 expression
+	// which is common in 3D contexts; implicitly substitutes T{1} for missing vec.w
+	return {
+		mat[0].x * vec.x + mat[0].y * vec.y + mat[0].z * vec.z + mat[0].w,
+		mat[1].x * vec.x + mat[1].y * vec.y + mat[1].z * vec.z + mat[1].w,
+		mat[2].x * vec.x + mat[2].y * vec.y + mat[2].z * vec.z + mat[2].w,
+	};
+}
+
+
 
 } // ns math
 } // ns stardazed
