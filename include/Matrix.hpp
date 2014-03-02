@@ -19,12 +19,6 @@
 namespace stardazed {
 namespace math {
 
-namespace detail {
-	// ---- utility typename to enable methods only for square matrices
-	template <size_t RowCount, size_t ColCount>
-	using isSquare_t = std::enable_if_t<RowCount == ColCount>;
-}
-
 
 template <size_t RowCount, size_t ColCount, typename T = float>
 struct Matrix {
@@ -42,17 +36,19 @@ struct Matrix {
 	
 
 	// enable diagonal constructor only for square matrices
-	template <typename = detail::isSquare_t<RowCount, ColCount>>
-	explicit constexpr Matrix(T diag) {
+	template <size_t RC = RowCount, size_t CC = ColCount>
+	explicit constexpr Matrix(T diag, std::enable_if_t<RC == CC>* = nullptr) {
 		T* cell = &data[0];
 		const auto stride = ColCount + 1;
 		
-		for (size_t ix=0, end = size(); ix < end; ++ix)
+		for (size_t ix=0; ix < size(); ++ix)
 			*(cell++) = (ix % stride == 0) ? diag : 0;
 	}
 
 	// default constructor creates 0-initialized matrix
-	Matrix() : Matrix(0) {}
+	Matrix() {
+		std::fill(dataBegin(), dataEnd(), 0);
+	}
 
 	Matrix(std::initializer_list<T> values) {
 		const auto maxCells = RowCount * ColCount;
@@ -62,7 +58,7 @@ struct Matrix {
 		std::copy(values.begin(), values.end(), data);
 		
 		if (count < maxCells)
-			std::fill_n(data + count, maxCells - count, T(0));
+			std::fill_n(dataBegin() + count, maxCells - count, T(0));
 	}
 
 
@@ -95,6 +91,50 @@ struct Matrix {
 using Mat2 = Matrix<2, 2>;
 using Mat3 = Matrix<3, 3>;
 using Mat4 = Matrix<4, 4>;
+
+
+// ---- Non-member row and column iterators
+
+template <bool UseRow, size_t M, size_t N, typename T>
+class MatrixIterator {
+	const size_t stride = UseRow ? 1 : N;
+	const size_t skip   = UseRow ? N : 1;
+	const Matrix<M, N, T>& matrix;
+	size_t offset;
+public:
+	constexpr MatrixIterator(const Matrix<M, N, T>& matrix, size_t index)
+	: matrix{matrix}, offset{ index * skip } {
+		assert(offset < M * N + 1);
+	}
+	
+	constexpr T operator *() const { return matrix.data[offset]; }
+	constexpr const MatrixIterator<UseRow, M, N, T>& operator ++() { offset += stride; return *this; }
+	constexpr MatrixIterator<UseRow, M, N, T> operator ++(int) { auto ret = *this; offset += stride; return ret; }
+	
+	constexpr bool operator ==(const MatrixIterator<UseRow, M, N, T>& other) { return offset == other.offset; }
+	constexpr bool operator !=(const MatrixIterator<UseRow, M, N, T>& other) { return ! this->operator==(other); }
+};
+
+
+template <size_t M, size_t N, typename T>
+using MatrixRowIterator = MatrixIterator<true, M, N, T>;
+
+template <size_t M, size_t N, typename T>
+using MatrixColumnIterator = MatrixIterator<false, M, N, T>;
+
+
+template <size_t M, size_t N, typename T>
+MatrixRowIterator<M, N, T> rowBegin(const Matrix<M,N,T>& matrix, size_t row) { return { matrix, row }; }
+
+template <size_t M, size_t N, typename T>
+MatrixRowIterator<M, N, T> rowEnd(const Matrix<M,N,T>& matrix, size_t row) { return { matrix, row + 1 }; }
+
+
+template <size_t M, size_t N, typename T>
+MatrixColumnIterator<M, N, T> colBegin(const Matrix<M,N,T>& matrix, size_t col) { return { matrix, col }; }
+
+template <size_t M, size_t N, typename T>
+MatrixColumnIterator<M, N, T> colEnd(const Matrix<M,N,T>& matrix, size_t col) { return { matrix, col + 1 }; }
 
 
 // ---- Matrix-Matrix Addition
@@ -230,6 +270,16 @@ Vector<3, T> constexpr operator *(const Matrix<4, 4, T>& mat, const Vector<3, T>
 
 // ---- Matrix-Matrix multiplication
 
+template <size_t M, size_t N, size_t P, typename T>
+Matrix<M, P, T> operator *(const Matrix<M, N, T>& a, const Matrix<N, P, T>& b) {
+	Matrix<M, P, T> result;
+
+	for (size_t i=0; i < M; ++i)
+		for (size_t j=0; j < P; ++j)
+			result[i][j] = std::inner_product(rowBegin(a, i), rowEnd(a, i), colBegin(b, j), 0);
+	
+	return result;
+}
 
 
 } // ns math
