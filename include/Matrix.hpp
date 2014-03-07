@@ -96,7 +96,7 @@ using Mat4 = Matrix<4, 4>;
 // ---- Non-member row and column iterators
 
 template <bool UseRow, size_t M, size_t N, typename T>
-class MatrixIterator {
+class MatrixIterator : public std::iterator<std::forward_iterator_tag, T> {
 	const size_t stride = UseRow ? 1 : N;
 	const size_t skip   = UseRow ? N : 1;
 	const Matrix<M, N, T>& matrix;
@@ -127,14 +127,20 @@ template <size_t M, size_t N, typename T>
 MatrixRowIterator<M, N, T> rowBegin(const Matrix<M,N,T>& matrix, size_t row) { return { matrix, row }; }
 
 template <size_t M, size_t N, typename T>
-MatrixRowIterator<M, N, T> rowEnd(const Matrix<M,N,T>& matrix, size_t row) { return { matrix, row + 1 }; }
+MatrixRowIterator<M, N, T> rowEnd(const Matrix<M,N,T>& matrix, size_t row) {
+	MatrixRowIterator<M, N, T> it = { matrix, row };
+	return std::next(it, N);
+}
 
 
 template <size_t M, size_t N, typename T>
 MatrixColumnIterator<M, N, T> colBegin(const Matrix<M,N,T>& matrix, size_t col) { return { matrix, col }; }
 
 template <size_t M, size_t N, typename T>
-MatrixColumnIterator<M, N, T> colEnd(const Matrix<M,N,T>& matrix, size_t col) { return { matrix, col + 1 }; }
+MatrixColumnIterator<M, N, T> colEnd(const Matrix<M,N,T>& matrix, size_t col) {
+	MatrixColumnIterator<M, N, T> it = { matrix, col };
+	return std::next(it, M);
+}
 
 
 // ---- Matrix-Matrix Addition
@@ -335,6 +341,87 @@ Matrix<4, 4, T> operator *(const Matrix<4, 4, T>& a, const Matrix<4, 4, T>& b) {
 		a[3][0] * b[0][2] + a[3][1] * b[1][2] + a[3][2] * b[2][2] + a[3][3] * b[3][2],
 		a[3][0] * b[0][3] + a[3][1] * b[1][3] + a[3][2] * b[2][3] + a[3][3] * b[3][3]
 	};
+}
+
+
+// ---- Transpose
+
+template <size_t M, size_t N, typename T>
+Matrix<N, M, T> transpose(const Matrix<M, N, T>& mat) {
+	Matrix<N, M, T> result;
+
+	for (size_t ix=0; ix < N; ++ix) {
+		std::copy(colBegin(mat, ix), colEnd(mat, ix), result[ix].begin());
+	}
+
+	return result;
+}
+
+
+template <typename T>
+constexpr Matrix<2, 2, T> transpose(const Matrix<2, 2, T>& mat) {
+	return {
+		mat[0][0], mat[1][0],
+		mat[0][1], mat[1][1]
+	};
+}
+
+
+template <typename T>
+constexpr Matrix<3, 3, T> transpose(const Matrix<3, 3, T>& mat) {
+	return {
+		mat[0][0], mat[1][0], mat[2][0],
+		mat[0][1], mat[1][1], mat[2][1],
+		mat[0][2], mat[1][2], mat[2][2],
+	};
+}
+
+
+template <typename T>
+constexpr Matrix<4, 4, T> transpose(const Matrix<4, 4, T>& mat) {
+	return {
+		mat[0][0], mat[1][0], mat[2][0], mat[3][0],
+		mat[0][1], mat[1][1], mat[2][1], mat[3][1],
+		mat[0][2], mat[1][2], mat[2][2], mat[3][2],
+		mat[0][3], mat[1][3], mat[2][3], mat[3][3]
+	};
+}
+
+
+// ---- Matrix make functions for special construction scenarios
+
+template <size_t N, typename T = float>
+Matrix<N, N, T> makeSquareMatrixFromColumns(std::initializer_list<Vector<N, T>> cols) {
+	assert(cols.size() == N);
+	Matrix<N, N, T> result;
+
+	std::copy(cols.begin(), cols.end(), result.begin());
+	return result;
+}
+
+
+template <size_t N, typename T = float>
+Matrix<N, N, T> makeSquareMatrixFromRows(std::initializer_list<Vector<N, T>> rows) {
+	return transpose(makeSquareMatrixFromColumns(rows));
+}
+
+
+// ---- Specialized 3D matrix functions (may move out Matrix.hpp)
+
+template <typename T>
+Matrix<4, 4, T> lookAt(const Vector<3, T>& eye, const Vector<3, T>& target, const Vector<3, T>& up) {
+	auto f = normalize(target - eye),
+	     s = normalize(cross(f, up)),
+		 u = cross(s, f);
+	
+	using V4 = Vector<4, T>;
+
+	return makeSquareMatrixFromRows<4>({
+		V4{ s, -dot(s, eye) },
+		V4{ u, -dot(u, eye) },
+		V4{ -f, dot(f, eye) },
+		V4{ 0,0,0,1 }
+	});
 }
 
 
