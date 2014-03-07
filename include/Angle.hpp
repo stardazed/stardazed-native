@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// math::Foundation - stardazed
+// math::Angle - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_MATH_FOUNDATION_H
-#define SD_MATH_FOUNDATION_H
+#ifndef SD_MATH_ANGLE_H
+#define SD_MATH_ANGLE_H
 
 #include "ConceptTraits.hpp"
 
