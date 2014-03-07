@@ -26,29 +26,75 @@ constexpr const T tau = pi<T> * T{2};
 
 namespace detail {
 
-	// scalar wrapper base-type to allow for distinctly typed numerical objects
+	// angle size scalar wrapper base-type
 	template <typename Tag, typename T>
-	struct Scalar : public FullyComparableTrait<Scalar<Tag, T>> {
-		using ValueType = T;
-
+	class AngleSize : public FullyComparableTrait<AngleSize<Tag, T>> {
 		T value {0};
+
+	public:
+		using ValueType = T;
 		
-		constexpr Scalar() = default;
+		constexpr AngleSize() = default;
 		
 		template <typename S>
-		constexpr explicit Scalar(S value, std::enable_if_t<std::is_convertible<S, T>::value>* = nullptr)
+		constexpr explicit AngleSize(S value, std::enable_if_t<std::is_convertible<S, T>::value>* = nullptr)
 		: value{T(value)} {}
 		
-		constexpr bool operator==(const Scalar<Tag, T>& other) const { return value == other.value; }
-		constexpr bool operator<(const Scalar<Tag, T>& other) const { return value < other.value; }
+		constexpr const T val() const { return value; }
 		
-		Scalar<Tag, T>& operator+=(const Scalar<Tag, T>& other) {
+		constexpr bool operator==(const AngleSize<Tag, T>& other) const { return value == other.value; }
+		constexpr bool operator<(const AngleSize<Tag, T>& other) const { return value < other.value; }
+
+		// angles can be added to or subtracted from eachother
+		constexpr const AngleSize<Tag, T>& operator+=(const AngleSize<Tag, T>& other) {
 			value += other.value;
 			return *this;
 		}
-		Scalar<Tag, T> operator+(const Scalar<Tag, T>& other) const {
+		constexpr const AngleSize<Tag, T> operator+(const AngleSize<Tag, T>& other) const {
 			auto result = *this;
 			return result += other;
+		}
+		constexpr const AngleSize<Tag, T>& operator-=(const AngleSize<Tag, T>& other) {
+			value -= other.value;
+			return *this;
+		}
+		constexpr const AngleSize<Tag, T> operator-(const AngleSize<Tag, T>& other) const {
+			auto result = *this;
+			return result -= other;
+		}
+		constexpr const AngleSize<Tag, T> operator-() const {
+			return AngleSize<Tag, T>{ -value };
+		}
+
+		// angles can only be scaled by a normal scalar
+		// scalar / angle and scalar % angle are not defined
+		constexpr const AngleSize<Tag, T>& operator *=(T scalar) {
+			value *= scalar;
+			return *this;
+		}
+		constexpr const AngleSize<Tag, T> operator *(T scalar) const {
+			auto result = *this;
+			return result *= scalar;
+		}
+		friend constexpr const AngleSize<Tag, T> operator *(T scalar, const AngleSize<Tag, T>& as) {
+			// multiplication is commutative
+			return as * scalar;
+		}
+		constexpr const AngleSize<Tag, T>& operator /=(T scalar) {
+			value *= scalar;
+			return *this;
+		}
+		constexpr const AngleSize<Tag, T> operator /(T scalar) const {
+			auto result = *this;
+			return result *= scalar;
+		}
+		constexpr const AngleSize<Tag, T>& operator %=(T scalar) {
+			value %= scalar;
+			return *this;
+		}
+		constexpr const AngleSize<Tag, T> operator %(T scalar) const {
+			auto result = *this;
+			return result %= scalar;
 		}
 	};
 
@@ -61,13 +107,17 @@ namespace detail {
 
 // ---- Numeric units
 
-using Radians = detail::Scalar<detail::RadiansTag, float>;
-using Degrees = detail::Scalar<detail::DegreesTag, float>;
+using Radians = detail::AngleSize<detail::RadiansTag, float>;
+using Degrees = detail::AngleSize<detail::DegreesTag, float>;
 
 
 // ---- Literals
 
 constexpr Radians operator ""_rad(long double val) {
+	return Radians{ static_cast<Radians::ValueType>(val) };
+}
+
+constexpr Radians operator ""_rad(unsigned long long val) {
 	return Radians{ static_cast<Radians::ValueType>(val) };
 }
 
@@ -87,17 +137,18 @@ Radians asRadians(T);
 template<>
 constexpr Radians asRadians(Radians rad) { return rad; }
 template<>
-constexpr Radians asRadians(Degrees deg) { return Radians{ deg.value * pi<Degrees::ValueType> / Degrees::ValueType{180} }; }
+constexpr Radians asRadians(Degrees deg) { return Radians{ deg.val() * pi<Degrees::ValueType> / Degrees::ValueType{180} }; }
 
 template <typename T>
 Degrees asDegrees(T);
 template<>
 constexpr Degrees asDegrees(Degrees deg) { return deg; }
 template<>
-constexpr Degrees asDegrees(Radians rad) { return Degrees{ rad.value * Radians::ValueType{180} / pi<Radians::ValueType> }; };
+constexpr Degrees asDegrees(Radians rad) { return Degrees{ rad.val() * Radians::ValueType{180} / pi<Radians::ValueType> }; };
 
 
-// ---- Angle
+// ---- Angle abstracts away radians and degrees and allows —explicit— mixing of the two
+// converting everything to its internal format
 
 class Angle  {
 	Radians theta{};
