@@ -406,25 +406,6 @@ Matrix<N, N, T> makeSquareMatrixFromRows(std::initializer_list<Vector<N, T>> row
 }
 
 
-// ---- Specialized 3D matrix functions (may move out Matrix.hpp)
-
-template <typename T>
-Matrix<4, 4, T> lookAt(const Vector<3, T>& eye, const Vector<3, T>& target, const Vector<3, T>& up) {
-	auto f = normalize(target - eye),
-	     s = normalize(cross(f, up)),
-		 u = cross(s, f);
-	
-	using V4 = Vector<4, T>;
-
-	return makeSquareMatrixFromRows<4>({
-		V4{ s, -dot(s, eye) },
-		V4{ u, -dot(u, eye) },
-		V4{ -f, dot(f, eye) },
-		V4{ 0,0,0,1 }
-	});
-}
-
-
 } // ns math
 } // ns stardazed
 
