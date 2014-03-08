@@ -22,6 +22,8 @@ namespace math {
 
 template <size_t RowCount, size_t ColCount, typename T = float>
 struct Matrix {
+	static_assert(RowCount > 0 && ColCount > 0, "RowCount > 0 && ColCount > 0");
+
 	using RowType = Vector<ColCount, T>;
 
 	union {
@@ -403,6 +405,22 @@ Matrix<N, N, T> makeSquareMatrixFromColumns(std::initializer_list<Vector<N, T>> 
 template <size_t N, typename T = float>
 Matrix<N, N, T> makeSquareMatrixFromRows(std::initializer_list<Vector<N, T>> rows) {
 	return transpose(makeSquareMatrixFromColumns(rows));
+}
+
+
+// ---- Extract sub-matrix (always from top-left corner)
+
+template <size_t P, size_t Q, size_t M, size_t N, typename T>
+Matrix<P, Q, T> extractSubMatrix(const Matrix<M, N, T>& mat) {
+	static_assert(P <= M, "P <= M");
+	static_assert(Q <= N, "Q <= N");
+	
+	Matrix<P, Q, T> result;
+	auto resIt = result.begin();
+	for (auto from = mat.begin(), to = from + P; from != to; ++from, ++resIt) {
+		std::copy(from->begin(), from->begin() + Q, resIt->begin());
+	}
+	return result;
 }
 
 
