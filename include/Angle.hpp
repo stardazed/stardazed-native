@@ -81,20 +81,12 @@ namespace detail {
 			return as * scalar;
 		}
 		constexpr const AngleSize<Tag, T>& operator /=(T scalar) {
-			value *= scalar;
+			value /= scalar;
 			return *this;
 		}
 		constexpr const AngleSize<Tag, T> operator /(T scalar) const {
 			auto result = *this;
-			return result *= scalar;
-		}
-		constexpr const AngleSize<Tag, T>& operator %=(T scalar) {
-			value %= scalar;
-			return *this;
-		}
-		constexpr const AngleSize<Tag, T> operator %(T scalar) const {
-			auto result = *this;
-			return result %= scalar;
+			return result /= scalar;
 		}
 	};
 

@@ -116,7 +116,7 @@ struct Vector<4, T> : public detail::VectorBase<Vector<4, T>, 4, T> {
 	
 	explicit constexpr Vector(const T fill) : x(fill), y(fill), z(fill), w(fill) {}
 	constexpr Vector(const T x, const T y, const T z, const T w) : x(x), y(y), z(z), w(w) {}
-	explicit constexpr Vector(const Vector<3, T>& xyz, const T w) : x(xyz.z), y(xyz.y), z(xyz.z), w(w) {}
+	explicit constexpr Vector(const Vector<3, T>& xyz, const T w) : x(xyz.x), y(xyz.y), z(xyz.z), w(w) {}
 	constexpr Vector() : Vector(T(0)) {}
 };
 
