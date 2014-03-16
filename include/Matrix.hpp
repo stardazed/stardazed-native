@@ -389,6 +389,43 @@ constexpr Matrix<4, 4, T> transpose(const Matrix<4, 4, T>& mat) {
 }
 
 
+// ---- Determinant
+
+// generic determinant not implemented, only specified for 2x2, 3x3 and 4x4
+template <size_t N, typename T>
+Matrix<N, N, T> determinant(const Matrix<N, N, T>& mat);
+
+
+template <typename T>
+T determinant(const Matrix<2, 2, T>& mat) {
+	return mat[0][0] * mat[1][1] - mat[1][0] * mat[0][1];
+}
+
+
+template <typename T>
+T determinant(const Matrix<3, 3, T>& m) {
+	return m[0][0] * m[1][1] * m[2][2] + // aei
+	       m[0][1] * m[1][2] * m[2][0] + // bfg
+		   m[0][2] * m[1][0] * m[2][1] - // cdh
+		   m[0][2] * m[1][1] * m[2][0] - // ceg
+		   m[0][1] * m[1][0] * m[2][2] - // bdi
+		   m[0][0] * m[1][2] * m[2][1];  // afh
+}
+
+
+
+// ---- Inverse
+
+template <size_t N, typename T>
+Matrix<N, N, T> inverse(const Matrix<N, N, T>& mat);
+
+
+template <typename T>
+Matrix<2, 2, T> inverse(const Matrix<2, 2, T>& mat) {
+	
+}
+
+
 // ---- Matrix make functions for special construction scenarios
 
 template <size_t N, typename T = float>
