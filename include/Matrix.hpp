@@ -145,6 +145,20 @@ MatrixColumnIterator<M, N, T> colEnd(const Matrix<M,N,T>& matrix, size_t col) {
 }
 
 
+// ---- Equality test (mostly for tests)
+
+template <size_t M, size_t N, typename T>
+constexpr bool operator==(const Matrix<M, N, T>& a, const Matrix<M, N, T>& b) {
+	return std::equal(a.dataBegin(), a.dataEnd(), b.dataBegin());
+}
+
+
+template <size_t M, size_t N, typename T>
+constexpr bool operator!=(const Matrix<M, N, T>& a, const Matrix<M, N, T>& b) {
+	return !(a == b);
+}
+
+
 // ---- Matrix-Matrix Addition
 
 template <size_t M, size_t N, typename T>
@@ -300,6 +314,7 @@ Matrix<2, 2, T> operator *(const Matrix<2, 2, T>& a, const Matrix<2, 2, T>& b) {
 		a[0][1] * b[1][0] + a[1][1] * b[1][1],
 	};
 }
+
 
 template <typename T>
 Matrix<3, 3, T> operator *(const Matrix<3, 3, T>& a, const Matrix<3, 3, T>& b) {

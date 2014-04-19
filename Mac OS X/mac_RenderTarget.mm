@@ -151,6 +151,9 @@ static void setupGL(const stardazed::RenderTargetOptions& rto) {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glClearColor(0, 0, 0, 0);
+	glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CW);
 }
 
 
