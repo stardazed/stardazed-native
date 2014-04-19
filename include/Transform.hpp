@@ -37,8 +37,8 @@ Matrix<4, 4, T> perspective(Angle fovy, T aspect, T zNear, T zFar) {
 template <typename T>
 Matrix<4, 4, T> lookAt(const Vector<3, T>& eye, const Vector<3, T>& target, const Vector<3, T>& up) {
 	auto f = normalize(target - eye),
-	s = normalize(cross(f, up)),
-	u = cross(s, f);
+	     s = normalize(cross(f, up)),
+	     u = cross(s, f);
 	
 	using V4 = Vector<4, T>;
 	
