@@ -3,8 +3,8 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "Application.h"
-#include "../include/RenderTarget.h"
+#include "Application.hpp"
+#include "../include/RenderTarget.hpp"
 #import <AppKit/AppKit.h>
 #include <memory>
 

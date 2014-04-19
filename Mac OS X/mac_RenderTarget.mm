@@ -3,8 +3,8 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "../include/RenderTarget.h"
-#include "../include/Application.h"
+#include "../include/RenderTarget.hpp"
+#include "../include/Application.hpp"
 #import <AppKit/AppKit.h>
 #import <OpenGL/gl3.h>
 #include <vector>

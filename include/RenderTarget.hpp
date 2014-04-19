@@ -6,7 +6,7 @@
 #ifndef SD_RENDERTARGET_H
 #define SD_RENDERTARGET_H
 
-#include "RenderTargetOptions.h"
+#include "RenderTargetOptions.hpp"
 #include <string>
 #include <memory>
 
