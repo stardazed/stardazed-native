@@ -456,7 +456,7 @@ Matrix<N, N, T> inverse(const Matrix<N, N, T>& mat);
 
 template <typename T>
 constexpr Matrix<2, 2, T> inverse(const Matrix<2, 2, T>& m) {
-	T oneOverDeterminant = static_cast<T>(1) / determinant(m);
+	T oneOverDeterminant = T{1} / determinant(m);
 
 	return {
 		+ m[1][1] * oneOverDeterminant,
@@ -469,7 +469,7 @@ constexpr Matrix<2, 2, T> inverse(const Matrix<2, 2, T>& m) {
 
 template <typename T>
 constexpr Matrix<3, 3, T> inverse(const Matrix<3, 3, T>& m) {
-	T oneOverDeterminant = static_cast<T>(1) / determinant(m);
+	T oneOverDeterminant = T{1} / determinant(m);
 
 	return {
 		+ (m[1][1] * m[2][2] - m[2][1] * m[1][2]) * oneOverDeterminant,
