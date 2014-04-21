@@ -125,8 +125,7 @@ struct Vector<4, T> : public detail::VectorBase<Vector<4, T>, 4, T> {
 namespace detail {
 	template <typename Op, size_t N, typename T>
 	Vector<N, T>& componentWiseAssignOperator(Vector<N, T>& a, const Vector<N, T>& b) {
-		auto op = Op();
-		std::transform(a.begin(), a.end(), b.begin(), a.begin(), [&op](auto va, auto vb) {
+		std::transform(a.begin(), a.end(), b.begin(), a.begin(), [op = Op()](auto va, auto vb) {
 			return op(va, vb);
 		});
 		return a;
@@ -240,7 +239,19 @@ operator -=(Vector<N, T>& vec, const S scalar) {
 }
 
 	
-// ---- Multiplication (scalar only)
+// ---- Multiplication
+
+template <size_t N, typename T>
+Vector<N, T> operator *(const Vector<N, T>& a, const Vector<N, T>& b) {
+	return detail::componentWiseOperator<std::multiplies<T>>(a, b);
+}
+
+
+template <size_t N, typename T>
+Vector<N, T>& operator *=(Vector<N, T>& a, const Vector<N, T>& b) {
+	return detail::componentWiseAssignOperator<std::multiplies<T>>(a, b);
+}
+
 
 template <size_t N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
@@ -256,7 +267,19 @@ operator *=(Vector<N, T>& vec, const S scalar) {
 }
 
 
-// ---- Division (scalar only)
+// ---- Division
+
+template <size_t N, typename T>
+Vector<N, T> operator /(const Vector<N, T>& a, const Vector<N, T>& b) {
+	return detail::componentWiseOperator<std::divides<T>>(a, b);
+}
+
+
+template <size_t N, typename T>
+Vector<N, T>& operator /=(Vector<N, T>& a, const Vector<N, T>& b) {
+	return detail::componentWiseAssignOperator<std::divides<T>>(a, b);
+}
+
 
 template <size_t N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
