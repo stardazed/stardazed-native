@@ -4,7 +4,7 @@
 // ------------------------------------------------------------------
 
 #include "Application.hpp"
-#include "../include/RenderTarget.hpp"
+#include "system/RenderTarget.hpp"
 #import <AppKit/AppKit.h>
 #include <memory>
 
