@@ -9,8 +9,13 @@
 namespace stardazed {
 
 
+void log(const char* msg) {
+	NSLog(@"%s", msg);
+}
+
+
 void log(const std::string& msg) {
-	NSLog(@"%s", msg.c_str());
+	log(msg.c_str());
 }
 
 

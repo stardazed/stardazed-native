@@ -10,6 +10,7 @@
 
 namespace stardazed {
 
+void log(const char* msg);
 void log(const std::string& msg);
 	
 } // stardazed namespace

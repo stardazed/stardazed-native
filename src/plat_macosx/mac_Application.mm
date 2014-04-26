@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------
 
 #include "Application.hpp"
+#include "system/Logging.hpp"
 #include "system/RenderTarget.hpp"
 #import <AppKit/AppKit.h>
 #include <memory>
@@ -16,7 +17,7 @@
 
 @implementation SDAppDelegate
 - (void)applicationDidFinishLaunching:(NSNotification*)notification {
-	NSLog(@"applicationDidFinishLaunching");
+	stardazed::log("applicationDidFinishLaunching");
 }
 @end
 

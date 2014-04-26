@@ -11,6 +11,7 @@
 
 namespace stardazed {
 
+
 std::string readTextFile(const std::string & filePath) {
 	std::ifstream file { filePath };
 	if (! file.is_open()) {
