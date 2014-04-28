@@ -3,9 +3,10 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "Application.hpp"
+#include "system/Application.hpp"
 #include "system/Logging.hpp"
 #include "system/RenderTarget.hpp"
+
 #import <AppKit/AppKit.h>
 #include <memory>
 
@@ -27,7 +28,7 @@ namespace stardazed {
 
 namespace {
 	void changeToResourcesDirectory() {
-		const char * resourcePath = [[[NSBundle mainBundle] resourcePath] UTF8String];
+		const char *resourcePath = [[[NSBundle mainBundle] resourcePath] UTF8String];
 		chdir(resourcePath);
 	}
 
@@ -49,7 +50,7 @@ namespace {
 	}
 
 	bool quit = false;
-} // anonymous namespace
+} // ns anon
 
 
 
