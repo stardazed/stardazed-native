@@ -12,8 +12,8 @@ namespace stardazed {
 namespace input {
 
 
-// Key names based on western keyboard layout
-enum class Key {
+// Key names based on ANSI/ISO keyboard layout
+enum class Key : uint16_t {
 	Unknown,
 
 	A, B, C, D, E, F, G, H, I,
@@ -40,13 +40,13 @@ enum class Key {
 	Semicolon, Quote, Backquote,
 	Backslash, Slash,
 	Comma, Period,
-	Paragraph, // Mac only
+	Section, // Mac ISO only
 
 	Escape,
 	F1, F2, F3, F4, F5, F6,
 	F7, F8, F9, F10, F11, F12,
-	F13, F14, F15, // aka PrScrn, ScrollLock and Pause
-	F16, F17, F18, F19, // Mac only
+	F13, F14, F15, // aka PrintScreen, ScrollLock and Pause/Break
+	F16, F17, F18, F19, // Mac full-width only
 	
 	CapsLock,
 	LeftShift, RightShift,
@@ -54,13 +54,6 @@ enum class Key {
 	LeftAlt, RightAlt,
 	LeftSystem, RightSystem,
 	Context // Win only
-};
-
-
-class Keyboard {
-public:
-	bool isPressed(Key kc);
-	std::string nameForKey(Key k);
 };
 
 	

@@ -5,7 +5,7 @@
 
 #include "system/Application.hpp"
 #include "system/Logging.hpp"
-#include "system/RenderTarget.hpp"
+#include "input/Keyboard.hpp"
 
 #import <AppKit/AppKit.h>
 #include <memory>
@@ -57,6 +57,9 @@ namespace {
 void quitNow() {
 	quit = true;
 }
+	
+	
+
 
 
 
@@ -82,7 +85,8 @@ void Application::yieldSystem() {
 			if (ev) {
 				[NSApp sendEvent: ev];
 				
-//				NSLog(@"Event: %lu, mods: %x", [ev type], (uint32_t)[ev modifierFlags]);
+				if ([ev type] == NSKeyDown)
+					NSLog(@"VK: %i, mods: %x", [ev keyCode], (uint32_t)[ev modifierFlags]);
 			}
 		} while (ev);
 	}
