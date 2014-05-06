@@ -33,7 +33,7 @@ enum class Key : uint16_t {
 	Space, Backspace, Tab, Return,
 
 	Insert, Delete, Home, End, PageUp, PageDown,
-	ArrowUp, ArrowLeft, ArrowDown, ArrowRight,
+	ArrowUp, ArrowDown, ArrowLeft, ArrowRight,
 	
 	Minus, Plus,
 	OpenBracket, CloseBracket,

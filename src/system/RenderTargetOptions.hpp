@@ -37,6 +37,6 @@ struct RenderTargetOptions {
 	int auxBufferCount = 0;
 };
 
-} // stardazed namespace
+} // ns stardazed
 
 #endif
