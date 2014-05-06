@@ -36,9 +36,9 @@ clamp(T val, T min, T max) {
 // clamp generic Vector elements to specified range
 template <size_t N, typename T>
 Vector<N, T> clamp(const Vector<N, T>& vec, T min, T max) {
-	Vector<N, T> result { vec };
+	Vector<N, T> result;
 	
-	std::transform(vec.dataBegin(), vec.dataEnd(), [=](T v){
+	std::transform(vec.dataBegin(), vec.dataEnd(), result.dataBegin(), [=](T v){
 		return clamp(v, min, max);
 	});
 	
@@ -82,7 +82,7 @@ Vector<4, T> clamp(const Vector<4, T>& vec, T min, T max) {
 // clamp generic Vector elements to ranges specified by min/max Vector pair
 template <size_t N, typename T>
 Vector<N, T> clamp(const Vector<N, T>& vec, const Vector<N, T>& mins, const Vector<N, T>& maxes) {
-	Vector<N, T> result { vec };
+	Vector<N, T> result;
 
 	for (size_t ix=0; ix < N; ++ix)
 		result[ix] = clamp(vec[ix], mins[ix], maxes[ix]);
@@ -123,6 +123,113 @@ Vector<4, T> clamp(const Vector<4, T>& vec, const Vector<4, T>& mins, const Vect
 	};
 }
 
+
+
+//  __  __ _
+// |  \/  (_)_  __
+// | |\/| | \ \/ /
+// | |  | | |>  <
+// |_|  |_|_/_/\_\
+//
+
+// mix 2 values together according to ratio
+template <typename T>
+constexpr
+std::enable_if_t<std::is_arithmetic<T>::value, T>
+mix(T a, T b, T ratio) {
+	return a * (T{1} - ratio) + b * ratio;
+}
+
+
+// mix generic Vector elements together according to ratio
+template <size_t N, typename T>
+Vector<N, T> mix(const Vector<N, T>& a, const Vector<N, T>& b, T ratio) {
+	Vector<N, T> result;
+
+	std::transform(a.dataBegin(), a.dataEnd(), b.dataBegin(), result.dataBegin(), [=](T va, T vb){
+		return mix(va, vb, ratio);
+	});
+	
+	return result;
+}
+
+
+// mix Vector2 elements together according to ratio
+template <typename T>
+Vector<2, T> mix(const Vector<2, T>& a, const Vector<2, T>& b, T ratio) {
+	return {
+		mix(a[0], b[0], ratio),
+		mix(a[1], b[1], ratio)
+	};
+}
+
+
+// mix Vector3 elements together according to ratio
+template <typename T>
+Vector<3, T> mix(const Vector<3, T>& a, const Vector<3, T>& b, T ratio) {
+	return {
+		mix(a[0], b[0], ratio),
+		mix(a[1], b[1], ratio),
+		mix(a[2], b[2], ratio)
+	};
+}
+
+
+// mix Vector4 elements together according to ratio
+template <typename T>
+Vector<4, T> mix(const Vector<4, T>& a, const Vector<4, T>& b, T ratio) {
+	return {
+		mix(a[0], b[0], ratio),
+		mix(a[1], b[1], ratio),
+		mix(a[2], b[2], ratio),
+		mix(a[3], b[3], ratio)
+	};
+}
+
+
+// mix generic Vector elements together according to Vector of ratios
+template <size_t N, typename T>
+Vector<N, T> mix(const Vector<N, T>& a, const Vector<N, T>& b, const Vector<N, T>& ratios) {
+	Vector<N, T> result;
+
+	for (size_t ix=0; ix < N; ++ix)
+		result[ix] = mix(a[ix], b[ix], ratios[ix]);
+	
+	return result;
+}
+
+
+// mix Vector2 elements together according to Vector2 of ratios
+template <typename T>
+Vector<2, T> mix(const Vector<2, T>& a, const Vector<2, T>& b, const Vector<2, T>& ratios) {
+	return {
+		mix(a[0], b[0], ratios[0]),
+		mix(a[1], b[1], ratios[1])
+	};
+}
+
+
+// mix Vector3 elements together according to Vector3 of ratios
+template <typename T>
+Vector<3, T> mix(const Vector<3, T>& a, const Vector<3, T>& b, const Vector<3, T>& ratios) {
+	return {
+		mix(a[0], b[0], ratios[0]),
+		mix(a[1], b[1], ratios[1]),
+		mix(a[2], b[2], ratios[2])
+	};
+}
+
+
+// mix Vector4 elements together according to Vector4 of ratios
+template <typename T>
+Vector<4, T> mix(const Vector<4, T>& a, const Vector<4, T>& b, const Vector<4, T>& ratios) {
+	return {
+		mix(a[0], b[0], ratios[0]),
+		mix(a[1], b[1], ratios[1]),
+		mix(a[2], b[2], ratios[2]),
+		mix(a[3], b[3], ratios[3])
+	};
+}
 
 
 } // ns math
