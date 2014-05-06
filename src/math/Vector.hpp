@@ -66,11 +66,16 @@ struct Vector : public detail::VectorBase<Vector<N, T>, N, T> {
 };
 
 
+// type aliases
 using Vec2 = Vector<2>;
 using Vec3 = Vector<3>;
 using Vec4 = Vector<4>;
 
+using RGBColor = Vector<3>;
+using RGBAColor = Vector<4>;
 
+
+// Vector class specializations (N in [2,3,4])
 template <typename T>
 struct Vector<2, T> : public detail::VectorBase<Vector<2, T>, 2, T> {
 	union {
@@ -122,6 +127,7 @@ struct Vector<4, T> : public detail::VectorBase<Vector<4, T>, 4, T> {
 
 
 
+// implementation of generic and specialized component-wise operators for Vectors
 namespace detail {
 	template <typename Op, size_t N, typename T>
 	Vector<N, T>& componentWiseAssignOperator(Vector<N, T>& a, const Vector<N, T>& b) {

@@ -230,6 +230,19 @@ Vector<4, T> mix(const Vector<4, T>& a, const Vector<4, T>& b, const Vector<4, T
 		mix(a[3], b[3], ratios[3])
 	};
 }
+	
+
+// special mix variant with Vector<N, bool> ratios, where false yields a and true yields b (unoptimized, not specialized)
+template <size_t N, typename T>
+Vector<N, T> mix(const Vector<N, T>& a, const Vector<N, T>& b, const Vector<N, bool>& selects) {
+	Vector<N, T> result;
+	T ratios[] = { false, true };
+	
+	for (size_t ix=0; ix < N; ++ix)
+		result[ix] = mix(a[ix], b[ix], ratios[selects[ix]]);
+	
+	return result;
+}
 
 
 } // ns math
