@@ -52,7 +52,7 @@ enum class Key : uint16_t {
 	LeftShift, RightShift,
 	LeftControl, RightControl,
 	LeftAlt, RightAlt,
-	LeftSystem, RightSystem,
+	LeftMeta, RightMeta,
 	Context // Win only
 };
 

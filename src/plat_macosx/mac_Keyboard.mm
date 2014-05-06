@@ -13,15 +13,6 @@ namespace stardazed {
 namespace input {
 
 
-bool Keyboard::isPressed(Key k) {
-	return false;
-}
-
-
-std::string Keyboard::nameForKey(Key k) {
-	return "";
-}
-
 	
 } // ns input
 } // ns stardazed
