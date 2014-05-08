@@ -162,6 +162,10 @@ enum {
 	kVK_JIS_Eisu                  = 0x66,
 	kVK_JIS_Kana                  = 0x68
 };
+	
+enum {
+	kVK_SD_RightCommand           = 0x100 // StarDazed custom virtual key code
+};
 
 
 } // ns stardazed
