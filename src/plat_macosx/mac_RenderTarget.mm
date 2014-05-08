@@ -5,8 +5,10 @@
 
 #include "system/RenderTarget.hpp"
 #include "system/Application.hpp"
+#include "render/OpenGL.hpp"
+
 #import <AppKit/AppKit.h>
-#import <OpenGL/gl3.h>
+
 #include <vector>
 #include <cassert>
 

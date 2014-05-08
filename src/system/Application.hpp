@@ -6,9 +6,12 @@
 #ifndef SD_APPLICATION_H
 #define SD_APPLICATION_H
 
+#include "common/ConceptTraits.hpp"
+
 namespace stardazed {
 
-class Application {
+
+class Application : public NoCopyAllowedTrait {
 public:
 	Application();
 	
@@ -18,6 +21,7 @@ public:
 
 void quitNow();
 
+	
 } // ns stardazed
 
 #endif

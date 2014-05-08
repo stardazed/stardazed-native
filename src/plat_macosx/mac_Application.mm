@@ -176,7 +176,7 @@ void Application::yieldSystem() {
 				[NSApp sendEvent: ev];
 				
 				if ([ev type] == NSKeyDown)
-					NSLog(@"VK: %i, mods: %x", [ev keyCode], (uint32_t)[ev modifierFlags]);
+					NSLog(@"VK: %x, SDK: %hx", [ev keyCode], keyTransTable[[ev keyCode]]);
 			}
 		} while (ev);
 	}

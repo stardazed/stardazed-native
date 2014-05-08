@@ -34,8 +34,25 @@ struct FullyComparableTrait {
 	constexpr bool operator>=(const U& other) const {
 		return !static_cast<const Derived*>(this)->operator<(other);
 	}
+
+protected:
+	// traits may not be created directly
+	FullyComparableTrait() = default;
 };
 
+
+// Types that should not be moved or copied, mostly used for global
+// instances of system classes. Note: not the same as a Singleton
+// There can still be multiple instances of these classes
+
+struct NoCopyAllowedTrait {
+	NoCopyAllowedTrait(const NoCopyAllowedTrait&) = delete;
+	const NoCopyAllowedTrait& operator=(const NoCopyAllowedTrait&) = delete;
+
+protected:
+	// traits may not be created directly
+	NoCopyAllowedTrait() = default;
+};
 
 } // ns stardazed
 
