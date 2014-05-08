@@ -1,16 +1,17 @@
 // ------------------------------------------------------------------
-// RenderTarget - stardazed
+// system::RenderTarget - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDERTARGET_H
-#define SD_RENDERTARGET_H
+#ifndef SD_SYSTEM_RENDERTARGET_H
+#define SD_SYSTEM_RENDERTARGET_H
 
 #include "RenderTargetOptions.hpp"
 #include <string>
 #include <memory>
 
 namespace stardazed {
+
 
 class RenderTarget {
 	RenderTargetOptions options;
@@ -24,7 +25,8 @@ public:
 	
 	void swap();
 };
-	
-} // stardazed namespace
+
+
+} // ns stardazed
 
 #endif

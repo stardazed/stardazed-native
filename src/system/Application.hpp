@@ -3,8 +3,8 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_APPLICATION_H
-#define SD_APPLICATION_H
+#ifndef SD_SYSTEM_APPLICATION_H
+#define SD_SYSTEM_APPLICATION_H
 
 #include "common/ConceptTraits.hpp"
 

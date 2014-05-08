@@ -1,12 +1,13 @@
 // ------------------------------------------------------------------
-// RenderTargetOptions - stardazed
+// system::RenderTargetOptions - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDERTARGETOPTIONS_H
-#define SD_RENDERTARGETOPTIONS_H
+#ifndef SD_SYSTEM_RENDERTARGETOPTIONS_H
+#define SD_SYSTEM_RENDERTARGETOPTIONS_H
 
 namespace stardazed {
+
 
 enum class FullscreenAntiAliasMethod {
 	None,
@@ -36,6 +37,7 @@ struct RenderTargetOptions {
 	int accumulatorBits = 0;
 	int auxBufferCount = 0;
 };
+
 
 } // ns stardazed
 

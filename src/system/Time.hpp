@@ -1,20 +1,21 @@
 // ------------------------------------------------------------------
-// system::Logging - stardazed
+// system::Time - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_SYSTEM_LOGGING_H
-#define SD_SYSTEM_LOGGING_H
+#ifndef SD_SYSTEM_TIME_H
+#define SD_SYSTEM_TIME_H
 
-#include <string>
+#include <cstdint>
+#include <chrono>
 
 namespace stardazed {
+namespace time {
 
-	
-void log(const char* msg);
-void log(const std::string& msg);
-	
 
+
+
+} // ns time
 } // ns stardazed
 
 #endif
