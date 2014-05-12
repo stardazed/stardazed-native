@@ -12,8 +12,10 @@
 namespace stardazed {
 namespace time {
 
+	using Clock = std::chrono::high_resolution_clock;
+	using Point = Clock::time_point;
 
-
+	inline Point now() { return Clock::now(); }
 
 } // ns time
 } // ns stardazed
