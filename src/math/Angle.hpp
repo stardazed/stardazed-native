@@ -6,7 +6,8 @@
 #ifndef SD_MATH_ANGLE_H
 #define SD_MATH_ANGLE_H
 
-#include "ConceptTraits.hpp"
+#include "util/ConceptTraits.hpp"
+#include "math/Constants.hpp"
 
 #include <type_traits>
 #include <cmath>
@@ -14,15 +15,6 @@
 
 namespace stardazed {
 namespace math {
-
-// ---- Constants
-
-template <typename T>
-constexpr const T pi = T{ 3.14159265358979323846 };
-
-template <typename T>
-constexpr const T tau = pi<T> * T{2};
-
 
 namespace detail {
 
@@ -129,14 +121,14 @@ Radians asRadians(T);
 template<>
 constexpr Radians asRadians(Radians rad) { return rad; }
 template<>
-constexpr Radians asRadians(Degrees deg) { return Radians{ deg.val() * pi<Degrees::ValueType> / Degrees::ValueType{180} }; }
+constexpr Radians asRadians(Degrees deg) { return Radians{ deg.val() * Pi<Degrees::ValueType> / Degrees::ValueType{180} }; }
 
 template <typename T>
 Degrees asDegrees(T);
 template<>
 constexpr Degrees asDegrees(Degrees deg) { return deg; }
 template<>
-constexpr Degrees asDegrees(Radians rad) { return Degrees{ rad.val() * Radians::ValueType{180} / pi<Radians::ValueType> }; };
+constexpr Degrees asDegrees(Radians rad) { return Degrees{ rad.val() * Radians::ValueType{180} / Pi<Radians::ValueType> }; };
 
 
 // ---- Angle abstracts away radians and degrees and allows —explicit— mixing of the two
