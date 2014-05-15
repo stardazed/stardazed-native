@@ -13,7 +13,7 @@ namespace stardazed {
 namespace render {
 
 
-Shader::Shader(GLenum type, const std::string & source) {
+Shader::Shader(GLenum type, const std::string& source) {
 	const auto sourcePtr = source.c_str();
 	program_ = glCreateShaderProgramv(type, 1, &sourcePtr);
 	
@@ -36,7 +36,7 @@ Shader::~Shader() {
 }
 
 
-Shader makeShaderWithPath(GLenum type, const std::string & filePath) {
+Shader makeShaderWithPath(GLenum type, const std::string& filePath) {
 	auto source = readTextFile(filePath);
 	return { type, source };
 }

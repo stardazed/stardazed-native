@@ -5,6 +5,7 @@
 
 #include "geom/Generators.hpp"
 #include "math/Constants.hpp"
+#include "math/Vector.hpp"
 
 
 namespace stardazed {
@@ -12,7 +13,7 @@ namespace geom {
 namespace gen {
 
 
-Mesh plane() {
+Mesh plane(math::Vec3 origin, math::Vec2 xx) {
 	Mesh mesh;
 	
 	mesh.vertexes.push_back({ -1, -1, 0 });

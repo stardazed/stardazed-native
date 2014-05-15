@@ -19,7 +19,7 @@ class Shader {
 	GLuint mvMatrix_, mvpMatrix_, normalMatrix_;
 	
 public:
-	Shader(GLenum type, const std::string & source);
+	Shader(GLenum type, const std::string& source);
 	~Shader();
 	
 	GLuint program() const { return program_; }
@@ -29,7 +29,7 @@ public:
 };
 
 
-Shader makeShaderWithPath(GLenum type, const std::string & filePath);
+Shader makeShaderWithPath(GLenum type, const std::string& filePath);
 
 
 } // ns render
