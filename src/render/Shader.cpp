@@ -5,7 +5,7 @@
 
 #include "render/Shader.hpp"
 #include "system/Logging.hpp"
-#include "common/TextFile.hpp"
+#include "util/TextFile.hpp"
 
 #include <vector>
 

@@ -3,7 +3,7 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "common/TextFile.hpp"
+#include "util/TextFile.hpp"
 #include "system/Logging.hpp"
 
 #include <fstream>
