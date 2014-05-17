@@ -135,7 +135,7 @@ static NSWindow* createRenderWindow(const stardazed::RenderContextOptions &optio
 	// In fullscreen mode we need to hover above all other windows
 	// and be nice and hide ourselves when we're moved to the bg.
 	if (options.fullscreen) {
-		[window setLevel: NSMainMenuWindowLevel + 1];
+		[window setLevel: NSScreenSaverWindowLevel];
 		[window setHidesOnDeactivate: YES];
 	}
 

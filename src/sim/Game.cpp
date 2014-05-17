@@ -4,7 +4,7 @@
 // ------------------------------------------------------------------
 
 #include "system/Time.hpp"
-#include "common/RingBuffer.hpp"
+#include "util/RingBuffer.hpp"
 
 namespace stardazed {
 

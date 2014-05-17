@@ -6,7 +6,7 @@
 #ifndef SD_SYSTEM_APPLICATION_H
 #define SD_SYSTEM_APPLICATION_H
 
-#include "common/ConceptTraits.hpp"
+#include "util/ConceptTraits.hpp"
 
 namespace stardazed {
 
