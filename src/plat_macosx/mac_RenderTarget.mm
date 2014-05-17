@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------
-// mac_RenderTarget - stardazed
+// mac_RenderContext.mm - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "system/RenderTarget.hpp"
+#include "system/RenderContext.hpp"
 #include "system/Application.hpp"
 #include "render/OpenGL.hpp"
 
@@ -43,7 +43,7 @@
 
 
 
-static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::RenderTargetOptions &options) {
+static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::RenderContextOptions &options) {
 	using namespace stardazed;
 	
 	std::vector<NSOpenGLPixelFormatAttribute> attrs = {
@@ -93,7 +93,7 @@ static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::RenderT
 }
 
 
-static SDOpenGLView* createOpenGLView(const NSRect frame, const stardazed::RenderTargetOptions &options) {
+static SDOpenGLView* createOpenGLView(const NSRect frame, const stardazed::RenderContextOptions &options) {
 	NSOpenGLPixelFormat* pixelFormat = pixelFormatForRenderOptions(options);
 	SDOpenGLView *oglView = [[SDOpenGLView alloc] initWithFrame:frame pixelFormat: pixelFormat];
 	
@@ -104,7 +104,7 @@ static SDOpenGLView* createOpenGLView(const NSRect frame, const stardazed::Rende
 }
 
 
-static NSWindow* createRenderWindow(const stardazed::RenderTargetOptions &options) {
+static NSWindow* createRenderWindow(const stardazed::RenderContextOptions &options) {
 	NSRect frame;
 	NSUInteger styleOptions;
 	if (options.fullscreen) {
@@ -148,8 +148,8 @@ static NSWindow* createRenderWindow(const stardazed::RenderTargetOptions &option
 }
 
 
-static void setupGL(const stardazed::RenderTargetOptions& rto) {
-	glViewport(0, 0, rto.width, rto.height);
+static void setupGL(const stardazed::RenderContextOptions& rco) {
+	glViewport(0, 0, rco.width, rco.height);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glClearColor(0, 0, 0, 0);
@@ -161,7 +161,7 @@ static void setupGL(const stardazed::RenderTargetOptions& rto) {
 
 namespace stardazed {
 
-class RenderTarget::Impl {
+class RenderContext::Impl {
 public:
 	NSWindow* coverWindow;
 	id windowDelegate;
@@ -169,31 +169,32 @@ public:
 };
 
 
-RenderTarget::RenderTarget(RenderTargetOptions rto)
-: options(rto)
+RenderContext::RenderContext(RenderContextOptions rco)
+: options(rco)
 {
 	pimpl = std::make_unique<Impl>();
 	NSWindow *window = createRenderWindow(options);
 
 	id delegate = [[SDWindowDelegate alloc] init];
 	[window setDelegate: delegate];
-	
+
 	[window makeKeyAndOrderFront: nil];
-	
+
 	pimpl->coverWindow = window;
 	pimpl->windowDelegate = delegate;
 	pimpl->glContext = [[pimpl->coverWindow contentView] openGLContext];
-	
-	setupGL(rto);
+
+	setupGL(rco);
 }
 
 
-RenderTarget::~RenderTarget() {
+RenderContext::~RenderContext() {
 }
 
 
-void RenderTarget::swap() {
+void RenderContext::swap() {
 	[pimpl->glContext flushBuffer];
 }
+
 
 } // stardazed namespace

@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// system::RenderTargetOptions - stardazed
+// system::RenderContextOptions - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_SYSTEM_RENDERTARGETOPTIONS_H
-#define SD_SYSTEM_RENDERTARGETOPTIONS_H
+#ifndef SD_SYSTEM_RENDERCONTEXTOPTIONS_H
+#define SD_SYSTEM_RENDERCONTEXTOPTIONS_H
 
 namespace stardazed {
 
@@ -21,7 +21,7 @@ enum class BufferingMethod {
 };
 
 
-struct RenderTargetOptions {
+struct RenderContextOptions {
 	int	width = 1024, height = 768;
 	bool fullscreen = false;
 	bool verticalSync = false;

@@ -1,27 +1,27 @@
 // ------------------------------------------------------------------
-// system::RenderTarget - stardazed
+// system::RenderContext - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_SYSTEM_RENDERTARGET_H
-#define SD_SYSTEM_RENDERTARGET_H
+#ifndef SD_SYSTEM_RENDERCONTEXT_H
+#define SD_SYSTEM_RENDERCONTEXT_H
 
-#include "RenderTargetOptions.hpp"
+#include "RenderContextOptions.hpp"
 #include <string>
 #include <memory>
 
 namespace stardazed {
 
 
-class RenderTarget {
-	RenderTargetOptions options;
+class RenderContext {
+	RenderContextOptions options;
 	
 	class Impl;
 	std::unique_ptr<Impl> pimpl;
 
 public:
-	RenderTarget(RenderTargetOptions options);
-	~RenderTarget();
+	RenderContext(RenderContextOptions options);
+	~RenderContext();
 	
 	void swap();
 };
