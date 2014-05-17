@@ -42,6 +42,17 @@ Shader makeShaderWithPath(GLenum type, const std::string& filePath) {
 }
 
 
+GLuint makeSimplePipeline(const render::Shader& vertexShader, const render::Shader& fragmentShader) {
+	GLuint pipeline;
+	glGenProgramPipelines(1, &pipeline);
+	glBindProgramPipeline(pipeline);
+	
+	glUseProgramStages(pipeline, GL_VERTEX_SHADER_BIT, vertexShader.program());
+	glUseProgramStages(pipeline, GL_FRAGMENT_SHADER_BIT, fragmentShader.program());
+	
+	return pipeline;
+}
+
 
 } // ns render
 } // ns stardazed

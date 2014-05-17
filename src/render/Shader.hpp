@@ -30,6 +30,7 @@ public:
 
 
 Shader makeShaderWithPath(GLenum type, const std::string& filePath);
+GLuint makeSimplePipeline(const Shader& vertexShader, const Shader& fragmentShader);
 
 
 } // ns render

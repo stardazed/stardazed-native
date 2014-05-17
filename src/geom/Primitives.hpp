@@ -21,13 +21,13 @@ using Triangle = std::array<uint16_t, 3>;
 using HiTriangle = std::array<uint32_t, 3>;
 
 
-
 class Mesh {
 public:
 	std::vector<Triangle> faces;
 	std::vector<math::Vec3> vertexes, vertexNormals;
 	
 	void calcVertexNormals();
+	void calcVertexTangents();
 };
 
 

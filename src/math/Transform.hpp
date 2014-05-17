@@ -32,6 +32,13 @@ Matrix<4, 4, T> perspective(Angle fovy, T aspect, T zNear, T zFar) {
 }
 
 
+template <typename T>
+Matrix<4, 4, T> perspective(Angle fovy, size_t pixelWidth, size_t pixelHeight, T zNear, T zFar) {
+	T aspect = static_cast<T>(pixelWidth) / static_cast<T>(pixelHeight);
+	return perspective(fovy, aspect, zNear, zFar);
+}
+
+
 // ---- View Matrix generation
 
 template <typename T>

@@ -31,5 +31,9 @@ void Mesh::calcVertexNormals() {
 }
 
 
+void Mesh::calcVertexTangents() {
+}
+
+
 } // ns geom
 } // ns stardazed
