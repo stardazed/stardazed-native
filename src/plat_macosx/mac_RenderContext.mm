@@ -5,7 +5,9 @@
 
 #include "system/RenderContext.hpp"
 #include "system/Application.hpp"
-#include "render/OpenGL.hpp"
+#include "util/TextFile.hpp"
+#include "render/OpenGLShader.hpp"
+#include "render/OpenGLPipeline.hpp"
 
 #import <AppKit/AppKit.h>
 
@@ -189,6 +191,36 @@ RenderContext::RenderContext(RenderContextOptions rco)
 
 
 RenderContext::~RenderContext() {
+}
+
+
+render::VertexShaderRef RenderContext::makeVertexShaderFromPath(const std::string& path) {
+	return std::make_shared<render::OpenGLShader<render::ShaderType::Vertex>>(readTextFile(path));
+}
+
+
+render::TesselationControlShaderRef RenderContext::makeTesselationControlShaderFromPath(const std::string& path) {
+	return std::make_shared<render::OpenGLShader<render::ShaderType::TesselationControl>>(readTextFile(path));
+}
+
+
+render::TesselationEvalShaderRef RenderContext::makeTesselationEvalShaderFromPath(const std::string& path) {
+	return std::make_shared<render::OpenGLShader<render::ShaderType::TesselationEval>>(readTextFile(path));
+}
+
+
+render::GeometryShaderRef RenderContext::makeGeometryShaderFromPath(const std::string& path) {
+	return std::make_shared<render::OpenGLShader<render::ShaderType::Geometry>>(readTextFile(path));
+}
+
+
+render::FragmentShaderRef RenderContext::makeFragmentShaderFromPath(const std::string& path) {
+	return std::make_shared<render::OpenGLShader<render::ShaderType::Fragment>>(readTextFile(path));
+}
+
+
+render::PipelineRef RenderContext::makeRenderPipeline() {
+	return std::make_shared<render::OpenGLPipeline>();
 }
 
 

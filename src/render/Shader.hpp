@@ -6,31 +6,46 @@
 #ifndef SD_RENDER_SHADER_H
 #define SD_RENDER_SHADER_H
 
-#include <string>
-#include "render/OpenGL.hpp"
-
+#include <memory>
 
 namespace stardazed {
 namespace render {
 
 
-class Shader {
-	GLuint program_;
-	GLuint mvMatrix_, mvpMatrix_, normalMatrix_;
-	
-public:
-	Shader(GLenum type, const std::string& source);
-	~Shader();
-	
-	GLuint program() const { return program_; }
-	GLuint mvMatrix() const { return mvMatrix_; }
-	GLuint mvpMatrix() const { return mvpMatrix_; }
-	GLuint normalMatrix() const { return normalMatrix_; }
+enum class ShaderType {
+	Vertex,
+	TesselationControl, // DirectX term: hull
+	TesselationEval,    // DirectX term: domain
+	Geometry,
+	Fragment,           // DirectX term: pixel
+	Compute
 };
 
 
-Shader makeShaderWithPath(GLenum type, const std::string& filePath);
-GLuint makeSimplePipeline(const Shader& vertexShader, const Shader& fragmentShader);
+template <ShaderType Type>
+class Shader {
+public:
+	virtual ~Shader() = default;
+};
+
+
+template <ShaderType Type>
+using ShaderRef                = std::shared_ptr<Shader<Type>>;
+
+using VertexShader             = Shader<ShaderType::Vertex>;
+using TesselationControlShader = Shader<ShaderType::TesselationControl>;
+using TesselationEvalShader    = Shader<ShaderType::TesselationEval>;
+using GeometryShader           = Shader<ShaderType::Geometry>;
+using FragmentShader           = Shader<ShaderType::Fragment>;
+using ComputeShader            = Shader<ShaderType::Compute>;
+
+
+using VertexShaderRef             = std::shared_ptr<VertexShader>;
+using TesselationControlShaderRef = std::shared_ptr<TesselationControlShader>;
+using TesselationEvalShaderRef    = std::shared_ptr<TesselationEvalShader>;
+using GeometryShaderRef           = std::shared_ptr<GeometryShader>;
+using FragmentShaderRef           = std::shared_ptr<FragmentShader>;
+using ComputeShaderRef            = std::shared_ptr<ComputeShader>;
 
 
 } // ns render
