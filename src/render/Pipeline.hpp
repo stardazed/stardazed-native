@@ -18,18 +18,15 @@ class Pipeline {
 public:
 	virtual ~Pipeline() = default;
 	
-	virtual void setVertexStage(const VertexShaderRef&) = 0;
-	virtual void setTesselationControlStage(const TesselationControlShaderRef&) = 0;
-	virtual void setTesselationEvalStage(const TesselationEvalShaderRef&) = 0;
-	virtual void setGeometryStage(const GeometryShaderRef&) = 0;
-	virtual void setFragmentStage(const FragmentShaderRef&) = 0;
+	virtual void setVertexStage(VertexShader) = 0;
+	virtual void setTesselationControlStage(TesselationControlShader) = 0;
+	virtual void setTesselationEvalStage(TesselationEvalShader) = 0;
+	virtual void setGeometryStage(GeometryShader) = 0;
+	virtual void setFragmentStage(FragmentShader) = 0;
 	
 	virtual void activate() = 0;
 	virtual void deactivate() = 0;
 };
-
-
-using PipelineRef = std::shared_ptr<Pipeline>;
 
 
 } // ns render

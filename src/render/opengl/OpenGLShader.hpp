@@ -7,7 +7,7 @@
 #define SD_RENDER_OPENGLSHADER_H
 
 #include "render/Shader.hpp"
-#include "render/OpenGL.hpp"
+#include "render/opengl/OpenGL.hpp"
 
 #include <string>
 #include <vector>
@@ -23,9 +23,9 @@ GLenum glForSDShaderType();
 template <>
 GLenum glForSDShaderType<ShaderType::Vertex>() { return GL_VERTEX_SHADER; }
 template <>
-GLenum glForSDShaderType<ShaderType::TesselationControl>() { return GL_TESS_CONTROL_SHADER; }
+GLenum glForSDShaderType<ShaderType::Hull>() { return GL_TESS_CONTROL_SHADER; }
 template <>
-GLenum glForSDShaderType<ShaderType::TesselationEval>() { return GL_TESS_EVALUATION_SHADER; }
+GLenum glForSDShaderType<ShaderType::Domain>() { return GL_TESS_EVALUATION_SHADER; }
 template <>
 GLenum glForSDShaderType<ShaderType::Geometry>() { return GL_GEOMETRY_SHADER; }
 template <>

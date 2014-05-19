@@ -3,11 +3,10 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "system/RenderContext.hpp"
+#include "render/opengl/OpenGLContext.hpp"
+
 #include "system/Application.hpp"
 #include "util/TextFile.hpp"
-#include "render/OpenGLShader.hpp"
-#include "render/OpenGLPipeline.hpp"
 
 #import <AppKit/AppKit.h>
 
@@ -45,7 +44,7 @@
 
 
 
-static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::RenderContextOptions &options) {
+static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::render::ContextOptions &options) {
 	using namespace stardazed;
 	
 	std::vector<NSOpenGLPixelFormatAttribute> attrs = {
@@ -63,14 +62,14 @@ static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::RenderC
 	};
 
 	// double or triple buffering
-	if (options.bufferMethod == BufferingMethod::DoubleBuffer)
+	if (options.bufferMethod == render::BufferingMethod::DoubleBuffer)
 		boolAttr(NSOpenGLPFADoubleBuffer);
 	else
 		boolAttr(NSOpenGLPFATripleBuffer);
 
 	// FSAA method
-	if (options.fsaa != FullscreenAntiAliasMethod::None) {
-		if (options.fsaa == FullscreenAntiAliasMethod::SSAA)
+	if (options.fsaa != render::FullscreenAntiAliasMethod::None) {
+		if (options.fsaa == render::FullscreenAntiAliasMethod::SSAA)
 			boolAttr(NSOpenGLPFASupersample);
 		else
 			boolAttr(NSOpenGLPFAMultisample);
@@ -95,7 +94,7 @@ static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::RenderC
 }
 
 
-static SDOpenGLView* createOpenGLView(const NSRect frame, const stardazed::RenderContextOptions &options) {
+static SDOpenGLView* createOpenGLView(const NSRect frame, const stardazed::render::ContextOptions &options) {
 	NSOpenGLPixelFormat* pixelFormat = pixelFormatForRenderOptions(options);
 	SDOpenGLView *oglView = [[SDOpenGLView alloc] initWithFrame:frame pixelFormat: pixelFormat];
 	
@@ -106,7 +105,7 @@ static SDOpenGLView* createOpenGLView(const NSRect frame, const stardazed::Rende
 }
 
 
-static NSWindow* createRenderWindow(const stardazed::RenderContextOptions &options) {
+static NSWindow* createRenderWindow(const stardazed::render::ContextOptions &options) {
 	NSRect frame;
 	NSUInteger styleOptions;
 	if (options.fullscreen) {
@@ -150,7 +149,18 @@ static NSWindow* createRenderWindow(const stardazed::RenderContextOptions &optio
 }
 
 
-static void setupGL(const stardazed::RenderContextOptions& rco) {
+namespace stardazed {
+namespace render {
+
+class OpenGLContext::PlatformData {
+public:
+	NSWindow* coverWindow;
+	id windowDelegate;
+	NSOpenGLContext* glContext;
+};
+
+
+static void setupGL(const ContextOptions& rco) {
 	glViewport(0, 0, rco.width, rco.height);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -161,20 +171,10 @@ static void setupGL(const stardazed::RenderContextOptions& rco) {
 }
 
 
-namespace stardazed {
-
-class RenderContext::Impl {
-public:
-	NSWindow* coverWindow;
-	id windowDelegate;
-	NSOpenGLContext* glContext;
-};
-
-
-RenderContext::RenderContext(RenderContextOptions rco)
-: options(rco)
+OpenGLContext::OpenGLContext(ContextOptions rco)
+: Context<OpenGLContext>(rco)
 {
-	pimpl = std::make_unique<Impl>();
+	platformData = std::make_unique<PlatformData>();
 	NSWindow *window = createRenderWindow(options);
 
 	id delegate = [[SDWindowDelegate alloc] init];
@@ -182,51 +182,28 @@ RenderContext::RenderContext(RenderContextOptions rco)
 
 	[window makeKeyAndOrderFront: nil];
 
-	pimpl->coverWindow = window;
-	pimpl->windowDelegate = delegate;
-	pimpl->glContext = [[pimpl->coverWindow contentView] openGLContext];
+	platformData->coverWindow = window;
+	platformData->windowDelegate = delegate;
+	platformData->glContext = [[platformData->coverWindow contentView] openGLContext];
 
 	setupGL(rco);
 }
 
 
-RenderContext::~RenderContext() {
+std::string OpenGLContext::loadShaderFile(const std::string& path) {
+	return readTextFile(path);
 }
 
 
-render::VertexShaderRef RenderContext::makeVertexShaderFromPath(const std::string& path) {
-	return std::make_shared<render::OpenGLShader<render::ShaderType::Vertex>>(readTextFile(path));
+OpenGLPipeline OpenGLContext::makePipelineImpl() {
+	return {};
 }
 
 
-render::TesselationControlShaderRef RenderContext::makeTesselationControlShaderFromPath(const std::string& path) {
-	return std::make_shared<render::OpenGLShader<render::ShaderType::TesselationControl>>(readTextFile(path));
+void OpenGLContext::swapImpl() {
+	[platformData->glContext flushBuffer];
 }
 
 
-render::TesselationEvalShaderRef RenderContext::makeTesselationEvalShaderFromPath(const std::string& path) {
-	return std::make_shared<render::OpenGLShader<render::ShaderType::TesselationEval>>(readTextFile(path));
-}
-
-
-render::GeometryShaderRef RenderContext::makeGeometryShaderFromPath(const std::string& path) {
-	return std::make_shared<render::OpenGLShader<render::ShaderType::Geometry>>(readTextFile(path));
-}
-
-
-render::FragmentShaderRef RenderContext::makeFragmentShaderFromPath(const std::string& path) {
-	return std::make_shared<render::OpenGLShader<render::ShaderType::Fragment>>(readTextFile(path));
-}
-
-
-render::PipelineRef RenderContext::makeRenderPipeline() {
-	return std::make_shared<render::OpenGLPipeline>();
-}
-
-
-void RenderContext::swap() {
-	[pimpl->glContext flushBuffer];
-}
-
-
-} // stardazed namespace
+} // ns render
+} // ns stardazed
