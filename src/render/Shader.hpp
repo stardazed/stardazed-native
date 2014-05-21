@@ -22,9 +22,12 @@ enum class ShaderType {
 };
 
 
-// forward declaration of opaque Shader class templated by shader type
-template <ShaderType Type>
-class Shader;
+class Shader {
+public:
+	virtual ~Shader() = default;
+
+	virtual ShaderType type() const = 0;
+};
 
 
 } // ns render

@@ -14,15 +14,14 @@ namespace stardazed {
 namespace render {
 
 
+template <typename Shader>
 class Pipeline {
+protected:
+
 public:
 	virtual ~Pipeline() = default;
 	
-	virtual void setVertexStage(VertexShader) = 0;
-	virtual void setTesselationControlStage(TesselationControlShader) = 0;
-	virtual void setTesselationEvalStage(TesselationEvalShader) = 0;
-	virtual void setGeometryStage(GeometryShader) = 0;
-	virtual void setFragmentStage(FragmentShader) = 0;
+	virtual void attachShader(Shader*) = 0;
 	
 	virtual void activate() = 0;
 	virtual void deactivate() = 0;

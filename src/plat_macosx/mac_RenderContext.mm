@@ -174,7 +174,7 @@ static void setupGL(const ContextOptions& rco) {
 OpenGLContext::OpenGLContext(ContextOptions rco)
 : Context<OpenGLContext>(rco)
 {
-	platformData = std::make_unique<PlatformData>();
+	platformData_ = std::make_unique<PlatformData>();
 	NSWindow *window = createRenderWindow(options);
 
 	id delegate = [[SDWindowDelegate alloc] init];
@@ -182,16 +182,16 @@ OpenGLContext::OpenGLContext(ContextOptions rco)
 
 	[window makeKeyAndOrderFront: nil];
 
-	platformData->coverWindow = window;
-	platformData->windowDelegate = delegate;
-	platformData->glContext = [[platformData->coverWindow contentView] openGLContext];
+	platformData_->coverWindow = window;
+	platformData_->windowDelegate = delegate;
+	platformData_->glContext = [[platformData_->coverWindow contentView] openGLContext];
 
 	setupGL(rco);
 }
 
 
-std::string OpenGLContext::loadShaderFile(const std::string& path) {
-	return readTextFile(path);
+OpenGLShader OpenGLContext::loadShaderFromPathImpl(ShaderType type, const std::string& path) {
+	return { type, readTextFile(path) };
 }
 
 
@@ -201,7 +201,7 @@ OpenGLPipeline OpenGLContext::makePipelineImpl() {
 
 
 void OpenGLContext::swapImpl() {
-	[platformData->glContext flushBuffer];
+	[platformData_->glContext flushBuffer];
 }
 
 

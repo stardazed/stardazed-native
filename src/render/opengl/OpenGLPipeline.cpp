@@ -3,55 +3,43 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "render/OpenGLPipeline.hpp"
-#include "render/OpenGLShader.hpp"
+#include "render/opengl/OpenGLPipeline.hpp"
 
 namespace stardazed {
 namespace render {
 
 
+constexpr GLbitfield glStageBitForShaderType(ShaderType type) {
+	switch (type) {
+		case ShaderType::Vertex:   return GL_VERTEX_SHADER_BIT;
+		case ShaderType::Hull:     return GL_TESS_CONTROL_SHADER_BIT;
+		case ShaderType::Domain:   return GL_TESS_EVALUATION_SHADER_BIT;
+		case ShaderType::Geometry: return GL_GEOMETRY_SHADER_BIT;
+		case ShaderType::Fragment: return GL_FRAGMENT_SHADER_BIT;
+		case ShaderType::Compute:  return GL_NONE; // FIXME: use 4.3 headers
+	}
+	
+	assert(false && "Unknown ShaderType");
+}
+
+
 OpenGLPipeline::OpenGLPipeline() {
-	glGenProgramPipelines(1, &pipelineName);
+	glGenProgramPipelines(1, &glName_);
 }
 
 
 OpenGLPipeline::~OpenGLPipeline() {
-	glDeleteProgramPipelines(1, &pipelineName);
+	glDeleteProgramPipelines(1, &glName_);
 }
 
 
-void OpenGLPipeline::setVertexStage(const VertexShaderRef& vs) {
-	auto glvs = std::static_pointer_cast<const OpenGLShaderRef<ShaderType::Vertex>&>(vs);
-	glUseProgramStages(pipelineName, GL_VERTEX_SHADER_BIT, glvs.glName);
-}
-
-
-void OpenGLPipeline::setTesselationControlStage(const TesselationControlShaderRef& tcs) {
-	auto gltcs = static_cast<const OpenGLShader<ShaderType::TesselationControl>&>(tcs);
-	glUseProgramStages(pipelineName, GL_TESS_CONTROL_SHADER_BIT, gltcs.glName);
-}
-
-
-void OpenGLPipeline::setTesselationEvalStage(const TesselationEvalShaderRef& tes) {
-	auto gltes = static_cast<const OpenGLShader<ShaderType::TesselationEval>&>(tes);
-	glUseProgramStages(pipelineName, GL_TESS_EVALUATION_SHADER_BIT, gltes.glName);
-}
-
-
-void OpenGLPipeline::setGeometryStage(const GeometryShaderRef& gs) {
-	auto glgs = static_cast<const OpenGLShader<ShaderType::Geometry>&>(gs);
-	glUseProgramStages(pipelineName, GL_GEOMETRY_SHADER_BIT, glgs.glName);
-}
-
-
-void OpenGLPipeline::setFragmentStage(const FragmentShaderRef& fs) {
-	auto glfs = static_cast<const OpenGLShader<ShaderType::Fragment>&>(fs);
-	glUseProgramStages(pipelineName, GL_FRAGMENT_SHADER_BIT, glfs.glName);
+void OpenGLPipeline::attachShader(OpenGLShader* vs) {
+	glUseProgramStages(glName_, glStageBitForShaderType(vs->type()), vs->glName_);
 }
 
 
 void OpenGLPipeline::activate() {
-	glBindProgramPipeline(pipelineName);
+	glBindProgramPipeline(glName_);
 }
 
 

@@ -7,25 +7,21 @@
 #define SD_RENDER_OPENGLPIPELINE_H
 
 #include "render/Pipeline.hpp"
-#include "render/OpenGL.hpp"
+#include "render/opengl/OpenGLShader.hpp"
 
 
 namespace stardazed {
 namespace render {
 
 
-class OpenGLPipeline : public Pipeline {
-	GLuint pipelineName = 0;
+class OpenGLPipeline : public Pipeline<OpenGLShader> {
+	GLuint glName_ = 0;
 	
 public:
 	OpenGLPipeline();
 	~OpenGLPipeline();
 	
-	void setVertexStage(const VertexShaderRef&) override;
-	void setTesselationControlStage(const TesselationControlShaderRef&) override;
-	void setTesselationEvalStage(const TesselationEvalShaderRef&) override;
-	void setGeometryStage(const GeometryShaderRef&) override;
-	void setFragmentStage(const FragmentShaderRef&) override;
+	void attachShader(OpenGLShader* s) override;
 	
 	void activate() override;
 	void deactivate() override;

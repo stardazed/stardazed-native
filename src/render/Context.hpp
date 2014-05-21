@@ -30,12 +30,11 @@ protected:
 public:
 	virtual ~Context() = default;
 
-	template <ShaderType Type>
-	typename Impl::template ShaderImpl<Type> loadShaderFromPath(const std::string& path) {
-		return static_cast<Impl*>(this)->loadShaderFromPathImpl(path);
+	typename Impl::ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) {
+		return static_cast<Impl*>(this)->loadShaderFromPathImpl(type, path);
 	}
 	
-	typename Impl::PipelineImpl makePipeline() {
+	typename Impl::PipelineClass makePipeline() {
 		return static_cast<Impl*>(this)->makePipelineImpl();
 	}
 

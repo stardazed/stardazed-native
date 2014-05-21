@@ -15,50 +15,24 @@
 namespace stardazed {
 namespace render {
 
-/*
-template <typename Impl>
-class Context {
-	ContextOptions options;
-	
-protected:
-	Context() = delete;
-	
-	Context(ContextOptions options)
-	: options(options) {}
-	
-public:
-	virtual ~Context() = default;
-	
-	template <ShaderType Type>
-	typename Impl::template ShaderImpl<Type>* loadShaderFromPath(const std::string& path);
-	
-	typename Impl::PipelineImpl* makePipeline();
-	
-	void swap();
-};
-*/
-
 
 class OpenGLContext : public Context<OpenGLContext> {
-	std::string loadShaderFile(const std::string& path);
-	
-	class PlatformData;
-	std::unique_ptr<PlatformData> platformData;
-
 public:
-	template <ShaderType Type>
-	using ShaderImpl = OpenGLShader<Type>;
-	using PipelineImpl = OpenGLPipeline;
-
 	OpenGLContext(ContextOptions options);
-
-	template <ShaderType Type>
-	ShaderImpl<Type> loadShaderFromPathImpl(const std::string& path) {
-		return ShaderImpl<Type>(loadShaderFile(path));
-	}
 	
-	PipelineImpl makePipelineImpl();
+	friend Context;
 
+	using ShaderClass = OpenGLShader;
+	using PipelineClass = OpenGLPipeline;
+
+private:
+	class PlatformData;
+	std::unique_ptr<PlatformData> platformData_;
+
+	ShaderClass loadShaderFromPathImpl(ShaderType type, const std::string& path);
+	
+	PipelineClass makePipelineImpl();
+	
 	void swapImpl();
 };
 
