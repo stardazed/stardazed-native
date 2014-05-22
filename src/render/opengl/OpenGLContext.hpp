@@ -16,14 +16,18 @@ namespace stardazed {
 namespace render {
 
 
+template<>
+struct ContextTraits<class OpenGLContext> {
+	using ShaderClass = OpenGLShader;
+	using PipelineClass = OpenGLPipeline;
+};
+
+
 class OpenGLContext : public Context<OpenGLContext> {
 public:
 	OpenGLContext(ContextOptions options);
 	
 	friend Context;
-
-	using ShaderClass = OpenGLShader;
-	using PipelineClass = OpenGLPipeline;
 
 private:
 	class PlatformData;

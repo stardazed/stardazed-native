@@ -33,6 +33,8 @@ public:
 	~OpenGLShader();
 	
 	ShaderType type() const override { return type_; }
+	
+	GLuint TEMPORARY_Name() const { return glName_; }
 };
 
 

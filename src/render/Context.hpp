@@ -17,6 +17,10 @@ namespace stardazed {
 namespace render {
 
 
+template <typename T>
+struct ContextTraits;
+
+
 template <typename Impl>
 class Context {
 protected:
@@ -29,12 +33,15 @@ protected:
 
 public:
 	virtual ~Context() = default;
+	
+	using ShaderClass = typename ContextTraits<Impl>::ShaderClass;
+	using PipelineClass = typename ContextTraits<Impl>::PipelineClass;
 
-	typename Impl::ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) {
+	ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) {
 		return static_cast<Impl*>(this)->loadShaderFromPathImpl(type, path);
 	}
 	
-	typename Impl::PipelineClass makePipeline() {
+	PipelineClass makePipeline() {
 		return static_cast<Impl*>(this)->makePipelineImpl();
 	}
 
