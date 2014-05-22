@@ -41,18 +41,37 @@ protected:
 };
 
 
-// Types that should not be moved or copied, mostly used for global
-// instances of system classes. Note: not the same as a Singleton
-// There can still be multiple instances of these classes
+// Standardized copy / move / none accessor traits
 
-struct NoCopyAllowedTrait {
-	NoCopyAllowedTrait(const NoCopyAllowedTrait&) = delete;
-	const NoCopyAllowedTrait& operator=(const NoCopyAllowedTrait&) = delete;
+
+struct NoCopyBaseClassTrait {
+	NoCopyBaseClassTrait(const NoCopyBaseClassTrait&) = delete;
+	NoCopyBaseClassTrait& operator=(const NoCopyBaseClassTrait&) = delete;
+
+public:
+	virtual ~NoCopyBaseClassTrait() = default;
 
 protected:
 	// traits may not be created directly
-	NoCopyAllowedTrait() = default;
+	NoCopyBaseClassTrait() = default;
 };
+
+
+
+struct MoveOnlyBaseClassTrait {
+	MoveOnlyBaseClassTrait(const MoveOnlyBaseClassTrait&) = delete;
+	const MoveOnlyBaseClassTrait& operator=(const MoveOnlyBaseClassTrait&) = delete;
+	
+protected:
+	// traits may not be created directly
+	MoveOnlyBaseClassTrait() = default;
+
+public:
+	virtual ~MoveOnlyBaseClassTrait() = default;
+	MoveOnlyBaseClassTrait(MoveOnlyBaseClassTrait&&) = default;
+	MoveOnlyBaseClassTrait& operator=(MoveOnlyBaseClassTrait&&) = default;
+};
+
 
 } // ns stardazed
 

@@ -11,7 +11,11 @@
 namespace stardazed {
 
 
-class Application : public NoCopyAllowedTrait {
+class Application {
+	// can't copy/move an application
+	Application(const Application&) = delete;
+	Application& operator=(const Application&) = delete;
+
 public:
 	Application();
 	

@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_SHADER_H
 #define SD_RENDER_SHADER_H
 
+#include "util/ConceptTraits.hpp"
 #include <memory>
 
 namespace stardazed {
@@ -22,10 +23,8 @@ enum class ShaderType {
 };
 
 
-class Shader {
+class Shader : public MoveOnlyBaseClassTrait {
 public:
-	virtual ~Shader() = default;
-
 	virtual ShaderType type() const = 0;
 };
 

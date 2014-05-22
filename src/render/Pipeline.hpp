@@ -7,6 +7,7 @@
 #define SD_RENDER_PIPELINE_H
 
 #include "render/Shader.hpp"
+#include "util/ConceptTraits.hpp"
 
 #include <memory>
 
@@ -15,12 +16,8 @@ namespace render {
 
 
 template <typename Shader>
-class Pipeline {
-protected:
-
+class Pipeline : public MoveOnlyBaseClassTrait {
 public:
-	virtual ~Pipeline() = default;
-	
 	virtual void attachShader(Shader*) = 0;
 	
 	virtual void activate() = 0;

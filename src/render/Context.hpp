@@ -46,7 +46,7 @@ public:
 	}
 
 	void swap() {
-		return static_cast<Impl*>(this)->swapImpl();
+		static_cast<Impl*>(this)->swapImpl();
 	}
 };
 
