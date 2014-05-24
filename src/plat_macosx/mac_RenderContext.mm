@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// mac_RenderContext.mm - stardazed
+// mac_OpenGLContext.mm - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
@@ -173,8 +173,8 @@ static void setupGL(const ContextOptions& rco) {
 
 OpenGLContext::OpenGLContext(ContextOptions rco)
 : Context<OpenGLContext>(rco)
+, platformData_{ std::make_unique<PlatformData>() }
 {
-	platformData_ = std::make_unique<PlatformData>();
 	NSWindow *window = createRenderWindow(options);
 
 	id delegate = [[SDWindowDelegate alloc] init];
@@ -187,6 +187,12 @@ OpenGLContext::OpenGLContext(ContextOptions rco)
 	platformData_->glContext = [[platformData_->coverWindow contentView] openGLContext];
 
 	setupGL(rco);
+}
+
+
+OpenGLContext::~OpenGLContext() {
+	// need this defined _here_ because of the pimpl idiom using a unique_ptr
+	// http://stackoverflow.com/questions/9954518/stdunique-ptr-with-an-incomplete-type-wont-compile
 }
 
 

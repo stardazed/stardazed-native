@@ -8,6 +8,7 @@
 
 #include "render/Pipeline.hpp"
 #include "render/opengl/OpenGLShader.hpp"
+#include "util/ConceptTraits.hpp"
 
 
 namespace stardazed {
@@ -15,18 +16,18 @@ namespace render {
 
 
 class OpenGLPipeline : public Pipeline<OpenGLShader> {
-	GLuint glName_ = 0;
+	GLName glPipeline_;
 	
 public:
 	OpenGLPipeline();
 	~OpenGLPipeline();
+	SD_DEFAULT_MOVE_OPS(OpenGLPipeline)
 	
 	void attachShader(OpenGLShader* s) override;
 	
 	void activate() override;
 	void deactivate() override;
 };
-
 
 
 } // ns render

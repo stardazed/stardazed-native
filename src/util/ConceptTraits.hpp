@@ -41,36 +41,16 @@ protected:
 };
 
 
-// Standardized copy / move / none accessor traits
+// Standardized copy / move / none accessor macros
+
+#define SD_NOCOPYORMOVE_CLASS(Class)     \
+Class(const Class&) = delete;            \
+Class& operator=(const Class&) = delete;
 
 
-struct NoCopyBaseClassTrait {
-	NoCopyBaseClassTrait(const NoCopyBaseClassTrait&) = delete;
-	NoCopyBaseClassTrait& operator=(const NoCopyBaseClassTrait&) = delete;
-
-public:
-	virtual ~NoCopyBaseClassTrait() = default;
-
-protected:
-	// traits may not be created directly
-	NoCopyBaseClassTrait() = default;
-};
-
-
-
-struct MoveOnlyBaseClassTrait {
-	MoveOnlyBaseClassTrait(const MoveOnlyBaseClassTrait&) = delete;
-	const MoveOnlyBaseClassTrait& operator=(const MoveOnlyBaseClassTrait&) = delete;
-	
-protected:
-	// traits may not be created directly
-	MoveOnlyBaseClassTrait() = default;
-
-public:
-	virtual ~MoveOnlyBaseClassTrait() = default;
-	MoveOnlyBaseClassTrait(MoveOnlyBaseClassTrait&&) = default;
-	MoveOnlyBaseClassTrait& operator=(MoveOnlyBaseClassTrait&&) = default;
-};
+#define SD_DEFAULT_MOVE_OPS(Class)   \
+Class(Class&&) = default;            \
+Class& operator=(Class&&) = default;
 
 
 } // ns stardazed

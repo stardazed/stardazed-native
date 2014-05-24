@@ -12,9 +12,7 @@ namespace stardazed {
 
 
 class Application {
-	// can't copy/move an application
-	Application(const Application&) = delete;
-	Application& operator=(const Application&) = delete;
+	SD_NOCOPYORMOVE_CLASS(Application)
 
 public:
 	Application();

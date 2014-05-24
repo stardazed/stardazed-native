@@ -17,6 +17,7 @@ constexpr GLbitfield glStageBitForShaderType(ShaderType type) {
 		case ShaderType::Geometry: return GL_GEOMETRY_SHADER_BIT;
 		case ShaderType::Fragment: return GL_FRAGMENT_SHADER_BIT;
 		case ShaderType::Compute:  return GL_NONE; // FIXME: use 4.3 headers
+		case ShaderType::None:     return GL_NONE;
 	}
 	
 	assert(false && "Unknown ShaderType");
@@ -24,22 +25,22 @@ constexpr GLbitfield glStageBitForShaderType(ShaderType type) {
 
 
 OpenGLPipeline::OpenGLPipeline() {
-	glGenProgramPipelines(1, &glName_);
+	glGenProgramPipelines(1, &glPipeline_.name());
 }
 
 
 OpenGLPipeline::~OpenGLPipeline() {
-	glDeleteProgramPipelines(1, &glName_);
+	glDeleteProgramPipelines(1, &glPipeline_.name());
 }
 
 
 void OpenGLPipeline::attachShader(OpenGLShader* vs) {
-	glUseProgramStages(glName_, glStageBitForShaderType(vs->type()), vs->glName_);
+	glUseProgramStages(glPipeline_, glStageBitForShaderType(vs->type()), vs->glShader_);
 }
 
 
 void OpenGLPipeline::activate() {
-	glBindProgramPipeline(glName_);
+	glBindProgramPipeline(glPipeline_);
 }
 
 

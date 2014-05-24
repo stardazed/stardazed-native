@@ -26,12 +26,13 @@ struct ContextTraits<class OpenGLContext> {
 class OpenGLContext : public Context<OpenGLContext> {
 public:
 	OpenGLContext(ContextOptions options);
+	~OpenGLContext();
 	
 	friend Context;
 
 private:
 	class PlatformData;
-	std::unique_ptr<PlatformData> platformData_;
+ 	std::unique_ptr<PlatformData> platformData_;
 
 	ShaderClass loadShaderFromPathImpl(ShaderType type, const std::string& path);
 	

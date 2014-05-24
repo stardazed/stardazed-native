@@ -8,6 +8,7 @@
 
 #include "render/Shader.hpp"
 #include "render/opengl/OpenGL.hpp"
+#include "util/ConceptTraits.hpp"
 
 #include <string>
 #include <vector>
@@ -23,18 +24,17 @@ constexpr GLenum glForSDShaderType(ShaderType type);
 
 
 class OpenGLShader : public Shader {
-	GLuint glName_ = 0;
+	GLName glShader_;
 	ShaderType type_;
-
+	
 public:
 	friend OpenGLPipeline;
 	
 	OpenGLShader(ShaderType type, const std::string& source);
 	~OpenGLShader();
-	
+	SD_DEFAULT_MOVE_OPS(OpenGLShader)
+
 	ShaderType type() const override { return type_; }
-	
-	GLuint TEMPORARY_Name() const { return glName_; }
 };
 
 

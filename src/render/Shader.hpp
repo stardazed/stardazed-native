@@ -6,7 +6,6 @@
 #ifndef SD_RENDER_SHADER_H
 #define SD_RENDER_SHADER_H
 
-#include "util/ConceptTraits.hpp"
 #include <memory>
 
 namespace stardazed {
@@ -14,6 +13,7 @@ namespace render {
 
 
 enum class ShaderType {
+	None,
 	Vertex,
 	Hull,      // OpenGL term: Tesselation Control
 	Domain,    // OpenGL term: Tesselation Evaluation
@@ -23,8 +23,9 @@ enum class ShaderType {
 };
 
 
-class Shader : public MoveOnlyBaseClassTrait {
+class Shader {
 public:
+	virtual ~Shader() = default;
 	virtual ShaderType type() const = 0;
 };
 
