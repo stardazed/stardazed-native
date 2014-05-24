@@ -3,7 +3,7 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "render/opengl/OpenGLContext.hpp"
+#include "mac_OpenGLContext.hpp"
 
 #include "system/Application.hpp"
 #include "util/TextFile.hpp"
@@ -172,7 +172,7 @@ static void setupGL(const ContextOptions& rco) {
 
 
 OpenGLContext::OpenGLContext(ContextOptions rco)
-: Context<OpenGLContextTag>(rco)
+: Context<MacOpenGLContextTag>(rco)
 , platformData_{ std::make_unique<PlatformData>() }
 {
 	NSWindow *window = createRenderWindow(options);

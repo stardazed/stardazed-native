@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// render::OpenGLContext - stardazed
+// render::mac_OpenGLContext - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDER_OPENGLCONTEXT_H
-#define SD_RENDER_OPENGLCONTEXT_H
+#ifndef SD_RENDER_MAC_OPENGLCONTEXT_H
+#define SD_RENDER_MAC_OPENGLCONTEXT_H
 
 #include "render/Context.hpp"
 #include "render/opengl/OpenGLShader.hpp"
@@ -16,17 +16,17 @@ namespace stardazed {
 namespace render {
 
 
-struct OpenGLContextTag {};
+struct MacOpenGLContextTag {};
 
 
 template<>
-struct ContextTraits<OpenGLContextTag> {
+struct ContextTraits<MacOpenGLContextTag> {
 	using ShaderClass = OpenGLShader;
 	using PipelineClass = OpenGLPipeline;
 };
 
 
-class OpenGLContext : public Context<OpenGLContextTag> {
+class OpenGLContext : public Context<MacOpenGLContextTag> {
 public:
 	OpenGLContext(ContextOptions options);
 	~OpenGLContext();
@@ -39,6 +39,7 @@ public:
 	void swap() override;
 
 private:
+	// place obj-c stuff in implementation file only
 	class PlatformData;
  	std::unique_ptr<PlatformData> platformData_;
 };
