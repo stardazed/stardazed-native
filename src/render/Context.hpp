@@ -21,33 +21,27 @@ template <typename T>
 struct ContextTraits;
 
 
-template <typename Impl>
+template <typename Tag>
 class Context {
 protected:
 	ContextOptions options;
-
-	Context() = delete;
 
 	Context(ContextOptions options)
 	: options(options) {}
 
 public:
 	virtual ~Context() = default;
-	
-	using ShaderClass = typename ContextTraits<Impl>::ShaderClass;
-	using PipelineClass = typename ContextTraits<Impl>::PipelineClass;
 
-	ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) {
-		return static_cast<Impl*>(this)->loadShaderFromPathImpl(type, path);
-	}
-	
-	PipelineClass makePipeline() {
-		return static_cast<Impl*>(this)->makePipelineImpl();
-	}
+	// mirror trait classes for easy access
+	using ShaderClass = typename ContextTraits<Tag>::ShaderClass;
+	using PipelineClass = typename ContextTraits<Tag>::PipelineClass;
 
-	void swap() {
-		static_cast<Impl*>(this)->swapImpl();
-	}
+	// factory methods
+	virtual ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) = 0;
+	virtual PipelineClass makePipeline() = 0;
+
+	// action methods
+	virtual void swap() = 0;
 };
 
 

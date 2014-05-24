@@ -172,7 +172,7 @@ static void setupGL(const ContextOptions& rco) {
 
 
 OpenGLContext::OpenGLContext(ContextOptions rco)
-: Context<OpenGLContext>(rco)
+: Context<OpenGLContextTag>(rco)
 , platformData_{ std::make_unique<PlatformData>() }
 {
 	NSWindow *window = createRenderWindow(options);
@@ -196,17 +196,17 @@ OpenGLContext::~OpenGLContext() {
 }
 
 
-OpenGLShader OpenGLContext::loadShaderFromPathImpl(ShaderType type, const std::string& path) {
+OpenGLShader OpenGLContext::loadShaderFromPath(ShaderType type, const std::string& path) {
 	return { type, readTextFile(path) };
 }
 
 
-OpenGLPipeline OpenGLContext::makePipelineImpl() {
+OpenGLPipeline OpenGLContext::makePipeline() {
 	return {};
 }
 
 
-void OpenGLContext::swapImpl() {
+void OpenGLContext::swap() {
 	[platformData_->glContext flushBuffer];
 }
 

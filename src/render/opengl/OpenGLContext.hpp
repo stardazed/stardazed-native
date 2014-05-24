@@ -16,29 +16,31 @@ namespace stardazed {
 namespace render {
 
 
+struct OpenGLContextTag {};
+
+
 template<>
-struct ContextTraits<class OpenGLContext> {
+struct ContextTraits<OpenGLContextTag> {
 	using ShaderClass = OpenGLShader;
 	using PipelineClass = OpenGLPipeline;
 };
 
 
-class OpenGLContext : public Context<OpenGLContext> {
+class OpenGLContext : public Context<OpenGLContextTag> {
 public:
 	OpenGLContext(ContextOptions options);
 	~OpenGLContext();
 	
 	friend Context;
+	
+	ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) override;
+	PipelineClass makePipeline() override;
+	
+	void swap() override;
 
 private:
 	class PlatformData;
  	std::unique_ptr<PlatformData> platformData_;
-
-	ShaderClass loadShaderFromPathImpl(ShaderType type, const std::string& path);
-	
-	PipelineClass makePipelineImpl();
-	
-	void swapImpl();
 };
 
 
