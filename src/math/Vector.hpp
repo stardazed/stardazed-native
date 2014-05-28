@@ -365,7 +365,7 @@ constexpr bool operator ==(const Vector<4, T>& a, const Vector<4, T>& b) {
 
 template <size_t N, typename T>
 T dot(const Vector<N, T>& a, const Vector<N, T>& b) {
-	return std::inner_product(a.begin(), a.end(), b.begin(), T(0));
+	return std::inner_product(a.begin(), a.end(), b.begin(), T{0});
 }
 
 
@@ -402,26 +402,50 @@ constexpr Vector<3, T> cross(const Vector<3, T>& a, const Vector<3, T>& b) {
 // ---- Length
 
 template <size_t N, typename T>
-T length(const Vector<N, T>& a) {
-	return std::sqrt(std::inner_product(a.begin(), a.end(), a.begin(), T(0)));
+T lengthSquared(const Vector<N, T>& vec) {
+	return std::inner_product(vec.begin(), vec.end(), vec.begin(), T(0));
+}
+
+
+template <typename T>
+constexpr T lengthSquared(const Vector<2, T>& vec) {
+	return vec.x * vec.x + vec.y * vec.y;
+}
+
+
+template <typename T>
+constexpr T lengthSquared(const Vector<3, T>& vec) {
+	return vec.x * vec.x + vec.y * vec.y + vec.z * vec.z;
+}
+
+
+template <typename T>
+constexpr T lengthSquared(const Vector<4, T>& vec) {
+	return vec.x * vec.x + vec.y * vec.y + vec.z * vec.z + vec.w * vec.w;
+}
+
+
+template <size_t N, typename T>
+T length(const Vector<N, T>& vec) {
+	return std::sqrt(lengthSquared(vec));
 }
 
 
 template <typename T>
 constexpr T length(const Vector<2, T>& vec) {
-	return std::sqrt(vec.x * vec.x + vec.y * vec.y);
+	return std::sqrt(lengthSquared(vec));
 }
 
 
 template <typename T>
 constexpr T length(const Vector<3, T>& vec) {
-	return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+	return std::sqrt(lengthSquared(vec));
 }
 
 
 template <typename T>
 constexpr T length(const Vector<4, T>& vec) {
-	return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z + vec.w * vec.w);
+	return std::sqrt(lengthSquared(vec));
 }
 
 
