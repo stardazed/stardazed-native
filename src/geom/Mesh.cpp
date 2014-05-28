@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------
-// geom::Primitives.cpp - stardazed
+// geom::Mesh.cpp - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "geom/Primitives.hpp"
+#include "geom/Mesh.hpp"
 
 namespace stardazed {
 namespace geom {

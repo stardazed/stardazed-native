@@ -1,11 +1,10 @@
 // ------------------------------------------------------------------
-// geom::Primitives - stardazed
+// geom::Mesh - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_GEOM_PRIMITIVES_H
-#define SD_GEOM_PRIMITIVES_H
-
+#ifndef SD_GEOM_MESH_H
+#define SD_GEOM_MESH_H
 
 #include "math/Vector.hpp"
 
@@ -24,7 +23,7 @@ using HiTriangle = std::array<uint32_t, 3>;
 class Mesh {
 public:
 	std::vector<Triangle> faces;
-	std::vector<math::Vec3> vertexes, vertexNormals;
+	std::vector<math::Vec3> vertexes, vertexNormals, vertexTangents;
 	
 	void calcVertexNormals();
 	void calcVertexTangents();

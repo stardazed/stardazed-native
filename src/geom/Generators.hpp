@@ -6,7 +6,7 @@
 #ifndef SD_GEOM_GENERATORS_H
 #define SD_GEOM_GENERATORS_H
 
-#include "geom/Primitives.hpp"
+#include "geom/Mesh.hpp"
 
 
 namespace stardazed {
