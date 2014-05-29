@@ -36,12 +36,11 @@ struct Quaternion {
 	constexpr explicit Quaternion(Vector<4, T> xyzw) : xyzw(xyzw) {}
 
 
-	// -- common constant Quats
+	// -- factory methods
 	static constexpr Quaternion identity() { return {}; }
 	static constexpr Quaternion zero() { return {0,0,0,0}; }
 
 
-	// -- factory methods
 	static constexpr Quaternion fromAxisAngle(const Vector<3, T>& axis, const Angle angle) {
 		const auto halfAngle = angle.rad() * T{0.5};
 		return { normalize(axis) * sin(halfAngle), cos(halfAngle) };
@@ -68,17 +67,17 @@ struct Quaternion {
 	}
 	
 	
-	// -- conversion to Mat4
+	// -- export conversion methods
 	constexpr Matrix<4, 4, T> toMatrix4() const {
 		const T x2 = x * x,
-		  y2 = y * y,
-		  z2 = z * z,
-		  xy = x * y,
-		  xz = x * z,
-		  yz = y * z,
-		  wx = w * x,
-		  wy = w * y,
-		  wz = w * z;
+			y2 = y * y,
+			z2 = z * z,
+			xy = x * y,
+			xz = x * z,
+			yz = y * z,
+			wx = w * x,
+			wy = w * y,
+			wz = w * z;
 		
 		const T zero{0}, one{1}, two{2}; // constants of proper value type
 
@@ -106,6 +105,15 @@ using Quat = Quaternion<>;
 // ---- forwards
 template <typename T>
 constexpr Quaternion<T> inverse(const Quaternion<T>&);
+
+
+// ---- Negate
+
+template <typename T>
+constexpr Quaternion<T> operator -(const Quaternion<T>& q) {
+	return { -q.xyzw };
+}
+
 
 
 // ---- Addition
@@ -184,7 +192,7 @@ constexpr Vector<3, T> operator *(const Quaternion<T>& quat, const Vector<3, T>&
 }
 
 
-// ---- Non-member algorithms
+// ---- Non-member basic algorithms
 
 template <typename T>
 constexpr T lengthSquared(const Quaternion<T>& quat) {
@@ -228,8 +236,28 @@ constexpr Quaternion<T> dot(const Quaternion<T>& a, const Quaternion<T>& b) {
 }
 
 
-// ---- Non-member make functions
+// ---- Non-member interpolation algorithms
 
+template <typename T>
+Quaternion<T> slerp(const Quaternion<T>& q1, const Quaternion<T>& q2, float t) {
+	auto angle = std::acos(dot(q1, q2));
+	
+	return (q1 * std::sin(angle * (T{1} - t)) + q2 * std::sin(angle * t)) / std::sin(angle);
+}
+
+
+template <typename T>
+Quaternion<T> slerpShortestPath(const Quaternion<T>& q1, Quaternion<T> q2, float t) {
+	auto costh = dot(q1, q2);
+
+	if (costh < 0) {
+		costh = -costh;
+		q2 = -q2;
+	}
+
+	auto angle = std::acos(costh);
+	return (q1 * std::sin(angle * (T{1} - t)) + q2 * std::sin(angle * t)) / std::sin(angle);
+}
 
 
 
