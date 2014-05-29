@@ -15,7 +15,7 @@
 #include <numeric>
 #include <cassert>
 #include <cmath>
-
+#include <thread>
 
 namespace stardazed {
 namespace math {
@@ -238,19 +238,17 @@ constexpr Quaternion<T> dot(const Quaternion<T>& a, const Quaternion<T>& b) {
 
 // ---- Non-member interpolation algorithms
 
-template <typename T>
-Quaternion<T> slerp(const Quaternion<T>& q1, const Quaternion<T>& q2, float t) {
-	auto angle = std::acos(dot(q1, q2));
-	
-	return (q1 * std::sin(angle * (T{1} - t)) + q2 * std::sin(angle * t)) / std::sin(angle);
-}
+enum class Interpolation {
+	Normal,
+	ShortestPath
+};
 
 
 template <typename T>
-Quaternion<T> slerpShortestPath(const Quaternion<T>& q1, Quaternion<T> q2, float t) {
+constexpr Quaternion<T> slerp(const Quaternion<T>& q1, Quaternion<T> q2, float t, Interpolation interp = Interpolation::Normal) {
 	auto costh = dot(q1, q2);
 
-	if (costh < 0) {
+	if (costh < 0 && interp == Interpolation::ShortestPath) {
 		costh = -costh;
 		q2 = -q2;
 	}
@@ -259,6 +257,32 @@ Quaternion<T> slerpShortestPath(const Quaternion<T>& q1, Quaternion<T> q2, float
 	return (q1 * std::sin(angle * (T{1} - t)) + q2 * std::sin(angle * t)) / std::sin(angle);
 }
 
+
+template <typename T>
+Quaternion<T> squad(const Quaternion<T>& q1, const Quaternion<T>& a,
+					const Quaternion<T>& b, const Quaternion<T>& c,
+					float t)
+{
+	return slerp(
+		slerp(q1, c, t),
+		slerp(a, b, t),
+		2.f * t * (1.f - t)
+	);
+}
+
+//
+//template <typename T>
+//auto makeSmoothSquad(Quaternion<T> q0, Quaternion<T> q1, Quaternion<T> q2, Quaternion<T> q3) {
+//	q0 = length(q0 + q1) < length(q0 - q1) ? -q0 : q0;
+//	q2 = length(q1 + q2) < length(q1 - q2) ? -q2 : q2;
+//	q3 = length(q2 + q3) < length(q2 - q3) ? -q3 : q3;
+//	
+//	return [
+//		q0
+//	](float t) {
+//		
+//	};
+//}
 
 
 } // ns math
