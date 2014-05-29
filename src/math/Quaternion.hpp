@@ -30,13 +30,72 @@ struct Quaternion {
 		struct { T x, y, z; };
 	};
 
-	constexpr Quaternion() : data{0,0,0,0} {}
+	constexpr Quaternion() : data{0,0,0,1} {}
 	constexpr Quaternion(T x, T y, T z, T w) : data{x,y,z,w} {}
 	constexpr Quaternion(Vector<3, T> xyz, T w) : xyz(xyz), w(w) {}
 	constexpr explicit Quaternion(Vector<4, T> xyzw) : xyzw(xyzw) {}
+
+
+	// -- common constant Quats
+	static constexpr Quaternion identity() { return {}; }
+	static constexpr Quaternion zero() { return {0,0,0,0}; }
+
+
+	// -- factory methods
+	static constexpr Quaternion fromAxisAngle(const Vector<3, T>& axis, const Angle angle) {
+		const auto halfAngle = angle.rad() * T{0.5};
+		return { normalize(axis) * sin(halfAngle), cos(halfAngle) };
+	}
+
+
+	static Quaternion fromEuler(const Angle yaw, const Angle pitch, const Angle roll) {
+		auto y = yaw.rad() * T{0.5};
+		auto p = pitch.rad() * T{0.5};
+		auto r = roll.rad() * T{0.5};
+		
+		T siny, cosy, sinp, cosp, sinr, cosr;
+		sincos(y, siny, cosy);
+		sincos(p, sinp, cosp);
+		sincos(r, sinr, cosr);
+
+		// evaluated form of 3 Quat multiplications (of yaw, pitch and roll)
+		return normalize(Quaternion{
+			sinr * cosp * cosy - cosr * sinp * siny,
+			cosr * sinp * cosy + sinr * cosp * siny,
+			cosr * cosp * siny - sinr * sinp * cosy,
+			cosr * cosp * cosy + sinr * sinp * siny
+		});
+	}
 	
-	static constexpr Quaternion identity() { return { 0,0,0,1 }; }
-	static constexpr Quaternion zero() { return {}; }
+	
+	// -- conversion to Mat4
+	constexpr Matrix<4, 4, T> toMatrix4() const {
+		const T x2 = x * x,
+		  y2 = y * y,
+		  z2 = z * z,
+		  xy = x * y,
+		  xz = x * z,
+		  yz = y * z,
+		  wx = w * x,
+		  wy = w * y,
+		  wz = w * z;
+		
+		const T zero{0}, one{1}, two{2}; // constants of proper value type
+
+		return {
+			one - two * (y2 + z2), two * (xy - wz), two * (xz + wy), zero,
+			two * (xy + wz), one - two * (x2 + z2), two * (yz - wx), zero,
+			two * (xz - wy), two * (yz + wx), one - two * (x2 + y2), zero,
+			zero, zero, zero, one
+		};
+	}
+
+
+	void toAxisAngle(Vector<3, T>& axis, Angle& angle) const {
+		auto oneOverLength = T{1} / length(*this);
+		axis = xyz * oneOverLength;
+		angle = Radians{std::acos(w) * T{2}};
+	}
 };
 
 
@@ -99,20 +158,7 @@ Quaternion<T>& operator *=(Quaternion<T>& a, const Quaternion<T>& b) {
 }
 
 
-// ---- Division
-
-template <typename T>
-constexpr Quaternion<T> operator /(const Quaternion<T>& a, const Quaternion<T>& b) {
-	return inverse(a) * b;
-}
-
-
-template <typename T>
-Quaternion<T>& operator /=(Quaternion<T>& a, const Quaternion<T>& b) {
-	a = a / b;
-	return a;
-}
-
+// ---- Division (scalar only)
 
 template <typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Quaternion<T>>
@@ -126,6 +172,15 @@ std::enable_if_t<std::is_convertible<S, T>::value, Quaternion<T>&>
 operator /=(Quaternion<T>& a, const S scalar) {
 	a.xyzw /= scalar;
 	return a;
+}
+
+
+// ---- Quaternion-Vector multiplication
+
+template <typename T>
+constexpr Vector<3, T> operator *(const Quaternion<T>& quat, const Vector<3, T>& vec) {
+	Quaternion<T> vq { normalize(vec), 0 };
+	return (quat * vq * conjugate(quat)).xyz;
 }
 
 

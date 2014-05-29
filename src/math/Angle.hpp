@@ -156,6 +156,28 @@ public:
 };
 
 
+// ---- Specializations of trig functions to allow for idiomatic usage
+
+inline float sin(Degrees d) { return std::sinf(asRadians(d).val()); }
+inline float cos(Degrees d) { return std::cosf(asRadians(d).val()); }
+inline float tan(Degrees d) { return std::tanf(asRadians(d).val()); }
+
+inline float sin(Radians r) { return std::sinf(r.val()); }
+inline float cos(Radians r) { return std::cosf(r.val()); }
+inline float tan(Radians r) { return std::tanf(r.val()); }
+
+inline float sin(Angle a) { return std::sinf(a.rad().val()); }
+inline float cos(Angle a) { return std::cosf(a.rad().val()); }
+inline float tan(Angle a) { return std::tanf(a.rad().val()); }
+
+
+// potentially accelerated two-fer methods (specialized per platform)
+
+inline void sincos(Degrees d, float& s, float& c) { __sincosf(asRadians(d).val(), &s, &c); }
+inline void sincos(Radians r, float& s, float& c) { __sincosf(r.val(), &s, &c); }
+inline void sincos(Angle a, float& s, float& c) { __sincosf(a.rad().val(), &s, &c); }
+
+
 } // ns math
 } // ns stardazed
 
