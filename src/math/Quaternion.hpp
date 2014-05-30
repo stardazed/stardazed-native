@@ -292,23 +292,25 @@ constexpr Quaternion<T> log(const Quaternion<T>& q) {
 
 // ---- Non-member interpolation algorithms
 
-enum class Interpolation {
-	Normal,
-	ShortestPath
-};
+template <typename T>
+constexpr Quaternion<T> slerp(const Quaternion<T>& q1, const Quaternion<T>& q2, float t) {
+	auto costh = dot(q1, q2);
+	auto angle = std::acos(costh);
+	return (q1 * std::sin(angle * (1.f - t)) + q2 * std::sin(angle * t)) / std::sin(angle);
+}
 
 
 template <typename T>
-constexpr Quaternion<T> slerp(const Quaternion<T>& q1, Quaternion<T> q2, float t, Interpolation interp = Interpolation::Normal) {
+auto makeSmoothSlerp(Quaternion<T> q1, Quaternion<T> q2) {
 	auto costh = dot(q1, q2);
 
-	if (costh < 0 && interp == Interpolation::ShortestPath) {
-		costh = -costh;
-		q2 = -q2;
-	}
-
-	auto angle = std::acos(costh);
-	return (q1 * std::sin(angle * (1.f - t)) + q2 * std::sin(angle * t)) / std::sin(angle);
+	return [
+		angle = costh < 0 ? acos(-costh) : acos(costh),
+		q1 = q1,
+		q2 = costh < 0 ? -q2 : q2
+	](float t) {
+		return slerp(q1, q2, t);
+	};
 }
 
 

@@ -53,7 +53,7 @@ public:
 };
 
 
-// -- STL Pool AllocAdapter
+// -- STL Adapter
 template <typename T>
 using BasicPoolAllocator = STLAllocAdapter<T, BasicMemoryPool>;
 
