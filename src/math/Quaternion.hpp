@@ -34,6 +34,9 @@ struct Quaternion {
 	constexpr Quaternion(T x, T y, T z, T w) : data{x,y,z,w} {}
 	constexpr Quaternion(Vector<3, T> xyz, T w) : xyz(xyz), w(w) {}
 	constexpr explicit Quaternion(Vector<4, T> xyzw) : xyzw(xyzw) {}
+	
+	
+	
 
 
 	// -- factory methods
@@ -107,13 +110,20 @@ template <typename T>
 constexpr Quaternion<T> inverse(const Quaternion<T>&);
 
 
+// ---- Equality (strict)
+
+template <typename T>
+constexpr bool operator ==(const Quaternion<T>& a, const Quaternion<T>& b) {
+	return a.xyzw == b.xyzw;
+}
+
+
 // ---- Negate
 
 template <typename T>
 constexpr Quaternion<T> operator -(const Quaternion<T>& q) {
 	return { -q.xyzw };
 }
-
 
 
 // ---- Addition
@@ -166,7 +176,30 @@ Quaternion<T>& operator *=(Quaternion<T>& a, const Quaternion<T>& b) {
 }
 
 
-// ---- Division (scalar only)
+template <typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Quaternion<T>>
+constexpr operator *(const Quaternion<T>& a, const S scalar) {
+	return { a.xyzw * scalar };
+}
+
+
+template <typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Quaternion<T>>
+constexpr operator *(const S scalar, const Quaternion<T>& a) {
+	return { scalar * a.xyzw };
+}
+
+
+template <typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Quaternion<T>&>
+operator *=(Quaternion<T>& a, const S scalar) {
+	a.xyzw *= scalar;
+	return a;
+}
+
+
+
+// ---- Division (scalar only, lhs only)
 
 template <typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Quaternion<T>>
@@ -236,6 +269,24 @@ constexpr Quaternion<T> dot(const Quaternion<T>& a, const Quaternion<T>& b) {
 }
 
 
+template <typename T>
+constexpr Quaternion<T> exp(const Quaternion<T>& q) {
+	auto th = length(q.xyz);
+	T sinth = sin(th), costh = cos(th);
+	
+	return { sinth * q.xyz / th, costh };
+}
+
+
+template <typename T>
+constexpr Quaternion<T> log(const Quaternion<T>& q) {
+	auto th = acos(q.w),
+		sinth = sin(th);
+	
+	return { th * q.xyz * sinth, 0 };
+}
+
+
 // ---- Non-member interpolation algorithms
 
 enum class Interpolation {
@@ -254,7 +305,7 @@ constexpr Quaternion<T> slerp(const Quaternion<T>& q1, Quaternion<T> q2, float t
 	}
 
 	auto angle = std::acos(costh);
-	return (q1 * std::sin(angle * (T{1} - t)) + q2 * std::sin(angle * t)) / std::sin(angle);
+	return (q1 * std::sin(angle * (1.f - t)) + q2 * std::sin(angle * t)) / std::sin(angle);
 }
 
 
@@ -270,19 +321,22 @@ Quaternion<T> squad(const Quaternion<T>& q1, const Quaternion<T>& a,
 	);
 }
 
-//
-//template <typename T>
-//auto makeSmoothSquad(Quaternion<T> q0, Quaternion<T> q1, Quaternion<T> q2, Quaternion<T> q3) {
-//	q0 = length(q0 + q1) < length(q0 - q1) ? -q0 : q0;
-//	q2 = length(q1 + q2) < length(q1 - q2) ? -q2 : q2;
-//	q3 = length(q2 + q3) < length(q2 - q3) ? -q3 : q3;
-//	
-//	return [
-//		q0
-//	](float t) {
-//		
-//	};
-//}
+
+template <typename T>
+auto makeSmoothSquad(Quaternion<T> q0, Quaternion<T> q1, Quaternion<T> q2, Quaternion<T> q3) {
+	q0 = length(q0 + q1) < length(q0 - q1) ? -q0 : q0;
+	q2 = length(q1 + q2) < length(q1 - q2) ? -q2 : q2;
+	q3 = length(q2 + q3) < length(q2 - q3) ? -q3 : q3;
+	
+	return [
+		q1 = q1,
+		a = q1 * exp(-0.25 * (log(exp(q1) * q2) + log(exp(q1) * q0))),
+		b = q2 * exp(-0.25 * (log(exp(q2) * q3) + log(exp(q2) * q1))),
+		c = q2
+	](float t) {
+		return squad(q1, a, b, c, t);
+	};
+}
 
 
 } // ns math
