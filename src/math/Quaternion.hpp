@@ -300,16 +300,28 @@ constexpr Quaternion<T> slerp(const Quaternion<T>& q1, const Quaternion<T>& q2, 
 }
 
 
+namespace detail {
+
+	template <typename T>
+	constexpr Quaternion<T> slerpPreCalced(const Quaternion<T>& q1, const Quaternion<T>& q2, T angleRad, T oneOverSinA, float t) {
+		return (q1 * std::sin(angleRad * (1.f - t)) + q2 * std::sin(angleRad * t)) * oneOverSinA;
+	}
+
+} // ns detail
+
+
 template <typename T>
 auto makeSmoothSlerp(Quaternion<T> q1, Quaternion<T> q2) {
 	auto costh = dot(q1, q2);
+	auto angle = costh < 0 ? acos(-costh) : acos(costh);
 
 	return [
-		angle = costh < 0 ? acos(-costh) : acos(costh),
+		angle = angle,
+		oneOverSinA = T{1} / std::sin(angle),
 		q1 = q1,
 		q2 = costh < 0 ? -q2 : q2
 	](float t) {
-		return slerp(q1, q2, t);
+		return detail::slerpPreCalced(q1, q2, angle, oneOverSinA, t);
 	};
 }
 
