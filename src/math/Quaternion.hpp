@@ -118,6 +118,12 @@ constexpr bool operator ==(const Quaternion<T>& a, const Quaternion<T>& b) {
 }
 
 
+template <typename T>
+constexpr bool operator !=(const Quaternion<T>& a, const Quaternion<T>& b) {
+	return a.xyzw != b.xyzw;
+}
+
+
 // ---- Negate
 
 template <typename T>
