@@ -646,6 +646,14 @@ Matrix<3, 3, double> extractSubMatrix<3,3,4,4,double>(const Matrix<4, 4, double>
 }
 
 
+// ---- Swappable
+
+template <size_t M, size_t N, typename T>
+void swap(Matrix<M, N, T>& a, Matrix<M, N, T>& b) {
+	std::swap<T, M * N>(a.data, b.data);
+}
+
+
 } // ns math
 } // ns stardazed
 

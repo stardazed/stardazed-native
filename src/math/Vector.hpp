@@ -465,6 +465,14 @@ Vector<N, T> normalize(const Vector<N, T>& vec) {
 }
 
 
+// ---- Swappable
+
+template <size_t N, typename T>
+void swap(Vector<N, T>& a, Vector<N, T>& b) {
+	std::swap<T, N>(a.data, b.data);
+}
+
+
 	
 } // ns math
 } // ns stardazed

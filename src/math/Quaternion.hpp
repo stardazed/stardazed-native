@@ -34,9 +34,6 @@ struct Quaternion {
 	constexpr Quaternion(T x, T y, T z, T w) : data{x,y,z,w} {}
 	constexpr Quaternion(Vector<3, T> xyz, T w) : xyz(xyz), w(w) {}
 	constexpr explicit Quaternion(Vector<4, T> xyzw) : xyzw(xyzw) {}
-	
-	
-	
 
 
 	// -- factory methods
@@ -68,8 +65,8 @@ struct Quaternion {
 			cosr * cosp * cosy + sinr * sinp * siny
 		});
 	}
-	
-	
+
+
 	// -- export conversion methods
 	constexpr Matrix<4, 4, T> toMatrix4() const {
 		const T x2 = x * x,
@@ -81,7 +78,7 @@ struct Quaternion {
 			wx = w * x,
 			wy = w * y,
 			wz = w * z;
-		
+
 		const T zero{0}, one{1}, two{2}; // constants of proper value type
 
 		return {
@@ -124,7 +121,7 @@ constexpr bool operator !=(const Quaternion<T>& a, const Quaternion<T>& b) {
 }
 
 
-// ---- Negate
+// ---- Negation
 
 template <typename T>
 constexpr Quaternion<T> operator -(const Quaternion<T>& q) {
@@ -342,6 +339,16 @@ auto makeSmoothSquad(Quaternion<T> q0, Quaternion<T> q1, Quaternion<T> q2, Quate
 	](float t) {
 		return squad(q1, a, b, c, t);
 	};
+}
+
+
+// ---- Swappable
+
+template <typename T>
+void swap(Quaternion<T>& a, Quaternion<T>& b) {
+	auto temp = a.xyzw;
+	b.xyzw = a.xyzw;
+	a.xyzw = temp;
 }
 
 
