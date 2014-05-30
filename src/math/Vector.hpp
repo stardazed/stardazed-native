@@ -299,7 +299,7 @@ std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>&>
 operator /=(Vector<N, T>& vec, const S scalar) {
 	return detail::scalarAssignOperator<std::divides<T>>(vec, static_cast<T>(scalar));
 }
-	
+
 	
 // ---- Unary minus
 

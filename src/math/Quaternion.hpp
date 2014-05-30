@@ -346,9 +346,7 @@ auto makeSmoothSquad(Quaternion<T> q0, Quaternion<T> q1, Quaternion<T> q2, Quate
 
 template <typename T>
 void swap(Quaternion<T>& a, Quaternion<T>& b) {
-	auto temp = a.xyzw;
-	b.xyzw = a.xyzw;
-	a.xyzw = temp;
+	swap(a.xyzw, b.xyzw);
 }
 
 
