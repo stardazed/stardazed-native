@@ -32,11 +32,12 @@ std::string toString(std::string s) {
 //                                            |___/
 
 FmtString::FmtString(std::string s) : fmt_{s} {
-	baked_.reserve(fmt_.size());
 	scan_ = std::find(fmt_.begin(), fmt_.end(), '%');
 
-	if (scan_ != fmt_.end())
+	if (scan_ != fmt_.end()) {
+		baked_.reserve(fmt_.size());
 		std::copy(fmt_.cbegin(), scan_, std::back_inserter(baked_));
+	}
 	else
 		baked_ = fmt_;
 }
