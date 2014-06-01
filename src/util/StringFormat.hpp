@@ -9,9 +9,9 @@
 #include <string>
 #include <vector>
 #include <type_traits>
+#include <iosfwd>
 
 namespace stardazed {
-namespace str {
 
 
 // defer numerical types to std
@@ -38,7 +38,39 @@ std::string toString(const std::vector<T>& vt) {
 }
 
 
-} // ns str
+
+// Simple printf-like formatted string
+// TODO: needs actual argument inspection
+class FmtString {
+	std::string fmt_, baked_;
+	std::string::const_iterator scan_;
+	
+	void appendValue(const std::string&);
+	
+public:
+	FmtString(std::string s);
+	FmtString(const char* cs) : FmtString(std::string{cs}) {}
+	
+	const std::string& str() const {
+		return baked_;
+	}
+	
+	operator std::string() {
+		return baked_;
+	}
+	
+	template <typename T>
+	FmtString& operator %(T t) {
+		// FIXME: check type of placeholder, etc.
+		appendValue(toString(t));
+		return *this;
+	}
+};
+
+
+std::ostream& operator <<(std::ostream& os, const FmtString& fs);
+
+
 } // ns stardazed
 
 #endif

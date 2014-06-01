@@ -14,9 +14,4 @@ void log(const char* msg) {
 }
 
 
-void log(const std::string& msg) {
-	log(msg.c_str());
-}
-
-
 } // ns stardazed

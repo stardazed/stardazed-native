@@ -4,16 +4,13 @@
 // ------------------------------------------------------------------
 
 #include "StringFormat.hpp"
+#include <ostream>
 
 namespace stardazed {
-namespace str {
 
-
-namespace {
-	const std::string TRUE_STRING { "true" }, FALSE_STRING { "false" };
-}
 
 std::string toString(const bool b) {
+	static std::string TRUE_STRING { "true" }, FALSE_STRING { "false" };
 	return b ? TRUE_STRING : FALSE_STRING;
 }
 
@@ -27,5 +24,43 @@ std::string toString(std::string s) {
 
 
 
-} // ns str
+//  _____          _   ____  _        _
+// |  ___| __ ___ | |_/ ___|| |_ _ __(_)_ __   __ _
+// | |_ | '_ ` _ \| __\___ \| __| '__| | '_ \ / _` |
+// |  _|| | | | | | |_ ___) | |_| |  | | | | | (_| |
+// |_|  |_| |_| |_|\__|____/ \__|_|  |_|_| |_|\__, |
+//                                            |___/
+
+FmtString::FmtString(std::string s) : fmt_{s} {
+	baked_.reserve(fmt_.size());
+	scan_ = std::find(fmt_.begin(), fmt_.end(), '%');
+
+	if (scan_ != fmt_.end())
+		std::copy(fmt_.cbegin(), scan_, std::back_inserter(baked_));
+	else
+		baked_ = fmt_;
+}
+
+
+void FmtString::appendValue(const std::string& s) {
+	if (scan_ == fmt_.end())
+		return; // warning?
+	
+	auto ins = std::back_inserter(baked_);
+	
+	std::copy(s.cbegin(), s.cend(), ins);
+	auto next = std::find(scan_ + 2, fmt_.cend(), '%');
+	std::copy(scan_ + 2, next, ins);
+	
+	scan_ = next;
+}
+
+
+std::ostream& operator <<(std::ostream& os, const FmtString& fs) {
+	os << fs.str();
+	return os;
+}
+
+
+
 } // ns stardazed
