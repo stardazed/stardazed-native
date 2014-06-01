@@ -47,4 +47,89 @@ public:
 };
 
 
+
+/*
+ template <typename T>
+ void setDefaultAttribPointer(GLuint attribIndex);
+ 
+ template <>
+ void setDefaultAttribPointer<math::Vec3>(GLuint attribIndex) {
+ glVertexAttribPointer(attribIndex, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+ }
+ 
+ 
+ template <typename T, GLenum Type = GL_ARRAY_BUFFER>
+ class ArrayBuffer {
+ mutable GLuint name {0};
+ 
+ public:
+ std::vector<T> elements;
+ 
+ ~ArrayBuffer() {
+ if (name)
+ glDeleteBuffers(1, &name);
+ name = 0;
+ }
+ 
+ void bind() const {
+ glBindBuffer(Type, name);
+ }
+ 
+ void upload() const {
+ glGenBuffers(1, &name);
+ glBindBuffer(Type, name);
+ glBufferData(Type, elements.size() * sizeof(T), elements.data(), GL_STATIC_DRAW);
+ glBindBuffer(Type, 0);
+ }
+ 
+ void makeVAAttribute(GLuint attribIndex) const {
+ glBindBuffer(Type, name);
+ glEnableVertexAttribArray(attribIndex);
+ setDefaultAttribPointer<T>(attribIndex);
+ glBindBuffer(Type, 0);
+ }
+ };
+ 
+ 
+ class Model {
+ GLuint vao, attribIndex {0};
+ const geom::Mesh mesh;
+ GLsizei faceCount;
+ 
+ public:
+ Model(geom::Mesh mesh_);
+ ~Model();
+ 
+ void draw();
+ };
+ 
+ Model::Model(geom::Mesh mesh_)
+ : mesh(std::move(mesh_))
+ , faceCount{ static_cast<GLsizei>(mesh.faces.size()) }
+ {
+ glGenVertexArrays(1, &vao);
+ 
+ glBindVertexArray(vao);
+ mesh.vertexes.upload();
+ mesh.vertexes.makeVAAttribute(attribIndex++);
+ mesh.vertexNormals.upload();
+ mesh.vertexNormals.makeVAAttribute(attribIndex++);
+ mesh.faces.upload();
+ glBindVertexArray(0);
+ }
+ 
+ Model::~Model() {
+ glDeleteVertexArrays(1, &vao);
+ vao = 0;
+ }
+ 
+ void Model::draw() {
+ glBindVertexArray(vao);
+ mesh.faces.bind();
+ glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_SHORT, nullptr); // FIXME: move to Mesh
+ glBindVertexArray(0);
+ }
+ */
+
+
 #endif

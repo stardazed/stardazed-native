@@ -14,10 +14,23 @@ public:
 	Game();
 	
 	void mainLoop();
+	void renderFrame(time::Duration x);
 };
 
 
 Game::Game() {
+}
+
+
+void Game::renderFrame(time::Duration simLag) {
+//	for (auto camera : Cameras) {
+//		auto objs = scene.getObjectsWithMask(camera.objectMask);
+//		objs.clipAgainstCameraFrustum(camera);
+//		
+//		for (auto& obj : objs) {
+//			obj.render();
+//		}
+//	}
 }
 
 
@@ -46,6 +59,7 @@ void Game::mainLoop() {
 		
 		if (renderLag >= renderFrameTime) {
 			// render frame
+			renderFrame(simulationLag);
 			
 			// render single frame, drop any missed ones
 			while (renderLag >= renderFrameTime)

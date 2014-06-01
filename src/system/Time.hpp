@@ -31,7 +31,7 @@ namespace time {
 	constexpr Duration hours(double h)         { return std::chrono::duration<double, std::chrono::hours::period>{ h }; }
 	
 	constexpr Duration hertz(double hz)        { return Duration{ 1. / hz }; }
-	
+
 } // ns time
 } // ns stardazed
 
