@@ -44,6 +44,7 @@ public:
 		current_ = std::move(other.current_);
 		
 		other.current_ = other._first_;
+		return *this;
 	}
 	
 	~ObjectPool() {
