@@ -148,16 +148,12 @@ public:
 	ObjectPoolChain(ObjectPoolChain&& other)
 	noexcept(std::is_nothrow_move_constructible<std::vector<PoolType>>::value)
 	: pools_ { std::move(other.pools_) }
-	, currentPool_ { other.currentPool }
-	{
-		other.currentPool_ = nullptr;
-	}
+	, currentPool_ { std::move(other.currentPool_) }
+	{}
 	
 	ObjectPoolChain& operator=(ObjectPoolChain&& other) {
 		pools_ = std::move(other.pools_);
-		currentPool_ = other.currentPool;
-		
-		other.currentPool_ = nullptr;
+		currentPool_ = std::move(other.currentPool_);
 	}
 	
 	template <typename... Args>
