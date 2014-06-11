@@ -9,10 +9,18 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <iterator>
 
 
 namespace stardazed {
 
+
+//   ___  _     _           _   ____             _
+//  / _ \| |__ (_) ___  ___| |_|  _ \ ___   ___ | |
+// | | | | '_ \| |/ _ \/ __| __| |_) / _ \ / _ \| |
+// | |_| | |_) | |  __/ (__| |_|  __/ (_) | (_) | |
+//  \___/|_.__// |\___|\___|\__|_|   \___/ \___/|_|
+//           |__/
 
 template <typename T, size_t N>
 class ObjectPool {
@@ -62,6 +70,36 @@ public:
 		return current_ != last_;
 	}
 	
+	template <typename U>
+	class IteratorType {
+	public:
+		using value_type = U;
+		using difference_type = std::ptrdiff_t;
+		using pointer = U*;
+		using reference = U&;
+		using iterator_category = std::random_access_iterator_tag;
+		
+		constexpr IteratorType(T* item) : item_(item) {}
+		
+		constexpr reference operator *() const { return *item_; }
+		const IteratorType& operator ++() { ++item_; return *this; }
+		IteratorType operator ++(int) { IteratorType ret(*this); ++item_; return ret; }
+		
+		constexpr bool operator ==(const IteratorType & rhs) const { return item_ == rhs.item_; }
+		constexpr bool operator !=(const IteratorType & rhs) const { return !(*this == rhs); }
+		
+	private:
+		T* item_;
+	};
+	
+	using Iterator = IteratorType<T>;
+	using ConstIterator = IteratorType<const T>;
+	
+	constexpr Iterator begin() { return { first_ }; }
+	constexpr Iterator end() { return { current_ }; }
+	constexpr ConstIterator begin() const { return { first_ }; }
+	constexpr ConstIterator end() const { return { current_ }; }
+	
 private:
 	T* nextPtr() {
 		if (current_ == last_)
@@ -76,9 +114,24 @@ private:
 };
 
 
+template <typename T, size_t N>
+constexpr typename ObjectPool<T, N>::Iterator begin(ObjectPool<T, N>& pool) { return pool.begin(); }
+template <typename T, size_t N>
+constexpr typename ObjectPool<T, N>::Iterator end(ObjectPool<T, N>& pool) { return pool.end(); }
+
+
+
+//   ___  _     _           _   ____             _  ____ _           _
+//  / _ \| |__ (_) ___  ___| |_|  _ \ ___   ___ | |/ ___| |__   __ _(_)_ __
+// | | | | '_ \| |/ _ \/ __| __| |_) / _ \ / _ \| | |   | '_ \ / _` | | '_ \
+// | |_| | |_) | |  __/ (__| |_|  __/ (_) | (_) | | |___| | | | (_| | | | | |
+//  \___/|_.__// |\___|\___|\__|_|   \___/ \___/|_|\____|_| |_|\__,_|_|_| |_|
+//           |__/
 
 template <typename T, size_t N>
 class ObjectPoolChain {
+	using PoolType = ObjectPool<T, N>;
+
 public:
 	ObjectPoolChain() {
 		appendPool();
@@ -88,6 +141,7 @@ public:
 	ObjectPoolChain& operator=(const ObjectPoolChain&) = delete;
 
 	ObjectPoolChain(ObjectPoolChain&& other)
+	noexcept(std::is_nothrow_move_constructible<std::vector<PoolType>>::value)
 	: pools_ { std::move(other.pools_) }
 	, currentPool_ { other.currentPool }
 	{
@@ -119,7 +173,6 @@ private:
 		currentPool_ = &pools_.back();
 	}
 	
-	using PoolType = ObjectPool<T, N>;
 	std::vector<PoolType> pools_;
 	PoolType* currentPool_;
 };
