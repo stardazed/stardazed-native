@@ -131,7 +131,12 @@ constexpr typename ObjectPool<T, N>::Iterator end(ObjectPool<T, N>& pool) { retu
 template <typename T, size_t N>
 class ObjectPoolChain {
 	using PoolType = ObjectPool<T, N>;
-
+	template <typename U>
+	using PoolIteratorType = typename PoolType::template IteratorType<U>;
+	
+	using ChainType = std::vector<PoolType>;
+	using ChainIterator = typename ChainType::iterator;
+	
 public:
 	ObjectPoolChain() {
 		appendPool();
@@ -139,7 +144,7 @@ public:
 	
 	ObjectPoolChain(const ObjectPoolChain&) = delete;
 	ObjectPoolChain& operator=(const ObjectPoolChain&) = delete;
-
+	
 	ObjectPoolChain(ObjectPoolChain&& other)
 	noexcept(std::is_nothrow_move_constructible<std::vector<PoolType>>::value)
 	: pools_ { std::move(other.pools_) }
@@ -147,14 +152,14 @@ public:
 	{
 		other.currentPool_ = nullptr;
 	}
-
+	
 	ObjectPoolChain& operator=(ObjectPoolChain&& other) {
 		pools_ = std::move(other.pools_);
 		currentPool_ = other.currentPool;
-
+		
 		other.currentPool_ = nullptr;
 	}
-
+	
 	template <typename... Args>
 	T* emplace(Args&&... args) {
 		if (! currentPool_->available())
@@ -162,20 +167,69 @@ public:
 		
 		return currentPool_->emplace(std::forward<Args>(args)...);
 	}
-
+	
 	constexpr bool available() const {
 		return true;
 	}
 	
+	template <typename U>
+	class IteratorType {
+	public:
+		using value_type = U;
+		using difference_type = std::ptrdiff_t;
+		using pointer = U*;
+		using reference = U&;
+		using iterator_category = std::forward_iterator_tag;
+		
+		constexpr IteratorType(ChainIterator poolIt, ChainIterator poolEndIt, PoolIteratorType<U> itemIt)
+		: poolIt_(poolIt), poolEndIt_(poolEndIt), itemIt_(itemIt) {}
+		
+		constexpr reference operator *() const { return *itemIt_; }
+		const IteratorType& operator ++() {
+			++itemIt_;
+			
+			if (itemIt_ == poolIt_->end()) {
+				++poolIt_;
+				if (poolIt_ != poolEndIt_) {
+					itemIt_ = poolIt_->begin();
+				}
+			}
+			return *this;
+		}
+		
+		IteratorType operator ++(int) { IteratorType ret(*this); ++(*this); return ret; }
+		
+		constexpr bool operator ==(const IteratorType & rhs) const { return itemIt_ == rhs.itemIt_; }
+		constexpr bool operator !=(const IteratorType & rhs) const { return !(*this == rhs); }
+		
+	private:
+		ChainIterator poolIt_, poolEndIt_;
+		PoolIteratorType<U> itemIt_;
+	};
+	
+	using Iterator = IteratorType<T>;
+	using ConstIterator = IteratorType<const T>;
+	
+	constexpr Iterator begin() { return { pools_.begin(), std::next(currentPool_), pools_.begin()->begin() }; }
+	constexpr Iterator end() { return { currentPool_, std::next(currentPool_), currentPool_->end() }; }
+	constexpr ConstIterator begin() const { return { pools_.begin(), std::next(currentPool_), pools_.begin()->begin() }; }
+	constexpr ConstIterator end() const { return { currentPool_, std::next(currentPool_), currentPool_->end() }; }
+	
 private:
 	void appendPool() {
-		pools_.emplace_back();
-		currentPool_ = &pools_.back();
+		pools_.push_back(PoolType{});
+		currentPool_ = std::prev(std::end(pools_));
 	}
 	
-	std::vector<PoolType> pools_;
-	PoolType* currentPool_;
+	ChainType pools_;
+	ChainIterator currentPool_;
 };
+
+
+template <typename T, size_t N>
+constexpr typename ObjectPoolChain<T, N>::Iterator begin(ObjectPoolChain<T, N>& chain) { return chain.begin(); }
+template <typename T, size_t N>
+constexpr typename ObjectPoolChain<T, N>::Iterator end(ObjectPoolChain<T, N>& chain) { return chain.end(); }
 
 
 } // ns stardazed
