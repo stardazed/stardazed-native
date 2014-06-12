@@ -3,14 +3,15 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_MEM_BASICPOOLALLOCATOR_H
-#define SD_MEM_BASICPOOLALLOCATOR_H
+#ifndef SD_MEMORY_BASICPOOLALLOCATOR_H
+#define SD_MEMORY_BASICPOOLALLOCATOR_H
 
 #include "memory/STLAllocAdapter.hpp"
 #include <vector>
 #include <memory>
 
 namespace stardazed {
+namespace memory {
 
 
 class BasicMemoryPool {
@@ -58,6 +59,7 @@ template <typename T>
 using BasicPoolAllocator = STLAllocAdapter<T, BasicMemoryPool>;
 
 
+} // ns memory
 } // ns stardazed
 
 #endif

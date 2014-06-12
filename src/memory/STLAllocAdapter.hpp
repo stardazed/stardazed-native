@@ -3,13 +3,14 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_MEM_STLALLOCADAPTER_H
-#define SD_MEM_STLALLOCADAPTER_H
+#ifndef SD_MEMORY_STLALLOCADAPTER_H
+#define SD_MEMORY_STLALLOCADAPTER_H
 
 #include <cstddef>
 #include <memory>
 
 namespace stardazed {
+namespace memory {
 
 
 template <typename T, typename Alloc>
@@ -57,6 +58,7 @@ template <typename T, typename Alloc, typename U>
 inline bool operator !=(const STLAllocAdapter<T, Alloc>&, const STLAllocAdapter<U, Alloc>) noexcept { return false; }
 
 
+} // ns memory
 } // ns stardazed
 
 #endif

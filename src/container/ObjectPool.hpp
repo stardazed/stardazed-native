@@ -102,9 +102,7 @@ public:
 	constexpr ConstIterator end() const { return { current_ }; }
 	
 private:
-	T* nextPtr() {
-		if (current_ == last_)
-			return nullptr;
+	constexpr T* nextPtr() {
 		return current_++;
 	}
 	
