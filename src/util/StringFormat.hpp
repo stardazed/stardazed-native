@@ -39,7 +39,7 @@ std::string toString(const std::vector<T>& vt) {
 
 
 
-// Simple printf-like formatted string
+// Simple printf-like formatted string -- experimental
 // TODO: needs actual argument inspection
 class FmtString {
 	std::string fmt_, baked_;

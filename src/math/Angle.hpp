@@ -21,7 +21,7 @@ namespace detail {
 	// angle size scalar wrapper base-type
 	template <typename Tag, typename T>
 	class AngleSize : public FullyComparableTrait<AngleSize<Tag, T>> {
-		T value {0};
+		T value_ {0};
 
 	public:
 		using ValueType = T;
@@ -30,16 +30,16 @@ namespace detail {
 		
 		template <typename S>
 		constexpr explicit AngleSize(S value, std::enable_if_t<std::is_convertible<S, T>::value>* = nullptr)
-		: value{T(value)} {}
+		: value_{T(value)} {}
 		
-		constexpr const T val() const { return value; }
+		constexpr const T val() const { return value_; }
 		
-		constexpr bool operator==(const AngleSize<Tag, T>& other) const { return value == other.value; }
-		constexpr bool operator<(const AngleSize<Tag, T>& other) const { return value < other.value; }
+		constexpr bool operator==(const AngleSize<Tag, T>& other) const { return value_ == other.value_; }
+		constexpr bool operator<(const AngleSize<Tag, T>& other) const { return value_ < other.value_; }
 
 		// angles can be added to or subtracted from eachother
 		constexpr const AngleSize<Tag, T>& operator+=(const AngleSize<Tag, T>& other) {
-			value += other.value;
+			value_ += other.value_;
 			return *this;
 		}
 		constexpr const AngleSize<Tag, T> operator+(const AngleSize<Tag, T>& other) const {
@@ -47,7 +47,7 @@ namespace detail {
 			return result += other;
 		}
 		constexpr const AngleSize<Tag, T>& operator-=(const AngleSize<Tag, T>& other) {
-			value -= other.value;
+			value_ -= other.value_;
 			return *this;
 		}
 		constexpr const AngleSize<Tag, T> operator-(const AngleSize<Tag, T>& other) const {
@@ -55,13 +55,13 @@ namespace detail {
 			return result -= other;
 		}
 		constexpr const AngleSize<Tag, T> operator-() const {
-			return AngleSize<Tag, T>{ -value };
+			return AngleSize<Tag, T>{ -value_ };
 		}
 
 		// angles can only be scaled by a normal scalar
 		// scalar / angle and scalar % angle are not defined
 		constexpr const AngleSize<Tag, T>& operator *=(T scalar) {
-			value *= scalar;
+			value_ *= scalar;
 			return *this;
 		}
 		constexpr const AngleSize<Tag, T> operator *(T scalar) const {
@@ -73,7 +73,7 @@ namespace detail {
 			return as * scalar;
 		}
 		constexpr const AngleSize<Tag, T>& operator /=(T scalar) {
-			value /= scalar;
+			value_ /= scalar;
 			return *this;
 		}
 		constexpr const AngleSize<Tag, T> operator /(T scalar) const {
