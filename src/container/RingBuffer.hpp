@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// util::RingBuffer - stardazed
+// container::RingBuffer - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_UTIL_RINGBUFFER_H
-#define SD_UTIL_RINGBUFFER_H
+#ifndef SD_CONTAINER_RINGBUFFER_H
+#define SD_CONTAINER_RINGBUFFER_H
 
 #include <array>
 #include <cassert>
@@ -13,6 +13,7 @@
 
 
 namespace stardazed {
+namespace container {
 
 
 template <typename T, size_t N>
@@ -64,6 +65,7 @@ public:
 };
 
 
+} // ns container
 } // ns stardazed
 
 #endif

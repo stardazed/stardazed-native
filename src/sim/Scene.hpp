@@ -6,9 +6,22 @@
 namespace stardazed {
 
 
+
+class Node {
+public:
+	std::string name;
+	Transform transform;
+	
+};
+
+
+
 class Scene {
 public:
-	
+
+
+private:
+
 };
 
 

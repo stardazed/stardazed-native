@@ -4,7 +4,8 @@
 // ------------------------------------------------------------------
 
 #include "system/Time.hpp"
-#include "util/RingBuffer.hpp"
+#include "container/RingBuffer.hpp"
+#include "container/ObjectPool.hpp"
 
 namespace stardazed {
 

@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// memory::ObjectPool - stardazed
+// container::ObjectPool - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_MEM_OBJECTPOOL_H
-#define SD_MEM_OBJECTPOOL_H
+#ifndef SD_CONTAINER_OBJECTPOOL_H
+#define SD_CONTAINER_OBJECTPOOL_H
 
 #include <vector>
 #include <memory>
@@ -13,6 +13,7 @@
 
 
 namespace stardazed {
+namespace container {
 
 
 //   ___  _     _           _   ____             _
@@ -228,6 +229,7 @@ template <typename T, size_t N>
 constexpr typename ObjectPoolChain<T, N>::Iterator end(ObjectPoolChain<T, N>& chain) { return chain.end(); }
 
 
+} // ns container
 } // ns stardazed
 
 #endif
