@@ -71,9 +71,6 @@ using Vec2 = Vector<2>;
 using Vec3 = Vector<3>;
 using Vec4 = Vector<4>;
 
-using RGBColor = Vector<3>;
-using RGBAColor = Vector<4>;
-
 
 // Vector class specializations (N in [2,3,4])
 template <typename T>

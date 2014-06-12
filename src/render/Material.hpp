@@ -15,7 +15,7 @@ namespace render {
 
 class Material {
 public:
-	math::RGBColor diffuseColor;
+//	RGBColor diffuseColor;
 };
 
 
