@@ -32,7 +32,7 @@ public:
 	, last_ { first_ + N }
 	, current_ { first_ }
 	{}
-	
+
 	ObjectPool(const ObjectPool&) = delete;
 	ObjectPool& operator=(const ObjectPool&) = delete;
 	
@@ -46,18 +46,8 @@ public:
 		other.current_ = other.first_;
 	}
 	
-	ObjectPool& operator=(ObjectPool&& other) {
-		items_ = std::move(other.items_);
-		first_ = std::move(other.first_);
-		last_  = std::move(other.last_);
-		current_ = std::move(other.current_);
-		
-		other.current_ = other._first_;
-		return *this;
-	}
-	
 	~ObjectPool() {
-		std::for_each(first_, current_, [](T& p) { p.~T(); });
+		std::for_each(first_, current_, [](T& r) { r.~T(); });
 	}
 	
 	template <typename... Args>
@@ -170,6 +160,7 @@ public:
 	template <typename U>
 	class IteratorType {
 	public:
+		// typedefs defined by std::iterator
 		using value_type = U;
 		using difference_type = std::ptrdiff_t;
 		using pointer = U*;

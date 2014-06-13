@@ -12,6 +12,11 @@
 #include <cmath>
 
 
+
+// TODO: move this code out to Matrix object
+
+
+
 namespace stardazed {
 namespace math {
 

@@ -5,6 +5,7 @@
 
 #include "mac_OpenGLContext.hpp"
 
+#include "util/ConceptTraits.hpp"
 #include "system/Application.hpp"
 #include "util/TextFile.hpp"
 
@@ -31,6 +32,8 @@
 
 @implementation SDWindowDelegate
 - (BOOL)windowShouldClose:(id)sender {
+	SD_UNUSED_PARAM(sender)
+
 	stardazed::quitNow();
 	return NO;
 }

@@ -53,6 +53,11 @@ Class(Class&&) = default;            \
 Class& operator=(Class&&) = default;
 
 
+// Explicitly unused parameter
+#define SD_UNUSED_PARAM_HELPER(p) #p
+#define SD_UNUSED_PARAM(param) _Pragma(SD_UNUSED_PARAM_HELPER(unused(param)))
+
+
 } // ns stardazed
 
 #endif

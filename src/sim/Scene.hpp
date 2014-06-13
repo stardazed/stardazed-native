@@ -11,7 +11,8 @@ class Node {
 public:
 	std::string name;
 	Transform transform;
-	
+
+	Mesh* mesh;
 };
 
 
@@ -21,7 +22,7 @@ public:
 
 
 private:
-
+	
 };
 
 

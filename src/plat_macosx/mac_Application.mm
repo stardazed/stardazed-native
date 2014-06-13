@@ -3,6 +3,7 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
+#include "util/ConceptTraits.hpp"
 #include "system/Application.hpp"
 #include "system/Logging.hpp"
 #include "input/Keyboard.hpp"
@@ -21,6 +22,7 @@
 
 @implementation SDAppDelegate
 - (void)applicationDidFinishLaunching:(NSNotification*)notification {
+	SD_UNUSED_PARAM(notification)
 	stardazed::log("applicationDidFinishLaunching");
 }
 @end
