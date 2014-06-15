@@ -11,7 +11,6 @@
 #include <algorithm>
 #include <mutex>
 
-
 namespace stardazed {
 namespace container {
 

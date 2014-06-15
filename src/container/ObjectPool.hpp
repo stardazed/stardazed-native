@@ -11,7 +11,6 @@
 #include <algorithm>
 #include <iterator>
 
-
 namespace stardazed {
 namespace container {
 

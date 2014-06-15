@@ -6,6 +6,7 @@
 #include "system/Time.hpp"
 #include "container/RingBuffer.hpp"
 #include "container/ObjectPool.hpp"
+#include "container/FlagSet.hpp"
 
 namespace stardazed {
 
