@@ -26,7 +26,7 @@ template <typename T, size_t N>
 class ObjectPool {
 public:
 	ObjectPool()
-	: items_ { std::make_unique<char[]>(sizeof(T) * N) }
+	: items_ ( std::unique_ptr<char[]>(new char[sizeof(T) * N]) )
 	, first_ { reinterpret_cast<T*>(items_.get()) }
 	, last_ { first_ + N }
 	, current_ { first_ }
