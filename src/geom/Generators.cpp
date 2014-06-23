@@ -13,8 +13,8 @@ namespace geom {
 namespace gen {
 
 
-Mesh plane(math::Vec3 origin, math::Vec2 xx) {
-	Mesh mesh;
+render::Mesh plane(math::Vec3 origin, math::Vec2 xx) {
+	render::Mesh mesh;
 	
 	mesh.vertexes.push_back({ -1, -1, 0 });
 	mesh.vertexes.push_back({  1, -1, 0 });
@@ -31,9 +31,9 @@ Mesh plane(math::Vec3 origin, math::Vec2 xx) {
 
 
 
-Mesh cube(const float diameter) {
+render::Mesh cube(const float diameter) {
 	auto hd = diameter;
-	Mesh mesh;
+	render::Mesh mesh;
 	
 	// vertexes
 	mesh.vertexes.push_back({ -hd, -hd, -hd });
@@ -67,10 +67,10 @@ Mesh cube(const float diameter) {
 
 
 
-Mesh sphere(const int rows, const int segs, const float radius, const float sliceFrom, const float sliceTo) {
+render::Mesh sphere(const int rows, const int segs, const float radius, const float sliceFrom, const float sliceTo) {
 	const auto pi = math::Pi<float>, tau = math::Tau<float>;
 	
-	Mesh mesh;
+	render::Mesh mesh;
 	uint16_t vix = 0; // current vertex index
 	
 	auto slice = sliceTo - sliceFrom,

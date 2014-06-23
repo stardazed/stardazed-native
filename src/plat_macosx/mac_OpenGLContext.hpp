@@ -21,6 +21,7 @@ struct MacOpenGLContextTag {};
 
 template<>
 struct ContextTraits<MacOpenGLContextTag> {
+	using MeshClass = OpenGLMesh;
 	using ShaderClass = OpenGLShader;
 	using PipelineClass = OpenGLPipeline;
 };

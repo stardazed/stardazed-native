@@ -15,48 +15,54 @@ namespace stardazed {
 namespace render {
 
 
-// exposition only, no real support for Tri32
+// exposition only, no real support for Tri32 yet
 using Tri16 = std::array<uint16_t, 3>;
 using Tri32 = std::array<uint32_t, 3>;
 
 using Tri = Tri16;
 
 
-struct MeshDescriptor {
+enum class VertexWinding {
+	Clockwise,
+	CounterClockwise
+};
+
+
+struct Mesh {
 	// mandatory fields
-	std::vector<math::Vec3> vertexes;
+	std::vector<math::Vec3> vertexes, vertexNormals;
 	std::vector<render::Tri> faces;
+	VertexWinding winding = VertexWinding::Clockwise;
 	
 	// optional fields
-	std::vector<math::Vec3> vertexNormals, vertexTangents;
+	std::vector<math::Vec3> vertexTangents;
 	std::vector<math::Vec2> vertexUVs;
-};
-
-
-class Mesh {
-public:
-	Mesh(const MeshDescriptor& desc);
 	
-	const auto& vertexes() const { return vertexes_; }
-	const auto& vertexNormals() const { return vertexNormals_; }
-	const auto& vertexTangents() const { return vertexTangents_; }
-	
-	const auto& vertexUVs() const { return vertexUVs_; }
-	
-	const auto& faces() const { return faces_; }
-	
-private:
+	// default normal and tangent calculation, will assert on missing vertexes or faces
 	void calcVertexNormals();
 	void calcVertexTangents();
-
-	std::vector<math::Vec3> vertexes_, vertexNormals_, vertexTangents_;
-	std::vector<math::Vec2> vertexUVs_;
-	std::vector<render::Tri> faces_;
-};
-
-
-class MeshBuffer {
 	
+	// observers
+	bool isMinimallyComplete() const {
+		return ! (vertexes.empty() || vertexNormals.empty() || faces.empty());
+	}
+
+	bool hasTangents() const {
+		return ! vertexTangents.empty();
+	}
+	
+	bool hasUVs() const {
+		return ! vertexUVs.empty();
+	}
+	
+	bool isInternallyConsistent() const {
+		bool ok = isMinimallyComplete() && vertexNormals.size() == vertexes.size();
+		if (hasTangents())
+			ok &= vertexTangents.size() == vertexes.size();
+		if (hasUVs())
+			ok &= vertexUVs.size() == vertexes.size();
+		return ok;
+	}
 };
 
 
