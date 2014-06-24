@@ -24,7 +24,7 @@ constexpr GLenum glForSDShaderType(ShaderType type);
 
 
 class OpenGLShader : public Shader {
-	GLName glShader_;
+	GLuint glShader_;
 	ShaderType type_;
 	
 public:

@@ -199,6 +199,11 @@ OpenGLContext::~OpenGLContext() {
 }
 
 
+OpenGLMesh OpenGLContext::makeStaticMesh(const Mesh& mesh) {
+	return { mesh };
+}
+
+
 OpenGLShader OpenGLContext::loadShaderFromPath(ShaderType type, const std::string& path) {
 	return { type, readTextFile(path) };
 }

@@ -7,23 +7,44 @@
 #define SD_RENDER_OPENGLPIPELINE_H
 
 #include "render/Pipeline.hpp"
+#include "render/opengl/OpenGLConstantBuffer.hpp"
 #include "render/opengl/OpenGLShader.hpp"
 #include "util/ConceptTraits.hpp"
+
+#include <vector>
 
 
 namespace stardazed {
 namespace render {
 
 
+namespace detail {
+
+class ShaderConstantMapping {
+	GLuint program_;
+	GLint mvMat_, mvpMat_, normalMat_;
+
+public:
+	explicit ShaderConstantMapping(GLuint shaderProgram);
+	void apply(const OpenGLConstantBuffer&) const;
+};
+	
+} // ns detail
+
+
 class OpenGLPipeline : public Pipeline<OpenGLShader> {
-	GLName glPipeline_;
+	GLuint glPipeline_;
+	OpenGLConstantBuffer constants_;
+	std::vector<detail::ShaderConstantMapping> shaderConstants;
 	
 public:
 	OpenGLPipeline();
 	~OpenGLPipeline();
 	SD_DEFAULT_MOVE_OPS(OpenGLPipeline)
 	
-	void attachShader(OpenGLShader* s) override;
+	ConstantBuffer* constantBuffer() override { return &constants_; }
+	
+	void attachShader(const OpenGLShader&) override;
 	
 	void activate() override;
 	void deactivate() override;

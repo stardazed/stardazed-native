@@ -7,6 +7,7 @@
 #define SD_RENDER_CONTEXT_H
 
 #include "render/ContextOptions.hpp"
+#include "render/Mesh.hpp"
 #include "render/Shader.hpp"
 #include "render/Pipeline.hpp"
 
@@ -33,10 +34,12 @@ public:
 	virtual ~Context() = default;
 
 	// mirror trait classes for easy access
+	using MeshClass = typename ContextTraits<Tag>::MeshClass;
 	using ShaderClass = typename ContextTraits<Tag>::ShaderClass;
 	using PipelineClass = typename ContextTraits<Tag>::PipelineClass;
 
 	// factory methods
+	virtual MeshClass makeStaticMesh(const Mesh&) = 0;
 	virtual ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) = 0;
 	virtual PipelineClass makePipeline() = 0;
 

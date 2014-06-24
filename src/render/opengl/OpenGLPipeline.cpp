@@ -9,6 +9,28 @@ namespace stardazed {
 namespace render {
 
 
+namespace detail {
+
+	ShaderConstantMapping::ShaderConstantMapping(GLuint shaderProgram) {
+		program_ = shaderProgram;
+		mvMat_ = glGetUniformLocation(program_, "modelViewMatrix");
+		mvpMat_ = glGetUniformLocation(program_, "modelViewProjectionMatrix");
+		normalMat_ = glGetUniformLocation(program_, "normalMatrix");
+	}
+
+	void ShaderConstantMapping::apply(const OpenGLConstantBuffer& constants) const {
+		if (mvMat_ > -1)
+			glProgramUniformMatrix4fv(program_, mvMat_, 1, GL_FALSE, constants.modelViewMatrix().dataBegin());
+		if (mvpMat_ > -1)
+			glProgramUniformMatrix4fv(program_, mvpMat_, 1, GL_FALSE, constants.modelViewProjectionMatrix().dataBegin());
+		if (normalMat_ > -1)
+			glProgramUniformMatrix3fv(program_, normalMat_, 1, GL_FALSE, constants.normalMatrix().dataBegin());
+	}
+
+} // ns detail
+
+
+
 constexpr GLbitfield glStageBitForShaderType(ShaderType type) {
 	switch (type) {
 		case ShaderType::Vertex:   return GL_VERTEX_SHADER_BIT;
@@ -25,22 +47,25 @@ constexpr GLbitfield glStageBitForShaderType(ShaderType type) {
 
 
 OpenGLPipeline::OpenGLPipeline() {
-	glGenProgramPipelines(1, &glPipeline_.name());
+	glGenProgramPipelines(1, &glPipeline_);
 }
 
 
 OpenGLPipeline::~OpenGLPipeline() {
-	glDeleteProgramPipelines(1, &glPipeline_.name());
+	glDeleteProgramPipelines(1, &glPipeline_);
 }
 
 
-void OpenGLPipeline::attachShader(OpenGLShader* vs) {
-	glUseProgramStages(glPipeline_, glStageBitForShaderType(vs->type()), vs->glShader_);
+void OpenGLPipeline::attachShader(const OpenGLShader& s) {
+	glUseProgramStages(glPipeline_, glStageBitForShaderType(s.type()), s.glShader_);
+	shaderConstants.emplace_back(s.glShader_);
 }
 
 
 void OpenGLPipeline::activate() {
 	glBindProgramPipeline(glPipeline_);
+	for (const auto& sc : shaderConstants)
+		sc.apply(constants_);
 }
 
 

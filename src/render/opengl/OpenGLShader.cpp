@@ -28,7 +28,7 @@ OpenGLShader::OpenGLShader(ShaderType type, const std::string& source)
 : type_(type)
 {
 	const auto sourcePtr = source.c_str();
-	glShader_ = GLName(glCreateShaderProgramv(glForSDShaderType(type), 1, &sourcePtr));
+	glShader_ = glCreateShaderProgramv(glForSDShaderType(type), 1, &sourcePtr);
 	
 	GLint logLength;
 	glGetProgramiv(glShader_, GL_INFO_LOG_LENGTH, &logLength);

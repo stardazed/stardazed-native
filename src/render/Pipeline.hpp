@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_PIPELINE_H
 #define SD_RENDER_PIPELINE_H
 
+#include "render/ConstantBuffer.hpp"
 #include "render/Shader.hpp"
 
 #include <memory>
@@ -18,7 +19,9 @@ template <typename Shader>
 class Pipeline {
 public:
 	virtual ~Pipeline() = default;
-	virtual void attachShader(Shader*) = 0;
+
+	virtual ConstantBuffer* constantBuffer() = 0;
+	virtual void attachShader(const Shader&) = 0;
 	
 	virtual void activate() = 0;
 	virtual void deactivate() = 0;

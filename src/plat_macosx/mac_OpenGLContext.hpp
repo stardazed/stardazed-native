@@ -7,6 +7,7 @@
 #define SD_RENDER_MAC_OPENGLCONTEXT_H
 
 #include "render/Context.hpp"
+#include "render/opengl/OpenGLMesh.hpp"
 #include "render/opengl/OpenGLShader.hpp"
 #include "render/opengl/OpenGLPipeline.hpp"
 
@@ -34,6 +35,7 @@ public:
 	
 	friend Context;
 	
+	MeshClass makeStaticMesh(const Mesh&) override;
 	ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) override;
 	PipelineClass makePipeline() override;
 	
