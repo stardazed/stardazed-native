@@ -170,7 +170,7 @@ static void setupGL(const ContextOptions& rco) {
 	glClearColor(0, 0, 0, 0);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
-	glFrontFace(GL_CW);
+	glFrontFace(GL_CCW);
 }
 
 
