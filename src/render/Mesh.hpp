@@ -32,7 +32,7 @@ struct Mesh {
 	// mandatory fields
 	std::vector<math::Vec3> vertexes, vertexNormals;
 	std::vector<render::Tri> faces;
-	VertexWinding winding = VertexWinding::Clockwise;
+	VertexWinding winding = VertexWinding::CounterClockwise;
 	
 	// optional fields
 	std::vector<math::Vec3> vertexTangents;

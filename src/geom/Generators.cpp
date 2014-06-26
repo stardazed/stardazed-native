@@ -6,6 +6,7 @@
 #include "geom/Generators.hpp"
 #include "math/Constants.hpp"
 #include "math/Vector.hpp"
+#include "math/Algorithm.hpp"
 
 
 namespace stardazed {
@@ -13,7 +14,7 @@ namespace geom {
 namespace gen {
 
 
-render::Mesh plane(math::Vec3 origin, math::Vec2 xx) {
+render::Mesh plane() {
 	render::Mesh mesh;
 	
 	mesh.vertexes.push_back({ -1, -1, 0 });
@@ -21,8 +22,8 @@ render::Mesh plane(math::Vec3 origin, math::Vec2 xx) {
 	mesh.vertexes.push_back({  1,  1, 0 });
 	mesh.vertexes.push_back({ -1,  1, 0 });
 	
-	mesh.faces.push_back({ 0, 1, 2 });
-	mesh.faces.push_back({ 2, 3, 0 });
+	mesh.faces.push_back({ 0, 2, 1 });
+	mesh.faces.push_back({ 2, 0, 3 });
 	
 	mesh.calcVertexNormals();
 	
@@ -47,18 +48,18 @@ render::Mesh cube(const float diameter) {
 	mesh.vertexes.push_back({ -hd,  hd,  hd });
 
 	// faces
-	mesh.faces.push_back({ 0, 1, 2 }); // front
-	mesh.faces.push_back({ 2, 3, 0 });
-	mesh.faces.push_back({ 1, 5, 6 }); // right
-	mesh.faces.push_back({ 6, 2, 1 });
-	mesh.faces.push_back({ 5, 4, 7 }); // back
-	mesh.faces.push_back({ 7, 6, 5 });
-	mesh.faces.push_back({ 4, 0, 3 }); // left
-	mesh.faces.push_back({ 3, 7, 4 });
-	mesh.faces.push_back({ 4, 5, 1 }); // top
-	mesh.faces.push_back({ 1, 0, 4 });
-	mesh.faces.push_back({ 3, 2, 6 }); // bottom
-	mesh.faces.push_back({ 6, 7, 3 });
+	mesh.faces.push_back({ 0, 2, 1 }); // front
+	mesh.faces.push_back({ 2, 0, 3 });
+	mesh.faces.push_back({ 1, 6, 5 }); // right
+	mesh.faces.push_back({ 6, 1, 2 });
+	mesh.faces.push_back({ 5, 7, 4 }); // back
+	mesh.faces.push_back({ 7, 5, 6 });
+	mesh.faces.push_back({ 4, 3, 0 }); // left
+	mesh.faces.push_back({ 3, 4, 7 });
+	mesh.faces.push_back({ 4, 1, 5 }); // top
+	mesh.faces.push_back({ 1, 4, 0 });
+	mesh.faces.push_back({ 3, 6, 2 }); // bottom
+	mesh.faces.push_back({ 6, 3, 7 });
 	
 	mesh.calcVertexNormals();
 	
@@ -67,49 +68,81 @@ render::Mesh cube(const float diameter) {
 
 
 
-render::Mesh sphere(const int rows, const int segs, const float radius, const float sliceFrom, const float sliceTo) {
+render::Mesh sphere(const int rows, const int segs, const float radius, float sliceFrom, float sliceTo) {
+	assert(rows >= 2);
+	assert(segs >= 4);
+	sliceFrom = math::clamp(sliceFrom, 0.f, 1.f);
+	sliceTo = math::clamp(sliceTo, 0.f, 1.f);
+	assert(sliceTo > sliceFrom);
+
 	const auto pi = math::Pi<float>, tau = math::Tau<float>;
 	
 	render::Mesh mesh;
-	uint16_t vix = 0; // current vertex index
 	
 	auto slice = sliceTo - sliceFrom,
-	piFrom = sliceFrom * pi,
-	piSlice = slice * pi;
+		piFrom = sliceFrom * pi,
+		piSlice = slice * pi;
 	
-	for (int row=0; row < rows; ++row) {
-		float y1 = std::cos(piFrom + (piSlice / rows) * row) * radius;
-		float y2 = std::cos(piFrom + (piSlice / rows) * (row + 1)) * radius;
-		float segRad1 = std::sin(piFrom + (piSlice / rows) * row) * radius;
-		float segRad2 = std::sin(piFrom + (piSlice / rows) * (row + 1)) * radius;
-		
-		for (int seg=0; seg < segs; ++seg) {
-			float x1L = std::sin((tau / segs) * (seg + 1)) * segRad1;
-			float z1L = std::cos((tau / segs) * (seg + 1)) * segRad1;
-			float x1R = std::sin((tau / segs) * seg) * segRad1;
-			float z1R = std::cos((tau / segs) * seg) * segRad1;
+	bool hasTopDisc = sliceFrom == 0.f,
+		hasBottomDisc = sliceTo == 1.f;
+
+	for (int row=0; row <= rows; ++row) {
+		float y = std::cos(piFrom + (piSlice / rows) * row) * radius;
+		float segRad = std::sin(piFrom + (piSlice / rows) * row) * radius;
+
+		if (
+			(hasTopDisc && row == 0) ||
+			(hasBottomDisc && row == rows)
+		) {
+			// center top or bottom
+			mesh.vertexes.push_back({ 0, y, 0 });
+		}
+		else {
+			for (int seg=0; seg < segs; ++seg) {
+				float x = std::sin((tau / segs) * seg) * segRad;
+				float z = std::cos((tau / segs) * seg) * segRad;
+				mesh.vertexes.push_back({ x, y, z });
+			}
+		}
+
+		// construct row of faces
+		if (row > 0) {
+			int raix = static_cast<int>(mesh.vertexes.size()),
+				rbix = static_cast<int>(mesh.vertexes.size()),
+				ramul, rbmul;
 			
-			float x2L = std::sin((tau / segs) * (seg + 1)) * segRad2;
-			float z2L = std::cos((tau / segs) * (seg + 1)) * segRad2;
-			float x2R = std::sin((tau / segs) * seg) * segRad2;
-			float z2R = std::cos((tau / segs) * seg) * segRad2;
+			if (hasTopDisc && row == 1) {
+				raix -= segs + 1;
+				rbix -= segs;
+				ramul = 0;
+				rbmul = 1;
+			}
+			else if (hasBottomDisc && row == rows) {
+				raix -= segs + 1;
+				rbix -= 1;
+				ramul = 1;
+				rbmul = 0;
+			}
+			else {
+				raix -= segs * 2;
+				rbix -= segs;
+				ramul = 1;
+				rbmul = 1;
+			}
 			
-			// add 4 corners of 1 segment as vertexes
-			mesh.vertexes.push_back({ x1L, y1, z1L }); // top left
-			mesh.vertexes.push_back({ x1R, y1, z1R }); // top right
-			mesh.vertexes.push_back({ x2R, y2, z2R }); // bottom right
-			mesh.vertexes.push_back({ x2L, y2, z2L }); // bottom left
-			
-			// add the two triangle faces
-			mesh.faces.push_back({ static_cast<uint16_t>(vix + 0), static_cast<uint16_t>(vix + 1), static_cast<uint16_t>(vix + 2) });
-			mesh.faces.push_back({ static_cast<uint16_t>(vix + 2), static_cast<uint16_t>(vix + 3), static_cast<uint16_t>(vix + 0) });
-			
-			vix += 4;
+			for (int seg=0; seg < segs; ++seg) {
+				int ral = ramul * seg,
+					rar = ramul * ((seg + 1) % segs),
+					rbl = rbmul * seg,
+					rbr = rbmul * ((seg + 1) % segs);
+				
+				mesh.faces.push_back({static_cast<uint16_t>(raix + ral), static_cast<uint16_t>(rbix + rbl), static_cast<uint16_t>(raix + rar)});
+				mesh.faces.push_back({static_cast<uint16_t>(raix + rar), static_cast<uint16_t>(rbix + rbl), static_cast<uint16_t>(rbix + rbr)});
+			}
 		}
 	}
 	
 	mesh.calcVertexNormals();
-	
 	return mesh;
 }
 
