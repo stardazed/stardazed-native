@@ -17,6 +17,7 @@ namespace render {
 class OpenGLMesh {
 	GLsizei drawCount;
 	GLuint vao_ {0};
+	GLenum winding_;
 
 	OpenGLBuffer<math::Vec3> vertexBuffer_, vertexNormalBuffer_;
 	OpenGLBuffer<render::Tri, GL_ELEMENT_ARRAY_BUFFER> faceBuffer_;
@@ -24,7 +25,6 @@ class OpenGLMesh {
 	OpenGLBuffer<math::Vec3> vertexTangentBuffer_;
 	OpenGLBuffer<math::Vec2> vertexUVBuffer_;
 
-	
 public:
 	OpenGLMesh(const Mesh&);
 	~OpenGLMesh();

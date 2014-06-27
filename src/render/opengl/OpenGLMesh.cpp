@@ -21,6 +21,11 @@ enum OpenGLVertexAttribute : GLuint {
 OpenGLMesh::OpenGLMesh(const Mesh& mesh)
 : drawCount(static_cast<GLsizei>(mesh.faces.size()) * 3)
 {
+	if (mesh.winding == VertexWinding::Clockwise)
+		winding_ = GL_CW;
+	else
+		winding_ = GL_CCW;
+
 	glGenVertexArrays(1, &vao_);
 	glBindVertexArray(vao_);
 
@@ -55,6 +60,7 @@ OpenGLMesh::~OpenGLMesh() {
 void OpenGLMesh::draw() const {
 	glBindVertexArray(vao_);
 	faceBuffer_.bind();
+	glFrontFace(winding_);
 	glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_SHORT, nullptr);
 	glBindVertexArray(0);
 }

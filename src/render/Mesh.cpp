@@ -22,7 +22,6 @@ void Mesh::calcVertexNormals() {
 		auto lineA = vertexes[face[1]] - vertexes[face[0]];
 		auto lineB = vertexes[face[2]] - vertexes[face[1]];
 
-		// sigh
 		if (length(lineA) <= epsilon || length(lineB) <= epsilon)
 			continue;
 

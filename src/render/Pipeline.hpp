@@ -15,6 +15,35 @@ namespace stardazed {
 namespace render {
 
 
+enum class FaceCulling {
+	None,
+	Front,
+	Back,
+	FrontAndBack
+};
+
+
+enum class DepthTestPredicate {
+	Disabled,
+
+	AllowAll,
+	DenyAll,
+	
+	Less,
+	LessOrEqual,
+	Equal,
+	NotEqual,
+	GreaterOrEqual,
+	Greater
+};
+
+
+struct PipelineDescriptor {
+	FaceCulling faceCulling;
+	DepthTestPredicate depthTest;
+};
+
+
 template <typename Shader>
 class Pipeline {
 public:

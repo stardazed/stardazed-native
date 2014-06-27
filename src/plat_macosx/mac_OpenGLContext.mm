@@ -165,12 +165,14 @@ public:
 
 static void setupGL(const ContextOptions& rco) {
 	glViewport(0, 0, rco.width, rco.height);
+
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
+
 	glClearColor(0, 0, 0, 0);
+
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
-	glFrontFace(GL_CCW);
 }
 
 
