@@ -170,12 +170,6 @@ static void setupGL(const ContextOptions& rco) {
 
 	// <-- camera state
 	glClearColor(0, 0, 0, 0);
-
-	// <-- pipeline state
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-	glCullFace(GL_BACK);
-	glEnable(GL_CULL_FACE);
 }
 
 
@@ -214,8 +208,8 @@ OpenGLShader OpenGLContext::loadShaderFromPath(ShaderType type, const std::strin
 }
 
 
-OpenGLPipeline OpenGLContext::makePipeline() {
-	return {};
+OpenGLPipeline OpenGLContext::makePipeline(const OpenGLPipeline::Descriptor& descriptor) {
+	return { descriptor };
 }
 
 

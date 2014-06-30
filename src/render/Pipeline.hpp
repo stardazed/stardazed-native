@@ -6,10 +6,11 @@
 #ifndef SD_RENDER_PIPELINE_H
 #define SD_RENDER_PIPELINE_H
 
+#include "render/PixelFormat.hpp"
 #include "render/ConstantBuffer.hpp"
 #include "render/Shader.hpp"
 
-#include <memory>
+#include <vector>
 
 namespace stardazed {
 namespace render {
@@ -38,19 +39,24 @@ enum class DepthTestPredicate {
 };
 
 
-struct PipelineDescriptor {
-	FaceCulling faceCulling;
-	DepthTestPredicate depthTest;
-};
-
-
 template <typename Shader>
 class Pipeline {
 public:
+	struct Descriptor {
+		FaceCulling faceCulling = FaceCulling::None;
+		DepthTestPredicate depthTest = DepthTestPredicate::Disabled;
+		
+		Shader* vertexShader = nullptr;
+		Shader* fragmentShader = nullptr;
+		
+		std::vector<PixelFormat> colourAttachmentFormats;
+		PixelFormat depthAttachmentFormat;
+	};
+
+
 	virtual ~Pipeline() = default;
 
 	virtual ConstantBuffer* constantBuffer() = 0;
-	virtual void attachShader(const Shader&) = 0;
 	
 	virtual void activate() = 0;
 	virtual void deactivate() = 0;

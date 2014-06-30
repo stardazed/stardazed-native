@@ -20,6 +20,11 @@ namespace render {
 
 template <typename T>
 struct ContextTraits;
+/*
+	type MeshClass
+	type ShaderClass
+	type PipelineClass
+*/
 
 
 template <typename Tag>
@@ -41,7 +46,7 @@ public:
 	// factory methods
 	virtual MeshClass makeStaticMesh(const Mesh&) = 0;
 	virtual ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) = 0;
-	virtual PipelineClass makePipeline() = 0;
+	virtual PipelineClass makePipeline(const typename PipelineClass::Descriptor&) = 0;
 
 	// action methods
 	virtual void swap() = 0;
