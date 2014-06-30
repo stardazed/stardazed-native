@@ -155,6 +155,7 @@ static NSWindow* createRenderWindow(const stardazed::render::ContextOptions &opt
 namespace stardazed {
 namespace render {
 
+
 class OpenGLContext::PlatformData {
 public:
 	NSWindow* coverWindow;
@@ -164,13 +165,15 @@ public:
 
 
 static void setupGL(const ContextOptions& rco) {
+	// <-- initial value ok, camera can override
 	glViewport(0, 0, rco.width, rco.height);
 
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-
+	// <-- camera state
 	glClearColor(0, 0, 0, 0);
 
+	// <-- pipeline state
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 }
