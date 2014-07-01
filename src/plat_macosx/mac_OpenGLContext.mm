@@ -134,7 +134,7 @@ static NSWindow* createRenderWindow(const stardazed::render::ContextOptions &opt
 		[window setLevel: NSScreenSaverWindowLevel];
 		[window setHidesOnDeactivate: YES];
 	}
-
+	
 	// Add main content view (a subclass of an NSOpenGLView)
 	SDOpenGLView *contentView = createOpenGLView(frame, options);
 	[window setContentView: contentView];
@@ -156,15 +156,6 @@ public:
 };
 
 
-static void setupGL(const ContextOptions& rco) {
-	// <-- initial value ok, camera can override
-	glViewport(0, 0, rco.width, rco.height);
-
-	// <-- camera state
-	glClearColor(0, 0, 0, 0);
-}
-
-
 OpenGLContext::OpenGLContext(ContextOptions rco)
 : Context<MacOpenGLContextTag>(rco)
 , platformData_{ std::make_unique<PlatformData>() }
@@ -179,8 +170,6 @@ OpenGLContext::OpenGLContext(ContextOptions rco)
 	platformData_->coverWindow = window;
 	platformData_->windowDelegate = delegate;
 	platformData_->glContext = [[platformData_->coverWindow contentView] openGLContext];
-
-	setupGL(rco);
 }
 
 

@@ -24,7 +24,7 @@ enum class BufferingMethod {
 
 
 struct ContextOptions {
-	int	width = 1024, height = 768;
+	int	width = 1280, height = 720; // 16:9
 	bool fullscreen = false;
 	bool verticalSync = false;
 	BufferingMethod bufferMethod = BufferingMethod::DoubleBuffer;
