@@ -79,18 +79,10 @@ static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::render:
 		valueAttr(NSOpenGLPFASampleBuffers, 1);
 		valueAttr(NSOpenGLPFASamples, options.antiAliasSamples);
 	}
-	
-	// buffer depths
+
+	// main colour buffer
 	valueAttr(NSOpenGLPFAColorSize, 24);
 	valueAttr(NSOpenGLPFAAlphaSize, 8);
-	if (options.depthBits > 0)
-		valueAttr(NSOpenGLPFADepthSize, options.depthBits);
-	if (options.stencilBits > 0)
-		valueAttr(NSOpenGLPFAStencilSize, options.stencilBits);
-	if (options.accumulatorBits > 0)
-		valueAttr(NSOpenGLPFAAccumSize, options.accumulatorBits);
-	if (options.auxBufferCount > 0)
-		valueAttr(NSOpenGLPFAAuxBuffers, options.auxBufferCount);
 
 	attrs.push_back(0);
 	return [[NSOpenGLPixelFormat alloc] initWithAttributes: attrs.data()];

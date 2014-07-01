@@ -31,13 +31,6 @@ struct ContextOptions {
 
 	FullscreenAntiAliasMethod fsaa = FullscreenAntiAliasMethod::MSAA;
 	int antiAliasSamples = 4;
-
-	// buffer sizes for non-colour buffers
-	// the colour buffer is fixed at 24+8 bits
-	int depthBits = 0;
-	int stencilBits = 0;
-	int accumulatorBits = 0;
-	int auxBufferCount = 0;
 };
 
 
