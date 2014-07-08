@@ -12,6 +12,7 @@
 #include "render/opengl/OpenGLPipeline.hpp"
 
 #include <string>
+#include <memory>
 
 namespace stardazed {
 namespace render {
@@ -32,8 +33,6 @@ class OpenGLContext : public Context<MacOpenGLContextTag> {
 public:
 	OpenGLContext(const ContextDescriptor&);
 	~OpenGLContext();
-	
-	friend Context;
 	
 	MeshClass makeStaticMesh(const Mesh&) override;
 	ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) override;
