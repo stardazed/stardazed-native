@@ -14,17 +14,6 @@ namespace stardazed {
 namespace render {
 
 
-enum class BufferClearing {
-	None,
-	Colour,
-	Depth,
-	ColourAndDepth
-};
-
-
-
-
-
 class Camera {
 public:
 	math::Vec3 worldPosition, worldTarget, upNormal;
@@ -33,7 +22,6 @@ public:
 		return math::lookAt(worldPosition, worldTarget, upNormal);
 	}
 };
-
 
 	
 } // ns render
