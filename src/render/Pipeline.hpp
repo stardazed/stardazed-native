@@ -39,18 +39,15 @@ enum class DepthTestPredicate {
 };
 
 
-template <typename Shader>
+template <typename ShaderType>
 class Pipeline {
 public:
 	struct Descriptor {
 		FaceCulling faceCulling = FaceCulling::None;
 		DepthTestPredicate depthTest = DepthTestPredicate::Disabled;
 		
-		Shader* vertexShader = nullptr;
-		Shader* fragmentShader = nullptr;
-		
-		std::vector<PixelFormat> colourAttachmentFormats;
-		PixelFormat depthAttachmentFormat;
+		ShaderType* vertexShader = nullptr;
+		ShaderType* fragmentShader = nullptr;
 	};
 
 

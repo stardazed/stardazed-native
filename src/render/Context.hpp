@@ -6,7 +6,6 @@
 #ifndef SD_RENDER_CONTEXT_H
 #define SD_RENDER_CONTEXT_H
 
-#include "render/ContextOptions.hpp"
 #include "render/Mesh.hpp"
 #include "render/Shader.hpp"
 #include "render/Pipeline.hpp"
@@ -16,6 +15,32 @@
 
 namespace stardazed {
 namespace render {
+
+
+enum class FullscreenAntiAliasMethod {
+	None,
+	SSAA,
+	MSAA
+};
+
+
+enum class BufferingMethod {
+	DoubleBuffer,
+	TripleBuffer
+};
+
+
+struct ContextDescriptor {
+	int	width = 1280, height = 720; // 16:9
+	bool fullscreen = false;
+	bool verticalSync = false;
+	BufferingMethod bufferMethod = BufferingMethod::DoubleBuffer;
+	
+	FullscreenAntiAliasMethod fsaa = FullscreenAntiAliasMethod::MSAA;
+	int antiAliasSamples = 4;
+	
+	int depthBits = 0; // default depth buffer size in bits/sample (0, 16, 32)
+};
 
 
 template <typename T>
@@ -29,12 +54,6 @@ struct ContextTraits;
 
 template <typename Tag>
 class Context {
-protected:
-	ContextOptions options;
-
-	Context(ContextOptions options)
-	: options(options) {}
-
 public:
 	virtual ~Context() = default;
 

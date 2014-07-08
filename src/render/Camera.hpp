@@ -14,7 +14,19 @@ namespace stardazed {
 namespace render {
 
 
-struct Camera {
+enum class BufferClearing {
+	None,
+	Colour,
+	Depth,
+	ColourAndDepth
+};
+
+
+
+
+
+class Camera {
+public:
 	math::Vec3 worldPosition, worldTarget, upNormal;
 	
 	math::Mat4 viewMatrix() {

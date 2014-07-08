@@ -30,7 +30,7 @@ struct ContextTraits<MacOpenGLContextTag> {
 
 class OpenGLContext : public Context<MacOpenGLContextTag> {
 public:
-	OpenGLContext(ContextOptions options);
+	OpenGLContext(const ContextDescriptor&);
 	~OpenGLContext();
 	
 	friend Context;

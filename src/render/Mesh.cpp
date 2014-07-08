@@ -42,6 +42,7 @@ void Mesh::calcVertexNormals() {
 
 
 void Mesh::calcVertexTangents() {
+	// see http://www.terathon.com/code/tangent.html
 }
 
 

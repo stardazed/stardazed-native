@@ -46,10 +46,10 @@
 @end
 
 
+namespace render = stardazed::render;
 
-static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::render::ContextOptions &options) {
-	using namespace stardazed;
-	
+
+static NSOpenGLPixelFormat* pixelFormatForContextDescriptor(const render::ContextDescriptor& desc) {
 	std::vector<NSOpenGLPixelFormatAttribute> attrs = {
 		NSOpenGLPFAAccelerated,
 		NSOpenGLPFANoRecovery,
@@ -65,19 +65,19 @@ static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::render:
 	};
 
 	// double or triple buffering
-	if (options.bufferMethod == render::BufferingMethod::DoubleBuffer)
+	if (desc.bufferMethod == render::BufferingMethod::DoubleBuffer)
 		boolAttr(NSOpenGLPFADoubleBuffer);
 	else
 		boolAttr(NSOpenGLPFATripleBuffer);
 
 	// FSAA method
-	if (options.fsaa != render::FullscreenAntiAliasMethod::None) {
-		if (options.fsaa == render::FullscreenAntiAliasMethod::SSAA)
+	if (desc.fsaa != render::FullscreenAntiAliasMethod::None) {
+		if (desc.fsaa == render::FullscreenAntiAliasMethod::SSAA)
 			boolAttr(NSOpenGLPFASupersample);
 		else
 			boolAttr(NSOpenGLPFAMultisample);
 		valueAttr(NSOpenGLPFASampleBuffers, 1);
-		valueAttr(NSOpenGLPFASamples, options.antiAliasSamples);
+		valueAttr(NSOpenGLPFASamples, desc.antiAliasSamples);
 	}
 
 	// default frame buffer colour size
@@ -85,29 +85,29 @@ static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::render:
 	valueAttr(NSOpenGLPFAAlphaSize, 8);
 	
 	// default depth buffer size
-	if (options.depthBits > 0)
-		valueAttr(NSOpenGLPFADepthSize, options.depthBits);
+	if (desc.depthBits > 0)
+		valueAttr(NSOpenGLPFADepthSize, desc.depthBits);
 
 	attrs.push_back(0);
 	return [[NSOpenGLPixelFormat alloc] initWithAttributes: attrs.data()];
 }
 
 
-static SDOpenGLView* createOpenGLView(const NSRect frame, const stardazed::render::ContextOptions &options) {
-	NSOpenGLPixelFormat* pixelFormat = pixelFormatForRenderOptions(options);
-	SDOpenGLView *oglView = [[SDOpenGLView alloc] initWithFrame:frame pixelFormat: pixelFormat];
+static SDOpenGLView* createOpenGLView(const NSRect frame, const render::ContextDescriptor& desc) {
+	auto pixelFormat = pixelFormatForContextDescriptor(desc);
+	SDOpenGLView* oglView = [[SDOpenGLView alloc] initWithFrame:frame pixelFormat: pixelFormat];
 	
-	GLint sync = options.verticalSync ? 1 : 0;
+	GLint sync = desc.verticalSync ? 1 : 0;
 	[[oglView openGLContext] setValues: &sync forParameter: NSOpenGLCPSwapInterval];
 
 	return oglView;
 }
 
 
-static NSWindow* createRenderWindow(const stardazed::render::ContextOptions &options) {
+static NSWindow* createRenderWindow(const render::ContextDescriptor& desc) {
 	NSRect frame;
 	NSUInteger styleOptions;
-	if (options.fullscreen) {
+	if (desc.fullscreen) {
 		// In fullscreen mode, the width and height are used only for
 		// the backbuffer of the OpenGL context. The window is plain.
 		frame = [[NSScreen mainScreen] frame];
@@ -117,7 +117,7 @@ static NSWindow* createRenderWindow(const stardazed::render::ContextOptions &opt
 		// In windowed mode the window content is sized equal to
 		// the viewport and looks like a normal window with titlebar
 		// and close control.
-		frame = NSMakeRect(0, 0, (CGFloat)options.width, (CGFloat)options.height);
+		frame = NSMakeRect(0, 0, (CGFloat)desc.width, (CGFloat)desc.height);
 		styleOptions = NSTitledWindowMask | NSClosableWindowMask;
 	}
 	
@@ -134,13 +134,13 @@ static NSWindow* createRenderWindow(const stardazed::render::ContextOptions &opt
 	
 	// In fullscreen mode we need to hover above all other windows
 	// and be nice and hide ourselves when we're moved to the bg.
-	if (options.fullscreen) {
+	if (desc.fullscreen) {
 		[window setLevel: NSScreenSaverWindowLevel];
 		[window setHidesOnDeactivate: YES];
 	}
 	
 	// Add main content view (a subclass of an NSOpenGLView)
-	SDOpenGLView *contentView = createOpenGLView(frame, options);
+	SDOpenGLView *contentView = createOpenGLView(frame, desc);
 	[window setContentView: contentView];
 	[[contentView openGLContext] makeCurrentContext];
 
@@ -160,11 +160,10 @@ public:
 };
 
 
-OpenGLContext::OpenGLContext(ContextOptions rco)
-: Context<MacOpenGLContextTag>(rco)
-, platformData_{ std::make_unique<PlatformData>() }
+OpenGLContext::OpenGLContext(const ContextDescriptor& descriptor)
+: platformData_{ std::make_unique<PlatformData>() }
 {
-	NSWindow *window = createRenderWindow(options);
+	NSWindow *window = createRenderWindow(descriptor);
 
 	id delegate = [[SDWindowDelegate alloc] init];
 	[window setDelegate: delegate];

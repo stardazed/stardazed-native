@@ -10,12 +10,8 @@
 #include "Vector.hpp"
 #include "Matrix.hpp"
 
-#include <algorithm>
-#include <functional>
-#include <numeric>
 #include <cassert>
 #include <cmath>
-#include <thread>
 
 namespace stardazed {
 namespace math {

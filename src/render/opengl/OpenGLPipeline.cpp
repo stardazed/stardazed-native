@@ -19,6 +19,7 @@ ShaderConstantMapping::ShaderConstantMapping(GLuint shaderProgram) {
 	normalMat_ = glGetUniformLocation(program_, "normalMatrix");
 }
 
+
 void ShaderConstantMapping::apply(const OpenGLConstantBuffer& constants) const {
 	if (mvMat_ > -1)
 		glProgramUniformMatrix4fv(program_, mvMat_, 1, GL_FALSE, constants.modelViewMatrix().dataBegin());
