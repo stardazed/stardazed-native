@@ -80,9 +80,13 @@ static NSOpenGLPixelFormat* pixelFormatForRenderOptions(const stardazed::render:
 		valueAttr(NSOpenGLPFASamples, options.antiAliasSamples);
 	}
 
-	// main colour buffer
+	// default frame buffer colour size
 	valueAttr(NSOpenGLPFAColorSize, 24);
 	valueAttr(NSOpenGLPFAAlphaSize, 8);
+	
+	// default depth buffer size
+	if (options.depthBits > 0)
+		valueAttr(NSOpenGLPFADepthSize, options.depthBits);
 
 	attrs.push_back(0);
 	return [[NSOpenGLPixelFormat alloc] initWithAttributes: attrs.data()];

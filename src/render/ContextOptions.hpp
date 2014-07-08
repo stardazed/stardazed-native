@@ -31,6 +31,8 @@ struct ContextOptions {
 
 	FullscreenAntiAliasMethod fsaa = FullscreenAntiAliasMethod::MSAA;
 	int antiAliasSamples = 4;
+	
+	int depthBits = 0; // default depth buffer size in bits/sample (0, 16, 32)
 };
 
 
