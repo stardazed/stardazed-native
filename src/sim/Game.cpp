@@ -24,7 +24,7 @@ Game::Game() {
 }
 
 
-void Game::renderFrame(time::Duration simLag) {
+void Game::renderFrame(time::Duration) {
 //	for (auto camera : Cameras) {
 //		auto objs = scene.getObjectsWithMask(camera.objectMask);
 //		objs.clipAgainstCameraFrustum(camera);

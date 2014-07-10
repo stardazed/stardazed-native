@@ -10,8 +10,6 @@
 #include "render/ConstantBuffer.hpp"
 #include "render/Shader.hpp"
 
-#include <vector>
-
 namespace stardazed {
 namespace render {
 

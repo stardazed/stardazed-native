@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// sim::Scene - stardazed
+// scene::Scene - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
 namespace stardazed {
-
+namespace scene {
 
 
 class Node {
@@ -21,14 +21,13 @@ class Scene {
 public:
 	Node* makeNode();
 	Camera* makeCamera();
-	Light* makeLight;
-	
 
 private:
 	
 };
 
 
+} // ns scene
 } // ns stardazed
 
 #endif

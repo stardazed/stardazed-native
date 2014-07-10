@@ -6,7 +6,6 @@
 #ifndef SD_MATH_CONSTANTS_H
 #define SD_MATH_CONSTANTS_H
 
-
 namespace stardazed {
 namespace math {
 
@@ -20,6 +19,5 @@ constexpr const T Tau = Pi<T> * T{2};
 
 } // ns math
 } // ns stardazed
-
 
 #endif
