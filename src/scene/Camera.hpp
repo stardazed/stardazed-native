@@ -1,17 +1,17 @@
 // ------------------------------------------------------------------
-// render::Camera - stardazed
+// scene::Camera - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDER_CAMERA_H
-#define SD_RENDER_CAMERA_H
+#ifndef SD_SCENE_CAMERA_H
+#define SD_SCENE_CAMERA_H
 
 #include "math/Vector.hpp"
 #include "math/Matrix.hpp"
 #include "math/Quaternion.hpp"
 
 namespace stardazed {
-namespace render {
+namespace scene {
 
 
 class Camera {
@@ -23,8 +23,8 @@ public:
 	}
 };
 
-	
-} // ns render
+
+} // ns scene
 } // ns stardazed
 
 #endif
