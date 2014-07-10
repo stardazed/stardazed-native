@@ -17,7 +17,8 @@ namespace render {
 
 
 enum class FaceCulling {
-	None,
+	Disabled,
+
 	Front,
 	Back,
 	FrontAndBack
@@ -43,7 +44,7 @@ template <typename ShaderType>
 class Pipeline {
 public:
 	struct Descriptor {
-		FaceCulling faceCulling = FaceCulling::None;
+		FaceCulling faceCulling = FaceCulling::Disabled;
 		DepthTestPredicate depthTest = DepthTestPredicate::Disabled;
 		
 		ShaderType* vertexShader = nullptr;

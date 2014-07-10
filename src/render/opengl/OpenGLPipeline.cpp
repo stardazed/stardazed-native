@@ -31,7 +31,7 @@ void ShaderConstantMapping::apply(const OpenGLConstantBuffer& constants) const {
 
 
 OpenGLFaceCulling::OpenGLFaceCulling(FaceCulling fc) {
-	enabled_ = fc != FaceCulling::None;
+	enabled_ = fc != FaceCulling::Disabled;
 
 	switch (fc) {
 		case FaceCulling::Front:

@@ -6,8 +6,7 @@
 #ifndef SD_RENDER_MATERIAL_H
 #define SD_RENDER_MATERIAL_H
 
-#include "math/Vector.hpp"
-#include "render/Shader.hpp"
+#include "render/Pipeline.hpp"
 
 namespace stardazed {
 namespace render {
@@ -15,6 +14,8 @@ namespace render {
 
 class Material {
 public:
+	Pipeline* pipeline;
+	
 //	RGBColor diffuseColor;
 };
 

@@ -19,7 +19,10 @@ public:
 
 class Scene {
 public:
-
+	Node* makeNode();
+	Camera* makeCamera();
+	Light* makeLight;
+	
 
 private:
 	
