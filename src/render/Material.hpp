@@ -16,7 +16,7 @@ class Material {
 public:
 	Pipeline* pipeline;
 	
-//	RGBColor diffuseColor;
+//	RGBColour baseColour;
 };
 
 

@@ -9,10 +9,10 @@ namespace scene {
 
 class Node {
 public:
-	std::string name;
 	Transform transform;
 
-	Mesh* mesh;
+	render::Mesh* mesh;
+	render::Material* material;
 };
 
 
