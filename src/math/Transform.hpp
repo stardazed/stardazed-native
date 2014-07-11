@@ -6,8 +6,9 @@
 #ifndef SD_MATH_TRANSFORM_H
 #define SD_MATH_TRANSFORM_H
 
-#include "Angle.hpp"
-#include "Matrix.hpp"
+#include "math/Angle.hpp"
+#include "math/Matrix.hpp"
+#include "math/Quaternion.hpp"
 
 #include <cmath>
 
@@ -23,25 +24,6 @@ namespace math {
 
 // ---- Projection Matrix generation
 
-template <typename T>
-Matrix<4, 4, T> perspective(Angle fovy, T aspect, T zNear, T zFar) {
-	auto tanHalfFovy = std::tan(fovy.rad().val() / T{2} );
-
-	Matrix<4, 4, T> result;
-	result[0][0] = T{1} / (aspect * tanHalfFovy);
-	result[1][1] = T{1} / tanHalfFovy;
-	result[2][2] = -(zFar + zNear) / (zFar - zNear);
-	result[2][3] = -1;
-	result[3][2] = -(T{2} * zFar * zNear) / (zFar - zNear);
-	return result;
-}
-
-
-template <typename T>
-Matrix<4, 4, T> perspective(Angle fovy, size_t pixelWidth, size_t pixelHeight, T zNear, T zFar) {
-	T aspect = static_cast<T>(pixelWidth) / static_cast<T>(pixelHeight);
-	return perspective(fovy, aspect, zNear, zFar);
-}
 
 
 // ---- View Matrix generation
