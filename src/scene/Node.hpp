@@ -6,8 +6,7 @@
 #ifndef SD_SCENE_NODE_H
 #define SD_SCENE_NODE_H
 
-#include "math/Vector.hpp"
-#include "math/Quaternion.hpp"
+#include "scene/Transform.hpp"
 #include "render/Mesh.hpp"
 #include "render/Material.hpp"
 
@@ -16,9 +15,11 @@ namespace scene {
 
 
 class Node {
+	Transform transform_;
+
 public:
-	math::Vec3 position;
-	math::Quat orientation;
+	Transform& transform() { return transform_; }
+	const Transform& transform() const { return transform_; }
 	
 	render::Mesh* mesh;
 	render::Material* material;
