@@ -19,7 +19,7 @@ class STLAllocAdapter {
 
 public:
 	template <typename U, typename A>
-	friend class AllocAdapter;
+	friend class STLAllocAdapter;
 
 	using difference_type = std::ptrdiff_t;
 	using reference = T&;
