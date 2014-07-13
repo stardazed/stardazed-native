@@ -36,7 +36,7 @@ public:
 	
 	MeshClass makeStaticMesh(const Mesh&) override;
 	ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) override;
-	PipelineClass makePipeline(const OpenGLPipeline::Descriptor& descriptor) override;
+	PipelineClass makePipeline(const PipelineDescriptor& descriptor) override;
 	
 	void swap() override;
 

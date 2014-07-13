@@ -97,13 +97,13 @@ inline void OpenGLDepthTest::apply() const {
 
 
 
-OpenGLPipeline::OpenGLPipeline(const Descriptor& descriptor)
+OpenGLPipeline::OpenGLPipeline(const PipelineDescriptor& descriptor)
 : cullingMode_(descriptor.faceCulling)
 , depthTestMode_(descriptor.depthTest)
 {
 	glGenProgramPipelines(1, &glPipeline_);
 	
-	auto attachShader = [=](const OpenGLShader* shader, GLbitfield stage) {
+	auto attachShader = [=](const Shader* shader, GLbitfield stage) {
 		if (shader) {
 			auto shaderName = shader->glShader_;
 			glUseProgramStages(glPipeline_, stage, shaderName);

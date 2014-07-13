@@ -54,7 +54,7 @@ public:
 } // ns detail
 
 
-class OpenGLPipeline : public Pipeline<OpenGLShader> {
+class OpenGLPipeline : public Pipeline {
 	detail::OpenGLFaceCulling cullingMode_;
 	detail::OpenGLDepthTest depthTestMode_;
 
@@ -63,9 +63,7 @@ class OpenGLPipeline : public Pipeline<OpenGLShader> {
 	std::vector<detail::ShaderConstantMapping> shaderConstants;
 	
 public:
-	using Descriptor = Pipeline::Descriptor;
-
-	OpenGLPipeline(const Descriptor&);
+	OpenGLPipeline(const PipelineDescriptor&);
 	~OpenGLPipeline();
 	SD_DEFAULT_MOVE_OPS(OpenGLPipeline)
 	

@@ -192,7 +192,7 @@ OpenGLShader OpenGLContext::loadShaderFromPath(ShaderType type, const std::strin
 }
 
 
-OpenGLPipeline OpenGLContext::makePipeline(const OpenGLPipeline::Descriptor& descriptor) {
+OpenGLPipeline OpenGLContext::makePipeline(const PipelineDescriptor& descriptor) {
 	return { descriptor };
 }
 

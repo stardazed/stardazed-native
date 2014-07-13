@@ -38,18 +38,17 @@ enum class DepthTestPredicate {
 };
 
 
-template <typename ShaderType>
+struct PipelineDescriptor {
+	FaceCulling faceCulling = FaceCulling::Disabled;
+	DepthTestPredicate depthTest = DepthTestPredicate::Disabled;
+	
+	Shader* vertexShader = nullptr;
+	Shader* fragmentShader = nullptr;
+};
+
+
 class Pipeline {
 public:
-	struct Descriptor {
-		FaceCulling faceCulling = FaceCulling::Disabled;
-		DepthTestPredicate depthTest = DepthTestPredicate::Disabled;
-		
-		ShaderType* vertexShader = nullptr;
-		ShaderType* fragmentShader = nullptr;
-	};
-
-
 	virtual ~Pipeline() = default;
 
 	virtual ConstantBuffer* constantBuffer() = 0;
