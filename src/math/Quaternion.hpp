@@ -77,11 +77,18 @@ struct Quaternion {
 
 		const T zero{0}, one{1}, two{2}; // constants of proper value type
 
+//		return {
+//			one - two * (y2 + z2), two * (xy - wz),       two * (xz + wy),       zero,
+//			two * (xy + wz),       one - two * (x2 + z2), two * (yz - wx),       zero,
+//			two * (xz - wy),       two * (yz + wx),       one - two * (x2 + y2), zero,
+//			zero,                  zero,                  zero,                  one
+//		};
+		
 		return {
-			one - two * (y2 + z2), two * (xy - wz), two * (xz + wy), zero,
-			two * (xy + wz), one - two * (x2 + z2), two * (yz - wx), zero,
-			two * (xz - wy), two * (yz + wx), one - two * (x2 + y2), zero,
-			zero, zero, zero, one
+			one - two * (y2 + z2), two * (xy + wz),       two * (xz - wy),       zero,
+			two * (xy - wz),       one - two * (x2 + z2), two * (yz + wx),       zero,
+			two * (xz + wy),       two * (yz - wx),       one - two * (x2 + y2), zero,
+			zero,                  zero,                  zero,                  one
 		};
 	}
 
@@ -121,7 +128,7 @@ constexpr bool operator !=(const Quaternion<T>& a, const Quaternion<T>& b) {
 
 template <typename T>
 constexpr Quaternion<T> operator -(const Quaternion<T>& q) {
-	return { -q.xyzw };
+	return Quaternion<T>{ -q.xyzw };
 }
 
 
@@ -129,7 +136,7 @@ constexpr Quaternion<T> operator -(const Quaternion<T>& q) {
 
 template <typename T>
 constexpr Quaternion<T> operator +(const Quaternion<T>& a, const Quaternion<T>& b) {
-	return { a.xyzw + b.xyzw };
+	return Quaternion<T>{ a.xyzw + b.xyzw };
 }
 
 
@@ -144,7 +151,7 @@ Quaternion<T>& operator +=(Quaternion<T>& a, const Quaternion<T>& b) {
 
 template <typename T>
 constexpr Quaternion<T> operator -(const Quaternion<T>& a, const Quaternion<T>& b) {
-	return { a.xyzw - b.xyzw };
+	return Quaternion<T>{ a.xyzw - b.xyzw };
 }
 
 
@@ -178,14 +185,14 @@ Quaternion<T>& operator *=(Quaternion<T>& a, const Quaternion<T>& b) {
 template <typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Quaternion<T>>
 constexpr operator *(const Quaternion<T>& a, const S scalar) {
-	return { a.xyzw * scalar };
+	return Quaternion<T>{ a.xyzw * scalar };
 }
 
 
 template <typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Quaternion<T>>
 constexpr operator *(const S scalar, const Quaternion<T>& a) {
-	return { scalar * a.xyzw };
+	return Quaternion<T>{ scalar * a.xyzw };
 }
 
 
@@ -203,7 +210,7 @@ operator *=(Quaternion<T>& a, const S scalar) {
 template <typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Quaternion<T>>
 constexpr operator /(const Quaternion<T>& a, const S scalar) {
-	return { a.xyzw / scalar };
+	return Quaternion<T>{ a.xyzw / scalar };
 }
 
 
