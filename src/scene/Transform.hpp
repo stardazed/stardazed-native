@@ -19,7 +19,7 @@ public:
 	math::Vec3 position;
 	math::Quat rotation;
 	
-	void lookAt(const math::Vec3& target, const math::Vec3& up = {0,0,1});
+	void lookAt(const math::Vec3& target, const math::Vec3& up = {0,1,0});
 	math::Mat4 toMatrix4() const;
 };
 	

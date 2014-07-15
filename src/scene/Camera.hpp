@@ -30,7 +30,7 @@ public:
 	const Transform& transform() const { return node_->transform(); }
 
 	// -- projection
-	const math::Mat4& projection() const { return projection_; }
+	const math::Mat4& projectionMatrix() const { return projection_; }
 	void perspective(math::Angle fovy, float aspect, float zNear, float zFar);
 	void perspective(math::Angle fovy, size_t pixelWidth, size_t pixelHeight, float zNear, float zFar);
 };

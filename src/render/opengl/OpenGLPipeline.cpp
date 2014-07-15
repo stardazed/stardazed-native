@@ -105,7 +105,7 @@ OpenGLPipeline::OpenGLPipeline(const PipelineDescriptor& descriptor)
 	
 	auto attachShader = [=](const Shader* shader, GLbitfield stage) {
 		if (shader) {
-			auto shaderName = shader->glShader_;
+			auto shaderName = static_cast<const OpenGLShader*>(shader)->glShader_;
 			glUseProgramStages(glPipeline_, stage, shaderName);
 			shaderConstants.emplace_back(shaderName);
 		}
