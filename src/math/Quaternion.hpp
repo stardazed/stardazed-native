@@ -77,13 +77,6 @@ struct Quaternion {
 
 		const T zero{0}, one{1}, two{2}; // constants of proper value type
 
-//		return {
-//			one - two * (y2 + z2), two * (xy - wz),       two * (xz + wy),       zero,
-//			two * (xy + wz),       one - two * (x2 + z2), two * (yz - wx),       zero,
-//			two * (xz - wy),       two * (yz + wx),       one - two * (x2 + y2), zero,
-//			zero,                  zero,                  zero,                  one
-//		};
-		
 		return {
 			one - two * (y2 + z2), two * (xy + wz),       two * (xz - wy),       zero,
 			two * (xy - wz),       one - two * (x2 + z2), two * (yz + wx),       zero,
