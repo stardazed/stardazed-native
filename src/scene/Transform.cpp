@@ -12,21 +12,34 @@ namespace scene {
 
 static math::Quat lookAtImpl(const math::Vec3& eye, const math::Vec3& target, const math::Vec3& up) {
 	using namespace math;
-	// based on: http://stackoverflow.com/questions/12435671/quaternion-lookat-function/17654730#17654730
 
-	static constexpr const Vec3 forward { 0, 0, -1 }; // move to Vector a la Unity?
-	
-	auto direction = normalize(target - eye);
-	auto fwdDot = dot(forward, direction);
-	
-	if (std::abs(fwdDot - (-1.0f)) < 0.000001f)
-        return Quat::fromAxisAngle(up, Radians{Pi<float>});
-    if (std::abs(fwdDot - (1.0f)) < 0.000001f)
-        return Quat::identity();
+	// from glm
 
-	float rotAngle = std::acos(fwdDot);
-    auto axis = normalize(cross(direction, forward));
-    return Quat::fromAxisAngle(axis, Radians{rotAngle});
+	auto cosTheta = dot(eye, target);
+	Vec3 rotationAxis;
+	
+	if (cosTheta < -1.f + 0.000001f) {
+		// special case when vectors in opposite directions :
+		// there is no "ideal" rotation axis
+		// So guess one; any will do as long as it's perpendicular to start
+		// This implementation favors a rotation around the Up axis (Y),
+		// since it's often what you want to do.
+		rotationAxis = cross(Vec3{0, 0, 1}, eye);
+		if (lengthSquared(rotationAxis) < 0.000001f) // bad luck, they were parallel, try again!
+			rotationAxis = cross(Vec3{1, 0, 0}, eye);
+
+		return Quat::fromAxisAngle(normalize(rotationAxis), Radians{Pi<float>});
+	}
+	
+	// Implementation from Stan Melax's Game Programming Gems 1 article
+	rotationAxis = cross(eye, target);
+	
+	auto s = std::sqrt((1.f + cosTheta) * 2.f);
+	
+	return {
+		rotationAxis / s,
+		s * 0.5f
+	};
 }
 
 
