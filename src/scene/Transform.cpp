@@ -12,41 +12,20 @@ namespace scene {
 
 static math::Quat lookAtImpl(const math::Vec3& eye, const math::Vec3& target, const math::Vec3& up) {
 	using namespace math;
-
-	// from glm
-
-	auto cosTheta = dot(eye, target);
-	Vec3 rotationAxis;
 	
-	if (cosTheta < -1.f + 0.000001f) {
-		// special case when vectors in opposite directions :
-		// there is no "ideal" rotation axis
-		// So guess one; any will do as long as it's perpendicular to start
-		// This implementation favors a rotation around the Up axis (Y),
-		// since it's often what you want to do.
-		rotationAxis = cross(Vec3{0, 0, 1}, eye);
-		if (lengthSquared(rotationAxis) < 0.000001f) // bad luck, they were parallel, try again!
-			rotationAxis = cross(Vec3{1, 0, 0}, eye);
-
-		return Quat::fromAxisAngle(normalize(rotationAxis), Radians{Pi<float>});
-	}
+	static const Vec3 forward { 0, 0, -1 };
 	
-	// Implementation from Stan Melax's Game Programming Gems 1 article
-	rotationAxis = cross(eye, target);
-	
-	auto s = std::sqrt((1.f + cosTheta) * 2.f);
-	
-	return {
-		rotationAxis / s,
-		s * 0.5f
-	};
+	auto dir = normalize(target - eye);
+	auto axis = cross(dir, up);
+	auto angle = dot(dir, forward);
+	return Quat::fromAxisAngle(up, Radians{std::acosf(angle)});
 }
 
 
 void Transform::lookAt(const math::Vec3& target, const math::Vec3& up) {
 	rotation = lookAtImpl(position, target, up);
 }
-	
+
 
 math::Mat4 Transform::toMatrix4() const {
 	using namespace math;
