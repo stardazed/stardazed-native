@@ -396,6 +396,18 @@ constexpr Vector<3, T> cross(const Vector<3, T>& a, const Vector<3, T>& b) {
 }
 
 
+// ---- OrthoNormalize
+
+template <typename T>
+void orthoNormalize(Vector<3, T>& normal, Vector<3, T>& tangent) {
+	normalizeInPlace(normal);
+	auto proj = normal * dot(tangent, normal);
+	tangent -= proj;
+	normalizeInPlace(tangent);
+}
+
+
+
 // ---- Length
 
 template <size_t N, typename T>

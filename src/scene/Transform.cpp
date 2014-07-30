@@ -3,6 +3,7 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
+#include "system/Logging.hpp"
 #include "scene/Transform.hpp"
 #include <cmath>
 
@@ -10,20 +11,33 @@ namespace stardazed {
 namespace scene {
 
 
-static math::Quat lookAtImpl(const math::Vec3& eye, const math::Vec3& target, const math::Vec3& up) {
+static math::Quat lookAtImpl(math::Vec3 localForward, const math::Vec3& worldUp) {
 	using namespace math;
+
+	auto localUp = worldUp;
+	orthoNormalize(localForward, localUp);
+	auto localRight = cross(localUp, localForward);
 	
-	static const Vec3 forward { 0, 0, -1 };
+	auto w = std::sqrtf(1.0f + localRight.x + localUp.y	+ localForward.z) * 0.5f;
+	auto oneOver4w = 1.0f / (4.0f * w);
 	
-	auto dir = normalize(target - eye);
-	auto axis = cross(dir, up);
-	auto angle = dot(dir, forward);
-	return Quat::fromAxisAngle(up, Radians{std::acosf(angle)});
+	return {
+		(localUp.z      - localForward.y) * oneOver4w,
+		(localForward.x - localRight.z  ) * oneOver4w,
+		(localRight.y   - localUp.x     ) * oneOver4w,
+		w
+	};
 }
 
 
 void Transform::lookAt(const math::Vec3& target, const math::Vec3& up) {
-	rotation = lookAtImpl(position, target, up);
+	rotation = lookAtImpl(target - position, up);
+	
+	math::Angle ang;
+	math::Vec3 axis;
+	rotation.toAxisAngle(axis, ang);
+	
+	log("ANG %f", ang.rad().val());
 }
 
 
