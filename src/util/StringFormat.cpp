@@ -10,7 +10,7 @@ namespace stardazed {
 
 
 std::string toString(const bool b) {
-	static std::string TRUE_STRING { "true" }, FALSE_STRING { "false" };
+	const static std::string TRUE_STRING { "true" }, FALSE_STRING { "false" };
 	return b ? TRUE_STRING : FALSE_STRING;
 }
 
