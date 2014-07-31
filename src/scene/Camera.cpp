@@ -44,6 +44,23 @@ void Camera::perspective(math::Angle fovy, size_t pixelWidth, size_t pixelHeight
 }
 
 
+const math::Mat4 Camera::viewMatrix() const {
+	using namespace math;
+	
+	auto& trans = transform();
+	auto m = inverse(trans.rotation).toMatrix4();
+	
+	// translation
+    m[3].xyz = {
+		dot(Vec3{m[0][0], m[1][0], m[2][0]}, trans.position),
+		dot(Vec3{m[0][1], m[1][1], m[2][1]}, trans.position),
+		dot(Vec3{m[0][2], m[1][2], m[2][2]}, trans.position)
+	};
+
+	return m;
+}
+
+
 
 } // ns scene
 } // ns stardazed

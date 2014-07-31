@@ -87,8 +87,14 @@ struct Quaternion {
 
 
 	void toAxisAngle(Vector<3, T>& axis, Angle& angle) const {
-		auto oneOverLength = T{1} / length(*this);
-		axis = xyz * oneOverLength;
+		T tmp1 = T{1} - w * w;
+		if (tmp1 <= T{0})
+			axis = Vec3{0, 0, 1};
+		else {
+			T tmp2 = T{1} / std::sqrt(tmp1);
+			axis = Vec3{x * tmp2, y * tmp2, z * tmp2};
+		}
+
 		angle = Radians{std::acos(w) * T{2}};
 	}
 };
