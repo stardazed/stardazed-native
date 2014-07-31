@@ -19,6 +19,9 @@ static math::Quat lookAtImpl(math::Vec3 localForward, const math::Vec3& worldUp)
 	auto localRight = cross(localUp, localForward);
 	
 	auto w = std::sqrtf(1.0f + localRight.x + localUp.y	+ localForward.z) * 0.5f;
+	if (nearEqual(w, 0.f))
+		return Quat::fromAxisAngle({ 0,1,0 }, Radians{Pi<float>});
+
 	auto oneOver4w = 1.0f / (4.0f * w);
 	
 	return {
