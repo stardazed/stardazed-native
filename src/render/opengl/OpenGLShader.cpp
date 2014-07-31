@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------
 
 #include "render/opengl/OpenGLShader.hpp"
+#include "system/Logging.hpp"
 
 namespace stardazed {
 namespace render {
@@ -35,7 +36,7 @@ OpenGLShader::OpenGLShader(ShaderType type, const std::string& source)
 	if (logLength > 0) {
 		std::vector<char> errors(logLength + 1);
 		glGetProgramInfoLog(glShader_, logLength, NULL, &errors[0]);
-		// log(errors.data());
+		log("GLSL: %s", errors.data());
 	}
 }
 
