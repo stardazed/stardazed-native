@@ -58,7 +58,7 @@ const math::Mat4 Camera::viewMatrix() const {
 	};
 	
 	m[0].xyz = -m[0].xyz;
-//	m[1].xyz = -m[1].xyz;
+	m[1].xyz = -m[1].xyz;
 	m[2].xyz = -m[2].xyz;
 
 	return m;
