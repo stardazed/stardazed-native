@@ -33,15 +33,15 @@ struct MeshDescriptor {
 	std::vector<math::Vec3> vertexes, vertexNormals;
 	std::vector<render::Tri> faces;
 	VertexWinding winding = VertexWinding::CounterClockwise;
-	
+
 	// optional fields
 	std::vector<math::Vec3> vertexTangents;
 	std::vector<math::Vec2> vertexUVs;
-	
+
 	// default normal and tangent calculation, will assert on missing vertexes or faces
 	void calcVertexNormals();
 	void calcVertexTangents();
-	
+
 	// observers
 	bool isMinimallyComplete() const {
 		return ! (vertexes.empty() || vertexNormals.empty() || faces.empty());
@@ -50,11 +50,11 @@ struct MeshDescriptor {
 	bool hasTangents() const {
 		return ! vertexTangents.empty();
 	}
-	
+
 	bool hasUVs() const {
 		return ! vertexUVs.empty();
 	}
-	
+
 	bool isInternallyConsistent() const {
 		bool ok = isMinimallyComplete() && vertexNormals.size() == vertexes.size();
 		if (hasTangents())

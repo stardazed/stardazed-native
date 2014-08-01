@@ -3,10 +3,8 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
+#include "math/Constants.hpp"
 #include "render/Mesh.hpp"
-
-#include <cassert>
-#include <limits>
 
 namespace stardazed {
 namespace render {
@@ -16,13 +14,11 @@ void MeshDescriptor::calcVertexNormals() {
 	vertexNormals.assign(vertexes.size(), { 0, 0, 1 });
 	std::vector<float> usages(vertexes.size());
 	
-	float epsilon = std::numeric_limits<float>::epsilon();
-	
 	for (const auto& face : faces) {
 		auto lineA = vertexes[face[1]] - vertexes[face[0]];
 		auto lineB = vertexes[face[2]] - vertexes[face[1]];
 
-		if (length(lineA) <= epsilon || length(lineB) <= epsilon)
+		if (math::nearEqual(length(lineA), 0.f) || math::nearEqual(length(lineB), 0.f))
 			continue;
 
 		auto faceNormal = math::normalize(math::cross(lineA, lineB));

@@ -11,7 +11,7 @@
 #	define SD_PLATFORM_WINDOWS 1
 #	define SD_PLATFORM_OSX     0
 #elif _WIN32
-#		error "32-bit Windows is not supported"
+#	error "32-bit Windows is not supported"
 #elif __APPLE__
 #	include "TargetConditionals.h"
 #	if TARGET_OS_IPHONE && TARGET_IPHONE_SIMULATOR
