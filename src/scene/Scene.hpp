@@ -19,7 +19,9 @@ class Scene {
 	container::ObjectPoolChain<Node, 500> nodePool_;
 
 public:
-	Node* makeNode();
+	Scene();
+
+	Node* makeNode(NodeType type = NodeType::Generic);
 	Camera* makeCamera();
 };
 

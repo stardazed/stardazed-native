@@ -7,15 +7,20 @@
 
 namespace stardazed {
 namespace scene {
+
+
+Scene::Scene() {
+
+}
 		
 		
-Node* Scene::makeNode() {
-	return nodePool_.emplace();
+Node* Scene::makeNode(NodeType type) {
+	return nodePool_.emplace(type);
 }
 
 
 Camera* Scene::makeCamera() {
-	auto cameraNode = makeNode();
+	auto cameraNode = makeNode(NodeType::Camera);
 	return cameraPool_.emplace(*cameraNode);
 }
 

@@ -4,9 +4,8 @@
 // ------------------------------------------------------------------
 
 #include "system/Time.hpp"
-#include "container/RingBuffer.hpp"
-#include "container/ObjectPool.hpp"
-#include "container/FlagSet.hpp"
+#include "scene/Scene.hpp"
+#include "scene/Camera.hpp"
 
 namespace stardazed {
 
@@ -21,6 +20,16 @@ public:
 
 
 Game::Game() {
+}
+
+
+void renderCamera(const scene::Scene& scene, const scene::Camera& cam) {
+	auto projMat = cam.projectionMatrix(),
+		viewMat = cam.viewMatrix(),
+		viewProjMat = projMat * viewMat;
+
+//	auto root = scene.root();
+	
 }
 
 

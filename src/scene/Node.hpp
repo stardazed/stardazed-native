@@ -14,13 +14,24 @@ namespace stardazed {
 namespace scene {
 
 
+enum class NodeType {
+	Generic,
+	Light,
+	Camera
+};
+
+
 class Node {
-	Transform transform_;
+	NodeType type_;
 
 public:
-	Transform& transform() { return transform_; }
-	const Transform& transform() const { return transform_; }
+	Node(NodeType type) : type_(type) {}
+	Node() : Node(NodeType::Generic) {}
 	
+	NodeType type() const { return type_; }
+
+	// -- node components
+	Transform transform;
 	render::Mesh* mesh;
 	render::Material* material;
 };

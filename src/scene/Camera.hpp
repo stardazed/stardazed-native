@@ -26,8 +26,8 @@ public:
 	Node& node() { return *node_; }
 	const Node& node() const { return *node_; }
 
-	Transform& transform() { return node_->transform(); }
-	const Transform& transform() const { return node_->transform(); }
+	Transform& transform() { return node_->transform; }
+	const Transform& transform() const { return node_->transform; }
 
 	// -- projection
 	const math::Mat4& projectionMatrix() const { return projection_; }
