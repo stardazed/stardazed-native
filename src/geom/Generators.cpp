@@ -14,8 +14,8 @@ namespace geom {
 namespace gen {
 
 
-render::Mesh plane() {
-	render::Mesh mesh;
+render::MeshDescriptor plane() {
+	render::MeshDescriptor mesh;
 	
 	mesh.vertexes.push_back({ -1, -1, 0 });
 	mesh.vertexes.push_back({  1, -1, 0 });
@@ -32,9 +32,9 @@ render::Mesh plane() {
 
 
 
-render::Mesh cube(const float diameter) {
+render::MeshDescriptor cube(const float diameter) {
 	auto hd = diameter;
-	render::Mesh mesh;
+	render::MeshDescriptor mesh;
 	
 	// vertexes
 	mesh.vertexes.push_back({ -hd, -hd, -hd });
@@ -68,7 +68,7 @@ render::Mesh cube(const float diameter) {
 
 
 
-render::Mesh sphere(const int rows, const int segs, const float radius, float sliceFrom, float sliceTo) {
+render::MeshDescriptor sphere(const int rows, const int segs, const float radius, float sliceFrom, float sliceTo) {
 	assert(rows >= 2);
 	assert(segs >= 4);
 	sliceFrom = math::clamp(sliceFrom, 0.f, 1.f);
@@ -77,7 +77,7 @@ render::Mesh sphere(const int rows, const int segs, const float radius, float sl
 
 	const auto pi = math::Pi<float>, tau = math::Tau<float>;
 	
-	render::Mesh mesh;
+	render::MeshDescriptor mesh;
 	
 	auto slice = sliceTo - sliceFrom,
 		piFrom = sliceFrom * pi,

@@ -12,7 +12,7 @@ namespace stardazed {
 namespace render {
 
 
-void Mesh::calcVertexNormals() {
+void MeshDescriptor::calcVertexNormals() {
 	vertexNormals.assign(vertexes.size(), { 0, 0, 1 });
 	std::vector<float> usages(vertexes.size());
 	
@@ -41,7 +41,7 @@ void Mesh::calcVertexNormals() {
 }
 
 
-void Mesh::calcVertexTangents() {
+void MeshDescriptor::calcVertexTangents() {
 	// see http://www.terathon.com/code/tangent.html
 }
 

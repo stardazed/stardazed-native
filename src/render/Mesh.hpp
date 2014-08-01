@@ -28,7 +28,7 @@ enum class VertexWinding {
 };
 
 
-struct Mesh {
+struct MeshDescriptor {
 	// mandatory fields
 	std::vector<math::Vec3> vertexes, vertexNormals;
 	std::vector<render::Tri> faces;
@@ -63,6 +63,14 @@ struct Mesh {
 			ok &= vertexUVs.size() == vertexes.size();
 		return ok;
 	}
+};
+
+
+class Mesh {
+public:
+	virtual ~Mesh() = default;
+
+	virtual void draw() const = 0;
 };
 
 

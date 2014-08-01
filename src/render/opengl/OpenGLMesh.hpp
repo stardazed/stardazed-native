@@ -14,7 +14,7 @@ namespace stardazed {
 namespace render {
 
 
-class OpenGLMesh {
+class OpenGLMesh : public Mesh {
 	GLsizei drawCount;
 	GLuint vao_ {0};
 	GLenum winding_;
@@ -26,10 +26,10 @@ class OpenGLMesh {
 	OpenGLBuffer<math::Vec2> vertexUVBuffer_;
 
 public:
-	OpenGLMesh(const Mesh&);
+	OpenGLMesh(const MeshDescriptor&);
 	~OpenGLMesh();
 
-	void draw() const;
+	virtual void draw() const override;
 };
 
 

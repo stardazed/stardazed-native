@@ -18,7 +18,7 @@ enum OpenGLVertexAttribute : GLuint {
 
 
 
-OpenGLMesh::OpenGLMesh(const Mesh& mesh)
+OpenGLMesh::OpenGLMesh(const MeshDescriptor& mesh)
 : drawCount(static_cast<GLsizei>(mesh.faces.size()) * 3)
 {
 	if (mesh.winding == VertexWinding::Clockwise)

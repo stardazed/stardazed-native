@@ -182,18 +182,18 @@ OpenGLContext::~OpenGLContext() {
 }
 
 
-OpenGLMesh OpenGLContext::makeStaticMesh(const Mesh& mesh) {
-	return { mesh };
+Mesh* OpenGLContext::makeStaticMesh(const MeshDescriptor& mesh) {
+	return meshPool_.emplace(mesh);
 }
 
 
-OpenGLShader OpenGLContext::loadShaderFromPath(ShaderType type, const std::string& path) {
-	return { type, readTextFile(path) };
+Shader* OpenGLContext::loadShaderFromPath(ShaderType type, const std::string& path) {
+	return shaderPool_.emplace(type, readTextFile(path));
 }
 
 
-OpenGLPipeline OpenGLContext::makePipeline(const PipelineDescriptor& descriptor) {
-	return { descriptor };
+Pipeline* OpenGLContext::makePipeline(const PipelineDescriptor& descriptor) {
+	return pipelinePool_.emplace(descriptor);
 }
 
 

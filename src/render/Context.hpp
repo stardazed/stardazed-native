@@ -43,29 +43,14 @@ struct ContextDescriptor {
 };
 
 
-template <typename T>
-struct ContextTraits;
-/*
-	type MeshClass
-	type ShaderClass
-	type PipelineClass
-*/
-
-
-template <typename Tag>
 class Context {
 public:
 	virtual ~Context() = default;
 
-	// mirror trait classes for easy access
-	using MeshClass = typename ContextTraits<Tag>::MeshClass;
-	using ShaderClass = typename ContextTraits<Tag>::ShaderClass;
-	using PipelineClass = typename ContextTraits<Tag>::PipelineClass;
-
 	// factory methods
-	virtual MeshClass makeStaticMesh(const Mesh&) = 0;
-	virtual ShaderClass loadShaderFromPath(ShaderType type, const std::string& path) = 0;
-	virtual PipelineClass makePipeline(const PipelineDescriptor&) = 0;
+	virtual Mesh* makeStaticMesh(const MeshDescriptor&) = 0;
+	virtual Shader* loadShaderFromPath(ShaderType type, const std::string& path) = 0;
+	virtual Pipeline* makePipeline(const PipelineDescriptor&) = 0;
 
 	// action methods
 	virtual void swap() = 0;
