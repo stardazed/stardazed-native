@@ -7,6 +7,7 @@
 #define SD_SCENE_SCENE_H
 
 #include "container/ObjectPool.hpp"
+#include "container/RefTree.hpp"
 #include "scene/Node.hpp"
 #include "scene/Camera.hpp"
 
@@ -17,6 +18,8 @@ namespace scene {
 class Scene {
 	container::ObjectPool<Camera, 32> cameraPool_;
 	container::ObjectPoolChain<Node, 500> nodePool_;
+	
+	container::RefTree<Node> nodeTree_;
 
 public:
 	Scene();
