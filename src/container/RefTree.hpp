@@ -19,9 +19,9 @@ class RefTree {
 		T* item_;
 		std::vector<Node*> children_;
 		
+	public:
 		Node(T* item) : item_{item} {}
 
-	public:
 		// it is UB to get the item of the root node
 		T& item() const { return *item_; }
 		
@@ -34,7 +34,7 @@ class RefTree {
 		}
 	};
 
-	container::ObjectPoolChain<Node*, PoolChunkCount> nodePool_;
+	container::ObjectPoolChain<Node, PoolChunkCount> nodePool_;
 	Node* root_;
 
 public:
