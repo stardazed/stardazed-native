@@ -31,6 +31,8 @@ public:
 
 	void translateGlobal(const math::Vec3& globalTranslation);
 	void translateGlobal(float gx, float gy, float gz);
+	
+	Transform apply(const Transform&) const;
 
 	math::Mat4 toMatrix4() const;
 };

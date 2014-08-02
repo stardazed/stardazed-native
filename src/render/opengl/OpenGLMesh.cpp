@@ -25,6 +25,8 @@ OpenGLMesh::OpenGLMesh(const MeshDescriptor& mesh)
 		winding_ = GL_CW;
 	else
 		winding_ = GL_CCW;
+	
+	aabb_ = mesh.calcAABB();
 
 	glGenVertexArrays(1, &vao_);
 	glBindVertexArray(vao_);
@@ -54,6 +56,11 @@ OpenGLMesh::OpenGLMesh(const MeshDescriptor& mesh)
 OpenGLMesh::~OpenGLMesh() {
 	if (vao_)
 		glDeleteVertexArrays(1, &vao_);
+}
+
+
+math::AABB OpenGLMesh::aabb() const {
+	return aabb_;
 }
 
 

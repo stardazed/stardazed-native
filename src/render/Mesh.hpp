@@ -7,6 +7,7 @@
 #define SD_RENDER_MESH_H
 
 #include "math/Vector.hpp"
+#include "math/AABB.hpp"
 
 #include <array>
 #include <vector>
@@ -38,9 +39,12 @@ struct MeshDescriptor {
 	std::vector<math::Vec3> vertexTangents;
 	std::vector<math::Vec2> vertexUVs;
 
-	// default normal and tangent calculation, will assert on missing vertexes or faces
+	// derived data generation
 	void calcVertexNormals();
 	void calcVertexTangents();
+	
+	math::AABB calcAABB() const;
+	
 
 	// observers
 	bool isMinimallyComplete() const {
@@ -70,6 +74,7 @@ class Mesh {
 public:
 	virtual ~Mesh() = default;
 
+	virtual math::AABB aabb() const = 0;
 	virtual void draw() const = 0;
 };
 

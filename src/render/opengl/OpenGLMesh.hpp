@@ -18,6 +18,8 @@ class OpenGLMesh : public Mesh {
 	GLsizei drawCount;
 	GLuint vao_ {0};
 	GLenum winding_;
+	
+	math::AABB aabb_;
 
 	OpenGLBuffer<math::Vec3> vertexBuffer_, vertexNormalBuffer_;
 	OpenGLBuffer<render::Tri, GL_ELEMENT_ARRAY_BUFFER> faceBuffer_;
@@ -29,6 +31,7 @@ public:
 	OpenGLMesh(const MeshDescriptor&);
 	~OpenGLMesh();
 
+	virtual math::AABB aabb() const override;
 	virtual void draw() const override;
 };
 

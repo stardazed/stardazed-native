@@ -24,12 +24,12 @@ Game::Game() {
 
 
 void renderCamera(const scene::Scene& scene, const scene::Camera& cam) {
+	using namespace scene;
+
 	auto projMat = cam.projectionMatrix(),
 		viewMat = cam.viewMatrix(),
 		viewProjMat = projMat * viewMat;
 
-//	auto root = scene.root();
-	
 }
 
 

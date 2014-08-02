@@ -42,5 +42,15 @@ void MeshDescriptor::calcVertexTangents() {
 }
 
 
+math::AABB MeshDescriptor::calcAABB() const {
+	math::AABB aabb;
+
+	for (auto& vec : vertexes)
+		aabb.includeVector3(vec);
+	
+	return aabb;
+}
+
+
 } // ns render
 } // ns stardazed

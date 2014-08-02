@@ -73,6 +73,14 @@ void Transform::translateGlobal(float gx, float gy, float gz) {
 }
 
 
+Transform Transform::apply(const Transform& subTr) const {
+	return {
+		position + subTr.position,
+		rotation * subTr.rotation
+	};
+}
+
+
 math::Mat4 Transform::toMatrix4() const {
 	using namespace math;
 
