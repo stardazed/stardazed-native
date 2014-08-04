@@ -15,7 +15,12 @@ Scene::Scene() {
 		
 		
 Node* Scene::makeNode(NodeType type) {
-	return nodePool_.emplace(type);
+	auto sceneNode = nodePool_.emplace(type);
+
+	auto treeNode = nodeTree_.makeNode(*sceneNode);
+	nodeTree_.root()->append(treeNode);
+
+	return sceneNode;
 }
 
 

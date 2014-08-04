@@ -3,27 +3,16 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDER_MATERIAL_H
-#define SD_RENDER_MATERIAL_H
-
-#include "render/Pipeline.hpp"
+#include "render/Material.hpp"
 
 namespace stardazed {
 namespace render {
 
 
-class Material {
-	Pipeline* pipeline_;
-
-public:
-	Material(Pipeline* pipeline) : pipeline_(pipeline) {}
-	virtual ~Material() {}
-
-	virtual void activate();
-};
+void Material::activate() {
+	pipeline_->activate();
+}
 
 
 } // ns render
 } // ns stardazed
-
-#endif
