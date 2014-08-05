@@ -10,6 +10,10 @@
 #include "container/RefTree.hpp"
 #include "scene/Node.hpp"
 #include "scene/Camera.hpp"
+#include "scene/Behaviour.hpp"
+
+#include <vector>
+#include <memory>
 
 namespace stardazed {
 namespace scene {
@@ -17,7 +21,9 @@ namespace scene {
 
 class Scene {
 	container::ObjectPool<Camera, 32> cameraPool_;
-	container::ObjectPoolChain<Node, 500> nodePool_;
+	container::ObjectPoolChain<Node, 512> nodePool_;
+
+	std::vector<std::unique_ptr<Behaviour>> behaviours_; // polymorphic
 	
 	container::RefTree<Node> nodeTree_;
 
@@ -26,6 +32,13 @@ public:
 
 	Node* makeNode(NodeType type = NodeType::Generic);
 	Camera* makeCamera();
+	
+	template <typename B, typename... Args> // B : public Behaviour
+	B* makeBehaviour(Args... args) {
+		auto b = new B(std::forward<Args>(args)...);
+		behaviours_.emplace_back(b);
+		return b;
+	}
 };
 
 

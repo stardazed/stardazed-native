@@ -7,6 +7,7 @@
 #define SD_SCENE_NODE_H
 
 #include "scene/Transform.hpp"
+#include "scene/Behaviour.hpp"
 #include "render/Mesh.hpp"
 #include "render/Material.hpp"
 
@@ -34,6 +35,7 @@ public:
 	Transform transform;
 	render::Mesh* mesh;
 	render::Pipeline* pipeline;
+	scene::Behaviour* behaviour;
 };
 
 
