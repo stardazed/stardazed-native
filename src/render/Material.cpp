@@ -8,6 +8,7 @@
 namespace stardazed {
 namespace render {
 
+// NOT IN USE YET
 
 void Material::activate() {
 	pipeline_->activate();

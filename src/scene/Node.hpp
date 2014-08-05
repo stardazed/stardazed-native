@@ -33,7 +33,7 @@ public:
 	// -- node components
 	Transform transform;
 	render::Mesh* mesh;
-	render::Material* material;
+	render::Pipeline* pipeline;
 };
 
 

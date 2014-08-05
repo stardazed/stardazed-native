@@ -12,6 +12,9 @@ namespace stardazed {
 namespace render {
 
 
+// NOT IN USE YET
+
+
 class Material {
 	Pipeline* pipeline_;
 
