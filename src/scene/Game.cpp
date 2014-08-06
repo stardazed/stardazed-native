@@ -11,6 +11,12 @@ namespace stardazed {
 
 
 class Game {
+	time::Duration simulationFrameTime_, renderFrameTime_;
+	time::Duration simulationLag_, renderLag_;
+	time::Duration previousTime_;
+	
+	void step();
+
 public:
 	Game();
 	
@@ -20,6 +26,11 @@ public:
 
 
 Game::Game() {
+	simulationFrameTime_ = time::hertz(120);
+	renderFrameTime_     = time::hertz(60);
+	
+	simulationLag_       = time::zero();
+	renderLag_           = time::zero();
 }
 
 
@@ -30,6 +41,7 @@ void renderCamera(const scene::Scene& scene, const scene::Camera& cam) {
 		viewMat = cam.viewMatrix(),
 		viewProjMat = projMat * viewMat;
 
+	
 }
 
 
@@ -45,37 +57,29 @@ void Game::renderFrame(time::Duration) {
 }
 
 
-void Game::mainLoop() {
-	auto previousTime = time::now();
-	auto simulationLag = time::zero(), renderLag = time::zero();
+void Game::step() {
+	auto currentTime = time::now();
+	auto elapsedTime = currentTime - previousTime_;
+	previousTime_ = currentTime;
 	
-	const auto simulationFrameTime = time::hertz(120);
-	const auto renderFrameTime = time::hertz(60);
+	simulationLag_ += elapsedTime;
+	renderLag_ += elapsedTime;
+
+	// process input
 	
-	while (1) {
-		auto currentTime = time::now();
-		auto elapsedTime = currentTime - previousTime;
-		previousTime = currentTime;
-		
-		simulationLag += elapsedTime;
-		renderLag += elapsedTime;
+	while (simulationLag_ >= simulationFrameTime_) {
+		// update physics, AI, etc.
 
-		// process input
+		simulationLag_ -= simulationFrameTime_;
+	}
+	
+	if (renderLag_ >= renderFrameTime_) {
+		// render frame
+		renderFrame(simulationLag_);
 		
-		while (simulationLag >= simulationFrameTime) {
-			// update physics, AI, etc.
-
-			simulationLag -= simulationFrameTime;
-		}
-		
-		if (renderLag >= renderFrameTime) {
-			// render frame
-			renderFrame(simulationLag);
-			
-			// render single frame, drop any missed ones
-			while (renderLag >= renderFrameTime)
-				renderLag -= renderFrameTime;
-		}
+		// render single frame, drop any missed ones
+		while (renderLag_ >= renderFrameTime_)
+			renderLag_ -= renderFrameTime_;
 	}
 }
 	
