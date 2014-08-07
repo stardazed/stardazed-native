@@ -17,19 +17,12 @@
 
 @interface SDAppDelegate : NSObject<NSApplicationDelegate> {
 }
-@property (nonatomic, strong) NSArray *xibObjects;
+@property (nonatomic, strong) NSArray* xibObjects;
 @end
 
 @implementation SDAppDelegate
-- (void)applicationDidFinishLaunching:(NSNotification*)notification {
-	SD_UNUSED_PARAM(notification)
-	stardazed::log("applicationDidFinishLaunching");
-}
-
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 	SD_UNUSED_PARAM(sender)
-	stardazed::log("applicationShouldTerminate");
-	
 	// since we like control and to keep things sort of similar to non-OS X env
 	// we return cancel terminate, but set the global quit flag to true so
 	// our own main loop can exit gracefully
