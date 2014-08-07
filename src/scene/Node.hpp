@@ -33,9 +33,9 @@ public:
 
 	// -- node components
 	Transform transform;
-	render::Mesh* mesh;
-	render::Pipeline* pipeline;
-	scene::Behaviour* behaviour;
+	render::Mesh* mesh = nullptr;
+	render::Pipeline* pipeline = nullptr;
+	scene::Behaviour* behaviour = nullptr;
 };
 
 
