@@ -25,6 +25,17 @@
 	SD_UNUSED_PARAM(notification)
 	stardazed::log("applicationDidFinishLaunching");
 }
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+	SD_UNUSED_PARAM(sender)
+	stardazed::log("applicationShouldTerminate");
+	
+	// since we like control and to keep things sort of similar to non-OS X env
+	// we return cancel terminate, but set the global quit flag to true so
+	// our own main loop can exit gracefully
+	stardazed::quitNow();
+	return NSTerminateCancel;
+}
 @end
 
 

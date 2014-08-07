@@ -31,7 +31,7 @@ public:
 	, viewProjMat_ { projMat_ * viewMat_ }
 	, scene_ { scene }
 	{}
-	
+
 	template <typename It>
 	void renderNodeRange(It from, It to) {
 		for (It cur = from; cur != to; ++cur) {
@@ -52,7 +52,6 @@ public:
 			// <-- render children
 		}
 	}
-
 
 	void render() {
 		auto rootBegin = scene_.rootNodesBegin();

@@ -33,7 +33,6 @@
 @implementation SDWindowDelegate
 - (BOOL)windowShouldClose:(id)sender {
 	SD_UNUSED_PARAM(sender)
-
 	stardazed::quitNow();
 	return NO;
 }
