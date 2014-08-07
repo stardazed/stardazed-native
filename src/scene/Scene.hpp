@@ -30,6 +30,8 @@ class Scene {
 public:
 	Scene();
 
+	// -- factory methods
+
 	Node* makeNode(NodeType type = NodeType::Generic);
 	Camera* makeCamera();
 	
@@ -39,6 +41,18 @@ public:
 		behaviours_.emplace_back(b);
 		return b;
 	}
+
+
+	// -- scene::Node access
+	
+	auto allNodesBegin() { return nodePool_.begin(); }
+	auto allNodesEnd() { return nodePool_.end(); }
+	
+	auto rootNodesBegin() { return nodeTree_.root().begin(); };
+	auto rootNodesEnd() { return nodeTree_.root().end(); }
+	
+	auto camerasBegin() { return cameraPool_.begin(); }
+	auto camerasEnd() { return cameraPool_.end(); }
 };
 
 

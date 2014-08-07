@@ -12,13 +12,15 @@ namespace scene {
 Scene::Scene() {
 
 }
-		
+
+
+// ---- factory methods
 		
 Node* Scene::makeNode(NodeType type) {
 	auto sceneNode = nodePool_.emplace(type);
 
 	auto treeNode = nodeTree_.makeNode(*sceneNode);
-	nodeTree_.root()->append(treeNode);
+	nodeTree_.root().append(treeNode);
 
 	return sceneNode;
 }
