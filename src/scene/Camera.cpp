@@ -28,7 +28,7 @@ namespace detail {
 
 
 Camera::Camera(Node& linkedNode)
-: node_(&linkedNode)
+: node_(linkedNode)
 {
 }
 

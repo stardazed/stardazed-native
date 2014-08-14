@@ -16,18 +16,18 @@ namespace scene {
 
 
 class Camera {
-	Node* node_;
+	Node& node_;
 	math::Mat4 projection_;
 
 public:
 	Camera(Node& linkedNode);
 	
 	// -- observers
-	Node& node() { return *node_; }
-	const Node& node() const { return *node_; }
+	Node& node() { return node_; }
+	const Node& node() const { return node_; }
 
-	Transform& transform() { return node_->transform; }
-	const Transform& transform() const { return node_->transform; }
+	Transform& transform() { return node_.transform; }
+	const Transform& transform() const { return node_.transform; }
 
 	// -- projection
 	const math::Mat4& projectionMatrix() const { return projection_; }
