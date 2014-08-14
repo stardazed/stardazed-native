@@ -34,10 +34,6 @@ static math::Quat lookAtImpl(math::Vec3 localForward, const math::Vec3& worldUp)
 
 void Transform::lookAt(const math::Vec3& target, const math::Vec3& up) {
 	rotation = lookAtImpl(target - position, up);
-	
-//	math::Vec3 axis;
-//	math::Angle angle;
-//	rotation.toAxisAngle(axis, angle);
 }
 
 

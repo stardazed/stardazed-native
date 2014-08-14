@@ -43,7 +43,10 @@ public:
 				auto constantBuffer = node.pipeline->constantBuffer();
 				constantBuffer->setModelViewMatrix(modelViewMat);
 				constantBuffer->setModelViewProjectionMatrix(projMat_ * modelViewMat);
-				constantBuffer->setNormalMatrix(math::inverse(math::extractSubMatrix<3, 3>(modelViewMat)));
+
+				// inverse + transpose only necessary if a non-uniform scale factor is applied
+				auto normalMat = math::transpose(math::inverse(math::extractSubMatrix<3, 3>(modelViewMat)));
+				constantBuffer->setNormalMatrix(normalMat);
 				
 				node.pipeline->activate();
 				node.mesh->draw();

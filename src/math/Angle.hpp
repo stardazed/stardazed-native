@@ -142,8 +142,8 @@ public:
 
 	// not explicit as the unit type already is explicit (Degrees or Radians)
 	// and setting an angle to 45 degrees or π radians feels natural.
-	template <typename Unit>
-	constexpr Angle(const Unit& u) : theta{asRadians(u)} {}
+	constexpr Angle(const Radians& u) : theta{u} {}
+	constexpr Angle(const Degrees& u) : theta{asRadians(u)} {}
 	
 	template Angle(const Radians::ValueType&) = delete; // explicitly disallow direct init from underlying type
 
