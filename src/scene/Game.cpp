@@ -43,7 +43,7 @@ public:
 				auto constantBuffer = node.pipeline->constantBuffer();
 				constantBuffer->setModelViewMatrix(modelViewMat);
 				constantBuffer->setModelViewProjectionMatrix(projMat_ * modelViewMat);
-				constantBuffer->setNormalMatrix(math::extractSubMatrix<3, 3>(modelViewMat));
+				constantBuffer->setNormalMatrix(math::inverse(math::extractSubMatrix<3, 3>(modelViewMat)));
 				
 				node.pipeline->activate();
 				node.mesh->draw();
