@@ -6,6 +6,8 @@
 #include "render/opengl/OpenGLShader.hpp"
 #include "system/Logging.hpp"
 
+#include <cassert>
+
 namespace stardazed {
 namespace render {
 

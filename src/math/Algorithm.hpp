@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <numeric>
 
-#include "Vector.hpp"
+#include "math/Vector.hpp"
 
 
 namespace stardazed {
