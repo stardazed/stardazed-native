@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_RENDERCONTEXT_H
 #define SD_RENDER_RENDERCONTEXT_H
 
+#include "util/ConceptTraits.hpp"
 #include "render/Mesh.hpp"
 #include "render/Shader.hpp"
 #include "render/Pipeline.hpp"
@@ -44,7 +45,10 @@ struct RenderContextDescriptor {
 
 
 class RenderContext {
+	SD_NOCOPYORMOVE_CLASS(RenderContext)
+
 public:
+	RenderContext() {}
 	virtual ~RenderContext() = default;
 
 	// factory methods

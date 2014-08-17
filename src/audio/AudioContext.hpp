@@ -6,6 +6,8 @@
 #ifndef SD_AUDIO_AUDIOCONTEXT_H
 #define SD_AUDIO_AUDIOCONTEXT_H
 
+#include "util/ConceptTraits.hpp"
+
 namespace stardazed {
 namespace audio {
 
@@ -13,8 +15,11 @@ namespace audio {
 // -- PLACEHOLDER FILE
 
 class AudioContext {
+	SD_NOCOPYORMOVE_CLASS(AudioContext)
+
 public:
-	virtual ~Context() = default;
+	AudioContext() {}
+	virtual ~AudioContext() = default;
 };
 
 

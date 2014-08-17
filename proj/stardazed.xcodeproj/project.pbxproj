@@ -12,6 +12,7 @@
 		8E0EF74A19A1068300CF38A2 /* mac_InputContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EF74919A1068300CF38A2 /* mac_InputContext.mm */; };
 		8E0EF74C19A1076100CF38A2 /* mac_InputContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74B19A1076100CF38A2 /* mac_InputContext.hpp */; };
 		8E0EF74E19A1123100CF38A2 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74D19A1123100CF38A2 /* mac_Application.hpp */; };
+		8E0EF75119A13E4E00CF38A2 /* Client.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF75019A13E4E00CF38A2 /* Client.hpp */; };
 		8E112D44199E55100029CD38 /* AABB.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3C199E55100029CD38 /* AABB.hpp */; };
 		8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3D199E55100029CD38 /* Algorithm.hpp */; };
 		8E112D46199E55100029CD38 /* Angle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3E199E55100029CD38 /* Angle.hpp */; };
@@ -85,6 +86,7 @@
 		8E0EF74919A1068300CF38A2 /* mac_InputContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_InputContext.mm; sourceTree = "<group>"; };
 		8E0EF74B19A1076100CF38A2 /* mac_InputContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_InputContext.hpp; sourceTree = "<group>"; };
 		8E0EF74D19A1123100CF38A2 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
+		8E0EF75019A13E4E00CF38A2 /* Client.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Client.hpp; sourceTree = "<group>"; };
 		8E112D2D199E53CC0029CD38 /* libstardazed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libstardazed.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E112D3C199E55100029CD38 /* AABB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AABB.hpp; sourceTree = "<group>"; };
 		8E112D3D199E55100029CD38 /* Algorithm.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Algorithm.hpp; sourceTree = "<group>"; };
@@ -172,6 +174,14 @@
 			path = audio;
 			sourceTree = "<group>";
 		};
+		8E0EF74F19A13B6C00CF38A2 /* runtime */ = {
+			isa = PBXGroup;
+			children = (
+				8E0EF75019A13E4E00CF38A2 /* Client.hpp */,
+			);
+			path = runtime;
+			sourceTree = "<group>";
+		};
 		8E112D24199E53CC0029CD38 = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +211,7 @@
 				8E112DCB199E60920029CD38 /* input */,
 				8E112DCE199E60A50029CD38 /* scene */,
 				8E112DE5199E60B70029CD38 /* system */,
+				8E0EF74F19A13B6C00CF38A2 /* runtime */,
 				8E112DEE199E60C10029CD38 /* plat_macosx */,
 			);
 			name = src;
@@ -379,6 +390,7 @@
 				8E112DB4199E5FE20029CD38 /* Material.hpp in Headers */,
 				8E112DC3199E5FE20029CD38 /* PixelFormat.hpp in Headers */,
 				8E112DE0199E60A50029CD38 /* Entity.hpp in Headers */,
+				8E0EF75119A13E4E00CF38A2 /* Client.hpp in Headers */,
 				8E112DE4199E60A50029CD38 /* Transform.hpp in Headers */,
 				8E112DCA199E60150029CD38 /* Generators.hpp in Headers */,
 				8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */,

@@ -82,4 +82,4 @@ void MacApplication::resetShouldQuitFlag() {
 }
 
 
-} // stardazed namespace
+} // ns stardazed
