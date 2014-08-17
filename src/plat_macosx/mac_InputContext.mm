@@ -19,8 +19,18 @@ MacInputContext::MacInputContext() {
 }
 
 
-bool MacInputContext::isKeyPressed(Key) {
-	return false;
+bool MacInputContext::isKeyPressed(Key key) {
+	return keyPressTable_.test(static_cast<size_t>(key));
+}
+
+void MacInputContext::handleKeyDown(Key key) {
+	log("press %z", static_cast<size_t>(key));
+	keyPressTable_.set(static_cast<size_t>(key));
+}
+
+void MacInputContext::handleKeyUp(Key key) {
+	log("release %z", static_cast<size_t>(key));
+	keyPressTable_.reset(static_cast<size_t>(key));
 }
 
 
@@ -36,8 +46,11 @@ void MacInputContext::processSystemEvents() {
 			if (ev) {
 				[NSApp sendEvent: ev];
 
-				if ([ev type] == NSKeyDown)
-					NSLog(@"VK: %x, SDK: %hx", [ev keyCode], keyTransTable_[[ev keyCode]]);
+				switch([ev type]) {
+					case NSKeyDown: handleKeyDown(keyTransTable_[[ev keyCode]]); break;
+					case NSKeyUp:   handleKeyUp(keyTransTable_[[ev keyCode]]); break;
+					default: break;
+				}
 			}
 		} while (ev);
 	}
