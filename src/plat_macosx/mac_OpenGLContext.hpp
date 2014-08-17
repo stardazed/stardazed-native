@@ -7,7 +7,7 @@
 #define SD_RENDER_MAC_OPENGLCONTEXT_H
 
 #include "container/ObjectPool.hpp"
-#include "render/Context.hpp"
+#include "render/RenderContext.hpp"
 #include "render/opengl/OpenGLMesh.hpp"
 #include "render/opengl/OpenGLShader.hpp"
 #include "render/opengl/OpenGLPipeline.hpp"
@@ -19,9 +19,9 @@ namespace stardazed {
 namespace render {
 
 
-class OpenGLContext : public Context {
+class OpenGLContext : public RenderContext {
 public:
-	OpenGLContext(const ContextDescriptor&);
+	OpenGLContext(const RenderContextDescriptor&);
 	~OpenGLContext();
 	
 	Mesh* makeStaticMesh(const MeshDescriptor&) override;

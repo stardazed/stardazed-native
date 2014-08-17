@@ -31,7 +31,7 @@
 		8E112D98199E5FC70029CD38 /* TextFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112D93199E5FC70029CD38 /* TextFile.cpp */; };
 		8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D94199E5FC70029CD38 /* TextFile.hpp */; };
 		8E112DB1199E5FE20029CD38 /* ConstantBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D9B199E5FE20029CD38 /* ConstantBuffer.hpp */; };
-		8E112DB2199E5FE20029CD38 /* Context.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D9C199E5FE20029CD38 /* Context.hpp */; };
+		8E112DB2199E5FE20029CD38 /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D9C199E5FE20029CD38 /* RenderContext.hpp */; };
 		8E112DB3199E5FE20029CD38 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112D9D199E5FE20029CD38 /* Material.cpp */; };
 		8E112DB4199E5FE20029CD38 /* Material.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D9E199E5FE20029CD38 /* Material.hpp */; };
 		8E112DB5199E5FE20029CD38 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112D9F199E5FE20029CD38 /* Mesh.cpp */; };
@@ -102,7 +102,7 @@
 		8E112D93199E5FC70029CD38 /* TextFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextFile.cpp; sourceTree = "<group>"; };
 		8E112D94199E5FC70029CD38 /* TextFile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextFile.hpp; sourceTree = "<group>"; };
 		8E112D9B199E5FE20029CD38 /* ConstantBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBuffer.hpp; sourceTree = "<group>"; };
-		8E112D9C199E5FE20029CD38 /* Context.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Context.hpp; sourceTree = "<group>"; };
+		8E112D9C199E5FE20029CD38 /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
 		8E112D9D199E5FE20029CD38 /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		8E112D9E199E5FE20029CD38 /* Material.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		8E112D9F199E5FE20029CD38 /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
@@ -253,8 +253,8 @@
 		8E112D9A199E5FE20029CD38 /* render */ = {
 			isa = PBXGroup;
 			children = (
+				8E112D9C199E5FE20029CD38 /* RenderContext.hpp */,
 				8E112D9B199E5FE20029CD38 /* ConstantBuffer.hpp */,
-				8E112D9C199E5FE20029CD38 /* Context.hpp */,
 				8E112D9D199E5FE20029CD38 /* Material.cpp */,
 				8E112D9E199E5FE20029CD38 /* Material.hpp */,
 				8E112D9F199E5FE20029CD38 /* Mesh.cpp */,
@@ -398,7 +398,7 @@
 				8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */,
 				8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */,
 				8E112D49199E55100029CD38 /* Matrix.hpp in Headers */,
-				8E112DB2199E5FE20029CD38 /* Context.hpp in Headers */,
+				8E112DB2199E5FE20029CD38 /* RenderContext.hpp in Headers */,
 				8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

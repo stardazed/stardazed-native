@@ -48,7 +48,7 @@
 namespace render = stardazed::render;
 
 
-static NSOpenGLPixelFormat* pixelFormatForContextDescriptor(const render::ContextDescriptor& desc) {
+static NSOpenGLPixelFormat* pixelFormatForContextDescriptor(const render::RenderContextDescriptor& desc) {
 	std::vector<NSOpenGLPixelFormatAttribute> attrs = {
 		NSOpenGLPFAAccelerated,
 		NSOpenGLPFANoRecovery,
@@ -92,7 +92,7 @@ static NSOpenGLPixelFormat* pixelFormatForContextDescriptor(const render::Contex
 }
 
 
-static SDOpenGLView* createOpenGLView(const NSRect frame, const render::ContextDescriptor& desc) {
+static SDOpenGLView* createOpenGLView(const NSRect frame, const render::RenderContextDescriptor& desc) {
 	auto pixelFormat = pixelFormatForContextDescriptor(desc);
 	SDOpenGLView* oglView = [[SDOpenGLView alloc] initWithFrame:frame pixelFormat: pixelFormat];
 	
@@ -103,7 +103,7 @@ static SDOpenGLView* createOpenGLView(const NSRect frame, const render::ContextD
 }
 
 
-static NSWindow* createRenderWindow(const render::ContextDescriptor& desc) {
+static NSWindow* createRenderWindow(const render::RenderContextDescriptor& desc) {
 	NSRect frame;
 	NSUInteger styleOptions;
 	if (desc.fullscreen) {
@@ -159,7 +159,7 @@ public:
 };
 
 
-OpenGLContext::OpenGLContext(const ContextDescriptor& descriptor)
+OpenGLContext::OpenGLContext(const RenderContextDescriptor& descriptor)
 : platformData_{ std::make_unique<PlatformData>() }
 {
 	NSWindow *window = createRenderWindow(descriptor);

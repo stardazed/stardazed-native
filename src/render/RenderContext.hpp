@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// render::Context - stardazed
+// render::RenderContext - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDER_CONTEXT_H
-#define SD_RENDER_CONTEXT_H
+#ifndef SD_RENDER_RENDERCONTEXT_H
+#define SD_RENDER_RENDERCONTEXT_H
 
 #include "render/Mesh.hpp"
 #include "render/Shader.hpp"
@@ -30,7 +30,7 @@ enum class BufferingMethod {
 };
 
 
-struct ContextDescriptor {
+struct RenderContextDescriptor {
 	int	width = 1280, height = 720; // 16:9
 	bool fullscreen = false;
 	bool verticalSync = false;
@@ -43,9 +43,9 @@ struct ContextDescriptor {
 };
 
 
-class Context {
+class RenderContext {
 public:
-	virtual ~Context() = default;
+	virtual ~RenderContext() = default;
 
 	// factory methods
 	virtual Mesh* makeStaticMesh(const MeshDescriptor&) = 0;
