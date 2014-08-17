@@ -41,7 +41,7 @@ MacApplication::MacApplication() {
 	[NSApplication sharedApplication];
 	[NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
 	
-	auto appDelegate = [[SDAppDelegate alloc] init];
+	auto appDelegate = [[SDAppDelegate alloc] initWithApplication:this];
 	[NSApp setDelegate: appDelegate];
 
 	// -- install menubar, etc.
