@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */; };
 		8E0EF74819A0E43C00CF38A2 /* InputContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74719A0E43C00CF38A2 /* InputContext.hpp */; };
+		8E0EF74A19A1068300CF38A2 /* mac_InputContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EF74919A1068300CF38A2 /* mac_InputContext.mm */; };
+		8E0EF74C19A1076100CF38A2 /* mac_InputContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74B19A1076100CF38A2 /* mac_InputContext.hpp */; };
+		8E0EF74E19A1123100CF38A2 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74D19A1123100CF38A2 /* mac_Application.hpp */; };
 		8E112D44199E55100029CD38 /* AABB.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3C199E55100029CD38 /* AABB.hpp */; };
 		8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3D199E55100029CD38 /* Algorithm.hpp */; };
 		8E112D46199E55100029CD38 /* Angle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3E199E55100029CD38 /* Angle.hpp */; };
@@ -79,6 +82,9 @@
 /* Begin PBXFileReference section */
 		8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioContext.hpp; sourceTree = "<group>"; };
 		8E0EF74719A0E43C00CF38A2 /* InputContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputContext.hpp; sourceTree = "<group>"; };
+		8E0EF74919A1068300CF38A2 /* mac_InputContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_InputContext.mm; sourceTree = "<group>"; };
+		8E0EF74B19A1076100CF38A2 /* mac_InputContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_InputContext.hpp; sourceTree = "<group>"; };
+		8E0EF74D19A1123100CF38A2 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E112D2D199E53CC0029CD38 /* libstardazed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libstardazed.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E112D3C199E55100029CD38 /* AABB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AABB.hpp; sourceTree = "<group>"; };
 		8E112D3D199E55100029CD38 /* Algorithm.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Algorithm.hpp; sourceTree = "<group>"; };
@@ -336,6 +342,9 @@
 		8E112DEE199E60C10029CD38 /* plat_macosx */ = {
 			isa = PBXGroup;
 			children = (
+				8E0EF74B19A1076100CF38A2 /* mac_InputContext.hpp */,
+				8E0EF74919A1068300CF38A2 /* mac_InputContext.mm */,
+				8E0EF74D19A1123100CF38A2 /* mac_Application.hpp */,
 				8E112DEF199E60C10029CD38 /* mac_Application.mm */,
 				8E112DF0199E60C10029CD38 /* mac_Logging.mm */,
 				8E112DF1199E60C10029CD38 /* mac_OpenGLContext.hpp */,
@@ -374,8 +383,10 @@
 				8E112DCA199E60150029CD38 /* Generators.hpp in Headers */,
 				8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */,
 				8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */,
+				8E0EF74C19A1076100CF38A2 /* mac_InputContext.hpp in Headers */,
 				8E112D44199E55100029CD38 /* AABB.hpp in Headers */,
 				8E112DBB199E5FE20029CD38 /* OpenGLConstantBuffer.hpp in Headers */,
+				8E0EF74E19A1123100CF38A2 /* mac_Application.hpp in Headers */,
 				8E112D83199E5F540029CD38 /* MemoryResource.hpp in Headers */,
 				8E112DB6199E5FE20029CD38 /* Mesh.hpp in Headers */,
 				8E112DC5199E5FE20029CD38 /* Texture.hpp in Headers */,
@@ -454,6 +465,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E0EF74A19A1068300CF38A2 /* mac_InputContext.mm in Sources */,
 				8E112DF7199E60C10029CD38 /* mac_OpenGLContext.mm in Sources */,
 				8E112DF4199E60C10029CD38 /* mac_Application.mm in Sources */,
 				8E112DDC199E60A50029CD38 /* Camera.cpp in Sources */,
