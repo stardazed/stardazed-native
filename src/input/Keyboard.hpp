@@ -6,8 +6,6 @@
 #ifndef SD_INPUT_KEYBOARD_H
 #define SD_INPUT_KEYBOARD_H
 
-#include <string>
-
 namespace stardazed {
 namespace input {
 

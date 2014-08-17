@@ -17,7 +17,7 @@ class Application {
 public:
 	Application();
 	
-	void yieldSystem();
+	void systemEvents();
 	bool shouldQuit();
 };
 

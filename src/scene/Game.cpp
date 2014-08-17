@@ -36,7 +36,7 @@ public:
 	void renderEntityRange(It from, It to) {
 		for (It cur = from; cur != to; ++cur) {
 			scene::Entity& entity = entityFromIter(cur);
-			
+
 			if (entity.mesh && entity.pipeline) {
 				auto modelViewMat = viewMat_ * entity.transform.toMatrix4();
 
@@ -51,7 +51,7 @@ public:
 				entity.pipeline->activate();
 				entity.mesh->draw();
 			}
-			
+
 			// <-- render children
 		}
 	}
@@ -103,6 +103,6 @@ void Game::step() {
 		renderFrame(simulationLag_);
 	}
 }
-	
-	
+
+
 } // ns stardazed

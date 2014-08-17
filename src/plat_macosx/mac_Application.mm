@@ -169,7 +169,7 @@ bool Application::shouldQuit() {
 }
 
 
-void Application::yieldSystem() {
+void Application::systemEvents() {
 	@autoreleasepool {
 		NSEvent *ev;
 		
