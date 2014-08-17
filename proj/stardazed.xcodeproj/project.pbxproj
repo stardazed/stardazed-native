@@ -293,17 +293,17 @@
 		8E112DCE199E60A50029CD38 /* scene */ = {
 			isa = PBXGroup;
 			children = (
-				8E112DCF199E60A50029CD38 /* Behaviour.cpp */,
-				8E112DD0199E60A50029CD38 /* Behaviour.hpp */,
-				8E112DD1199E60A50029CD38 /* Camera.cpp */,
-				8E112DD2199E60A50029CD38 /* Camera.hpp */,
-				8E112DD3199E60A50029CD38 /* Game.cpp */,
-				8E112DD4199E60A50029CD38 /* Game.hpp */,
-				8E112DD5199E60A50029CD38 /* Node.hpp */,
-				8E112DD6199E60A50029CD38 /* Scene.cpp */,
-				8E112DD7199E60A50029CD38 /* Scene.hpp */,
 				8E112DD8199E60A50029CD38 /* Transform.cpp */,
 				8E112DD9199E60A50029CD38 /* Transform.hpp */,
+				8E112DCF199E60A50029CD38 /* Behaviour.cpp */,
+				8E112DD0199E60A50029CD38 /* Behaviour.hpp */,
+				8E112DD5199E60A50029CD38 /* Node.hpp */,
+				8E112DD1199E60A50029CD38 /* Camera.cpp */,
+				8E112DD2199E60A50029CD38 /* Camera.hpp */,
+				8E112DD6199E60A50029CD38 /* Scene.cpp */,
+				8E112DD7199E60A50029CD38 /* Scene.hpp */,
+				8E112DD3199E60A50029CD38 /* Game.cpp */,
+				8E112DD4199E60A50029CD38 /* Game.hpp */,
 			);
 			path = scene;
 			sourceTree = "<group>";

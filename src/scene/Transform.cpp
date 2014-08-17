@@ -10,6 +10,7 @@ namespace stardazed {
 namespace scene {
 
 
+// FIXME: this method is flawed
 static math::Quat lookAtImpl(math::Vec3 localForward, const math::Vec3& worldUp) {
 	using namespace math;
 
@@ -37,45 +38,9 @@ void Transform::lookAt(const math::Vec3& target, const math::Vec3& up) {
 }
 
 
-void Transform::rotate(math::Angle overX, math::Angle overY, math::Angle overZ) {
-	// fromEuler takes yaw, pitch and roll arguments -> Y, X, Z
-	rotation *= math::Quat::fromEuler(overY, overX, overZ);
-}
-
-
-void Transform::rotate(const math::Vec3& axis, math::Angle angle) {
-	rotation *= math::Quat::fromAxisAngle(axis, angle);
-}
-
-
-void Transform::rotate(const math::Quat& q) {
-	rotation *= q;
-}
-
-
-void Transform::translate(const math::Vec3& translation) {
-	position += rotation * translation;
-}
-
-
-void Transform::translate(float x, float y, float z) {
-	position += rotation * math::Vec3{ x, y, z };
-}
-
-
-void Transform::translateGlobal(const math::Vec3& globalTranslation) {
-	position += globalTranslation;
-}
-
-
-void Transform::translateGlobal(float gx, float gy, float gz) {
-	position += math::Vec3{ gx, gy, gz };
-}
-
-
 Transform Transform::apply(const Transform& subTr) const {
 	return {
-		position + subTr.position,
+		position + (rotation * subTr.position),
 		rotation * subTr.rotation
 	};
 }
