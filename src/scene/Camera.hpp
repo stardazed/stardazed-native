@@ -9,25 +9,25 @@
 #include "math/Angle.hpp"
 #include "math/Vector.hpp"
 #include "math/Matrix.hpp"
-#include "scene/Node.hpp"
+#include "scene/Entity.hpp"
 
 namespace stardazed {
 namespace scene {
 
 
 class Camera {
-	Node& node_;
+	Entity& entity_;
 	math::Mat4 projection_;
 
 public:
-	Camera(Node& linkedNode);
+	Camera(Entity& linkedEntity);
 	
 	// -- observers
-	Node& node() { return node_; }
-	const Node& node() const { return node_; }
+	Entity& entity() { return entity_; }
+	const Entity& entity() const { return entity_; }
 
-	Transform& transform() { return node_.transform; }
-	const Transform& transform() const { return node_.transform; }
+	Transform& transform() { return entity_.transform; }
+	const Transform& transform() const { return entity_.transform; }
 
 	// -- projection
 	const math::Mat4& projectionMatrix() const { return projection_; }

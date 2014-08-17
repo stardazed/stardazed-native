@@ -27,8 +27,8 @@ namespace detail {
 }
 
 
-Camera::Camera(Node& linkedNode)
-: node_(linkedNode)
+Camera::Camera(Entity& linkedEntity)
+: entity_(linkedEntity)
 {
 }
 
@@ -59,7 +59,6 @@ const math::Mat4 Camera::viewMatrix() const {
 
 	return m;
 }
-
 
 
 } // ns scene

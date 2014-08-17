@@ -4,21 +4,21 @@
 // ------------------------------------------------------------------
 
 #include "scene/Behaviour.hpp"
-#include "scene/Node.hpp"
+#include "scene/Entity.hpp"
 
 namespace stardazed {
 namespace scene {
 
 
 PluggableBehaviour::PluggableBehaviour() {
-	static auto noAction = [](Node&){};
+	static auto noAction = [](Entity&){};
 	
 	updateFunc_ = noAction;
 }
 
 
-void PluggableBehaviour::update(Node& node) {
-	updateFunc_(node);
+void PluggableBehaviour::update(Entity& entity) {
+	updateFunc_(entity);
 }
 
 

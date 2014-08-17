@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// scene::Node - stardazed
+// scene::Entity - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_SCENE_NODE_H
-#define SD_SCENE_NODE_H
+#ifndef SD_SCENE_ENTITY_H
+#define SD_SCENE_ENTITY_H
 
 #include "scene/Transform.hpp"
 #include "scene/Behaviour.hpp"
@@ -15,23 +15,23 @@ namespace stardazed {
 namespace scene {
 
 
-enum class NodeType {
+enum class EntityType {
 	Generic,
 	Light,
 	Camera
 };
 
 
-class Node {
-	NodeType type_;
+class Entity {
+	EntityType type_;
 
 public:
-	Node(NodeType type) : type_(type) {}
-	Node() : Node(NodeType::Generic) {}
+	Entity(EntityType type) : type_(type) {}
+	Entity() : Entity(EntityType::Generic) {}
 	
-	NodeType type() const { return type_; }
+	EntityType type() const { return type_; }
 
-	// -- node components
+	// -- components
 	Transform transform;
 	render::Mesh* mesh = nullptr;
 	render::Pipeline* pipeline = nullptr;

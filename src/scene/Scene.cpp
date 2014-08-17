@@ -16,19 +16,19 @@ Scene::Scene() {
 
 // ---- factory methods
 		
-Node* Scene::makeNode(NodeType type) {
-	auto sceneNode = nodePool_.emplace(type);
+Entity* Scene::makeEntity(EntityType type) {
+	auto entity = entityPool_.emplace(type);
 
-	auto treeNode = nodeTree_.makeNode(*sceneNode);
-	nodeTree_.root().append(treeNode);
+	auto treeNode = entityTree_.makeNode(*entity);
+	entityTree_.root().append(treeNode);
 
-	return sceneNode;
+	return entity;
 }
 
 
 Camera* Scene::makeCamera() {
-	auto cameraNode = makeNode(NodeType::Camera);
-	return cameraPool_.emplace(*cameraNode);
+	auto cameraEntity = makeEntity(EntityType::Camera);
+	return cameraPool_.emplace(*cameraEntity);
 }
 
 		

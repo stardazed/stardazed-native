@@ -14,15 +14,15 @@ namespace stardazed {
 namespace scene {
 
 
-class Node;
+class Entity;
 
 
 class Behaviour {
 public:
 	virtual ~Behaviour() = default;
-	using SimpleBehaviourHandler = std::function<void(Node&)>;
+	using SimpleBehaviourHandler = std::function<void(Entity&)>;
 	
-	virtual void update(Node&) = 0;
+	virtual void update(Entity&) = 0;
 };
 
 
@@ -32,7 +32,7 @@ class PluggableBehaviour : public Behaviour {
 public:
 	PluggableBehaviour();
 
-	void update(Node&) override;
+	void update(Entity&) override;
 	void setUpdateHandler(SimpleBehaviourHandler);
 };
 	

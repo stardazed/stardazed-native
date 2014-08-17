@@ -5,7 +5,7 @@
 
 #include "scene/Game.hpp"
 #include "scene/Camera.hpp"
-#include "scene/Node.hpp"
+#include "scene/Entity.hpp"
 #include "scene/Transform.hpp"
 
 #include <algorithm>
@@ -14,10 +14,10 @@ namespace stardazed {
 
 
 template <typename It>
-inline scene::Node& nodeFromIter(It it) { return *it; }
+inline scene::Entity& entityFromIter(It it) { return *it; }
 
 template <>
-inline scene::Node& nodeFromIter(container::RefTree<scene::Node>::Iterator it) { return (*it)->item(); }
+inline scene::Entity& entityFromIter(container::RefTree<scene::Entity>::Iterator it) { return (*it)->item(); }
 
 
 class RenderPass {
@@ -33,14 +33,14 @@ public:
 	{}
 
 	template <typename It>
-	void renderNodeRange(It from, It to) {
+	void renderEntityRange(It from, It to) {
 		for (It cur = from; cur != to; ++cur) {
-			scene::Node& node = nodeFromIter(cur);
+			scene::Entity& entity = entityFromIter(cur);
 			
-			if (node.mesh && node.pipeline) {
-				auto modelViewMat = viewMat_ * node.transform.toMatrix4();
+			if (entity.mesh && entity.pipeline) {
+				auto modelViewMat = viewMat_ * entity.transform.toMatrix4();
 
-				auto constantBuffer = node.pipeline->constantBuffer();
+				auto constantBuffer = entity.pipeline->constantBuffer();
 				constantBuffer->setModelViewMatrix(modelViewMat);
 				constantBuffer->setModelViewProjectionMatrix(projMat_ * modelViewMat);
 
@@ -48,8 +48,8 @@ public:
 				auto normalMat = math::transpose(math::inverse(math::extractSubMatrix<3, 3>(modelViewMat)));
 				constantBuffer->setNormalMatrix(normalMat);
 				
-				node.pipeline->activate();
-				node.mesh->draw();
+				entity.pipeline->activate();
+				entity.mesh->draw();
 			}
 			
 			// <-- render children
@@ -57,10 +57,10 @@ public:
 	}
 
 	void render() {
-		auto rootBegin = scene_.rootNodesBegin();
-		auto rootEnd   = scene_.rootNodesEnd();
+		auto rootBegin = scene_.rootEntitiesBegin();
+		auto rootEnd   = scene_.rootEntitiesEnd();
 		
-		renderNodeRange(rootBegin, rootEnd);
+		renderEntityRange(rootBegin, rootEnd);
 	}
 };
 
@@ -74,9 +74,9 @@ void Game::renderFrame(time::Duration) {
 
 void Game::simulationFrame() {
 	// very basic for now
-	std::for_each(scene_->allNodesBegin(), scene_->allNodesEnd(), [](scene::Node& node){
-		if (node.behaviour)
-			node.behaviour->update(node);
+	std::for_each(scene_->allEntitiesBegin(), scene_->allEntitiesEnd(), [](scene::Entity& entity){
+		if (entity.behaviour)
+			entity.behaviour->update(entity);
 	});
 }
 

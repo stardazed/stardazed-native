@@ -8,7 +8,7 @@
 
 #include "container/ObjectPool.hpp"
 #include "container/RefTree.hpp"
-#include "scene/Node.hpp"
+#include "scene/Entity.hpp"
 #include "scene/Camera.hpp"
 #include "scene/Behaviour.hpp"
 
@@ -21,18 +21,18 @@ namespace scene {
 
 class Scene {
 	container::ObjectPool<Camera, 32> cameraPool_;
-	container::ObjectPoolChain<Node, 512> nodePool_;
+	container::ObjectPoolChain<Entity, 512> entityPool_;
 
 	std::vector<std::unique_ptr<Behaviour>> behaviours_; // polymorphic
 	
-	container::RefTree<Node> nodeTree_;
+	container::RefTree<Entity> entityTree_;
 
 public:
 	Scene();
 
 	// -- factory methods
 
-	Node* makeNode(NodeType type = NodeType::Generic);
+	Entity* makeEntity(EntityType type = EntityType::Generic);
 	Camera* makeCamera();
 	
 	template <typename B, typename... Args> // B : public Behaviour
@@ -43,13 +43,13 @@ public:
 	}
 
 
-	// -- scene::Node access
+	// -- scene::Entity access
 	
-	auto allNodesBegin() { return nodePool_.begin(); }
-	auto allNodesEnd() { return nodePool_.end(); }
+	auto allEntitiesBegin() { return entityPool_.begin(); }
+	auto allEntitiesEnd() { return entityPool_.end(); }
 	
-	auto rootNodesBegin() { return nodeTree_.root().begin(); };
-	auto rootNodesEnd() { return nodeTree_.root().end(); }
+	auto rootEntitiesBegin() { return entityTree_.root().begin(); };
+	auto rootEntitiesEnd() { return entityTree_.root().end(); }
 	
 	auto camerasBegin() { return cameraPool_.begin(); }
 	auto camerasEnd() { return cameraPool_.end(); }

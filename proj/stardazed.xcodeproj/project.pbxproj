@@ -58,7 +58,7 @@
 		8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD2199E60A50029CD38 /* Camera.hpp */; };
 		8E112DDE199E60A50029CD38 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD3199E60A50029CD38 /* Game.cpp */; };
 		8E112DDF199E60A50029CD38 /* Game.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD4199E60A50029CD38 /* Game.hpp */; };
-		8E112DE0199E60A50029CD38 /* Node.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD5199E60A50029CD38 /* Node.hpp */; };
+		8E112DE0199E60A50029CD38 /* Entity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD5199E60A50029CD38 /* Entity.hpp */; };
 		8E112DE1199E60A50029CD38 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD6199E60A50029CD38 /* Scene.cpp */; };
 		8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD7199E60A50029CD38 /* Scene.hpp */; };
 		8E112DE3199E60A50029CD38 /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD8199E60A50029CD38 /* Transform.cpp */; };
@@ -127,7 +127,7 @@
 		8E112DD2199E60A50029CD38 /* Camera.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 		8E112DD3199E60A50029CD38 /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		8E112DD4199E60A50029CD38 /* Game.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
-		8E112DD5199E60A50029CD38 /* Node.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
+		8E112DD5199E60A50029CD38 /* Entity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Entity.hpp; sourceTree = "<group>"; };
 		8E112DD6199E60A50029CD38 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		8E112DD7199E60A50029CD38 /* Scene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Scene.hpp; sourceTree = "<group>"; };
 		8E112DD8199E60A50029CD38 /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
@@ -297,7 +297,7 @@
 				8E112DD9199E60A50029CD38 /* Transform.hpp */,
 				8E112DCF199E60A50029CD38 /* Behaviour.cpp */,
 				8E112DD0199E60A50029CD38 /* Behaviour.hpp */,
-				8E112DD5199E60A50029CD38 /* Node.hpp */,
+				8E112DD5199E60A50029CD38 /* Entity.hpp */,
 				8E112DD1199E60A50029CD38 /* Camera.cpp */,
 				8E112DD2199E60A50029CD38 /* Camera.hpp */,
 				8E112DD6199E60A50029CD38 /* Scene.cpp */,
@@ -355,7 +355,7 @@
 				8E112DBF199E5FE20029CD38 /* OpenGLPipeline.hpp in Headers */,
 				8E112DB4199E5FE20029CD38 /* Material.hpp in Headers */,
 				8E112DC3199E5FE20029CD38 /* PixelFormat.hpp in Headers */,
-				8E112DE0199E60A50029CD38 /* Node.hpp in Headers */,
+				8E112DE0199E60A50029CD38 /* Entity.hpp in Headers */,
 				8E112DE4199E60A50029CD38 /* Transform.hpp in Headers */,
 				8E112DCA199E60150029CD38 /* Generators.hpp in Headers */,
 				8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */,
