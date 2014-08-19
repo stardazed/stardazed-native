@@ -38,11 +38,11 @@ namespace stardazed {
 
 
 MacApplication::MacApplication() {
-	[NSApplication sharedApplication];
-	[NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
+	auto app = [NSApplication sharedApplication];
+	[app setActivationPolicy: NSApplicationActivationPolicyRegular];
 	
 	auto appDelegate = [[SDAppDelegate alloc] initWithApplication:this];
-	[NSApp setDelegate: appDelegate];
+	[app setDelegate: appDelegate];
 
 	// -- install menubar, etc.
 	NSArray *tlo;
@@ -54,7 +54,7 @@ MacApplication::MacApplication() {
 	
 	inputCtx_ = std::make_unique<input::MacInputContext>();
 	
-	[NSApp finishLaunching];
+	[app finishLaunching];
 }
 
 
