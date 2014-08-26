@@ -1,24 +1,23 @@
 // ------------------------------------------------------------------
-// MacApplication - stardazed
+// mac_Application - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "plat_macosx/mac_Application.hpp"
-#include "util/ConceptTraits.hpp"
+#include "system/mac_Application.hpp"
 #include "system/Logging.hpp"
 
 #import <AppKit/AppKit.h>
 
 
 @interface SDAppDelegate : NSObject<NSApplicationDelegate> {
-	stardazed::MacApplication* app_;
+	stardazed::Application* app_;
 }
-- (id)initWithApplication:(stardazed::MacApplication *)application;
+- (id)initWithApplication:(stardazed::Application *)application;
 @property (nonatomic, strong) NSArray* xibObjects;
 @end
 
 @implementation SDAppDelegate
-- (id)initWithApplication:(stardazed::MacApplication *)application {
+- (id)initWithApplication:(stardazed::Application *)application {
 	app_ = application;
 	return self;
 }
@@ -37,7 +36,7 @@
 namespace stardazed {
 
 
-MacApplication::MacApplication() {
+Application::Application() {
 	auto app = [NSApplication sharedApplication];
 	[app setActivationPolicy: NSApplicationActivationPolicyRegular];
 	
@@ -52,32 +51,25 @@ MacApplication::MacApplication() {
 	// -- allow relative paths to work from the Contents/Resources directory
 	changeToResourcesDirectory();
 	
-	inputCtx_ = std::make_unique<input::MacInputContext>();
-	
 	[app finishLaunching];
 }
 
 
-input::InputContext& MacApplication::input() {
-	return *inputCtx_;
-}
-
-
-void MacApplication::changeToResourcesDirectory() {
+void Application::changeToResourcesDirectory() {
 	const char *resourcePath = [[[NSBundle mainBundle] resourcePath] UTF8String];
 	chdir(resourcePath);
 }
 
 
-void MacApplication::quitNow() {
+void Application::quitNow() {
 	quit_ = true;
 }
 
-bool MacApplication::shouldQuit() {
+bool Application::shouldQuit() {
 	return quit_;
 }
 
-void MacApplication::resetShouldQuitFlag() {
+void Application::resetShouldQuitFlag() {
 	quit_ = false;
 }
 

@@ -1,15 +1,15 @@
 // ------------------------------------------------------------------
-// input::Keyboard - stardazed
+// event::Keyboard - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_INPUT_KEYBOARD_H
-#define SD_INPUT_KEYBOARD_H
+#ifndef SD_EVENT_KEYBOARD_H
+#define SD_EVENT_KEYBOARD_H
 
 #include <cstdint>
 
 namespace stardazed {
-namespace input {
+namespace event {
 
 
 // Key names based on ANSI/ISO keyboard layout
@@ -58,7 +58,7 @@ enum class Key : uint16_t {
 
 	
 
-} // ns input
+} // ns event
 } // ns stardazed
 
 #endif

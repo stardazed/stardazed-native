@@ -164,7 +164,7 @@ enum {
 };
 	
 enum {
-	kVK_SD_RightCommand           = 0x100 // StarDazed custom virtual key code
+	kVK_SD_RightCommand           = 0xFE // StarDazed custom virtual key code
 };
 
 

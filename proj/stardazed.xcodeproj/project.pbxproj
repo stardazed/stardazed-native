@@ -8,10 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */; };
-		8E0EF74819A0E43C00CF38A2 /* InputContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74719A0E43C00CF38A2 /* InputContext.hpp */; };
-		8E0EF74A19A1068300CF38A2 /* mac_InputContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EF74919A1068300CF38A2 /* mac_InputContext.mm */; };
-		8E0EF74C19A1076100CF38A2 /* mac_InputContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74B19A1076100CF38A2 /* mac_InputContext.hpp */; };
-		8E0EF74E19A1123100CF38A2 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74D19A1123100CF38A2 /* mac_Application.hpp */; };
+		8E0EF74819A0E43C00CF38A2 /* ControlsContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74719A0E43C00CF38A2 /* ControlsContext.hpp */; };
 		8E0EF75119A13E4E00CF38A2 /* Client.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF75019A13E4E00CF38A2 /* Client.hpp */; };
 		8E112D44199E55100029CD38 /* AABB.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3C199E55100029CD38 /* AABB.hpp */; };
 		8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3D199E55100029CD38 /* Algorithm.hpp */; };
@@ -57,7 +54,6 @@
 		8E112DC5199E5FE20029CD38 /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DB0199E5FE20029CD38 /* Texture.hpp */; };
 		8E112DC9199E60150029CD38 /* Generators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DC7199E60150029CD38 /* Generators.cpp */; };
 		8E112DCA199E60150029CD38 /* Generators.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DC8199E60150029CD38 /* Generators.hpp */; };
-		8E112DCD199E60920029CD38 /* Keyboard.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DCC199E60920029CD38 /* Keyboard.hpp */; };
 		8E112DDA199E60A50029CD38 /* Behaviour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DCF199E60A50029CD38 /* Behaviour.cpp */; };
 		8E112DDB199E60A50029CD38 /* Behaviour.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD0199E60A50029CD38 /* Behaviour.hpp */; };
 		8E112DDC199E60A50029CD38 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD1199E60A50029CD38 /* Camera.cpp */; };
@@ -73,19 +69,21 @@
 		8E112DEB199E60B70029CD38 /* DetectPlatform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE7199E60B70029CD38 /* DetectPlatform.hpp */; };
 		8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE8199E60B70029CD38 /* Logging.hpp */; };
 		8E112DED199E60B70029CD38 /* Time.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE9199E60B70029CD38 /* Time.hpp */; };
-		8E112DF4199E60C10029CD38 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DEF199E60C10029CD38 /* mac_Application.mm */; };
-		8E112DF5199E60C10029CD38 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DF0199E60C10029CD38 /* mac_Logging.mm */; };
 		8E112DF6199E60C10029CD38 /* mac_OpenGLContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DF1199E60C10029CD38 /* mac_OpenGLContext.hpp */; };
 		8E112DF7199E60C10029CD38 /* mac_OpenGLContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DF2199E60C10029CD38 /* mac_OpenGLContext.mm */; };
-		8E112DF8199E60C10029CD38 /* mac_VKeyCodes.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DF3199E60C10029CD38 /* mac_VKeyCodes.hpp */; };
+		8E19671919ACCADD009CB5E6 /* Bindings.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671819ACCADD009CB5E6 /* Bindings.hpp */; };
+		8E19671C19ACD157009CB5E6 /* Keyboard.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671B19ACD157009CB5E6 /* Keyboard.hpp */; };
+		8E19671F19ACD30B009CB5E6 /* mac_ControlsContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671D19ACD30B009CB5E6 /* mac_ControlsContext.hpp */; };
+		8E19672019ACD30B009CB5E6 /* mac_ControlsContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.mm */; };
+		8E19672219ACD4C5009CB5E6 /* mac_VKeyCodes.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672119ACD4C5009CB5E6 /* mac_VKeyCodes.hpp */; };
+		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
+		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
+		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioContext.hpp; sourceTree = "<group>"; };
-		8E0EF74719A0E43C00CF38A2 /* InputContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputContext.hpp; sourceTree = "<group>"; };
-		8E0EF74919A1068300CF38A2 /* mac_InputContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_InputContext.mm; sourceTree = "<group>"; };
-		8E0EF74B19A1076100CF38A2 /* mac_InputContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_InputContext.hpp; sourceTree = "<group>"; };
-		8E0EF74D19A1123100CF38A2 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
+		8E0EF74719A0E43C00CF38A2 /* ControlsContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ControlsContext.hpp; sourceTree = "<group>"; };
 		8E0EF75019A13E4E00CF38A2 /* Client.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Client.hpp; sourceTree = "<group>"; };
 		8E112D2D199E53CC0029CD38 /* libstardazed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libstardazed.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E112D3C199E55100029CD38 /* AABB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AABB.hpp; sourceTree = "<group>"; };
@@ -132,7 +130,6 @@
 		8E112DB0199E5FE20029CD38 /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
 		8E112DC7199E60150029CD38 /* Generators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Generators.cpp; sourceTree = "<group>"; };
 		8E112DC8199E60150029CD38 /* Generators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Generators.hpp; sourceTree = "<group>"; };
-		8E112DCC199E60920029CD38 /* Keyboard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
 		8E112DCF199E60A50029CD38 /* Behaviour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Behaviour.cpp; sourceTree = "<group>"; };
 		8E112DD0199E60A50029CD38 /* Behaviour.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Behaviour.hpp; sourceTree = "<group>"; };
 		8E112DD1199E60A50029CD38 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
@@ -148,11 +145,16 @@
 		8E112DE7199E60B70029CD38 /* DetectPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DetectPlatform.hpp; sourceTree = "<group>"; };
 		8E112DE8199E60B70029CD38 /* Logging.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logging.hpp; sourceTree = "<group>"; };
 		8E112DE9199E60B70029CD38 /* Time.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Time.hpp; sourceTree = "<group>"; };
-		8E112DEF199E60C10029CD38 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = mac_Application.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		8E112DF0199E60C10029CD38 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
 		8E112DF1199E60C10029CD38 /* mac_OpenGLContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_OpenGLContext.hpp; sourceTree = "<group>"; };
 		8E112DF2199E60C10029CD38 /* mac_OpenGLContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_OpenGLContext.mm; sourceTree = "<group>"; };
-		8E112DF3199E60C10029CD38 /* mac_VKeyCodes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_VKeyCodes.hpp; sourceTree = "<group>"; };
+		8E19671819ACCADD009CB5E6 /* Bindings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bindings.hpp; sourceTree = "<group>"; };
+		8E19671B19ACD157009CB5E6 /* Keyboard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
+		8E19671D19ACD30B009CB5E6 /* mac_ControlsContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_ControlsContext.hpp; sourceTree = "<group>"; };
+		8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_ControlsContext.mm; sourceTree = "<group>"; };
+		8E19672119ACD4C5009CB5E6 /* mac_VKeyCodes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_VKeyCodes.hpp; sourceTree = "<group>"; };
+		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
+		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
+		8E19672519ACD69F009CB5E6 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,10 +210,11 @@
 				8E112D9A199E5FE20029CD38 /* render */,
 				8E0EF74419A0E06F00CF38A2 /* audio */,
 				8E112DC6199E60150029CD38 /* geom */,
-				8E112DCB199E60920029CD38 /* input */,
+				8E19671A19ACD025009CB5E6 /* event */,
+				8E112DCB199E60920029CD38 /* controls */,
 				8E112DCE199E60A50029CD38 /* scene */,
-				8E112DE5199E60B70029CD38 /* system */,
 				8E0EF74F19A13B6C00CF38A2 /* runtime */,
+				8E112DE5199E60B70029CD38 /* system */,
 				8E112DEE199E60C10029CD38 /* plat_macosx */,
 			);
 			name = src;
@@ -312,13 +315,15 @@
 			path = geom;
 			sourceTree = "<group>";
 		};
-		8E112DCB199E60920029CD38 /* input */ = {
+		8E112DCB199E60920029CD38 /* controls */ = {
 			isa = PBXGroup;
 			children = (
-				8E112DCC199E60920029CD38 /* Keyboard.hpp */,
-				8E0EF74719A0E43C00CF38A2 /* InputContext.hpp */,
+				8E0EF74719A0E43C00CF38A2 /* ControlsContext.hpp */,
+				8E19671819ACCADD009CB5E6 /* Bindings.hpp */,
+				8E19671D19ACD30B009CB5E6 /* mac_ControlsContext.hpp */,
+				8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.mm */,
 			);
-			path = input;
+			path = controls;
 			sourceTree = "<group>";
 		};
 		8E112DCE199E60A50029CD38 /* scene */ = {
@@ -346,6 +351,9 @@
 				8E112DE9199E60B70029CD38 /* Time.hpp */,
 				8E112DE8199E60B70029CD38 /* Logging.hpp */,
 				8E112DE6199E60B70029CD38 /* Application.hpp */,
+				8E19672319ACD69F009CB5E6 /* mac_Application.hpp */,
+				8E19672419ACD69F009CB5E6 /* mac_Application.mm */,
+				8E19672519ACD69F009CB5E6 /* mac_Logging.mm */,
 			);
 			path = system;
 			sourceTree = "<group>";
@@ -353,16 +361,19 @@
 		8E112DEE199E60C10029CD38 /* plat_macosx */ = {
 			isa = PBXGroup;
 			children = (
-				8E0EF74B19A1076100CF38A2 /* mac_InputContext.hpp */,
-				8E0EF74919A1068300CF38A2 /* mac_InputContext.mm */,
-				8E0EF74D19A1123100CF38A2 /* mac_Application.hpp */,
-				8E112DEF199E60C10029CD38 /* mac_Application.mm */,
-				8E112DF0199E60C10029CD38 /* mac_Logging.mm */,
 				8E112DF1199E60C10029CD38 /* mac_OpenGLContext.hpp */,
 				8E112DF2199E60C10029CD38 /* mac_OpenGLContext.mm */,
-				8E112DF3199E60C10029CD38 /* mac_VKeyCodes.hpp */,
 			);
 			path = plat_macosx;
+			sourceTree = "<group>";
+		};
+		8E19671A19ACD025009CB5E6 /* event */ = {
+			isa = PBXGroup;
+			children = (
+				8E19671B19ACD157009CB5E6 /* Keyboard.hpp */,
+				8E19672119ACD4C5009CB5E6 /* mac_VKeyCodes.hpp */,
+			);
+			path = event;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -385,8 +396,11 @@
 				8E112DB9199E5FE20029CD38 /* OpenGLBuffer.hpp in Headers */,
 				8E112DDB199E60A50029CD38 /* Behaviour.hpp in Headers */,
 				8E112DC4199E5FE20029CD38 /* Shader.hpp in Headers */,
+				8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */,
 				8E112D46199E55100029CD38 /* Angle.hpp in Headers */,
+				8E19671F19ACD30B009CB5E6 /* mac_ControlsContext.hpp in Headers */,
 				8E112DBF199E5FE20029CD38 /* OpenGLPipeline.hpp in Headers */,
+				8E19671C19ACD157009CB5E6 /* Keyboard.hpp in Headers */,
 				8E112DB4199E5FE20029CD38 /* Material.hpp in Headers */,
 				8E112DC3199E5FE20029CD38 /* PixelFormat.hpp in Headers */,
 				8E112DE0199E60A50029CD38 /* Entity.hpp in Headers */,
@@ -395,27 +409,25 @@
 				8E112DCA199E60150029CD38 /* Generators.hpp in Headers */,
 				8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */,
 				8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */,
-				8E0EF74C19A1076100CF38A2 /* mac_InputContext.hpp in Headers */,
 				8E112D44199E55100029CD38 /* AABB.hpp in Headers */,
 				8E112DBB199E5FE20029CD38 /* OpenGLConstantBuffer.hpp in Headers */,
-				8E0EF74E19A1123100CF38A2 /* mac_Application.hpp in Headers */,
+				8E19672219ACD4C5009CB5E6 /* mac_VKeyCodes.hpp in Headers */,
 				8E112D83199E5F540029CD38 /* MemoryResource.hpp in Headers */,
 				8E112DB6199E5FE20029CD38 /* Mesh.hpp in Headers */,
 				8E112DC5199E5FE20029CD38 /* Texture.hpp in Headers */,
-				8E0EF74819A0E43C00CF38A2 /* InputContext.hpp in Headers */,
+				8E0EF74819A0E43C00CF38A2 /* ControlsContext.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
 				8E112DDF199E60A50029CD38 /* Game.hpp in Headers */,
 				8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */,
 				8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */,
-				8E112DF8199E60C10029CD38 /* mac_VKeyCodes.hpp in Headers */,
 				8E112DED199E60B70029CD38 /* Time.hpp in Headers */,
 				8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */,
 				8E112D8E199E5F870029CD38 /* RingBuffer.hpp in Headers */,
 				8E112DC2199E5FE20029CD38 /* Pipeline.hpp in Headers */,
-				8E112DCD199E60920029CD38 /* Keyboard.hpp in Headers */,
 				8E112D95199E5FC70029CD38 /* ConceptTraits.hpp in Headers */,
 				8E112DB7199E5FE20029CD38 /* OpenGL.hpp in Headers */,
 				8E112D85199E5F540029CD38 /* SystemMemoryResource.hpp in Headers */,
+				8E19671919ACCADD009CB5E6 /* Bindings.hpp in Headers */,
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
 				8E112DC1199E5FE20029CD38 /* OpenGLShader.hpp in Headers */,
 				8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */,
@@ -477,12 +489,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E0EF74A19A1068300CF38A2 /* mac_InputContext.mm in Sources */,
 				8E112DF7199E60C10029CD38 /* mac_OpenGLContext.mm in Sources */,
-				8E112DF4199E60C10029CD38 /* mac_Application.mm in Sources */,
+				8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */,
 				8E112DDC199E60A50029CD38 /* Camera.cpp in Sources */,
 				8E112DBA199E5FE20029CD38 /* OpenGLConstantBuffer.cpp in Sources */,
-				8E112DF5199E60C10029CD38 /* mac_Logging.mm in Sources */,
+				8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */,
 				8E112DBE199E5FE20029CD38 /* OpenGLPipeline.cpp in Sources */,
 				8E112DE1199E60A50029CD38 /* Scene.cpp in Sources */,
 				8E112DBC199E5FE20029CD38 /* OpenGLMesh.cpp in Sources */,
@@ -497,6 +508,7 @@
 				8E112DB8199E5FE20029CD38 /* OpenGLBuffer.cpp in Sources */,
 				8E112DB5199E5FE20029CD38 /* Mesh.cpp in Sources */,
 				8E112DDE199E60A50029CD38 /* Game.cpp in Sources */,
+				8E19672019ACD30B009CB5E6 /* mac_ControlsContext.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,15 +1,15 @@
 // ------------------------------------------------------------------
-// Application - stardazed
+// controls::ControlsContext - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_SYSTEM_APPLICATION_H
-#define SD_SYSTEM_APPLICATION_H
+#ifndef SD_CONTROLS_CONTROLSCONTEXT_H
+#define SD_CONTROLS_CONTROLSCONTEXT_H
 
 #include "system/DetectPlatform.hpp"
 
 #ifdef SD_PLATFORM_OSX
-#	include "mac_Application.hpp"
+#	include "mac_ControlsContext.hpp"
 #endif
 
 #endif

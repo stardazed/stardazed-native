@@ -1,35 +1,35 @@
 // ------------------------------------------------------------------
-// MacInputContext - stardazed
+// mac_ControlsContext - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_INPUT_MACINPUTCONTEXT_H
-#define SD_INPUT_MACINPUTCONTEXT_H
+#ifndef SD_CONTROLS_CONTROLSCONTEXT_H
+#define SD_CONTROLS_CONTROLSCONTEXT_H
 
-#include "input/InputContext.hpp"
+#include "event/Keyboard.hpp"
 
 #include <array>
 #include <bitset>
 
 namespace stardazed {
-namespace input {
+namespace controls {
 
 	
-class MacInputContext : public InputContext {
-	std::array<Key, 512> keyTransTable_;
+class ControlsContext {
+	std::array<event::Key, 512> keyTransTable_;
 	std::bitset<128> keyPressTable_;
 
 	void buildKeyTranslationTable();
-	void handleKeyDown(Key);
-	void handleKeyUp(Key);
+	void handleKeyDown(event::Key);
+	void handleKeyUp(event::Key);
 
 public:
-	MacInputContext();
+	ControlsContext();
 	
-	void processSystemEvents() override;
+	void processSystemEvents();
 
 	// -- Keyboard
-	bool isKeyPressed(Key) override;
+	bool isKeyPressed(event::Key);
 	
 	// -- Mouse
 	
@@ -40,7 +40,7 @@ public:
 };
 	
 	
-} // ns input
+} // ns controls
 } // ns stardazed
 
 #endif

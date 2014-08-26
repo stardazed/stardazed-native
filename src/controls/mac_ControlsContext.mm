@@ -1,40 +1,40 @@
 // ------------------------------------------------------------------
-// MacInputContext - stardazed
+// mac_ControlsContext - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #include "system/Logging.hpp"
-#include "plat_macosx/mac_InputContext.hpp"
-#include "plat_macosx/mac_VKeyCodes.hpp"
+#include "event/mac_VKeyCodes.hpp"
+#include "controls/mac_ControlsContext.hpp"
 
 #import <AppKit/AppKit.h>
 #include <algorithm>
 
 namespace stardazed {
-namespace input {
+namespace controls {
 
 
-MacInputContext::MacInputContext() {
+ControlsContext::ControlsContext() {
 	buildKeyTranslationTable();
 }
 
 
-bool MacInputContext::isKeyPressed(Key key) {
+bool ControlsContext::isKeyPressed(event::Key key) {
 	return keyPressTable_.test(static_cast<size_t>(key));
 }
 
-void MacInputContext::handleKeyDown(Key key) {
+void ControlsContext::handleKeyDown(event::Key key) {
 	log("press %z", static_cast<size_t>(key));
 	keyPressTable_.set(static_cast<size_t>(key));
 }
 
-void MacInputContext::handleKeyUp(Key key) {
+void ControlsContext::handleKeyUp(event::Key key) {
 	log("release %z", static_cast<size_t>(key));
 	keyPressTable_.reset(static_cast<size_t>(key));
 }
 
 
-void MacInputContext::processSystemEvents() {
+void ControlsContext::processSystemEvents() {
 	@autoreleasepool {
 		NSEvent* ev;
 
@@ -57,7 +57,8 @@ void MacInputContext::processSystemEvents() {
 }
 
 
-void MacInputContext::buildKeyTranslationTable() {
+void ControlsContext::buildKeyTranslationTable() {
+	using event::Key;
 	std::fill(keyTransTable_.begin(), keyTransTable_.end(), Key::Unknown);
 	auto& ktt = keyTransTable_;
 	
@@ -137,5 +138,5 @@ void MacInputContext::buildKeyTranslationTable() {
 }
 
 	
-} // ns input
+} // ns controls
 } // ns stardazed
