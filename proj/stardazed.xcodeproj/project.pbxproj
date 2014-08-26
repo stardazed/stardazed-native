@@ -77,7 +77,7 @@
 		8E19671919ACCADD009CB5E6 /* Bindings.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671819ACCADD009CB5E6 /* Bindings.hpp */; };
 		8E19671C19ACD157009CB5E6 /* Keyboard.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671B19ACD157009CB5E6 /* Keyboard.hpp */; };
 		8E19671F19ACD30B009CB5E6 /* mac_ControlsContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671D19ACD30B009CB5E6 /* mac_ControlsContext.hpp */; };
-		8E19672019ACD30B009CB5E6 /* mac_ControlsContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.mm */; };
+		8E19672019ACD30B009CB5E6 /* mac_ControlsContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.cpp */; };
 		8E19672219ACD4C5009CB5E6 /* mac_VKeyCodes.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672119ACD4C5009CB5E6 /* mac_VKeyCodes.hpp */; };
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
@@ -156,7 +156,7 @@
 		8E19671819ACCADD009CB5E6 /* Bindings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bindings.hpp; sourceTree = "<group>"; };
 		8E19671B19ACD157009CB5E6 /* Keyboard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
 		8E19671D19ACD30B009CB5E6 /* mac_ControlsContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_ControlsContext.hpp; sourceTree = "<group>"; };
-		8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_ControlsContext.mm; sourceTree = "<group>"; };
+		8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_ControlsContext.cpp; sourceTree = "<group>"; };
 		8E19672119ACD4C5009CB5E6 /* mac_VKeyCodes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_VKeyCodes.hpp; sourceTree = "<group>"; };
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
@@ -327,7 +327,7 @@
 				8E0EF74719A0E43C00CF38A2 /* ControlsContext.hpp */,
 				8E19671819ACCADD009CB5E6 /* Bindings.hpp */,
 				8E19671D19ACD30B009CB5E6 /* mac_ControlsContext.hpp */,
-				8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.mm */,
+				8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.cpp */,
 			);
 			path = controls;
 			sourceTree = "<group>";
@@ -520,7 +520,7 @@
 				8E112DB8199E5FE20029CD38 /* OpenGLBuffer.cpp in Sources */,
 				8E112DB5199E5FE20029CD38 /* Mesh.cpp in Sources */,
 				8E112DDE199E60A50029CD38 /* Game.cpp in Sources */,
-				8E19672019ACD30B009CB5E6 /* mac_ControlsContext.mm in Sources */,
+				8E19672019ACD30B009CB5E6 /* mac_ControlsContext.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
