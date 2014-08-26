@@ -8,7 +8,7 @@
 
 #include "render/RenderContext.hpp"
 #include "audio/AudioContext.hpp"
-#include "input/InputContext.hpp"
+#include "controls/ControlsContext.hpp"
 
 namespace stardazed {
 namespace runtime {
@@ -17,18 +17,18 @@ namespace runtime {
 class Client {
 	render::RenderContext& renderCtx_;
 	audio::AudioContext& audioCtx_;
-	input::InputContext& inputCtx_;
+	controls::ControlsContext& controlsCtx_;
 	
 public:
-	Client(render::RenderContext& rc, audio::AudioContext& ac, input::InputContext& ic)
+	Client(render::RenderContext& rc, audio::AudioContext& ac, controls::ControlsContext& cc)
 	: renderCtx_(rc)
 	, audioCtx_(ac)
-	, inputCtx_(ic)
+	, controlsCtx_(cc)
 	{}
 	
-	auto& render() { return renderCtx_; }
-	auto& audio()  { return audioCtx_; }
-	auto& input()  { return inputCtx_; }
+	auto& render()   { return renderCtx_; }
+	auto& audio()    { return audioCtx_; }
+	auto& controls() { return controlsCtx_; }
 };
 
 

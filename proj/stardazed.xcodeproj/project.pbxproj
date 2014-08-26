@@ -10,6 +10,9 @@
 		8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */; };
 		8E0EF74819A0E43C00CF38A2 /* ControlsContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74719A0E43C00CF38A2 /* ControlsContext.hpp */; };
 		8E0EF75119A13E4E00CF38A2 /* Client.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF75019A13E4E00CF38A2 /* Client.hpp */; };
+		8E0EF75519AD3BB900CF38A2 /* EventService.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF75419AD3BB900CF38A2 /* EventService.hpp */; };
+		8E0EF75719AD3CC300CF38A2 /* mac_EventService.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF75619AD3CC300CF38A2 /* mac_EventService.hpp */; };
+		8E0EF75919AD459F00CF38A2 /* mac_EventService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EF75819AD459F00CF38A2 /* mac_EventService.mm */; };
 		8E112D44199E55100029CD38 /* AABB.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3C199E55100029CD38 /* AABB.hpp */; };
 		8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3D199E55100029CD38 /* Algorithm.hpp */; };
 		8E112D46199E55100029CD38 /* Angle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3E199E55100029CD38 /* Angle.hpp */; };
@@ -85,6 +88,9 @@
 		8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioContext.hpp; sourceTree = "<group>"; };
 		8E0EF74719A0E43C00CF38A2 /* ControlsContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ControlsContext.hpp; sourceTree = "<group>"; };
 		8E0EF75019A13E4E00CF38A2 /* Client.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Client.hpp; sourceTree = "<group>"; };
+		8E0EF75419AD3BB900CF38A2 /* EventService.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventService.hpp; sourceTree = "<group>"; };
+		8E0EF75619AD3CC300CF38A2 /* mac_EventService.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_EventService.hpp; sourceTree = "<group>"; };
+		8E0EF75819AD459F00CF38A2 /* mac_EventService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_EventService.mm; sourceTree = "<group>"; };
 		8E112D2D199E53CC0029CD38 /* libstardazed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libstardazed.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E112D3C199E55100029CD38 /* AABB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AABB.hpp; sourceTree = "<group>"; };
 		8E112D3D199E55100029CD38 /* Algorithm.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Algorithm.hpp; sourceTree = "<group>"; };
@@ -371,7 +377,10 @@
 			isa = PBXGroup;
 			children = (
 				8E19671B19ACD157009CB5E6 /* Keyboard.hpp */,
+				8E0EF75419AD3BB900CF38A2 /* EventService.hpp */,
 				8E19672119ACD4C5009CB5E6 /* mac_VKeyCodes.hpp */,
+				8E0EF75619AD3CC300CF38A2 /* mac_EventService.hpp */,
+				8E0EF75819AD459F00CF38A2 /* mac_EventService.mm */,
 			);
 			path = event;
 			sourceTree = "<group>";
@@ -388,6 +397,7 @@
 				8E112DF6199E60C10029CD38 /* mac_OpenGLContext.hpp in Headers */,
 				8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */,
 				8E112DBD199E5FE20029CD38 /* OpenGLMesh.hpp in Headers */,
+				8E0EF75719AD3CC300CF38A2 /* mac_EventService.hpp in Headers */,
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
 				8E112D8C199E5F870029CD38 /* ObjectPool.hpp in Headers */,
 				8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */,
@@ -426,6 +436,7 @@
 				8E112DC2199E5FE20029CD38 /* Pipeline.hpp in Headers */,
 				8E112D95199E5FC70029CD38 /* ConceptTraits.hpp in Headers */,
 				8E112DB7199E5FE20029CD38 /* OpenGL.hpp in Headers */,
+				8E0EF75519AD3BB900CF38A2 /* EventService.hpp in Headers */,
 				8E112D85199E5F540029CD38 /* SystemMemoryResource.hpp in Headers */,
 				8E19671919ACCADD009CB5E6 /* Bindings.hpp in Headers */,
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
@@ -489,6 +500,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E0EF75919AD459F00CF38A2 /* mac_EventService.mm in Sources */,
 				8E112DF7199E60C10029CD38 /* mac_OpenGLContext.mm in Sources */,
 				8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */,
 				8E112DDC199E60A50029CD38 /* Camera.cpp in Sources */,
