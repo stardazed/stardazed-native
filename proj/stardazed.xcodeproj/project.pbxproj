@@ -72,8 +72,6 @@
 		8E112DEB199E60B70029CD38 /* DetectPlatform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE7199E60B70029CD38 /* DetectPlatform.hpp */; };
 		8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE8199E60B70029CD38 /* Logging.hpp */; };
 		8E112DED199E60B70029CD38 /* Time.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE9199E60B70029CD38 /* Time.hpp */; };
-		8E112DF6199E60C10029CD38 /* mac_OpenGLContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DF1199E60C10029CD38 /* mac_OpenGLContext.hpp */; };
-		8E112DF7199E60C10029CD38 /* mac_OpenGLContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DF2199E60C10029CD38 /* mac_OpenGLContext.mm */; };
 		8E19671919ACCADD009CB5E6 /* Bindings.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671819ACCADD009CB5E6 /* Bindings.hpp */; };
 		8E19671C19ACD157009CB5E6 /* Keyboard.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671B19ACD157009CB5E6 /* Keyboard.hpp */; };
 		8E19671F19ACD30B009CB5E6 /* mac_ControlsContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671D19ACD30B009CB5E6 /* mac_ControlsContext.hpp */; };
@@ -82,6 +80,8 @@
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
 		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
+		8E89E99C19AD4896001AB2AF /* mac_OpenGLContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_OpenGLContext.hpp */; };
+		8E89E99D19AD4896001AB2AF /* mac_OpenGLContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_OpenGLContext.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -151,8 +151,6 @@
 		8E112DE7199E60B70029CD38 /* DetectPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DetectPlatform.hpp; sourceTree = "<group>"; };
 		8E112DE8199E60B70029CD38 /* Logging.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logging.hpp; sourceTree = "<group>"; };
 		8E112DE9199E60B70029CD38 /* Time.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Time.hpp; sourceTree = "<group>"; };
-		8E112DF1199E60C10029CD38 /* mac_OpenGLContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_OpenGLContext.hpp; sourceTree = "<group>"; };
-		8E112DF2199E60C10029CD38 /* mac_OpenGLContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_OpenGLContext.mm; sourceTree = "<group>"; };
 		8E19671819ACCADD009CB5E6 /* Bindings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bindings.hpp; sourceTree = "<group>"; };
 		8E19671B19ACD157009CB5E6 /* Keyboard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
 		8E19671D19ACD30B009CB5E6 /* mac_ControlsContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_ControlsContext.hpp; sourceTree = "<group>"; };
@@ -161,6 +159,8 @@
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
 		8E19672519ACD69F009CB5E6 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
+		8E89E99A19AD4896001AB2AF /* mac_OpenGLContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_OpenGLContext.hpp; sourceTree = "<group>"; };
+		8E89E99B19AD4896001AB2AF /* mac_OpenGLContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_OpenGLContext.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,7 +221,6 @@
 				8E112DCE199E60A50029CD38 /* scene */,
 				8E0EF74F19A13B6C00CF38A2 /* runtime */,
 				8E112DE5199E60B70029CD38 /* system */,
-				8E112DEE199E60C10029CD38 /* plat_macosx */,
 			);
 			name = src;
 			path = /Users/arthur/Documents/Creations/lib/stardazed/src;
@@ -308,6 +307,8 @@
 				8E112DAA199E5FE20029CD38 /* OpenGLPipeline.hpp */,
 				8E112DAB199E5FE20029CD38 /* OpenGLShader.cpp */,
 				8E112DAC199E5FE20029CD38 /* OpenGLShader.hpp */,
+				8E89E99A19AD4896001AB2AF /* mac_OpenGLContext.hpp */,
+				8E89E99B19AD4896001AB2AF /* mac_OpenGLContext.mm */,
 			);
 			path = opengl;
 			sourceTree = "<group>";
@@ -364,15 +365,6 @@
 			path = system;
 			sourceTree = "<group>";
 		};
-		8E112DEE199E60C10029CD38 /* plat_macosx */ = {
-			isa = PBXGroup;
-			children = (
-				8E112DF1199E60C10029CD38 /* mac_OpenGLContext.hpp */,
-				8E112DF2199E60C10029CD38 /* mac_OpenGLContext.mm */,
-			);
-			path = plat_macosx;
-			sourceTree = "<group>";
-		};
 		8E19671A19ACD025009CB5E6 /* event */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,7 +386,6 @@
 			files = (
 				8E112DEB199E60B70029CD38 /* DetectPlatform.hpp in Headers */,
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
-				8E112DF6199E60C10029CD38 /* mac_OpenGLContext.hpp in Headers */,
 				8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */,
 				8E112DBD199E5FE20029CD38 /* OpenGLMesh.hpp in Headers */,
 				8E0EF75719AD3CC300CF38A2 /* mac_EventService.hpp in Headers */,
@@ -440,6 +431,7 @@
 				8E112D85199E5F540029CD38 /* SystemMemoryResource.hpp in Headers */,
 				8E19671919ACCADD009CB5E6 /* Bindings.hpp in Headers */,
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
+				8E89E99C19AD4896001AB2AF /* mac_OpenGLContext.hpp in Headers */,
 				8E112DC1199E5FE20029CD38 /* OpenGLShader.hpp in Headers */,
 				8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */,
 				8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */,
@@ -501,7 +493,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E0EF75919AD459F00CF38A2 /* mac_EventService.mm in Sources */,
-				8E112DF7199E60C10029CD38 /* mac_OpenGLContext.mm in Sources */,
 				8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */,
 				8E112DDC199E60A50029CD38 /* Camera.cpp in Sources */,
 				8E112DBA199E5FE20029CD38 /* OpenGLConstantBuffer.cpp in Sources */,
@@ -510,6 +501,7 @@
 				8E112DE1199E60A50029CD38 /* Scene.cpp in Sources */,
 				8E112DBC199E5FE20029CD38 /* OpenGLMesh.cpp in Sources */,
 				8E112DC0199E5FE20029CD38 /* OpenGLShader.cpp in Sources */,
+				8E89E99D19AD4896001AB2AF /* mac_OpenGLContext.mm in Sources */,
 				8E112DB3199E5FE20029CD38 /* Material.cpp in Sources */,
 				8E112DC9199E60150029CD38 /* Generators.cpp in Sources */,
 				8E112D48199E55100029CD38 /* Matrix.cpp in Sources */,
