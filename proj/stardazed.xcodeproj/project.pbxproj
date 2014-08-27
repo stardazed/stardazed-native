@@ -80,6 +80,7 @@
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
 		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
+		8E1AA6B519ADBEF700C41947 /* OpenGLContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E1AA6B419ADBEF700C41947 /* OpenGLContext.hpp */; };
 		8E89E99C19AD4896001AB2AF /* mac_OpenGLContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_OpenGLContext.hpp */; };
 		8E89E99D19AD4896001AB2AF /* mac_OpenGLContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_OpenGLContext.mm */; };
 /* End PBXBuildFile section */
@@ -159,6 +160,7 @@
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
 		8E19672519ACD69F009CB5E6 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
+		8E1AA6B419ADBEF700C41947 /* OpenGLContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenGLContext.hpp; sourceTree = "<group>"; };
 		8E89E99A19AD4896001AB2AF /* mac_OpenGLContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_OpenGLContext.hpp; sourceTree = "<group>"; };
 		8E89E99B19AD4896001AB2AF /* mac_OpenGLContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_OpenGLContext.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -307,6 +309,7 @@
 				8E112DAA199E5FE20029CD38 /* OpenGLPipeline.hpp */,
 				8E112DAB199E5FE20029CD38 /* OpenGLShader.cpp */,
 				8E112DAC199E5FE20029CD38 /* OpenGLShader.hpp */,
+				8E1AA6B419ADBEF700C41947 /* OpenGLContext.hpp */,
 				8E89E99A19AD4896001AB2AF /* mac_OpenGLContext.hpp */,
 				8E89E99B19AD4896001AB2AF /* mac_OpenGLContext.mm */,
 			);
@@ -423,6 +426,7 @@
 				8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */,
 				8E112DED199E60B70029CD38 /* Time.hpp in Headers */,
 				8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */,
+				8E1AA6B519ADBEF700C41947 /* OpenGLContext.hpp in Headers */,
 				8E112D8E199E5F870029CD38 /* RingBuffer.hpp in Headers */,
 				8E112DC2199E5FE20029CD38 /* Pipeline.hpp in Headers */,
 				8E112D95199E5FC70029CD38 /* ConceptTraits.hpp in Headers */,
