@@ -27,6 +27,29 @@ void EventService::handleKeyDown(Key key) {
 void EventService::handleKeyUp(Key key) {
 	log("release %z", static_cast<size_t>(key));
 }
+	
+
+void EventService::processSystemEvents() {
+	@autoreleasepool {
+		NSEvent* ev;
+		
+		do {
+			ev = [NSApp nextEventMatchingMask: NSAnyEventMask
+									untilDate: nil
+									   inMode: NSDefaultRunLoopMode
+									  dequeue: YES];
+			if (ev) {
+				[NSApp sendEvent: ev];
+				
+				switch([ev type]) {
+					case NSKeyDown: handleKeyDown(keyTransTable_[[ev keyCode]]); break;
+					case NSKeyUp:   handleKeyUp(keyTransTable_[[ev keyCode]]); break;
+					default: break;
+				}
+			}
+		} while (ev);
+	}
+}
 
 
 void EventService::buildKeyTranslationTable() {
@@ -106,29 +129,6 @@ void EventService::buildKeyTranslationTable() {
 	ktt[kVK_Control]             = Key::LeftControl;           ktt[kVK_RightControl]      = Key::RightControl;
 	ktt[kVK_Option]              = Key::LeftAlt;               ktt[kVK_RightOption]       = Key::RightAlt;
 	ktt[kVK_Command]             = Key::LeftMeta;              ktt[kVK_SD_RightCommand]   = Key::RightMeta;
-}
-
-
-void EventService::processSystemEvents() {
-	@autoreleasepool {
-		NSEvent* ev;
-		
-		do {
-			ev = [NSApp nextEventMatchingMask: NSAnyEventMask
-									untilDate: nil
-									   inMode: NSDefaultRunLoopMode
-									  dequeue: YES];
-			if (ev) {
-				[NSApp sendEvent: ev];
-				
-				switch([ev type]) {
-					case NSKeyDown: handleKeyDown(keyTransTable_[[ev keyCode]]); break;
-					case NSKeyUp:   handleKeyUp(keyTransTable_[[ev keyCode]]); break;
-					default: break;
-				}
-			}
-		} while (ev);
-	}
 }
 
 
