@@ -8,9 +8,22 @@
 
 #include "event/Keyboard.hpp"
 #include <array>
+#include <functional>
 
 namespace stardazed {
 namespace event {
+
+
+template <typename T>
+class EventSource {
+
+public:
+	using ListenerFunc = std::function<void(EventSource&, T)>;
+	using ListenerRef = size_t;
+
+	ListenerRef listen(ListenerFunc);
+	void silence(ListenerRef);
+};
 
 
 class EventService {
