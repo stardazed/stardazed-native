@@ -6,7 +6,7 @@
 #ifndef SD_CONTROLS_MAC_CONTROLSCONTEXT_H
 #define SD_CONTROLS_MAC_CONTROLSCONTEXT_H
 
-#include "event/Keyboard.hpp"
+#include "event/EventService.hpp"
 
 #include <bitset>
 
@@ -16,9 +16,10 @@ namespace controls {
 	
 class ControlsContext {
 	std::bitset<128> keyPressTable_;
+	event::EventService& events_;
 
 public:
-	ControlsContext();
+	ControlsContext(event::EventService&);
 
 	// -- Keyboard
 	bool isKeyPressed(event::Key);

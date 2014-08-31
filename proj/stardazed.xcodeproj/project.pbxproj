@@ -568,6 +568,7 @@
 					"-Wall",
 					"-Wextra",
 					"-Wno-missing-braces",
+					"-Wglobal-constructors",
 				);
 				SDKROOT = macosx;
 			};
@@ -612,6 +613,7 @@
 					"-Wall",
 					"-Wextra",
 					"-Wno-missing-braces",
+					"-Wglobal-constructors",
 				);
 				SDKROOT = macosx;
 			};
@@ -621,14 +623,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-std=c++1y",
-					"-Wall",
-					"-Wextra",
-					"-Wno-missing-braces",
-					"-Wglobal-constructors",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -637,14 +631,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-std=c++1y",
-					"-Wall",
-					"-Wextra",
-					"-Wno-missing-braces",
-					"-Wglobal-constructors",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

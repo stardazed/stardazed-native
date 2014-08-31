@@ -10,7 +10,9 @@ namespace stardazed {
 namespace controls {
 
 
-ControlsContext::ControlsContext() {
+ControlsContext::ControlsContext(event::EventService& events)
+: events_(events)
+{
 }
 
 
