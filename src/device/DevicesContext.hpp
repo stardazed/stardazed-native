@@ -1,15 +1,15 @@
 // ------------------------------------------------------------------
-// event::EventService - stardazed
+// device::DevicesContext - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_EVENT_EVENTSERVICE_H
-#define SD_EVENT_EVENTSERVICE_H
+#ifndef SD_DEVICE_DEVICESCONTEXT_H
+#define SD_DEVICE_DEVICESCONTEXT_H
 
 #include "system/DetectPlatform.hpp"
 
 #ifdef SD_PLATFORM_OSX
-#include "event/mac_EventService.hpp"
+#include "device/mac_DevicesContext.hpp"
 #endif
 
 #endif

@@ -1,28 +1,29 @@
 // ------------------------------------------------------------------
-// event::Keyboard - stardazed
+// device::Keyboard - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_EVENT_KEYBOARD_H
-#define SD_EVENT_KEYBOARD_H
+#ifndef SD_DEVICE_KEYBOARD_H
+#define SD_DEVICE_KEYBOARD_H
 
-#include <cstdint>
+#include "util/ConceptTraits.hpp"
+#include <bitset>
 
 namespace stardazed {
-namespace event {
+namespace device {
 
 
 // Key names based on ANSI/ISO keyboard layout
 enum class Key : uint16_t {
-	Unknown,
-
+	None,
+	
 	A, B, C, D, E, F, G, H, I,
 	J, K, L, M, N, O, P, Q, R,
 	S, T, U, V, W, X, Y, Z,
-
+	
 	Num1, Num2, Num3, Num4, Num5,
 	Num6, Num7, Num8, Num9, Num0,
-
+	
 	NumPad1, NumPad2, NumPad3, NumPad4, NumPad5,
 	NumPad6, NumPad7, NumPad8, NumPad9, NumPad0,
 	NumPadDecimal, NumPadEnter,
@@ -31,7 +32,7 @@ enum class Key : uint16_t {
 	NumLock,
 	
 	Space, Backspace, Tab, Return,
-
+	
 	Insert, Delete, Home, End, PageUp, PageDown,
 	ArrowUp, ArrowDown, ArrowLeft, ArrowRight,
 	
@@ -41,7 +42,7 @@ enum class Key : uint16_t {
 	Backslash, Slash,
 	Comma, Period,
 	Section, // Mac ISO only
-
+	
 	Escape,
 	F1, F2, F3, F4, F5, F6,
 	F7, F8, F9, F10, F11, F12,
@@ -56,9 +57,37 @@ enum class Key : uint16_t {
 	Context // Win only
 };
 
-	
 
-} // ns event
+class Keyboard;
+
+
+class KeyboardSnapshot {
+	std::bitset<128> pressed_;
+	
+	friend class Keyboard;
+	KeyboardSnapshot(std::bitset<128>);
+
+public:
+	bool isPressed(Key) const;
+};
+
+
+class Keyboard {
+	std::bitset<128> pressed_;
+
+	SD_NOCOPYORMOVE_CLASS(Keyboard)
+
+public:
+	Keyboard() = default;
+	const KeyboardSnapshot snapshot() const;
+
+	bool isPressed(Key) const;
+	void press(Key);
+	void release(Key);
+};
+
+
+} // ns device
 } // ns stardazed
 
 #endif

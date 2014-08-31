@@ -8,8 +8,7 @@
 
 #include "render/RenderContext.hpp"
 #include "audio/AudioContext.hpp"
-#include "event/EventService.hpp"
-#include "controls/ControlsContext.hpp"
+#include "device/DevicesContext.hpp"
 
 namespace stardazed {
 namespace runtime {
@@ -18,18 +17,18 @@ namespace runtime {
 class Client {
 	render::RenderContext& renderCtx_;
 	audio::AudioContext& audioCtx_;
-	event::EventService& eventSvc_;
+	device::DevicesContext& devicesCtx_;
 	
 public:
-	Client(render::RenderContext& rc, audio::AudioContext& ac, event::EventService& es)
+	Client(render::RenderContext& rc, audio::AudioContext& ac, device::DevicesContext& dc)
 	: renderCtx_(rc)
 	, audioCtx_(ac)
-	, eventSvc_(es)
+	, devicesCtx_(dc)
 	{}
 	
 	auto& render()   { return renderCtx_; }
 	auto& audio()    { return audioCtx_; }
-	auto& event()    { return eventSvc_; }
+	auto& devices()  { return devicesCtx_; }
 };
 
 

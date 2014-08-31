@@ -10,14 +10,8 @@ namespace stardazed {
 namespace controls {
 
 
-ControlsContext::ControlsContext(event::EventService& events)
-: events_(events)
+ControlsContext::ControlsContext()
 {
-}
-
-
-bool ControlsContext::isKeyPressed(event::Key key) {
-	return keyPressTable_.test(static_cast<size_t>(key));
 }
 
 	

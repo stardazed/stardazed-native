@@ -1,35 +1,37 @@
 // ------------------------------------------------------------------
-// event::mac_EventService - stardazed
+// device::mac_DevicesContext - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "event/mac_EventService.hpp"
-#include "event/mac_VKeyCodes.hpp"
+#include "device/mac_DevicesContext.hpp"
+#include "device/mac_VKeyCodes.hpp"
 #include "system/Logging.hpp"
 
 #include <algorithm>
 #import <AppKit/AppKit.h>
 
 namespace stardazed {
-namespace event {
+namespace device {
 
 
-EventService::EventService() {
+DevicesContext::DevicesContext() {
 	buildKeyTranslationTable();
 }
 
 
-void EventService::handleKeyDown(Key key) {
+void DevicesContext::handleKeyDown(Key key) {
+	keyboard_.press(key);
 	log("press %z", static_cast<size_t>(key));
 }
 
 
-void EventService::handleKeyUp(Key key) {
+void DevicesContext::handleKeyUp(Key key) {
+	keyboard_.release(key);
 	log("release %z", static_cast<size_t>(key));
 }
-	
 
-void EventService::processSystemEvents() {
+
+void DevicesContext::processSystemEvents() {
 	@autoreleasepool {
 		NSEvent* ev;
 		
@@ -52,8 +54,13 @@ void EventService::processSystemEvents() {
 }
 
 
-void EventService::buildKeyTranslationTable() {
-	std::fill(keyTransTable_.begin(), keyTransTable_.end(), Key::Unknown);
+void DevicesContext::frame() {
+	processSystemEvents();
+}
+
+
+void DevicesContext::buildKeyTranslationTable() {
+	std::fill(keyTransTable_.begin(), keyTransTable_.end(), Key::None);
 	auto& ktt = keyTransTable_;
 	
 	// Letters
@@ -132,5 +139,5 @@ void EventService::buildKeyTranslationTable() {
 }
 
 
-} // ns event
+} // ns device
 } // ns stardazed
