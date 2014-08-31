@@ -18,6 +18,7 @@ class DevicesSnapshot {
 	KeyboardSnapshot keyboard_;
 	
 public:
+	DevicesSnapshot(KeyboardSnapshot);
 	const KeyboardSnapshot& keyboard() const;
 };
 

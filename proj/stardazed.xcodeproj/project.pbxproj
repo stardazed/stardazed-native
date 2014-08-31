@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */; };
-		8E0EF74819A0E43C00CF38A2 /* ControlsContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74719A0E43C00CF38A2 /* ControlsContext.hpp */; };
 		8E0EF75119A13E4E00CF38A2 /* Client.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF75019A13E4E00CF38A2 /* Client.hpp */; };
 		8E112D44199E55100029CD38 /* AABB.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3C199E55100029CD38 /* AABB.hpp */; };
 		8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3D199E55100029CD38 /* Algorithm.hpp */; };
@@ -70,8 +69,6 @@
 		8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE8199E60B70029CD38 /* Logging.hpp */; };
 		8E112DED199E60B70029CD38 /* Time.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE9199E60B70029CD38 /* Time.hpp */; };
 		8E19671919ACCADD009CB5E6 /* Bindings.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671819ACCADD009CB5E6 /* Bindings.hpp */; };
-		8E19671F19ACD30B009CB5E6 /* mac_ControlsContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671D19ACD30B009CB5E6 /* mac_ControlsContext.hpp */; };
-		8E19672019ACD30B009CB5E6 /* mac_ControlsContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.cpp */; };
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
 		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
@@ -88,7 +85,6 @@
 
 /* Begin PBXFileReference section */
 		8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioContext.hpp; sourceTree = "<group>"; };
-		8E0EF74719A0E43C00CF38A2 /* ControlsContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ControlsContext.hpp; sourceTree = "<group>"; };
 		8E0EF75019A13E4E00CF38A2 /* Client.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Client.hpp; sourceTree = "<group>"; };
 		8E112D2D199E53CC0029CD38 /* libstardazed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libstardazed.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E112D3C199E55100029CD38 /* AABB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AABB.hpp; sourceTree = "<group>"; };
@@ -151,8 +147,6 @@
 		8E112DE8199E60B70029CD38 /* Logging.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logging.hpp; sourceTree = "<group>"; };
 		8E112DE9199E60B70029CD38 /* Time.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Time.hpp; sourceTree = "<group>"; };
 		8E19671819ACCADD009CB5E6 /* Bindings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bindings.hpp; sourceTree = "<group>"; };
-		8E19671D19ACD30B009CB5E6 /* mac_ControlsContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_ControlsContext.hpp; sourceTree = "<group>"; };
-		8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_ControlsContext.cpp; sourceTree = "<group>"; };
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
 		8E19672519ACD69F009CB5E6 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
@@ -330,10 +324,7 @@
 		8E112DCB199E60920029CD38 /* controls */ = {
 			isa = PBXGroup;
 			children = (
-				8E0EF74719A0E43C00CF38A2 /* ControlsContext.hpp */,
 				8E19671819ACCADD009CB5E6 /* Bindings.hpp */,
-				8E19671D19ACD30B009CB5E6 /* mac_ControlsContext.hpp */,
-				8E19671E19ACD30B009CB5E6 /* mac_ControlsContext.cpp */,
 			);
 			path = controls;
 			sourceTree = "<group>";
@@ -407,7 +398,6 @@
 				8E112DC4199E5FE20029CD38 /* Shader.hpp in Headers */,
 				8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */,
 				8E112D46199E55100029CD38 /* Angle.hpp in Headers */,
-				8E19671F19ACD30B009CB5E6 /* mac_ControlsContext.hpp in Headers */,
 				8E112DBF199E5FE20029CD38 /* OpenGLPipeline.hpp in Headers */,
 				8E112DB4199E5FE20029CD38 /* Material.hpp in Headers */,
 				8E112DC3199E5FE20029CD38 /* PixelFormat.hpp in Headers */,
@@ -422,7 +412,6 @@
 				8E112D83199E5F540029CD38 /* MemoryResource.hpp in Headers */,
 				8E112DB6199E5FE20029CD38 /* Mesh.hpp in Headers */,
 				8E112DC5199E5FE20029CD38 /* Texture.hpp in Headers */,
-				8E0EF74819A0E43C00CF38A2 /* ControlsContext.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
 				8E112DDF199E60A50029CD38 /* Game.hpp in Headers */,
 				8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */,
@@ -519,7 +508,6 @@
 				8E112DB8199E5FE20029CD38 /* OpenGLBuffer.cpp in Sources */,
 				8E112DB5199E5FE20029CD38 /* Mesh.cpp in Sources */,
 				8E112DDE199E60A50029CD38 /* Game.cpp in Sources */,
-				8E19672019ACD30B009CB5E6 /* mac_ControlsContext.cpp in Sources */,
 				8E6A0DC419B3A7D900DF0921 /* Keyboard.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

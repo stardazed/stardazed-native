@@ -6,50 +6,42 @@
 #ifndef SD_CONTROLS_BINDINGS_H
 #define SD_CONTROLS_BINDINGS_H
 
-#include "math/Vector.hpp"
-#include "controls/ControlsContext.hpp"
+#include "device/DevicesContext.hpp"
 
 namespace stardazed {
 namespace controls {
 
 
 class Key {
-	event::Key key_;
-	float value_ = 0;
+	device::Key key_;
 
 public:
-	constexpr Key(event::Key k)
+	constexpr Key(device::Key k)
 	: key_(k)
 	{}
 
-	void update(ControlsContext& controls) {
-		value_ = controls.isKeyPressed(key_) ? 1 : 0;
+	float value(const DevicesSnapshot& dss) const {
+		return dss.keyboard().isPressed(key_) ? 1 : 0;
 	}
-	
-	constexpr float value() const { return value_; }
 };
 
 
 class KeyPair {
-	event::Key keyA_, keyB_;
-	float value_ = 0;
+	device::Key keyA_, keyB_;
 
 public:
-	constexpr Key(event::Key a, event::Key b)
+	constexpr KeyPair(device::Key a, device::Key b)
 	: keyA_(a)
 	, keyB_(b)
 	{}
 	
-	void update(ControlsContext& controls) {
-		float a = controls.isKeyPressed(keyA_) ? -1 : 0,
-			  b = controls.isKeyPressed(keyB_) ?  1 : 0;
+	float value(const DevicesSnapshot& dss) const {
+		float a = dss.keyboard().isPressed(keyA_) ? -1 : 0,
+			  b = dss.keyboard().isPressed(keyB_) ?  1 : 0;
 		
-		value_ = a + b;
+		return a + b;
 	}
-	
-	constexpr float value() const { return value_; }
 };
-
 
 
 } // ns controls

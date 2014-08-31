@@ -14,6 +14,17 @@ namespace stardazed {
 namespace device {
 
 
+DevicesSnapshot::DevicesSnapshot(KeyboardSnapshot kss)
+: keyboard_(kss) // FIXME: too many copies
+{}
+
+
+const KeyboardSnapshot& DevicesSnapshot::keyboard() const {
+	return keyboard_;
+}
+
+
+
 DevicesContext::DevicesContext() {
 	buildKeyTranslationTable();
 }
@@ -56,6 +67,11 @@ void DevicesContext::processSystemEvents() {
 
 void DevicesContext::frame() {
 	processSystemEvents();
+}
+
+
+const DevicesSnapshot DevicesContext::snapshot() {
+	return { keyboard_.snapshot() };
 }
 
 
