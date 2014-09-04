@@ -463,7 +463,7 @@
 		8E112D25199E53CC0029CD38 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = xfinitegames;
 			};
 			buildConfigurationList = 8E112D28199E53CC0029CD38 /* Build configuration list for PBXProject "stardazed" */;
@@ -614,6 +614,7 @@
 		8E112D32199E53CC0029CD38 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -622,6 +623,7 @@
 		8E112D33199E53CC0029CD38 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
