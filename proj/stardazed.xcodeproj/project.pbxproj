@@ -68,6 +68,9 @@
 		8E112DEB199E60B70029CD38 /* DetectPlatform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE7199E60B70029CD38 /* DetectPlatform.hpp */; };
 		8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE8199E60B70029CD38 /* Logging.hpp */; };
 		8E112DED199E60B70029CD38 /* Time.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE9199E60B70029CD38 /* Time.hpp */; };
+		8E147FAD19BB7644002836CA /* RunLoop.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E147FAC19BB7644002836CA /* RunLoop.hpp */; };
+		8E147FAF19BB9944002836CA /* RunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E147FAE19BB9944002836CA /* RunLoop.cpp */; };
+		8E147FB119BBA5B6002836CA /* TimeContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E147FB019BBA5B6002836CA /* TimeContext.hpp */; };
 		8E19671919ACCADD009CB5E6 /* Bindings.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671819ACCADD009CB5E6 /* Bindings.hpp */; };
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
@@ -146,6 +149,9 @@
 		8E112DE7199E60B70029CD38 /* DetectPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DetectPlatform.hpp; sourceTree = "<group>"; };
 		8E112DE8199E60B70029CD38 /* Logging.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logging.hpp; sourceTree = "<group>"; };
 		8E112DE9199E60B70029CD38 /* Time.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Time.hpp; sourceTree = "<group>"; };
+		8E147FAC19BB7644002836CA /* RunLoop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RunLoop.hpp; sourceTree = "<group>"; };
+		8E147FAE19BB9944002836CA /* RunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RunLoop.cpp; sourceTree = "<group>"; };
+		8E147FB019BBA5B6002836CA /* TimeContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TimeContext.hpp; sourceTree = "<group>"; };
 		8E19671819ACCADD009CB5E6 /* Bindings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bindings.hpp; sourceTree = "<group>"; };
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
@@ -183,7 +189,10 @@
 		8E0EF74F19A13B6C00CF38A2 /* runtime */ = {
 			isa = PBXGroup;
 			children = (
+				8E147FB019BBA5B6002836CA /* TimeContext.hpp */,
 				8E0EF75019A13E4E00CF38A2 /* Client.hpp */,
+				8E147FAC19BB7644002836CA /* RunLoop.hpp */,
+				8E147FAE19BB9944002836CA /* RunLoop.cpp */,
 			);
 			path = runtime;
 			sourceTree = "<group>";
@@ -405,6 +414,7 @@
 				8E0EF75119A13E4E00CF38A2 /* Client.hpp in Headers */,
 				8E112DE4199E60A50029CD38 /* Transform.hpp in Headers */,
 				8E112DCA199E60150029CD38 /* Generators.hpp in Headers */,
+				8E147FAD19BB7644002836CA /* RunLoop.hpp in Headers */,
 				8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */,
 				8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */,
 				8E112D44199E55100029CD38 /* AABB.hpp in Headers */,
@@ -432,6 +442,7 @@
 				8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */,
 				8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */,
 				8E112D49199E55100029CD38 /* Matrix.hpp in Headers */,
+				8E147FB119BBA5B6002836CA /* TimeContext.hpp in Headers */,
 				8E112DB2199E5FE20029CD38 /* RenderContext.hpp in Headers */,
 				8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */,
 			);
@@ -495,6 +506,7 @@
 				8E112DBE199E5FE20029CD38 /* OpenGLPipeline.cpp in Sources */,
 				8E112DE1199E60A50029CD38 /* Scene.cpp in Sources */,
 				8E112DBC199E5FE20029CD38 /* OpenGLMesh.cpp in Sources */,
+				8E147FAF19BB9944002836CA /* RunLoop.cpp in Sources */,
 				8E112DC0199E5FE20029CD38 /* OpenGLShader.cpp in Sources */,
 				8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */,
 				8E89E99D19AD4896001AB2AF /* mac_OpenGLContext.mm in Sources */,

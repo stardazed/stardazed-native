@@ -30,6 +30,16 @@
 	app_->quitNow();
 	return NSTerminateCancel;
 }
+
+- (void)applicationDidResignActive:(NSNotification *)aNotification {
+	SD_UNUSED_PARAM(aNotification)
+	app_->setActive(false);
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)aNotification {
+	SD_UNUSED_PARAM(aNotification)
+	app_->setActive(true);
+}
 @end
 
 
@@ -51,6 +61,7 @@ Application::Application() {
 	// -- allow relative paths to work from the Contents/Resources directory
 	changeToResourcesDirectory();
 	
+	active_ = true;
 	[app finishLaunching];
 }
 
@@ -61,11 +72,24 @@ void Application::changeToResourcesDirectory() {
 }
 
 
+// -- active state
+
+void Application::setActive(bool active) {
+	active_ = active;
+}
+
+bool Application::isActive() const {
+	return active_;
+}
+
+
+// -- quit state
+
 void Application::quitNow() {
 	quit_ = true;
 }
 
-bool Application::shouldQuit() {
+bool Application::shouldQuit() const {
 	return quit_;
 }
 

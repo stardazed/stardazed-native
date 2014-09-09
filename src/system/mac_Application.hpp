@@ -15,15 +15,20 @@ class Application {
 	SD_NOCOPYORMOVE_CLASS(Application)
 
 	bool quit_ = false;
+	bool active_ = false;
 	
 	void changeToResourcesDirectory();
 
 public:
 	Application();
 	
+	// -- active refers to app being frontmost
+	void setActive(bool);
+	bool isActive() const;
+	
 	// -- handling of Quit signal from system or user
 	void quitNow();
-	bool shouldQuit();
+	bool shouldQuit() const;
 	void resetShouldQuitFlag();
 };
 

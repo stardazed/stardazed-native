@@ -58,6 +58,10 @@ public:
 
 	// action methods
 	virtual void swap() = 0;
+	
+	// state
+	virtual bool isFullscreen() const = 0;
+	virtual bool usesVerticalSync() const = 0;
 };
 
 

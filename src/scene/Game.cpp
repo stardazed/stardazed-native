@@ -66,7 +66,7 @@ public:
 
 
 void Game::renderFrame(time::Duration) {
-	auto cam = *(scene_->camerasBegin()); // boom
+	auto& cam = *(scene_->camerasBegin()); // boom
 	RenderPass rp { *scene_, cam };
 	rp.render();
 }

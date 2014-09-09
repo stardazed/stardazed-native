@@ -157,6 +157,8 @@ public:
 	NSWindow* coverWindow;
 	id windowDelegate;
 	NSOpenGLContext* glContext;
+	NSDictionary* fullscreenOptions = nullptr;
+	bool verticalSync;
 };
 
 
@@ -172,13 +174,27 @@ OpenGLContext::OpenGLContext(const RenderContextDescriptor& descriptor)
 
 	platformData_->coverWindow = window;
 	platformData_->windowDelegate = delegate;
-	platformData_->glContext = [[platformData_->coverWindow contentView] openGLContext];
+	
+	SDOpenGLView *contentView = [platformData_->coverWindow contentView];
+	platformData_->glContext = [contentView openGLContext];
+
+	if (descriptor.fullscreen) {
+		platformData_->fullscreenOptions = @{};
+		[contentView enterFullScreenMode:[NSScreen mainScreen] withOptions:platformData_->fullscreenOptions];
+	}
+	
+	platformData_->verticalSync = descriptor.verticalSync;
 }
 
 
 OpenGLContext::~OpenGLContext() {
 	// need this defined _here_ because of the pimpl idiom using a unique_ptr
 	// http://stackoverflow.com/questions/9954518/stdunique-ptr-with-an-incomplete-type-wont-compile
+	
+	if (platformData_->fullscreenOptions != nullptr) {
+		SDOpenGLView *contentView = [platformData_->coverWindow contentView];
+		[contentView exitFullScreenModeWithOptions: platformData_->fullscreenOptions];
+	}
 }
 
 
@@ -199,6 +215,16 @@ Pipeline* OpenGLContext::makePipeline(const PipelineDescriptor& descriptor) {
 
 void OpenGLContext::swap() {
 	[platformData_->glContext flushBuffer];
+}
+
+
+bool OpenGLContext::isFullscreen() const {
+	return platformData_->fullscreenOptions != nullptr;
+}
+
+
+bool OpenGLContext::usesVerticalSync() const {
+	return platformData_->verticalSync;
 }
 
 

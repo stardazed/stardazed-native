@@ -29,6 +29,10 @@ public:
 	Pipeline* makePipeline(const PipelineDescriptor& descriptor) override;
 	
 	void swap() override;
+	
+	bool isFullscreen() const override;
+	bool usesVerticalSync() const override;
+
 
 private:
 	// object storage
