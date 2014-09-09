@@ -23,7 +23,7 @@ public:
 	
 	void step();
 	
-	sd::time::Duration delta() const;
+	time::Duration delta() const;
 };
 
 

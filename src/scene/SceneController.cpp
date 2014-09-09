@@ -1,16 +1,19 @@
 // ------------------------------------------------------------------
-// Game.cpp - stardazed
+// SceneController - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "scene/Game.hpp"
+#include "scene/SceneController.hpp"
 #include "scene/Camera.hpp"
 #include "scene/Entity.hpp"
 #include "scene/Transform.hpp"
 
 #include <algorithm>
 
+#include <OpenGL/gl3.h>
+
 namespace stardazed {
+namespace scene {
 
 
 template <typename It>
@@ -65,44 +68,23 @@ public:
 };
 
 
-void Game::renderFrame(time::Duration) {
-	auto& cam = *(scene_->camerasBegin()); // boom
-	RenderPass rp { *scene_, cam };
+void SceneController::renderFrame() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	auto& cam = *(scene_.camerasBegin()); // boom
+	RenderPass rp { scene_, cam };
 	rp.render();
 }
 
 
-void Game::simulationFrame() {
+void SceneController::simulationFrame() {
 	// very basic for now
-	std::for_each(scene_->allEntitiesBegin(), scene_->allEntitiesEnd(), [](scene::Entity& entity){
+	std::for_each(scene_.allEntitiesBegin(), scene_.allEntitiesEnd(), [](scene::Entity& entity){
 		if (entity.behaviour)
 			entity.behaviour->update(entity);
 	});
 }
 
 
-void Game::step() {
-	auto currentTime = time::now();
-	auto elapsedTime = currentTime - previousTime_;
-	previousTime_ = currentTime;
-	
-	simulationLag_ += elapsedTime;
-	renderLag_ += elapsedTime;
-
-	// <-- process input / engine events
-	
-	while (simulationLag_ >= simulationFrameTime_) {
-		// run as many simulation frames as needed to catch up
-		simulationLag_ -= simulationFrameTime_;
-		simulationFrame();
-	}
-	
-	if (renderLag_ >= renderFrameTime_) {
-		// render single frame, drop any missed ones
-		renderLag_ -= renderFrameTime_ * std::floor(renderLag_ / renderFrameTime_);
-		renderFrame(simulationLag_);
-	}
-}
-
-
+} // ns scene
 } // ns stardazed

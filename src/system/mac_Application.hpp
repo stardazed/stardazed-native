@@ -24,11 +24,11 @@ public:
 	
 	// -- active refers to app being frontmost
 	void setActive(bool);
-	bool isActive() const;
+	bool isActive() const { return active_; }
 	
 	// -- handling of Quit signal from system or user
 	void quitNow();
-	bool shouldQuit() const;
+	bool shouldQuit() const { return quit_; }
 	void resetShouldQuitFlag();
 };
 

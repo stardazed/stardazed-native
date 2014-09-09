@@ -28,8 +28,6 @@ class Scene {
 	container::RefTree<Entity> entityTree_;
 
 public:
-	Scene();
-
 	// -- factory methods
 
 	Entity* makeEntity(EntityType type = EntityType::Generic);

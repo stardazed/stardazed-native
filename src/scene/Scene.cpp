@@ -9,11 +9,6 @@ namespace stardazed {
 namespace scene {
 
 
-Scene::Scene() {
-
-}
-
-
 // ---- factory methods
 		
 Entity* Scene::makeEntity(EntityType type) {

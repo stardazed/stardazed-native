@@ -57,8 +57,8 @@
 		8E112DDB199E60A50029CD38 /* Behaviour.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD0199E60A50029CD38 /* Behaviour.hpp */; };
 		8E112DDC199E60A50029CD38 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD1199E60A50029CD38 /* Camera.cpp */; };
 		8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD2199E60A50029CD38 /* Camera.hpp */; };
-		8E112DDE199E60A50029CD38 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD3199E60A50029CD38 /* Game.cpp */; };
-		8E112DDF199E60A50029CD38 /* Game.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD4199E60A50029CD38 /* Game.hpp */; };
+		8E112DDE199E60A50029CD38 /* SceneController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD3199E60A50029CD38 /* SceneController.cpp */; };
+		8E112DDF199E60A50029CD38 /* SceneController.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD4199E60A50029CD38 /* SceneController.hpp */; };
 		8E112DE0199E60A50029CD38 /* Entity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD5199E60A50029CD38 /* Entity.hpp */; };
 		8E112DE1199E60A50029CD38 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD6199E60A50029CD38 /* Scene.cpp */; };
 		8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD7199E60A50029CD38 /* Scene.hpp */; };
@@ -138,8 +138,8 @@
 		8E112DD0199E60A50029CD38 /* Behaviour.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Behaviour.hpp; sourceTree = "<group>"; };
 		8E112DD1199E60A50029CD38 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		8E112DD2199E60A50029CD38 /* Camera.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
-		8E112DD3199E60A50029CD38 /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
-		8E112DD4199E60A50029CD38 /* Game.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
+		8E112DD3199E60A50029CD38 /* SceneController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneController.cpp; sourceTree = "<group>"; };
+		8E112DD4199E60A50029CD38 /* SceneController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SceneController.hpp; sourceTree = "<group>"; };
 		8E112DD5199E60A50029CD38 /* Entity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Entity.hpp; sourceTree = "<group>"; };
 		8E112DD6199E60A50029CD38 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		8E112DD7199E60A50029CD38 /* Scene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Scene.hpp; sourceTree = "<group>"; };
@@ -350,8 +350,8 @@
 				8E112DD2199E60A50029CD38 /* Camera.hpp */,
 				8E112DD6199E60A50029CD38 /* Scene.cpp */,
 				8E112DD7199E60A50029CD38 /* Scene.hpp */,
-				8E112DD3199E60A50029CD38 /* Game.cpp */,
-				8E112DD4199E60A50029CD38 /* Game.hpp */,
+				8E112DD3199E60A50029CD38 /* SceneController.cpp */,
+				8E112DD4199E60A50029CD38 /* SceneController.hpp */,
 			);
 			path = scene;
 			sourceTree = "<group>";
@@ -423,7 +423,7 @@
 				8E112DB6199E5FE20029CD38 /* Mesh.hpp in Headers */,
 				8E112DC5199E5FE20029CD38 /* Texture.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
-				8E112DDF199E60A50029CD38 /* Game.hpp in Headers */,
+				8E112DDF199E60A50029CD38 /* SceneController.hpp in Headers */,
 				8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */,
 				8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */,
 				8E112DED199E60B70029CD38 /* Time.hpp in Headers */,
@@ -519,7 +519,7 @@
 				8E112D96199E5FC70029CD38 /* StringFormat.cpp in Sources */,
 				8E112DB8199E5FE20029CD38 /* OpenGLBuffer.cpp in Sources */,
 				8E112DB5199E5FE20029CD38 /* Mesh.cpp in Sources */,
-				8E112DDE199E60A50029CD38 /* Game.cpp in Sources */,
+				8E112DDE199E60A50029CD38 /* SceneController.cpp in Sources */,
 				8E6A0DC419B3A7D900DF0921 /* Keyboard.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

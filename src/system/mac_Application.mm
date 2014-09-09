@@ -78,19 +78,11 @@ void Application::setActive(bool active) {
 	active_ = active;
 }
 
-bool Application::isActive() const {
-	return active_;
-}
-
 
 // -- quit state
 
 void Application::quitNow() {
 	quit_ = true;
-}
-
-bool Application::shouldQuit() const {
-	return quit_;
 }
 
 void Application::resetShouldQuitFlag() {

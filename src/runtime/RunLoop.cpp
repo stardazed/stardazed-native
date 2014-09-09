@@ -15,42 +15,52 @@ namespace runtime {
 RunLoop::RunLoop(Application& app, Client& client)
 : app_(app)
 , client_(client)
+, sceneCtl_(nullptr)
 , running_(false)
-{}
+{
+	// reasonable defaults
+	setMaxRenderFPS(60);
+	setSimulationFPS(120);
+}
 
 
-void RunLoop::step() {
-	auto currentTime = time::now();
-	auto elapsedTime = currentTime - previousTime_;
-	previousTime_ = currentTime;
-	
-	simulationLag_ += elapsedTime;
-	renderLag_ += elapsedTime;
-	
-	// <-- process input / engine events
-	
-	while (simulationLag_ >= simulationFrameTime_) {
-		// run as many simulation frames as needed to catch up
-		simulationLag_ -= simulationFrameTime_;
-		simulationFrame();
-	}
-	
-	if (renderLag_ >= renderFrameTime_) {
-		// render single frame, drop any missed ones
-		renderLag_ -= renderFrameTime_ * std::floor(renderLag_ / renderFrameTime_);
-		renderFrame(simulationLag_);
-	}
+void RunLoop::setSceneController(scene::SceneController& ctl) {
+	sceneCtl_ = &ctl;
 }
 
 
 void RunLoop::mainLoop() {
+	previousTime_ = time::now();
+
 	while (! app_.shouldQuit()) {
-		client.devices().frame();
+		auto currentTime = time::now();
+		auto elapsedTime = currentTime - previousTime_;
+		previousTime_ = currentTime;
+
+		client_.devices().frame();
 		
 		if (app_.isActive()) {
-//			sceneRunner.simulationFrame();
-//			sceneRunner.renderFrame(sd::time::zero());
-			client.render().swap();
+			simulationLag_ += elapsedTime;
+			renderLag_ += elapsedTime;
+			
+			while (simulationLag_ >= simulationFrameTime_) {
+				// run as many simulation frames as needed to catch up
+				simulationLag_ -= simulationFrameTime_;
+				sceneCtl_->simulationFrame();
+			}
+			
+			if (renderLag_ >= renderFrameTime_) {
+				// render single frame, drop any missed ones
+				renderLag_ -= renderFrameTime_ * std::floor(renderLag_ / renderFrameTime_);
+				sceneCtl_->renderFrame();
+				client_.render().swap();
+				stats.frameRendered();
+			}
+		}
+		else {
+			// game is not the active process, be nice
+			// FIXME: has to be linked to some app event or something
+			std::this_thread::sleep_for(time::milliseconds(500));
 		}
 	}
 }

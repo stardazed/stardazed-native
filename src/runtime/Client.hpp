@@ -9,7 +9,6 @@
 #include "render/RenderContext.hpp"
 #include "audio/AudioContext.hpp"
 #include "device/DevicesContext.hpp"
-#include "runtime/TimeContext.hpp"
 
 namespace stardazed {
 namespace runtime {
@@ -19,7 +18,6 @@ class Client {
 	render::RenderContext& renderCtx_;
 	audio::AudioContext& audioCtx_;
 	device::DevicesContext& devicesCtx_;
-	TimeContext timeCtx_;
 	
 public:
 	Client(
@@ -34,7 +32,6 @@ public:
 	auto& render()   { return renderCtx_; }
 	auto& audio()    { return audioCtx_; }
 	auto& devices()  { return devicesCtx_; }
-	auto& time()     { return timeCtx_; }
 };
 
 
