@@ -68,7 +68,13 @@ public:
 };
 
 
+SceneController::SceneController(runtime::Client& client)
+: client_(client)
+{}
+
+
 void SceneController::renderFrame() {
+	// *cough*
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	auto& cam = *(scene_.camerasBegin()); // boom
@@ -79,9 +85,9 @@ void SceneController::renderFrame() {
 
 void SceneController::simulationFrame() {
 	// very basic for now
-	std::for_each(scene_.allEntitiesBegin(), scene_.allEntitiesEnd(), [](scene::Entity& entity){
+	std::for_each(scene_.allEntitiesBegin(), scene_.allEntitiesEnd(), [this](scene::Entity& entity){
 		if (entity.behaviour)
-			entity.behaviour->update(entity);
+			entity.behaviour->update(entity, scene_, client_);
 	});
 }
 

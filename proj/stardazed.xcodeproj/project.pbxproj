@@ -84,6 +84,7 @@
 		8E6A0DC419B3A7D900DF0921 /* Keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E6A0DC319B3A7D900DF0921 /* Keyboard.cpp */; };
 		8E89E99C19AD4896001AB2AF /* mac_OpenGLContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_OpenGLContext.hpp */; };
 		8E89E99D19AD4896001AB2AF /* mac_OpenGLContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_OpenGLContext.mm */; };
+		8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EBB0AB519C1022700843A1F /* FrameContext.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -165,6 +166,7 @@
 		8E6A0DC319B3A7D900DF0921 /* Keyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Keyboard.cpp; sourceTree = "<group>"; };
 		8E89E99A19AD4896001AB2AF /* mac_OpenGLContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_OpenGLContext.hpp; sourceTree = "<group>"; };
 		8E89E99B19AD4896001AB2AF /* mac_OpenGLContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_OpenGLContext.mm; sourceTree = "<group>"; };
+		8EBB0AB519C1022700843A1F /* FrameContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameContext.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 			children = (
 				8E147FB019BBA5B6002836CA /* TimeContext.hpp */,
 				8E0EF75019A13E4E00CF38A2 /* Client.hpp */,
+				8EBB0AB519C1022700843A1F /* FrameContext.hpp */,
 				8E147FAC19BB7644002836CA /* RunLoop.hpp */,
 				8E147FAE19BB9944002836CA /* RunLoop.cpp */,
 			);
@@ -444,6 +447,7 @@
 				8E112D49199E55100029CD38 /* Matrix.hpp in Headers */,
 				8E147FB119BBA5B6002836CA /* TimeContext.hpp in Headers */,
 				8E112DB2199E5FE20029CD38 /* RenderContext.hpp in Headers */,
+				8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */,
 				8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

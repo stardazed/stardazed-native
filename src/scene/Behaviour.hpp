@@ -6,6 +6,8 @@
 #ifndef SD_SCENE_BEHAVIOUR_H
 #define SD_SCENE_BEHAVIOUR_H
 
+#include "runtime/Client.hpp"
+
 #include <functional>
 
 // Let's prototype some object event/behaviour mechanics
@@ -15,14 +17,15 @@ namespace scene {
 
 
 class Entity;
+class Scene;
 
 
 class Behaviour {
 public:
 	virtual ~Behaviour() = default;
-	using SimpleBehaviourHandler = std::function<void(Entity&)>;
+	using SimpleBehaviourHandler = std::function<void(Entity&, Scene&, runtime::Client&)>;
 	
-	virtual void update(Entity&) = 0;
+	virtual void update(Entity&, Scene&, runtime::Client&) = 0;
 };
 
 
@@ -32,7 +35,7 @@ class PluggableBehaviour : public Behaviour {
 public:
 	PluggableBehaviour();
 
-	void update(Entity&) override;
+	void update(Entity&, Scene&, runtime::Client&) override;
 	void setUpdateHandler(SimpleBehaviourHandler);
 };
 	
