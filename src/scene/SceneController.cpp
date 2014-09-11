@@ -7,6 +7,7 @@
 #include "scene/Camera.hpp"
 #include "scene/Entity.hpp"
 #include "scene/Transform.hpp"
+#include "runtime/FrameContext.hpp"
 
 #include <algorithm>
 
@@ -83,11 +84,13 @@ void SceneController::renderFrame(time::Duration) {
 }
 
 
-void SceneController::simulationFrame(time::Duration) {
+void SceneController::simulationFrame(time::Duration deltaTime) {
 	// very basic for now
-	std::for_each(scene_.allEntitiesBegin(), scene_.allEntitiesEnd(), [this](scene::Entity& entity){
+	runtime::FrameContext frame{ client_, deltaTime };
+
+	std::for_each(scene_.allEntitiesBegin(), scene_.allEntitiesEnd(), [this,&frame](scene::Entity& entity){
 		if (entity.behaviour)
-			entity.behaviour->update(entity, scene_, client_);
+			entity.behaviour->update(entity, scene_, frame);
 	});
 }
 

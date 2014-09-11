@@ -6,7 +6,7 @@
 #ifndef SD_SCENE_BEHAVIOUR_H
 #define SD_SCENE_BEHAVIOUR_H
 
-#include "runtime/Client.hpp"
+#include "runtime/FrameContext.hpp"
 
 #include <functional>
 
@@ -23,9 +23,9 @@ class Scene;
 class Behaviour {
 public:
 	virtual ~Behaviour() = default;
-	using SimpleBehaviourHandler = std::function<void(Entity&, Scene&, runtime::Client&)>;
+	using SimpleBehaviourHandler = std::function<void(Entity&, Scene&, runtime::FrameContext&)>;
 	
-	virtual void update(Entity&, Scene&, runtime::Client&) = 0;
+	virtual void update(Entity&, Scene&, runtime::FrameContext&) = 0;
 };
 
 
@@ -35,7 +35,7 @@ class PluggableBehaviour : public Behaviour {
 public:
 	PluggableBehaviour();
 
-	void update(Entity&, Scene&, runtime::Client&) override;
+	void update(Entity&, Scene&, runtime::FrameContext&) override;
 	void setUpdateHandler(SimpleBehaviourHandler);
 };
 	

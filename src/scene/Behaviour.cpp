@@ -11,14 +11,14 @@ namespace scene {
 
 
 PluggableBehaviour::PluggableBehaviour() {
-	static auto noAction = [](Entity&, Scene&, runtime::Client&){};
+	static auto noAction = [](Entity&, Scene&, runtime::FrameContext&){};
 	
 	updateFunc_ = noAction;
 }
 
 
-void PluggableBehaviour::update(Entity& entity, Scene& scene, runtime::Client& client) {
-	updateFunc_(entity, scene, client);
+void PluggableBehaviour::update(Entity& entity, Scene& scene, runtime::FrameContext& frame) {
+	updateFunc_(entity, scene, frame);
 }
 
 
