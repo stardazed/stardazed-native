@@ -46,13 +46,13 @@ void RunLoop::mainLoop() {
 			while (simulationLag_ >= simulationFrameTime_) {
 				// run as many simulation frames as needed to catch up
 				simulationLag_ -= simulationFrameTime_;
-				sceneCtl_->simulationFrame();
+				sceneCtl_->simulationFrame(simulationFrameTime_);
 			}
 			
 			if (renderLag_ >= renderFrameTime_) {
 				// render single frame, drop any missed ones
 				renderLag_ -= renderFrameTime_ * std::floor(renderLag_ / renderFrameTime_);
-				sceneCtl_->renderFrame();
+				sceneCtl_->renderFrame(renderFrameTime_);
 				client_.render().swap();
 				stats.frameRendered();
 			}

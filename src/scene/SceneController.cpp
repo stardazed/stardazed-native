@@ -73,7 +73,7 @@ SceneController::SceneController(runtime::Client& client)
 {}
 
 
-void SceneController::renderFrame() {
+void SceneController::renderFrame(time::Duration) {
 	// *cough*
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -83,7 +83,7 @@ void SceneController::renderFrame() {
 }
 
 
-void SceneController::simulationFrame() {
+void SceneController::simulationFrame(time::Duration) {
 	// very basic for now
 	std::for_each(scene_.allEntitiesBegin(), scene_.allEntitiesEnd(), [this](scene::Entity& entity){
 		if (entity.behaviour)

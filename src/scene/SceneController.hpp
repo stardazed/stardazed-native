@@ -8,6 +8,7 @@
 
 #include "scene/Scene.hpp"
 #include "runtime/Client.hpp"
+#include "system/Time.hpp"
 
 namespace stardazed {
 namespace scene {
@@ -24,8 +25,8 @@ public:
 	SceneController(runtime::Client&);
 	virtual ~SceneController() {}
 
-	void simulationFrame();
-	void renderFrame();
+	void simulationFrame(time::Duration);
+	void renderFrame(time::Duration);
 
 	Scene& scene() { return scene_; }
 };

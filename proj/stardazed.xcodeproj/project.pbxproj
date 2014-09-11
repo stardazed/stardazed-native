@@ -70,7 +70,6 @@
 		8E112DED199E60B70029CD38 /* Time.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE9199E60B70029CD38 /* Time.hpp */; };
 		8E147FAD19BB7644002836CA /* RunLoop.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E147FAC19BB7644002836CA /* RunLoop.hpp */; };
 		8E147FAF19BB9944002836CA /* RunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E147FAE19BB9944002836CA /* RunLoop.cpp */; };
-		8E147FB119BBA5B6002836CA /* TimeContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E147FB019BBA5B6002836CA /* TimeContext.hpp */; };
 		8E19671919ACCADD009CB5E6 /* Bindings.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19671819ACCADD009CB5E6 /* Bindings.hpp */; };
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
@@ -152,7 +151,6 @@
 		8E112DE9199E60B70029CD38 /* Time.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Time.hpp; sourceTree = "<group>"; };
 		8E147FAC19BB7644002836CA /* RunLoop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RunLoop.hpp; sourceTree = "<group>"; };
 		8E147FAE19BB9944002836CA /* RunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RunLoop.cpp; sourceTree = "<group>"; };
-		8E147FB019BBA5B6002836CA /* TimeContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TimeContext.hpp; sourceTree = "<group>"; };
 		8E19671819ACCADD009CB5E6 /* Bindings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bindings.hpp; sourceTree = "<group>"; };
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
@@ -191,7 +189,6 @@
 		8E0EF74F19A13B6C00CF38A2 /* runtime */ = {
 			isa = PBXGroup;
 			children = (
-				8E147FB019BBA5B6002836CA /* TimeContext.hpp */,
 				8E0EF75019A13E4E00CF38A2 /* Client.hpp */,
 				8EBB0AB519C1022700843A1F /* FrameContext.hpp */,
 				8E147FAC19BB7644002836CA /* RunLoop.hpp */,
@@ -445,7 +442,6 @@
 				8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */,
 				8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */,
 				8E112D49199E55100029CD38 /* Matrix.hpp in Headers */,
-				8E147FB119BBA5B6002836CA /* TimeContext.hpp in Headers */,
 				8E112DB2199E5FE20029CD38 /* RenderContext.hpp in Headers */,
 				8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */,
 				8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */,
