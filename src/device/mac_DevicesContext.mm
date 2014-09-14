@@ -32,13 +32,24 @@ DevicesContext::DevicesContext() {
 
 void DevicesContext::handleKeyDown(Key key) {
 	keyboard_.press(key);
-	log("press %z", static_cast<size_t>(key));
+//	log("press %z", static_cast<size_t>(key));
 }
 
 
 void DevicesContext::handleKeyUp(Key key) {
 	keyboard_.release(key);
-	log("release %z", static_cast<size_t>(key));
+//	log("release %z", static_cast<size_t>(key));
+}
+
+
+static bool shouldForwardEvent(NSEvent* event) {
+	auto evType = [event type];
+	bool sysEvent = (evType == NSAppKitDefined) ||
+					(evType == NSSystemDefined) ||
+					(evType == NSApplicationDefined) ||
+					(evType == NSPeriodic);
+
+	return sysEvent || ((evType == NSKeyDown) && ([event modifierFlags] & NSCommandKeyMask));
 }
 
 
@@ -52,12 +63,16 @@ void DevicesContext::processSystemEvents() {
 									   inMode: NSDefaultRunLoopMode
 									  dequeue: YES];
 			if (ev) {
-				[NSApp sendEvent: ev];
-				
 				switch([ev type]) {
 					case NSKeyDown: handleKeyDown(keyTransTable_[[ev keyCode]]); break;
 					case NSKeyUp:   handleKeyUp(keyTransTable_[[ev keyCode]]); break;
+
+					case NSLeftMouseDown: break;
 					default: break;
+				}
+
+				if (shouldForwardEvent(ev)) {
+					[NSApp sendEvent: ev];
 				}
 			}
 		} while (ev);
