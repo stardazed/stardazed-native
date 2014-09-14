@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_CONSTANTBUFFER_H
 #define SD_RENDER_CONSTANTBUFFER_H
 
+#include "system/Config.hpp"
 #include "math/Matrix.hpp"
 
 namespace stardazed {

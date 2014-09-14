@@ -6,7 +6,9 @@
 #ifndef SD_CONTROLS_BINDINGS_H
 #define SD_CONTROLS_BINDINGS_H
 
+#include "system/Config.hpp"
 #include "device/DevicesContext.hpp"
+
 #include <memory>
 
 namespace stardazed {

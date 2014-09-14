@@ -6,6 +6,8 @@
 #ifndef SD_SYSTEM_TIME_H
 #define SD_SYSTEM_TIME_H
 
+#include "system/Config.hpp"
+
 #include <cstdint>
 #include <chrono>
 

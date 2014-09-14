@@ -6,11 +6,12 @@
 #ifndef SD_MATH_ALGORITHM_H
 #define SD_MATH_ALGORITHM_H
 
+#include "system/Config.hpp"
+#include "math/Vector.hpp"
+
 #include <type_traits>
 #include <algorithm>
 #include <numeric>
-
-#include "math/Vector.hpp"
 
 
 namespace stardazed {

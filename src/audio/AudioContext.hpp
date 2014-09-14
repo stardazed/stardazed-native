@@ -6,6 +6,7 @@
 #ifndef SD_AUDIO_AUDIOCONTEXT_H
 #define SD_AUDIO_AUDIOCONTEXT_H
 
+#include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
 
 namespace stardazed {

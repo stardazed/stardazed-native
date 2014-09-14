@@ -6,6 +6,7 @@
 #ifndef SD_SCENE_TRANSFORM_H
 #define SD_SCENE_TRANSFORM_H
 
+#include "system/Config.hpp"
 #include "math/Angle.hpp"
 #include "math/Vector.hpp"
 #include "math/Matrix.hpp"

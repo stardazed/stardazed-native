@@ -6,7 +6,7 @@
 #ifndef SD_RENDER_OPENGL_H
 #define SD_RENDER_OPENGL_H
 
-#include "system/DetectPlatform.hpp"
+#include "system/Config.hpp"
 
 // include platform-specific OpenGL headers
 #if SD_PLATFORM_OSX

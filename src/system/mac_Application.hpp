@@ -6,6 +6,7 @@
 #ifndef SD_SYSTEM_MAC_APPLICATION_H
 #define SD_SYSTEM_MAC_APPLICATION_H
 
+#include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
 
 namespace stardazed {

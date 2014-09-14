@@ -6,6 +6,7 @@
 #ifndef SD_MEMORY_STLALLOCADAPTER_H
 #define SD_MEMORY_STLALLOCADAPTER_H
 
+#include "system/Config.hpp"
 #include <cstddef>
 #include <memory>
 

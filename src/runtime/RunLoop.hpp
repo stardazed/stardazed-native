@@ -6,6 +6,7 @@
 #ifndef SD_RUNTIME_RUNLOOP_H
 #define SD_RUNTIME_RUNLOOP_H
 
+#include "system/Config.hpp"
 #include "system/Application.hpp"
 #include "runtime/Client.hpp"
 #include "system/Time.hpp"

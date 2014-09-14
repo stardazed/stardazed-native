@@ -6,6 +6,7 @@
 #ifndef SD_MATH_ANGLE_H
 #define SD_MATH_ANGLE_H
 
+#include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
 #include "math/Constants.hpp"
 

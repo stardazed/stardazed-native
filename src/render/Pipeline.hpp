@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_PIPELINE_H
 #define SD_RENDER_PIPELINE_H
 
+#include "system/Config.hpp"
 #include "render/PixelFormat.hpp"
 #include "render/ConstantBuffer.hpp"
 #include "render/Shader.hpp"

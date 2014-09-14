@@ -6,6 +6,8 @@
 #ifndef SD_MEMORY_MEMORYRESOURCE_H
 #define SD_MEMORY_MEMORYRESOURCE_H
 
+#include "system/Config.hpp"
+
 namespace stardazed {
 namespace memory {
 

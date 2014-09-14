@@ -6,6 +6,7 @@
 #ifndef SD_RUNTIME_CLIENT_H
 #define SD_RUNTIME_CLIENT_H
 
+#include "system/Config.hpp"
 #include "render/RenderContext.hpp"
 #include "audio/AudioContext.hpp"
 #include "device/DevicesContext.hpp"

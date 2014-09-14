@@ -6,6 +6,8 @@
 #ifndef SD_MATH_VECTOR_H
 #define SD_MATH_VECTOR_H
 
+#include "system/Config.hpp"
+
 #include <initializer_list>
 #include <algorithm>
 #include <functional>

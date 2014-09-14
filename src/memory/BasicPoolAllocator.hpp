@@ -6,6 +6,7 @@
 #ifndef SD_MEMORY_BASICPOOLALLOCATOR_H
 #define SD_MEMORY_BASICPOOLALLOCATOR_H
 
+#include "system/Config.hpp"
 #include "memory/STLAllocAdapter.hpp"
 #include <vector>
 #include <memory>

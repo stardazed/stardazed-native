@@ -6,6 +6,7 @@
 #ifndef SD_SCENE_ENTITY_H
 #define SD_SCENE_ENTITY_H
 
+#include "system/Config.hpp"
 #include "scene/Transform.hpp"
 #include "scene/Behaviour.hpp"
 #include "render/Mesh.hpp"

@@ -6,6 +6,7 @@
 #ifndef SD_MEMORY_SYSTEMMEMORYRESOURCE_H
 #define SD_MEMORY_SYSTEMMEMORYRESOURCE_H
 
+#include "system/Config.hpp"
 #include "memory/MemoryResource.hpp"
 #include <cstdlib>
 

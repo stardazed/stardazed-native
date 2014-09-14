@@ -6,7 +6,7 @@
 #ifndef SD_SYSTEM_APPLICATION_H
 #define SD_SYSTEM_APPLICATION_H
 
-#include "system/DetectPlatform.hpp"
+#include "system/Config.hpp"
 
 #ifdef SD_PLATFORM_OSX
 #	include "mac_Application.hpp"

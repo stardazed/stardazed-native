@@ -6,6 +6,7 @@
 #ifndef SD_MATH_QUATERNION_H
 #define SD_MATH_QUATERNION_H
 
+#include "system/Config.hpp"
 #include "Angle.hpp"
 #include "Vector.hpp"
 #include "Matrix.hpp"

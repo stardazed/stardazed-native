@@ -6,6 +6,7 @@
 #ifndef SD_SCENE_SCENE_H
 #define SD_SCENE_SCENE_H
 
+#include "system/Config.hpp"
 #include "container/ObjectPool.hpp"
 #include "container/RefTree.hpp"
 #include "scene/Entity.hpp"

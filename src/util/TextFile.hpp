@@ -6,6 +6,7 @@
 #ifndef SD_TEXTFILE_H
 #define SD_TEXTFILE_H
 
+#include "system/Config.hpp"
 #include <string>
 
 namespace stardazed {

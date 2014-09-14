@@ -6,7 +6,8 @@
 #ifndef SD_MATH_MATRIX_H
 #define SD_MATH_MATRIX_H
 
-#include "Vector.hpp"
+#include "system/Config.hpp"
+#include "math/Vector.hpp"
 
 #include <initializer_list>
 #include <algorithm>

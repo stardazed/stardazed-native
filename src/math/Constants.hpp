@@ -6,6 +6,7 @@
 #ifndef SD_MATH_CONSTANTS_H
 #define SD_MATH_CONSTANTS_H
 
+#include "system/Config.hpp"
 #include <cmath>
 #include <limits>
 

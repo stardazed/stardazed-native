@@ -6,6 +6,7 @@
 #ifndef SD_SCENE_SCENECONTROLLER_HPP
 #define SD_SCENE_SCENECONTROLLER_HPP
 
+#include "system/Config.hpp"
 #include "scene/Scene.hpp"
 #include "runtime/Client.hpp"
 #include "system/Time.hpp"

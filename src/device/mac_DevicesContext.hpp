@@ -6,6 +6,7 @@
 #ifndef SD_DEVICE_MAC_DEVICESCONTEXT_H
 #define SD_DEVICE_MAC_DEVICESCONTEXT_H
 
+#include "system/Config.hpp"
 #include "device/Keyboard.hpp"
 
 #include <array>

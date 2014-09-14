@@ -6,6 +6,7 @@
 #ifndef SD_STRINGFORMAT_H
 #define SD_STRINGFORMAT_H
 
+#include "system/Config.hpp"
 #include <string>
 #include <vector>
 #include <type_traits>

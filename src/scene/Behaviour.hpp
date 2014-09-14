@@ -6,6 +6,7 @@
 #ifndef SD_SCENE_BEHAVIOUR_H
 #define SD_SCENE_BEHAVIOUR_H
 
+#include "system/Config.hpp"
 #include "runtime/FrameContext.hpp"
 
 #include <functional>

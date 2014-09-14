@@ -6,6 +6,7 @@
 #ifndef SD_CONTAINER_OBJECTPOOL_H
 #define SD_CONTAINER_OBJECTPOOL_H
 
+#include "system/Config.hpp"
 #include <vector>
 #include <memory>
 #include <algorithm>

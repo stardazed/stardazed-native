@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_OPENGLMESH_H
 #define SD_RENDER_OPENGLMESH_H
 
+#include "system/Config.hpp"
 #include "render/Mesh.hpp"
 #include "render/opengl/OpenGLBuffer.hpp"
 #include "util/ConceptTraits.hpp"

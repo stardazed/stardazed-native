@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_MAC_OPENGLCONTEXT_H
 #define SD_RENDER_MAC_OPENGLCONTEXT_H
 
+#include "system/Config.hpp"
 #include "container/ObjectPool.hpp"
 #include "render/RenderContext.hpp"
 #include "render/opengl/OpenGLMesh.hpp"

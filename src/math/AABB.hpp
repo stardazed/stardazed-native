@@ -6,7 +6,9 @@
 #ifndef SD_MATH_AABB_H
 #define SD_MATH_AABB_H
 
-#include <math/Vector.hpp>
+#include "system/Config.hpp"
+#include "math/Vector.hpp"
+
 #include <limits>
 
 namespace stardazed {

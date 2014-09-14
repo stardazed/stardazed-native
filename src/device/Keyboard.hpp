@@ -6,7 +6,9 @@
 #ifndef SD_DEVICE_KEYBOARD_H
 #define SD_DEVICE_KEYBOARD_H
 
+#include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
+
 #include <bitset>
 
 namespace stardazed {

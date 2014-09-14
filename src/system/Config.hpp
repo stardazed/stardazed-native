@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// system::DetectPlatform - stardazed
+// system::Config - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_SYSTEM_DETECTPLATFORM_H
-#define SD_SYSTEM_DETECTPLATFORM_H
+#ifndef SD_SYSTEM_CONFIG_H
+#define SD_SYSTEM_CONFIG_H
 
 
 #ifdef _WIN64
@@ -25,6 +25,11 @@
 #else
 #	error "This platform is not supported"
 #endif
+
+
+// -- stardazed namespace and alias
+namespace stardazed {}
+namespace sd = stardazed;
 
 
 #endif

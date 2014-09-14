@@ -6,7 +6,7 @@
 #ifndef SD_DEVICE_DEVICESCONTEXT_H
 #define SD_DEVICE_DEVICESCONTEXT_H
 
-#include "system/DetectPlatform.hpp"
+#include "system/Config.hpp"
 
 #ifdef SD_PLATFORM_OSX
 #include "device/mac_DevicesContext.hpp"

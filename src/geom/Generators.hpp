@@ -6,8 +6,8 @@
 #ifndef SD_GEOM_GENERATORS_H
 #define SD_GEOM_GENERATORS_H
 
+#include "system/Config.hpp"
 #include "render/Mesh.hpp"
-
 
 namespace stardazed {
 namespace geom {

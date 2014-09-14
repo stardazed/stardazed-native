@@ -6,6 +6,8 @@
 #ifndef SD_CONCEPTTRAITS_H
 #define SD_CONCEPTTRAITS_H
 
+#include "system/Config.hpp"
+
 namespace stardazed {
 
 

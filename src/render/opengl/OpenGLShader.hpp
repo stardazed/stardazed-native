@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_OPENGLSHADER_H
 #define SD_RENDER_OPENGLSHADER_H
 
+#include "system/Config.hpp"
 #include "render/Shader.hpp"
 #include "render/opengl/OpenGL.hpp"
 #include "util/ConceptTraits.hpp"

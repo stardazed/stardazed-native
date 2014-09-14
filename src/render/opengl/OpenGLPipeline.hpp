@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_OPENGLPIPELINE_H
 #define SD_RENDER_OPENGLPIPELINE_H
 
+#include "system/Config.hpp"
 #include "render/Pipeline.hpp"
 #include "render/opengl/OpenGLConstantBuffer.hpp"
 #include "render/opengl/OpenGLShader.hpp"

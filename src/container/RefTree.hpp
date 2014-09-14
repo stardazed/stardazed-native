@@ -6,6 +6,7 @@
 #ifndef SD_CONTAINER_REFTREE_H
 #define SD_CONTAINER_REFTREE_H
 
+#include "system/Config.hpp"
 #include "container/ObjectPool.hpp"
 #include <vector>
 

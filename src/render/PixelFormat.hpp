@@ -6,6 +6,8 @@
 #ifndef SD_RENDER_PIXELFORMAT_H
 #define SD_RENDER_PIXELFORMAT_H
 
+#include "system/Config.hpp"
+
 namespace stardazed {
 namespace render {
 

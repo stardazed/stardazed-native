@@ -6,6 +6,8 @@
 #ifndef SD_RENDER_SHADER_H
 #define SD_RENDER_SHADER_H
 
+#include "system/Config.hpp"
+
 namespace stardazed {
 namespace render {
 

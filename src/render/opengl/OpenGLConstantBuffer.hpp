@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_OPENGLCONSTANTBUFFER_H
 #define SD_RENDER_OPENGLCONSTANTBUFFER_H
 
+#include "system/Config.hpp"
 #include "render/opengl/OpenGL.hpp"
 #include "render/ConstantBuffer.hpp"
 

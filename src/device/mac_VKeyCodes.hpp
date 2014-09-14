@@ -6,6 +6,8 @@
 #ifndef SD_MAC_VKEYCODES_H
 #define SD_MAC_VKEYCODES_H
 
+#include "system/Config.hpp"
+
 namespace stardazed {
 
 // ------------------------------------------------------------------

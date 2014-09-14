@@ -6,8 +6,10 @@
 #ifndef SD_SYSTEM_LOGGING_H
 #define SD_SYSTEM_LOGGING_H
 
-#include <string>
+#include "system/Config.hpp"
 #include "util/StringFormat.hpp"
+
+#include <string>
 
 namespace stardazed {
 

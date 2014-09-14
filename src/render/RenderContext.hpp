@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_RENDERCONTEXT_H
 #define SD_RENDER_RENDERCONTEXT_H
 
+#include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
 #include "render/Mesh.hpp"
 #include "render/Shader.hpp"

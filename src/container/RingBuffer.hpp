@@ -6,6 +6,7 @@
 #ifndef SD_CONTAINER_RINGBUFFER_H
 #define SD_CONTAINER_RINGBUFFER_H
 
+#include "system/Config.hpp"
 #include <array>
 #include <cassert>
 #include <algorithm>

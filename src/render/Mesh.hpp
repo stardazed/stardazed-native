@@ -6,6 +6,7 @@
 #ifndef SD_RENDER_MESH_H
 #define SD_RENDER_MESH_H
 
+#include "system/Config.hpp"
 #include "math/Vector.hpp"
 #include "math/AABB.hpp"
 
