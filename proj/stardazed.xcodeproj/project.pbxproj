@@ -84,6 +84,7 @@
 		8E89E99C19AD4896001AB2AF /* mac_OpenGLContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_OpenGLContext.hpp */; };
 		8E89E99D19AD4896001AB2AF /* mac_OpenGLContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_OpenGLContext.mm */; };
 		8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EBB0AB519C1022700843A1F /* FrameContext.hpp */; };
+		8EFCA36519C986C1006DCB33 /* Buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFCA36419C986C1006DCB33 /* Buffer.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -165,6 +166,7 @@
 		8E89E99A19AD4896001AB2AF /* mac_OpenGLContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_OpenGLContext.hpp; sourceTree = "<group>"; };
 		8E89E99B19AD4896001AB2AF /* mac_OpenGLContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_OpenGLContext.mm; sourceTree = "<group>"; };
 		8EBB0AB519C1022700843A1F /* FrameContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameContext.hpp; sourceTree = "<group>"; };
+		8EFCA36419C986C1006DCB33 /* Buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Buffer.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +287,7 @@
 		8E112D9A199E5FE20029CD38 /* render */ = {
 			isa = PBXGroup;
 			children = (
+				8EFCA36419C986C1006DCB33 /* Buffer.hpp */,
 				8E112D9C199E5FE20029CD38 /* RenderContext.hpp */,
 				8E112D9B199E5FE20029CD38 /* ConstantBuffer.hpp */,
 				8E112D9D199E5FE20029CD38 /* Material.cpp */,
@@ -424,6 +427,7 @@
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
 				8E112DDF199E60A50029CD38 /* SceneController.hpp in Headers */,
 				8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */,
+				8EFCA36519C986C1006DCB33 /* Buffer.hpp in Headers */,
 				8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */,
 				8E112DED199E60B70029CD38 /* Time.hpp in Headers */,
 				8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */,
