@@ -41,7 +41,7 @@ template constexpr const float Epsilon<float>;
 template constexpr const double Epsilon<double>;
 
 
-// ---- near-equal functions
+// ---- Near-Equal Functions
 
 template <typename T>
 constexpr bool nearEqual(const T a, const T b, const T maxDiff = Epsilon<T>) {
