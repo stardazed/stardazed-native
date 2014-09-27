@@ -33,8 +33,6 @@
 		8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D94199E5FC70029CD38 /* TextFile.hpp */; };
 		8E112DB1199E5FE20029CD38 /* ConstantBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D9B199E5FE20029CD38 /* ConstantBuffer.hpp */; };
 		8E112DB2199E5FE20029CD38 /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D9C199E5FE20029CD38 /* RenderContext.hpp */; };
-		8E112DB3199E5FE20029CD38 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112D9D199E5FE20029CD38 /* Material.cpp */; };
-		8E112DB4199E5FE20029CD38 /* Material.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D9E199E5FE20029CD38 /* Material.hpp */; };
 		8E112DB5199E5FE20029CD38 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112D9F199E5FE20029CD38 /* Mesh.cpp */; };
 		8E112DB6199E5FE20029CD38 /* Mesh.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DA0199E5FE20029CD38 /* Mesh.hpp */; };
 		8E112DB7199E5FE20029CD38 /* OpenGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DA2199E5FE20029CD38 /* OpenGL.hpp */; };
@@ -115,8 +113,6 @@
 		8E112D94199E5FC70029CD38 /* TextFile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextFile.hpp; sourceTree = "<group>"; };
 		8E112D9B199E5FE20029CD38 /* ConstantBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBuffer.hpp; sourceTree = "<group>"; };
 		8E112D9C199E5FE20029CD38 /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
-		8E112D9D199E5FE20029CD38 /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
-		8E112D9E199E5FE20029CD38 /* Material.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		8E112D9F199E5FE20029CD38 /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
 		8E112DA0199E5FE20029CD38 /* Mesh.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mesh.hpp; sourceTree = "<group>"; };
 		8E112DA2199E5FE20029CD38 /* OpenGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenGL.hpp; sourceTree = "<group>"; };
@@ -290,8 +286,6 @@
 				8EFCA36419C986C1006DCB33 /* Buffer.hpp */,
 				8E112D9C199E5FE20029CD38 /* RenderContext.hpp */,
 				8E112D9B199E5FE20029CD38 /* ConstantBuffer.hpp */,
-				8E112D9D199E5FE20029CD38 /* Material.cpp */,
-				8E112D9E199E5FE20029CD38 /* Material.hpp */,
 				8E112D9F199E5FE20029CD38 /* Mesh.cpp */,
 				8E112DA0199E5FE20029CD38 /* Mesh.hpp */,
 				8E112DAD199E5FE20029CD38 /* Pipeline.hpp */,
@@ -410,7 +404,6 @@
 				8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */,
 				8E112D46199E55100029CD38 /* Angle.hpp in Headers */,
 				8E112DBF199E5FE20029CD38 /* OpenGLPipeline.hpp in Headers */,
-				8E112DB4199E5FE20029CD38 /* Material.hpp in Headers */,
 				8E112DC3199E5FE20029CD38 /* PixelFormat.hpp in Headers */,
 				8E112DE0199E60A50029CD38 /* Entity.hpp in Headers */,
 				8E0EF75119A13E4E00CF38A2 /* Client.hpp in Headers */,
@@ -514,7 +507,6 @@
 				8E112DC0199E5FE20029CD38 /* OpenGLShader.cpp in Sources */,
 				8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */,
 				8E89E99D19AD4896001AB2AF /* mac_OpenGLContext.mm in Sources */,
-				8E112DB3199E5FE20029CD38 /* Material.cpp in Sources */,
 				8E112DC9199E60150029CD38 /* Generators.cpp in Sources */,
 				8E112D48199E55100029CD38 /* Matrix.cpp in Sources */,
 				8E112DDA199E60A50029CD38 /* Behaviour.cpp in Sources */,
