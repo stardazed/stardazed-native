@@ -30,7 +30,7 @@ class Buffer {
 public:
 	virtual ~Buffer() = default;
 	
-	template <BufferAccess Level>
+	template <AccessLevel Level>
 	BufferAccess<T, Level> map() {
 		return { mapBufferData(Level) };
 	}
@@ -38,19 +38,6 @@ public:
 private:
 	virtual T* mapBufferData(AccessLevel) = 0;
 };
-
-
-namespace detail {
-
-	class BufferPtrDeleter {
-	public:
-		void operator()(Buffer*);
-	};
-
-} // ns detail
-
-
-using BufferPtr = std::unique_ptr<>;
 
 
 template <typename T>

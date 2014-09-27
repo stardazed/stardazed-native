@@ -7,9 +7,9 @@
 #define SD_RENDER_OPENGLSHADER_H
 
 #include "system/Config.hpp"
-#include "render/Shader.hpp"
-#include "render/opengl/OpenGL.hpp"
 #include "util/ConceptTraits.hpp"
+#include "render/common/Shader.hpp"
+#include "render/opengl/OpenGL.hpp"
 
 #include <string>
 #include <vector>
@@ -18,24 +18,24 @@ namespace stardazed {
 namespace render {
 
 
-class OpenGLPipeline;
+class Pipeline;
 
 
 constexpr GLenum glForSDShaderType(ShaderType type);
 
 
-class OpenGLShader : public Shader {
+class Shader {
 	GLuint glShader_;
 	ShaderType type_;
 	
 public:
-	friend OpenGLPipeline;
+	friend Pipeline;
 	
-	OpenGLShader(ShaderType type, const std::string& source);
-	~OpenGLShader();
-	SD_DEFAULT_MOVE_OPS(OpenGLShader)
+	Shader(ShaderType type, const std::string& source);
+	~Shader();
+	SD_DEFAULT_MOVE_OPS(Shader)
 
-	ShaderType type() const override { return type_; }
+	ShaderType type() const { return type_; }
 };
 
 

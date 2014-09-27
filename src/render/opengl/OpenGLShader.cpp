@@ -27,7 +27,7 @@ constexpr GLenum glForSDShaderType(ShaderType type) {
 }
 
 
-OpenGLShader::OpenGLShader(ShaderType type, const std::string& source)
+Shader::Shader(ShaderType type, const std::string& source)
 : type_(type)
 {
 	const auto sourcePtr = source.c_str();
@@ -43,7 +43,7 @@ OpenGLShader::OpenGLShader(ShaderType type, const std::string& source)
 }
 
 
-OpenGLShader::~OpenGLShader() {
+Shader::~Shader() {
 	if (glShader_)
 		glDeleteProgram(glShader_);
 }

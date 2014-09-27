@@ -7,7 +7,7 @@
 #define SD_RENDER_OPENGLPIPELINE_H
 
 #include "system/Config.hpp"
-#include "render/Pipeline.hpp"
+#include "render/common/Pipeline.hpp"
 #include "render/opengl/OpenGLConstantBuffer.hpp"
 #include "render/opengl/OpenGLShader.hpp"
 #include "util/ConceptTraits.hpp"
@@ -28,7 +28,7 @@ class ShaderConstantMapping {
 
 public:
 	explicit ShaderConstantMapping(GLuint shaderProgram);
-	void apply(const OpenGLConstantBuffer&) const;
+	void apply(const ConstantBuffer&) const;
 };
 
 
@@ -55,23 +55,23 @@ public:
 } // ns detail
 
 
-class OpenGLPipeline : public Pipeline {
+class Pipeline {
 	detail::OpenGLFaceCulling cullingMode_;
 	detail::OpenGLDepthTest depthTestMode_;
 
 	GLuint glPipeline_;
-	OpenGLConstantBuffer constants_;
+	ConstantBuffer constants_;
 	std::vector<detail::ShaderConstantMapping> shaderConstants;
 	
 public:
-	OpenGLPipeline(const PipelineDescriptor&);
-	~OpenGLPipeline();
-	SD_DEFAULT_MOVE_OPS(OpenGLPipeline)
+	Pipeline(const PipelineDescriptor&);
+	~Pipeline();
+	SD_DEFAULT_MOVE_OPS(Pipeline)
 	
-	ConstantBuffer* constantBuffer() override { return &constants_; }
+	ConstantBuffer* constantBuffer() { return &constants_; }
 	
-	void activate() override;
-	void deactivate() override;
+	void activate();
+	void deactivate();
 };
 
 

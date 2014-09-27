@@ -7,15 +7,16 @@
 #define SD_RENDER_OPENGLMESH_H
 
 #include "system/Config.hpp"
-#include "render/Mesh.hpp"
-#include "render/opengl/OpenGLBuffer.hpp"
 #include "util/ConceptTraits.hpp"
+
+#include "render/common/Mesh.hpp"
+#include "render/opengl/OpenGLBuffer.hpp"
 
 namespace stardazed {
 namespace render {
 
 
-class OpenGLMesh : public Mesh {
+class Mesh {
 	GLsizei drawCount;
 	GLuint vao_ {0};
 	GLenum winding_;
@@ -29,11 +30,11 @@ class OpenGLMesh : public Mesh {
 	OpenGLBuffer<math::Vec2> vertexUVBuffer_;
 
 public:
-	OpenGLMesh(const MeshDescriptor&);
-	~OpenGLMesh();
+	Mesh(const MeshDescriptor&);
+	~Mesh();
 
-	virtual math::AABB aabb() const override;
-	virtual void draw() const override;
+	virtual math::AABB aabb() const;
+	virtual void draw() const;
 };
 
 

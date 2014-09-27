@@ -18,7 +18,7 @@ enum OpenGLVertexAttribute : GLuint {
 
 
 
-OpenGLMesh::OpenGLMesh(const MeshDescriptor& mesh)
+Mesh::Mesh(const MeshDescriptor& mesh)
 : drawCount(static_cast<GLsizei>(mesh.faces.size()) * 3)
 {
 	if (mesh.winding == VertexWinding::Clockwise)
@@ -53,18 +53,18 @@ OpenGLMesh::OpenGLMesh(const MeshDescriptor& mesh)
 }
 
 
-OpenGLMesh::~OpenGLMesh() {
+Mesh::~Mesh() {
 	if (vao_)
 		glDeleteVertexArrays(1, &vao_);
 }
 
 
-math::AABB OpenGLMesh::aabb() const {
+math::AABB Mesh::aabb() const {
 	return aabb_;
 }
 
 
-void OpenGLMesh::draw() const {
+void Mesh::draw() const {
 	glBindVertexArray(vao_);
 	faceBuffer_.bind();
 	glFrontFace(winding_);

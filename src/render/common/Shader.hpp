@@ -23,13 +23,6 @@ enum class ShaderType {
 };
 
 
-class Shader {
-public:
-	virtual ~Shader() = default;
-	virtual ShaderType type() const = 0;
-};
-
-
 } // ns render
 } // ns stardazed
 

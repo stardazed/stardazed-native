@@ -4,7 +4,7 @@
 // ------------------------------------------------------------------
 
 #include "math/Constants.hpp"
-#include "render/Mesh.hpp"
+#include "render/common/Mesh.hpp"
 
 namespace stardazed {
 namespace render {

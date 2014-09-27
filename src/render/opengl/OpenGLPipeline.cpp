@@ -20,7 +20,7 @@ ShaderConstantMapping::ShaderConstantMapping(GLuint shaderProgram) {
 }
 
 
-void ShaderConstantMapping::apply(const OpenGLConstantBuffer& constants) const {
+void ShaderConstantMapping::apply(const ConstantBuffer& constants) const {
 	if (mvMat_ > -1)
 		glProgramUniformMatrix4fv(program_, mvMat_, 1, GL_FALSE, constants.modelViewMatrix().dataBegin());
 	if (mvpMat_ > -1)
@@ -97,7 +97,7 @@ inline void OpenGLDepthTest::apply() const {
 
 
 
-OpenGLPipeline::OpenGLPipeline(const PipelineDescriptor& descriptor)
+Pipeline::Pipeline(const PipelineDescriptor& descriptor)
 : cullingMode_(descriptor.faceCulling)
 , depthTestMode_(descriptor.depthTest)
 {
@@ -105,7 +105,7 @@ OpenGLPipeline::OpenGLPipeline(const PipelineDescriptor& descriptor)
 	
 	auto attachShader = [=](const Shader* shader, GLbitfield stage) {
 		if (shader) {
-			auto shaderName = static_cast<const OpenGLShader*>(shader)->glShader_;
+			auto shaderName = shader->glShader_;
 			glUseProgramStages(glPipeline_, stage, shaderName);
 			shaderConstants.emplace_back(shaderName);
 		}
@@ -116,12 +116,12 @@ OpenGLPipeline::OpenGLPipeline(const PipelineDescriptor& descriptor)
 }
 
 
-OpenGLPipeline::~OpenGLPipeline() {
+Pipeline::~Pipeline() {
 	glDeleteProgramPipelines(1, &glPipeline_);
 }
 
 
-void OpenGLPipeline::activate() {
+void Pipeline::activate() {
 	glBindProgramPipeline(glPipeline_);
 	for (const auto& sc : shaderConstants)
 		sc.apply(constants_);
@@ -131,7 +131,7 @@ void OpenGLPipeline::activate() {
 }
 
 
-void OpenGLPipeline::deactivate() {
+void Pipeline::deactivate() {
 	glBindProgramPipeline(0);
 }
 

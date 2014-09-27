@@ -8,7 +8,7 @@
 
 #include "system/Config.hpp"
 #include "container/ObjectPool.hpp"
-#include "render/RenderContext.hpp"
+#include "render/common/RenderContext.hpp"
 #include "render/opengl/OpenGLMesh.hpp"
 #include "render/opengl/OpenGLShader.hpp"
 #include "render/opengl/OpenGLPipeline.hpp"
@@ -20,26 +20,25 @@ namespace stardazed {
 namespace render {
 
 
-class OpenGLContext : public RenderContext {
+class RenderContext {
 public:
-	OpenGLContext(const RenderContextDescriptor&);
-	~OpenGLContext();
+	RenderContext(const RenderContextDescriptor&);
+	~RenderContext();
 	
-	Mesh* makeStaticMesh(const MeshDescriptor&) override;
-	Shader* loadShaderFromPath(ShaderType type, const std::string& path) override;
-	Pipeline* makePipeline(const PipelineDescriptor& descriptor) override;
+	Mesh* makeStaticMesh(const MeshDescriptor&);
+	Shader* loadShaderFromPath(ShaderType type, const std::string& path);
+	Pipeline* makePipeline(const PipelineDescriptor& descriptor);
 	
-	void swap() override;
+	void swap();
 	
-	bool isFullscreen() const override;
-	bool usesVerticalSync() const override;
-
+	bool isFullscreen() const;
+	bool usesVerticalSync() const;
 
 private:
 	// object storage
-	container::ObjectPool<OpenGLPipeline, 128> pipelinePool_;
-	container::ObjectPool<OpenGLShader, 512> shaderPool_;
-	container::ObjectPoolChain<OpenGLMesh, 512> meshPool_;
+	container::ObjectPool<Pipeline, 128> pipelinePool_;
+	container::ObjectPool<Shader, 512> shaderPool_;
+	container::ObjectPoolChain<Mesh, 512> meshPool_;
 
 	// place obj-c stuff in implementation file only
 	class PlatformData;

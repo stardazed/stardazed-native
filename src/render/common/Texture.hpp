@@ -7,7 +7,7 @@
 #define SD_RENDER_TEXTURE_H
 
 #include "system/Config.hpp"
-#include "render/PixelFormat.hpp"
+#include "render/common/PixelFormat.hpp"
 
 namespace stardazed {
 namespace render {

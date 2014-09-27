@@ -7,9 +7,12 @@
 #define SD_RENDER_OPENGLBUFFER_H
 
 #include "system/Config.hpp"
-#include "render/opengl/OpenGL.hpp"
-#include "render/Mesh.hpp"
 #include "util/ConceptTraits.hpp"
+
+#include "math/Vector.hpp"
+#include "render/common/Mesh.hpp"
+#include "render/opengl/OpenGL.hpp"
+
 
 namespace stardazed {
 namespace render {

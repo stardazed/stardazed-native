@@ -71,15 +71,6 @@ struct MeshDescriptor {
 };
 
 
-class Mesh {
-public:
-	virtual ~Mesh() = default;
-
-	virtual math::AABB aabb() const = 0;
-	virtual void draw() const = 0;
-};
-
-
 } // ns render
 } // ns stardazed
 

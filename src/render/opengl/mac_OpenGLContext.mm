@@ -152,7 +152,7 @@ namespace stardazed {
 namespace render {
 
 
-class OpenGLContext::PlatformData {
+class RenderContext::PlatformData {
 public:
 	NSWindow* coverWindow;
 	id windowDelegate;
@@ -162,7 +162,7 @@ public:
 };
 
 
-OpenGLContext::OpenGLContext(const RenderContextDescriptor& descriptor)
+RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 : platformData_{ std::make_unique<PlatformData>() }
 {
 	NSWindow *window = createRenderWindow(descriptor);
@@ -184,10 +184,13 @@ OpenGLContext::OpenGLContext(const RenderContextDescriptor& descriptor)
 	}
 	
 	platformData_->verticalSync = descriptor.verticalSync;
+	
+	// FIXME
+	glClearColor(0, 0, 0, 0);
 }
 
 
-OpenGLContext::~OpenGLContext() {
+RenderContext::~RenderContext() {
 	// need this defined _here_ because of the pimpl idiom using a unique_ptr
 	// http://stackoverflow.com/questions/9954518/stdunique-ptr-with-an-incomplete-type-wont-compile
 	
@@ -198,32 +201,32 @@ OpenGLContext::~OpenGLContext() {
 }
 
 
-Mesh* OpenGLContext::makeStaticMesh(const MeshDescriptor& mesh) {
+Mesh* RenderContext::makeStaticMesh(const MeshDescriptor& mesh) {
 	return meshPool_.emplace(mesh);
 }
 
 
-Shader* OpenGLContext::loadShaderFromPath(ShaderType type, const std::string& path) {
+Shader* RenderContext::loadShaderFromPath(ShaderType type, const std::string& path) {
 	return shaderPool_.emplace(type, readTextFile(path));
 }
 
 
-Pipeline* OpenGLContext::makePipeline(const PipelineDescriptor& descriptor) {
+Pipeline* RenderContext::makePipeline(const PipelineDescriptor& descriptor) {
 	return pipelinePool_.emplace(descriptor);
 }
 
 
-void OpenGLContext::swap() {
+void RenderContext::swap() {
 	[platformData_->glContext flushBuffer];
 }
 
 
-bool OpenGLContext::isFullscreen() const {
+bool RenderContext::isFullscreen() const {
 	return platformData_->fullscreenOptions != nullptr;
 }
 
 
-bool OpenGLContext::usesVerticalSync() const {
+bool RenderContext::usesVerticalSync() const {
 	return platformData_->verticalSync;
 }
 

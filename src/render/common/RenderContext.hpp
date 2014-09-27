@@ -8,9 +8,9 @@
 
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
-#include "render/Mesh.hpp"
-#include "render/Shader.hpp"
-#include "render/Pipeline.hpp"
+#include "render/common/Mesh.hpp"
+#include "render/common/Shader.hpp"
+#include "render/common/Pipeline.hpp"
 
 #include <string>
 #include <memory>
@@ -42,27 +42,6 @@ struct RenderContextDescriptor {
 	int antiAliasSamples = 4;
 	
 	int depthBits = 0; // default depth buffer size in bits/sample (0, 16, 32)
-};
-
-
-class RenderContext {
-	SD_NOCOPYORMOVE_CLASS(RenderContext)
-
-public:
-	RenderContext() {}
-	virtual ~RenderContext() = default;
-
-	// factory methods
-	virtual Mesh* makeStaticMesh(const MeshDescriptor&) = 0;
-	virtual Shader* loadShaderFromPath(ShaderType type, const std::string& path) = 0;
-	virtual Pipeline* makePipeline(const PipelineDescriptor&) = 0;
-
-	// action methods
-	virtual void swap() = 0;
-	
-	// state
-	virtual bool isFullscreen() const = 0;
-	virtual bool usesVerticalSync() const = 0;
 };
 
 
