@@ -7,7 +7,7 @@
 #define SD_RUNTIME_CLIENT_H
 
 #include "system/Config.hpp"
-#include "render/opengl/mac_RenderContext.hpp" // FIXME
+#include "render/RenderContext.hpp"
 #include "audio/AudioContext.hpp"
 #include "device/DevicesContext.hpp"
 

@@ -8,7 +8,7 @@
 
 #include "system/Config.hpp"
 
-#ifdef SD_PLATFORM_OSX
+#if SD_PLATFORM_OSX
 #	include "mac_Application.hpp"
 #endif
 
