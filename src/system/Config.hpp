@@ -7,6 +7,8 @@
 #define SD_SYSTEM_CONFIG_H
 
 
+// -- platform detection and setup
+
 #ifdef _WIN64
 #	define SD_PLATFORM_WINDOWS 1
 #	define SD_PLATFORM_OSX     0
@@ -27,7 +29,13 @@
 #endif
 
 
+// -- render engine
+
+#define SD_RENDER_ENGINE_OPENGL 1
+
+
 // -- stardazed namespace and alias
+
 namespace stardazed {}
 namespace sd = stardazed;
 

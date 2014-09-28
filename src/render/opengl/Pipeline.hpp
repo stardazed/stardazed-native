@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// render::OpenGLPipeline - stardazed
+// render::opengl::Pipeline - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
@@ -8,8 +8,8 @@
 
 #include "system/Config.hpp"
 #include "render/common/Pipeline.hpp"
-#include "render/opengl/OpenGLConstantBuffer.hpp"
-#include "render/opengl/OpenGLShader.hpp"
+#include "render/opengl/ConstantBuffer.hpp"
+#include "render/opengl/Shader.hpp"
 #include "util/ConceptTraits.hpp"
 
 #include <vector>

@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------
-// render::OpenGLShader.cpp - stardazed
+// render::opengl::Shader.cpp - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "render/opengl/OpenGLShader.hpp"
+#include "render/opengl/Shader.hpp"
 #include "system/Logging.hpp"
 
 #include <cassert>

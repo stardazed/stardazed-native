@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// render::OpenGLConstantBuffer - stardazed
+// render::opengl::ConstantBuffer - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 

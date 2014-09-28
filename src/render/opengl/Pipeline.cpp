@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------
-// render::OpenGLPipeline.cpp - stardazed
+// render::opengl::Pipeline.cpp - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "render/opengl/OpenGLPipeline.hpp"
+#include "render/opengl/Pipeline.hpp"
 
 namespace stardazed {
 namespace render {

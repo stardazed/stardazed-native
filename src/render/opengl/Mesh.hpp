@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// render::OpenGLMesh - stardazed
+// render::opengl::Mesh - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
@@ -10,7 +10,7 @@
 #include "util/ConceptTraits.hpp"
 
 #include "render/common/Mesh.hpp"
-#include "render/opengl/OpenGLBuffer.hpp"
+#include "render/opengl/Buffer.hpp"
 
 namespace stardazed {
 namespace render {

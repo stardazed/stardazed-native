@@ -9,7 +9,7 @@
 #include "system/Config.hpp"
 #include "scene/Transform.hpp"
 #include "scene/Behaviour.hpp"
-#include "render/opengl/OpenGLMesh.hpp"
+#include "render/opengl/Mesh.hpp"
 
 namespace stardazed {
 namespace scene {

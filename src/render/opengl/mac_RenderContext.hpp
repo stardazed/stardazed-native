@@ -9,9 +9,9 @@
 #include "system/Config.hpp"
 #include "container/ObjectPool.hpp"
 #include "render/common/RenderContext.hpp"
-#include "render/opengl/OpenGLMesh.hpp"
-#include "render/opengl/OpenGLShader.hpp"
-#include "render/opengl/OpenGLPipeline.hpp"
+#include "render/opengl/Mesh.hpp"
+#include "render/opengl/Shader.hpp"
+#include "render/opengl/Pipeline.hpp"
 
 #include <string>
 #include <memory>

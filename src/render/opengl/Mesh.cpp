@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------
-// render::OpenGLMesh - stardazed
+// render::opengl::Mesh - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "render/opengl/OpenGLMesh.hpp"
+#include "render/opengl/Mesh.hpp"
 
 namespace stardazed {
 namespace render {

@@ -3,7 +3,7 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "render/opengl/mac_OpenGLContext.hpp"
+#include "mac_RenderContext.hpp"
 
 #include "util/ConceptTraits.hpp"
 #include "system/Application.hpp"

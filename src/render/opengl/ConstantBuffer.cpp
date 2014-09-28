@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------
-// render::OpenGLConstantBuffer - stardazed
+// render::opengl::ConstantBuffer - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "render/opengl/OpenGLConstantBuffer.hpp"
+#include "render/opengl/ConstantBuffer.hpp"
 
 namespace stardazed {
 namespace render {
