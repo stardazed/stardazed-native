@@ -31,6 +31,29 @@ render::MeshDescriptor plane() {
 }
 
 
+render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
+						   math::Angle fromAng, math::Angle toAng, int angleSteps) {
+	render::MeshDescriptor m;
+	
+	using math::Radians; using math::Tau;
+	
+	// -- arc shape
+	Radians angA = fromAng.rad(), angB = toAng.rad();
+	if (angB < angA)
+		angB += Radians{ Tau<float> };
+	Radians curAng = angA, angStep = (angB - angA) / angleSteps;
+	
+	// -- alloc
+	m.vertexes.reserve((radiusSteps + 1) * angleSteps);
+	m.faces.reserve((radiusSteps * 2) * angleSteps);
+	
+	for (int step=0; step < angleSteps; ++step) {
+		
+	}
+	
+	return m;
+}
+
 
 render::MeshDescriptor cube(const float diameter) {
 	auto hd = diameter;
