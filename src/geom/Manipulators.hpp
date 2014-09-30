@@ -18,6 +18,8 @@ namespace geom {
 
 render::MeshDescriptor& translate(render::MeshDescriptor& mesh, const math::Vec3& globalDelta);
 
+render::MeshDescriptor& rotate(render::MeshDescriptor& mesh, const math::Quat& rotation);
+
 render::MeshDescriptor combine(const render::MeshDescriptor& m1, const render::MeshDescriptor& m2);
 
 

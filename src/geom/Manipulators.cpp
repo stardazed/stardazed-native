@@ -24,6 +24,21 @@ MeshDescriptor& translate(MeshDescriptor& mesh, const Vec3& globalDelta) {
 }
 
 
+MeshDescriptor& rotate(MeshDescriptor& mesh, const Quat& rotation) {
+	auto vertexCount = mesh.vertexes.size();
+	
+	auto rotMat = rotation.toMatrix4();
+	
+	for (size_t ix=0; ix < vertexCount; ++ix) {
+		mesh.vertexes[ix] = rotMat * mesh.vertexes[ix];
+		mesh.vertexNormals[ix] = rotMat * mesh.vertexNormals[ix];
+		// FIXME: tangents?
+	}
+
+	return mesh;
+}
+
+
 MeshDescriptor combine(const MeshDescriptor& m1, const MeshDescriptor& m2) {
 	MeshDescriptor mm;
 
