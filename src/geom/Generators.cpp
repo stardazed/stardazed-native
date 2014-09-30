@@ -41,15 +41,55 @@ render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 	Radians angA = fromAng.rad(), angB = toAng.rad();
 	if (angB < angA)
 		angB += Radians{ Tau<float> };
-	Radians curAng = angA, angStep = (angB - angA) / angleSteps;
+	Radians angStep = (angB - angA) / angleSteps;
+
+	auto radiusVerts = radiusSteps + 1;
+	auto angleVerts  = angleSteps + 1;
 	
-	// -- alloc
-	m.vertexes.reserve((radiusSteps + 1) * angleSteps);
-	m.faces.reserve((radiusSteps * 2) * angleSteps);
+	// -- radius steps
+	std::vector<float> radii(radiusVerts);
+	float radStep = (maxRadius - minRadius) / radiusSteps;
+	std::generate(begin(radii), end(radii), [minRadius, radStep, i=0]() mutable {
+		return minRadius + (i++ * radStep);
+	});
 	
-	for (int step=0; step < angleSteps; ++step) {
-		
+	// -- buffers
+	size_t vertexCount = radiusVerts * angleVerts;
+	size_t faceCount = (radiusSteps * 2) * angleSteps;
+
+	m.vertexes.resize(vertexCount);
+	m.faces.reserve(faceCount);
+	
+	// -- vertexes
+	auto vit = m.vertexes.begin();
+	for (int step=0; step < angleVerts; ++step) {
+		auto ang = angA + (step * angStep);
+		std::transform(begin(radii), end(radii), vit, [ang](float r) {
+			return math::Vec3{ r * math::cos(ang), 0, r * math::sin(ang) };
+		});
+		vit += radiusVerts;
 	}
+	
+	// -- faces
+	uint16_t vix = 0;
+	for (int seg=0; seg < angleSteps; ++seg) {
+		for (int track=0; track < radiusSteps; ++track) {
+			m.faces.push_back({
+				static_cast<uint16_t>(vix + track) ,
+				static_cast<uint16_t>(vix + track + 1),
+				static_cast<uint16_t>(vix + track + 1 + radiusVerts)
+			});
+			m.faces.push_back({
+				static_cast<uint16_t>(vix + track),
+				static_cast<uint16_t>(vix + track + 1 + radiusVerts),
+				static_cast<uint16_t>(vix + track + radiusVerts)
+			});
+		}
+
+		vix += radiusVerts;
+	}
+
+	m.calcVertexNormals();
 	
 	return m;
 }
@@ -140,7 +180,7 @@ render::MeshDescriptor sphere(const int rows, const int segs, const float radius
 				ramul = 0;
 				rbmul = 1;
 			}
-			else if (hasBottomDisc && row == rows) {
+			else if (hasBottomDisc && row == rows - 1) {
 				raix -= segs + 1;
 				rbix -= 1;
 				ramul = 1;
