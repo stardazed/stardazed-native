@@ -40,10 +40,10 @@ MeshDescriptor combine(const MeshDescriptor& m1, const MeshDescriptor& m2) {
 	stitch(m1.faces,          m2.faces,          mm.faces);
 	
 	auto newFaces = begin(mm.faces) + m1.faces.size();
-	std::for_each(newFaces, end(mm.faces), [faceOffset = m1.vertexes.size()](Tri& face) {
-		face[0] += faceOffset;
-		face[1] += faceOffset;
-		face[2] += faceOffset;
+	std::for_each(newFaces, end(mm.faces), [vertexOffset = m1.vertexes.size()](Tri& face) {
+		face[0] += vertexOffset;
+		face[1] += vertexOffset;
+		face[2] += vertexOffset;
 	});
 	
 	return mm;

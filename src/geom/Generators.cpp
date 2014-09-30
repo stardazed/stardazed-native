@@ -179,7 +179,7 @@ render::MeshDescriptor sphere(const int rows, const int segs, const float radius
 				ramul = 0;
 				rbmul = 1;
 			}
-			else if (hasBottomDisc && row == rows - 1) {
+			else if (hasBottomDisc && row == rows) {
 				raix -= segs + 1;
 				rbix -= 1;
 				ramul = 1;
