@@ -64,6 +64,7 @@
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
 		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
+		8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */; };
 		8E6A0DBA19B39E1E00DF0921 /* DevicesContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */; };
 		8E6A0DBC19B39E7400DF0921 /* mac_DevicesContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DBB19B39E7400DF0921 /* mac_DevicesContext.hpp */; };
 		8E6A0DBE19B3A03600DF0921 /* Keyboard.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DBD19B3A03600DF0921 /* Keyboard.hpp */; };
@@ -143,6 +144,8 @@
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
 		8E19672519ACD69F009CB5E6 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
+		8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Manipulators.cpp; sourceTree = "<group>"; };
+		8E46C1D119DAE44A009A85A1 /* Manipulators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Manipulators.hpp; sourceTree = "<group>"; };
 		8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DevicesContext.hpp; sourceTree = "<group>"; };
 		8E6A0DBB19B39E7400DF0921 /* mac_DevicesContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_DevicesContext.hpp; sourceTree = "<group>"; };
 		8E6A0DBD19B3A03600DF0921 /* Keyboard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
@@ -311,8 +314,10 @@
 		8E112DC6199E60150029CD38 /* geom */ = {
 			isa = PBXGroup;
 			children = (
-				8E112DC7199E60150029CD38 /* Generators.cpp */,
 				8E112DC8199E60150029CD38 /* Generators.hpp */,
+				8E112DC7199E60150029CD38 /* Generators.cpp */,
+				8E46C1D119DAE44A009A85A1 /* Manipulators.hpp */,
+				8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */,
 			);
 			path = geom;
 			sourceTree = "<group>";
@@ -502,6 +507,7 @@
 			files = (
 				8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */,
 				8E112DDC199E60A50029CD38 /* Camera.cpp in Sources */,
+				8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */,
 				8E112DBA199E5FE20029CD38 /* ConstantBuffer.cpp in Sources */,
 				8EA7092C19D75FC000129E2D /* Mesh.cpp in Sources */,
 				8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */,

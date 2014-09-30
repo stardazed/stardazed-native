@@ -8,7 +8,6 @@
 #include "math/Vector.hpp"
 #include "math/Algorithm.hpp"
 
-
 namespace stardazed {
 namespace geom {
 namespace gen {
