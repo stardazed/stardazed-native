@@ -74,7 +74,7 @@ render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 	for (int seg=0; seg < angleSteps; ++seg) {
 		for (int track=0; track < radiusSteps; ++track) {
 			m.faces.push_back({
-				static_cast<uint16_t>(vix + track) ,
+				static_cast<uint16_t>(vix + track),
 				static_cast<uint16_t>(vix + track + 1),
 				static_cast<uint16_t>(vix + track + 1 + radiusVerts)
 			});
