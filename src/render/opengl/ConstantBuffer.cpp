@@ -9,18 +9,13 @@ namespace stardazed {
 namespace render {
 	
 
-void ConstantBuffer::setModelViewMatrix(const math::Mat4& mv) {
-	modelViewMatrix_ = mv;
+ConstantBuffer::ConstantBuffer() {
+	glGenBuffers(1, &glBuf_);
 }
 
 
-void ConstantBuffer::setModelViewProjectionMatrix(const math::Mat4& mvp) {
-	modelViewProjectionMatrix_ = mvp;
-}
-
-
-void ConstantBuffer::setNormalMatrix(const math::Mat3& nm) {
-	normalMatrix_ = nm;
+ConstantBuffer::~ConstantBuffer() {
+	glDeleteBuffers(1, &glBuf_);
 }
 
 	
