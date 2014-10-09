@@ -39,7 +39,7 @@ render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 	// -- arc shape
 	Radians angA = fromAng.rad(), angB = toAng.rad();
 	if (angB < angA)
-		angB += Radians{ Tau<float> };
+		angB += Tau;
 	Radians angStep = (angB - angA) / angleSteps;
 
 	auto radiusVerts = radiusSteps + 1;
@@ -136,14 +136,14 @@ render::MeshDescriptor sphere(const int rows, const int segs, const float radius
 	sliceFrom = math::clamp(sliceFrom, 0.f, 1.f);
 	sliceTo = math::clamp(sliceTo, 0.f, 1.f);
 	assert(sliceTo > sliceFrom);
-
-	const auto pi = math::Pi<float>, tau = math::Tau<float>;
 	
+	using math::Pi; using math::Tau;
+
 	render::MeshDescriptor mesh;
 	
 	auto slice = sliceTo - sliceFrom,
-		piFrom = sliceFrom * pi,
-		piSlice = slice * pi;
+		piFrom = sliceFrom * Pi.val(),
+		piSlice = slice * Pi.val();
 	
 	bool hasTopDisc = sliceFrom == 0.f,
 		hasBottomDisc = sliceTo == 1.f;
@@ -161,8 +161,8 @@ render::MeshDescriptor sphere(const int rows, const int segs, const float radius
 		}
 		else {
 			for (int seg=0; seg < segs; ++seg) {
-				float x = std::sin((tau / segs) * seg) * segRad;
-				float z = std::cos((tau / segs) * seg) * segRad;
+				float x = math::sin((Tau / segs) * seg) * segRad;
+				float z = math::cos((Tau / segs) * seg) * segRad;
 				mesh.vertexes.push_back({ x, y, z });
 			}
 		}

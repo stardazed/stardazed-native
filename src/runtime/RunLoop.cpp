@@ -16,7 +16,6 @@ RunLoop::RunLoop(Application& app, Client& client)
 : app_(app)
 , client_(client)
 , sceneCtl_(nullptr)
-, running_(false)
 {
 	// reasonable defaults
 	setMaxRenderFPS(60);

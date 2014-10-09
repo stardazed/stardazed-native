@@ -14,24 +14,6 @@ namespace stardazed {
 namespace math {
 
 
-// ---- Pi
-
-template <typename T>
-constexpr const T Pi = T{ 3.14159265358979323846 };
-
-template constexpr const float Pi<float>;
-template constexpr const double Pi<double>;
-
-
-// ---- Tau
-
-template <typename T>
-constexpr const T Tau = Pi<T> * T{2};
-
-template constexpr const float Tau<float>;
-template constexpr const double Tau<double>;
-
-
 // ---- Epsilon
 
 template <typename T>

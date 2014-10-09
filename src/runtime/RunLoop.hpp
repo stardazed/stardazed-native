@@ -42,7 +42,6 @@ class RunLoop {
 	Application& app_;
 	Client& client_;
 	scene::SceneController* sceneCtl_;
-	bool running_;
 
 	time::Duration simulationFrameTime_, renderFrameTime_;
 	time::Duration simulationLag_ = time::zero(), renderLag_ = time::zero();
