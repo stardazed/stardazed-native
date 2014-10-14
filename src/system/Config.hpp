@@ -40,4 +40,18 @@ namespace stardazed {}
 namespace sd = stardazed;
 
 
+// -- common headers
+
+#include <cstdint>
+
+
+// -- common types
+
+namespace stardazed {
+
+using size32_t = uint32_t; // 64-bit sizes are often overkill, use size32_t for those cases
+
+} // ns stardazed
+
+
 #endif

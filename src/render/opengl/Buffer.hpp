@@ -57,6 +57,30 @@ enum class BufferUpdateFrequency {
 	Frequently
 };
 
+/*
+enum class BufferKind {
+	Array,
+	Indexes,
+	
+	UniformData,
+	
+};
+
+
+GL_ARRAY_BUFFER
+GL_ELEMENT_ARRAY_BUFFER
+GL_DRAW_INDIRECT_BUFFER
+
+GL_COPY_READ_BUFFER
+GL_COPY_WRITE_BUFFER
+
+GL_PIXEL_PACK_BUFFER
+GL_PIXEL_UNPACK_BUFFER
+
+GL_UNIFORM_BUFFER
+GL_TEXTURE_BUFFER
+*/
+
 
 namespace detail {
 	GLbitfield glAccessFlagsForBCA(BufferClientAccess access) {
@@ -118,17 +142,22 @@ class Buffer {
 	size_t count_ {0};
 
 public:
-	Buffer(){
+	Buffer() {
 		glGenBuffers(1, &name_);
 	}
 	
 	~Buffer() {
 		glDeleteBuffers(1, &name_);
 	}
+	
+	void reserve(size32_t count, BufferUpdateFrequency frequency, BufferClientAccess access) {
+		count_ = count;
+		glBufferData(target, byteSize(), nullptr, usageHint);
+	}
 
-	void create(BufferUpdateFrequency frequency, BufferClientAccess access) {
+	void allocate(BufferUpdateFrequency frequency, BufferClientAccess access) {
 		auto usageHint = detail::glUsageHint(frequency, access);
-		glBufferData(<#GLenum target#>, 0, nullptr, usageHint);
+		glBufferData(target, byteSize(), nullptr, usageHint);
 	}
 	
 	GLuint name() const { return name_; }
