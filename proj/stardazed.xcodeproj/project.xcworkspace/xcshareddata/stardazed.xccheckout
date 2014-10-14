@@ -10,29 +10,29 @@
 	<string>stardazed</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>DA754516-2D5F-4705-8D20-D71CFF165F17</key>
-		<string>ssh://github.com/zenmumbler/stardazed.git</string>
+		<key>77456AA071E9EF7C14103E7383EEB556703A8B16</key>
+		<string>github.com:zenmumbler/stardazed.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>build/stardazed.xcodeproj/project.xcworkspace</string>
+	<string>proj/stardazed.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>DA754516-2D5F-4705-8D20-D71CFF165F17</key>
+		<key>77456AA071E9EF7C14103E7383EEB556703A8B16</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/zenmumbler/stardazed.git</string>
+	<string>github.com:zenmumbler/stardazed.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>DA754516-2D5F-4705-8D20-D71CFF165F17</string>
+	<string>77456AA071E9EF7C14103E7383EEB556703A8B16</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>DA754516-2D5F-4705-8D20-D71CFF165F17</string>
+			<string>77456AA071E9EF7C14103E7383EEB556703A8B16</string>
 			<key>IDESourceControlWCCName</key>
 			<string>stardazed</string>
 		</dict>

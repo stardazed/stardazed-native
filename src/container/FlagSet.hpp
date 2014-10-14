@@ -14,11 +14,14 @@ namespace stardazed {
 namespace container {
 
 
-template <typename EnumType>
+namespace detail {
+
+template <typename EnumType, typename DataType>
+// requires Enum<EnumType> && Unsigned<DataType>
 class FlagSet {
 	static_assert(std::is_enum<EnumType>::value, "EnumType must be an enum (class)");
+	static_assert(std::is_integral<DataType>::value && std::is_unsigned<DataType>::value, "DataType must be an unsigned integral type");
 	
-	using DataType = uint64_t;
 	using EnumValueType = std::underlying_type_t<EnumType>;
 
 	DataType data_ = 0;
@@ -88,18 +91,27 @@ public:
 };
 
 
-template <typename EnumType>
-constexpr FlagSet<EnumType> operator &(const FlagSet<EnumType>& a, const FlagSet<EnumType>& b) {
-	return FlagSet<EnumType>{ a.data() & b.data() };
+template <typename EnumType, typename DataType>
+constexpr FlagSet<EnumType, DataType> operator &(const FlagSet<EnumType, DataType>& a, const FlagSet<EnumType, DataType>& b) {
+	return FlagSet<EnumType, DataType>{ a.data() & b.data() };
 }
-template <typename EnumType>
-constexpr FlagSet<EnumType> operator |(const FlagSet<EnumType>& a, const FlagSet<EnumType>& b) {
-	return FlagSet<EnumType>{ a.data() | b.data() };
+template <typename EnumType, typename DataType>
+constexpr FlagSet<EnumType, DataType> operator |(const FlagSet<EnumType, DataType>& a, const FlagSet<EnumType, DataType>& b) {
+	return FlagSet<EnumType, DataType>{ a.data() | b.data() };
 }
-template <typename EnumType>
-constexpr FlagSet<EnumType> operator ^(const FlagSet<EnumType>& a, const FlagSet<EnumType>& b) {
-	return FlagSet<EnumType>{ a.data() ^ b.data() };
+template <typename EnumType, typename DataType>
+constexpr FlagSet<EnumType, DataType> operator ^(const FlagSet<EnumType, DataType>& a, const FlagSet<EnumType, DataType>& b) {
+	return FlagSet<EnumType, DataType>{ a.data() ^ b.data() };
 }
+
+} // ns detail
+
+
+template <typename EnumType>
+using FlagSet32 = detail::FlagSet<EnumType, uint32_t>;
+
+template <typename EnumType>
+using FlagSet64 = detail::FlagSet<EnumType, uint64_t>;
 
 
 } // ns container
