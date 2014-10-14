@@ -36,6 +36,7 @@ namespace detail {
 	void setDefaultAttribPointer<render::Tri32>(GLuint attribIndex) {
 		glVertexAttribPointer(attribIndex, 3, GL_UNSIGNED_INT, GL_FALSE, 0, nullptr);
 	}
+
 } // ns detail
 
 
