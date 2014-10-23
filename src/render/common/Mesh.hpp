@@ -7,6 +7,7 @@
 #define SD_RENDER_MESH_H
 
 #include "system/Config.hpp"
+#include "render/common/Buffer.hpp"
 #include "math/Vector.hpp"
 #include "math/AABB.hpp"
 
@@ -31,14 +32,11 @@ enum class VertexWinding {
 
 
 struct MeshDescriptor {
-	// mandatory fields
-	std::vector<math::Vec3> vertexes, vertexNormals;
+	BufferFormat format;
+
+	// faces
 	std::vector<render::Tri> faces;
 	VertexWinding winding = VertexWinding::CounterClockwise;
-
-	// optional fields
-	std::vector<math::Vec3> vertexTangents;
-	std::vector<math::Vec2> vertexUVs;
 
 	// derived data generation
 	void calcVertexNormals();
@@ -48,26 +46,8 @@ struct MeshDescriptor {
 	
 
 	// observers
-	bool isMinimallyComplete() const {
-		return ! (vertexes.empty() || vertexNormals.empty() || faces.empty());
-	}
-
-	bool hasTangents() const {
-		return ! vertexTangents.empty();
-	}
-
-	bool hasUVs() const {
-		return ! vertexUVs.empty();
-	}
-
-	bool isInternallyConsistent() const {
-		bool ok = isMinimallyComplete() && vertexNormals.size() == vertexes.size();
-		if (hasTangents())
-			ok &= vertexTangents.size() == vertexes.size();
-		if (hasUVs())
-			ok &= vertexUVs.size() == vertexes.size();
-		return ok;
-	}
+	bool isMinimallyComplete() const;
+	bool isInternallyConsistent() const;
 };
 
 
