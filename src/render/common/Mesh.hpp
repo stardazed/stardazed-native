@@ -43,7 +43,6 @@ struct MeshDescriptor {
 	void calcVertexTangents();
 	
 	math::AABB calcAABB() const;
-	
 
 	// observers
 	bool isMinimallyComplete() const;

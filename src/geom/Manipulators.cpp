@@ -14,7 +14,7 @@ namespace geom {
 using namespace render;
 using namespace math;
 
-
+/*
 MeshDescriptor& translate(MeshDescriptor& mesh, const Vec3& globalDelta) {
 	std::transform(mesh.vertexes.begin(), mesh.vertexes.end(), mesh.vertexes.begin(), [&](const Vec3& vtx){
 		return vtx + globalDelta;
@@ -63,7 +63,7 @@ MeshDescriptor combine(const MeshDescriptor& m1, const MeshDescriptor& m2) {
 	
 	return mm;
 }
-
+*/
 
 } // ns geom
 } // ns stardazed

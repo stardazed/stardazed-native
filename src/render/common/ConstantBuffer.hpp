@@ -12,19 +12,6 @@ namespace stardazed {
 namespace render {
 
 
-enum class AccessLevel {
-	ReadOnly,
-	WriteOnly,
-	ReadWrite
-};
-
-
-enum class BufferUpdateFrequency {
-	Never,
-	Occassionally,
-	Frequently
-};
-
 
 } // ns render
 } // ns stardazed

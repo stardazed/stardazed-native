@@ -12,7 +12,7 @@ namespace stardazed {
 namespace geom {
 namespace gen {
 
-
+/*
 render::MeshDescriptor plane() {
 	render::MeshDescriptor mesh;
 	
@@ -207,7 +207,7 @@ render::MeshDescriptor sphere(const int rows, const int segs, const float radius
 	mesh.calcVertexNormals();
 	return mesh;
 }
-
+*/
 
 } // ns gen
 } // ns geom

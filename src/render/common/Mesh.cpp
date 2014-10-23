@@ -9,7 +9,7 @@
 namespace stardazed {
 namespace render {
 
-
+/*
 void MeshDescriptor::calcVertexNormals() {
 	vertexNormals.assign(vertexes.size(), { 0, 0, 1 });
 	std::vector<float> usages(vertexes.size());
@@ -50,7 +50,7 @@ math::AABB MeshDescriptor::calcAABB() const {
 	
 	return aabb;
 }
-
+*/
 
 } // ns render
 } // ns stardazed

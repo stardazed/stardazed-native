@@ -30,7 +30,7 @@ Mesh::Mesh(const MeshDescriptor& mesh)
 
 	glGenVertexArrays(1, &vao_);
 	glBindVertexArray(vao_);
-
+/*
 	vertexBuffer_.initialize(mesh.vertexes, GL_STATIC_DRAW);
 	vertexBuffer_.assignToVAOAttribute(VertexPosition);
 
@@ -48,7 +48,7 @@ Mesh::Mesh(const MeshDescriptor& mesh)
 	}
 
 	faceBuffer_.initialize(mesh.faces, GL_STATIC_DRAW);
-	
+*/
 	glBindVertexArray(0);
 }
 
@@ -66,9 +66,9 @@ math::AABB Mesh::aabb() const {
 
 void Mesh::draw() const {
 	glBindVertexArray(vao_);
-	faceBuffer_.bind();
-	glFrontFace(winding_);
-	glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_SHORT, nullptr);
+//	faceBuffer_.bind();
+//	glFrontFace(winding_);
+//	glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_SHORT, nullptr);
 	glBindVertexArray(0);
 }
 

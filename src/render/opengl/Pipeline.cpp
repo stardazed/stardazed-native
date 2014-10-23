@@ -9,8 +9,8 @@ namespace stardazed {
 namespace render {
 
 
+/*
 namespace detail {
-
 
 ShaderConstantMapping::ShaderConstantMapping(GLuint shaderProgram) {
 	program_ = shaderProgram;
@@ -134,7 +134,7 @@ void Pipeline::activate() {
 void Pipeline::deactivate() {
 	glBindProgramPipeline(0);
 }
-
+*/
 
 } // ns render
 } // ns stardazed

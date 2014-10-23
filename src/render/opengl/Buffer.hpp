@@ -58,15 +58,6 @@ enum class BufferUpdateFrequency {
 };
 
 /*
-enum class BufferKind {
-	Array,
-	Indexes,
-	
-	UniformData,
-	
-};
-
-
 GL_ARRAY_BUFFER
 GL_ELEMENT_ARRAY_BUFFER
 GL_DRAW_INDIRECT_BUFFER
@@ -83,55 +74,8 @@ GL_TEXTURE_BUFFER
 
 
 namespace detail {
-	GLbitfield glAccessFlagsForBCA(BufferClientAccess access) {
-		switch (access) {
-			case BufferClientAccess::ReadOnly:
-				return GL_MAP_READ_BIT;
-			case BufferClientAccess::WriteOnly:
-				return GL_MAP_WRITE_BIT;
-			case BufferClientAccess::ReadWrite:
-				return GL_MAP_READ_BIT | GL_MAP_WRITE_BIT;
-			default:
-				return 0;
-		}
-	}
-	
-	GLenum glUsageHint(BufferUpdateFrequency frequency, BufferClientAccess typicalAccess) {
-		if (typicalAccess == BufferClientAccess::None) {
-			switch (frequency) {
-				case BufferUpdateFrequency::Never:
-					return GL_STATIC_COPY;
-				case BufferUpdateFrequency::Occassionally:
-					return GL_DYNAMIC_COPY;
-				case BufferUpdateFrequency::Frequently:
-					return GL_STREAM_COPY;
-			}
-		}
-
-		if (typicalAccess == BufferClientAccess::ReadWrite || typicalAccess == BufferClientAccess::WriteOnly) {
-			switch (frequency) {
-				case BufferUpdateFrequency::Never:
-					return GL_STATIC_DRAW;
-				case BufferUpdateFrequency::Occassionally:
-					return GL_DYNAMIC_DRAW;
-				case BufferUpdateFrequency::Frequently:
-					return GL_STREAM_DRAW;
-			}
-		}
-		
-		if (typicalAccess == BufferClientAccess::ReadOnly) {
-			switch (frequency) {
-				case BufferUpdateFrequency::Never:
-					return GL_STATIC_READ;
-				case BufferUpdateFrequency::Occassionally:
-					return GL_DYNAMIC_READ;
-				case BufferUpdateFrequency::Frequently:
-					return GL_STREAM_READ;
-			}
-		}
-		
-		assert(false && "Invalid frequency or access level");
-	}
+	GLbitfield glAccessFlagsForBCA(BufferClientAccess access);
+	GLenum glUsageHint(BufferUpdateFrequency frequency, BufferClientAccess typicalAccess);
 }
 
 
@@ -152,12 +96,12 @@ public:
 	
 	void reserve(size32_t count, BufferUpdateFrequency frequency, BufferClientAccess access) {
 		count_ = count;
-		glBufferData(target, byteSize(), nullptr, usageHint);
+//		glBufferData(target, byteSize(), nullptr, usageHint);
 	}
 
 	void allocate(BufferUpdateFrequency frequency, BufferClientAccess access) {
 		auto usageHint = detail::glUsageHint(frequency, access);
-		glBufferData(target, byteSize(), nullptr, usageHint);
+//		glBufferData(target, byteSize(), nullptr, usageHint);
 	}
 	
 	GLuint name() const { return name_; }

@@ -37,6 +37,58 @@ namespace detail {
 		glVertexAttribPointer(attribIndex, 3, GL_UNSIGNED_INT, GL_FALSE, 0, nullptr);
 	}
 
+
+	// internal buffer options to gl options
+	GLbitfield glAccessFlagsForBCA(BufferClientAccess access) {
+		switch (access) {
+			case BufferClientAccess::ReadOnly:
+				return GL_MAP_READ_BIT;
+			case BufferClientAccess::WriteOnly:
+				return GL_MAP_WRITE_BIT;
+			case BufferClientAccess::ReadWrite:
+				return GL_MAP_READ_BIT | GL_MAP_WRITE_BIT;
+			default:
+				return 0;
+		}
+	}
+	
+	GLenum glUsageHint(BufferUpdateFrequency frequency, BufferClientAccess typicalAccess) {
+		if (typicalAccess == BufferClientAccess::None) {
+			switch (frequency) {
+				case BufferUpdateFrequency::Never:
+					return GL_STATIC_COPY;
+				case BufferUpdateFrequency::Occassionally:
+					return GL_DYNAMIC_COPY;
+				case BufferUpdateFrequency::Frequently:
+					return GL_STREAM_COPY;
+			}
+		}
+		
+		if (typicalAccess == BufferClientAccess::ReadWrite || typicalAccess == BufferClientAccess::WriteOnly) {
+			switch (frequency) {
+				case BufferUpdateFrequency::Never:
+					return GL_STATIC_DRAW;
+				case BufferUpdateFrequency::Occassionally:
+					return GL_DYNAMIC_DRAW;
+				case BufferUpdateFrequency::Frequently:
+					return GL_STREAM_DRAW;
+			}
+		}
+		
+		if (typicalAccess == BufferClientAccess::ReadOnly) {
+			switch (frequency) {
+				case BufferUpdateFrequency::Never:
+					return GL_STATIC_READ;
+				case BufferUpdateFrequency::Occassionally:
+					return GL_DYNAMIC_READ;
+				case BufferUpdateFrequency::Frequently:
+					return GL_STREAM_READ;
+			}
+		}
+		
+		assert(false && "Invalid frequency or access level");
+	}
+
 } // ns detail
 
 
