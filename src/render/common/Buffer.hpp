@@ -211,7 +211,8 @@ struct BufferComponent {
 	std::string name;
 	ComponentFormat format;
 	ComponentRole role;
-	std::vector<char> data;
+	uint8_t* base;
+	size_t strideBytes;
 };
 
 
