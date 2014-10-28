@@ -83,6 +83,7 @@
 		8EA7093019D75FC000129E2D /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA7092719D75FC000129E2D /* RenderContext.hpp */; };
 		8EA7093119D75FC000129E2D /* Shader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA7092819D75FC000129E2D /* Shader.hpp */; };
 		8EA7093219D75FC000129E2D /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA7092919D75FC000129E2D /* Texture.hpp */; };
+		8EB49E8319FFEF7D003F687C /* AttributeBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EB49E8219FFEF7D003F687C /* AttributeBuffer.cpp */; };
 		8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EBB0AB519C1022700843A1F /* FrameContext.hpp */; };
 		8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF71ECB19D8600A00AA373B /* RenderContext.hpp */; };
 /* End PBXBuildFile section */
@@ -166,6 +167,7 @@
 		8EA7092719D75FC000129E2D /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
 		8EA7092819D75FC000129E2D /* Shader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
 		8EA7092919D75FC000129E2D /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
+		8EB49E8219FFEF7D003F687C /* AttributeBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AttributeBuffer.cpp; sourceTree = "<group>"; };
 		8EBB0AB519C1022700843A1F /* FrameContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameContext.hpp; sourceTree = "<group>"; };
 		8EF71ECB19D8600A00AA373B /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -386,6 +388,7 @@
 			children = (
 				8EA7092619D75FC000129E2D /* PixelFormat.hpp */,
 				8E2389C519F5A04400080E15 /* Buffer.hpp */,
+				8EB49E8219FFEF7D003F687C /* AttributeBuffer.cpp */,
 				8EA7092119D75FC000129E2D /* ConstantBuffer.hpp */,
 				8EA7092919D75FC000129E2D /* Texture.hpp */,
 				8EA7092419D75FC000129E2D /* Mesh.hpp */,
@@ -521,6 +524,7 @@
 				8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */,
 				8E112DBE199E5FE20029CD38 /* Pipeline.cpp in Sources */,
 				8E112DE1199E60A50029CD38 /* Scene.cpp in Sources */,
+				8EB49E8319FFEF7D003F687C /* AttributeBuffer.cpp in Sources */,
 				8E112DBC199E5FE20029CD38 /* Mesh.cpp in Sources */,
 				8E147FAF19BB9944002836CA /* RunLoop.cpp in Sources */,
 				8E112DC0199E5FE20029CD38 /* Shader.cpp in Sources */,

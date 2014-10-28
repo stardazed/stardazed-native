@@ -16,7 +16,7 @@ namespace stardazed {
 namespace render {
 
 
-enum class ComponentFormat : uint8_t {
+enum class AttributeFormat : uint8_t {
 	UByte,  SByte,
 	UShort, SShort,
 	UInt,   SInt,
@@ -36,24 +36,24 @@ enum class ComponentFormat : uint8_t {
 };
 
 
-template <ComponentFormat CF>
+template <AttributeFormat CF>
 struct FormatTraits {};
 
-template <ComponentFormat CF>
+template <AttributeFormat CF>
 using FormatNativeType = typename FormatTraits<CF>::BaseType;
 
-template <ComponentFormat CF>
+template <AttributeFormat CF>
 using FormatContainerType = typename FormatTraits<CF>::ContainerType;
 	
-template <ComponentFormat CF>
+template <AttributeFormat CF>
 constexpr const size32_t FormatSize = FormatTraits<CF>::Size;
 
-template <ComponentFormat CF>
+template <AttributeFormat CF>
 constexpr const size32_t FormatAlign = FormatTraits<CF>::Align;
 
 
 template <>
-struct FormatTraits<ComponentFormat::UByte> {
+struct FormatTraits<AttributeFormat::UByte> {
 	using BaseType = uint8_t;
 	using ContainerType = uint8_t;
 	constexpr static const size32_t Size = 1;
@@ -61,7 +61,7 @@ struct FormatTraits<ComponentFormat::UByte> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::SByte> {
+struct FormatTraits<AttributeFormat::SByte> {
 	using BaseType = int8_t;
 	using ContainerType = int8_t;
 	constexpr static const size32_t Size = 1;
@@ -69,7 +69,7 @@ struct FormatTraits<ComponentFormat::SByte> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::UShort> {
+struct FormatTraits<AttributeFormat::UShort> {
 	using BaseType = uint16_t;
 	using ContainerType = uint16_t;
 	constexpr static const size32_t Size = 2;
@@ -77,7 +77,7 @@ struct FormatTraits<ComponentFormat::UShort> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::SShort> {
+struct FormatTraits<AttributeFormat::SShort> {
 	using BaseType = int16_t;
 	using ContainerType = int16_t;
 	constexpr static const size32_t Size = 2;
@@ -85,7 +85,7 @@ struct FormatTraits<ComponentFormat::SShort> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::UInt> {
+struct FormatTraits<AttributeFormat::UInt> {
 	using BaseType = uint32_t;
 	using ContainerType = uint32_t;
 	constexpr static const size32_t Size = 4;
@@ -93,7 +93,7 @@ struct FormatTraits<ComponentFormat::UInt> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::SInt> {
+struct FormatTraits<AttributeFormat::SInt> {
 	using BaseType = int32_t;
 	using ContainerType = int32_t;
 	constexpr static const size32_t Size = 4;
@@ -101,7 +101,7 @@ struct FormatTraits<ComponentFormat::SInt> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::ULong> {
+struct FormatTraits<AttributeFormat::ULong> {
 	using BaseType = uint64_t;
 	using ContainerType = uint64_t;
 	constexpr static const size32_t Size = 8;
@@ -109,7 +109,7 @@ struct FormatTraits<ComponentFormat::ULong> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::SLong> {
+struct FormatTraits<AttributeFormat::SLong> {
 	using BaseType = int64_t;
 	using ContainerType = int64_t;
 	constexpr static const size32_t Size = 8;
@@ -117,7 +117,7 @@ struct FormatTraits<ComponentFormat::SLong> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::Float> {
+struct FormatTraits<AttributeFormat::Float> {
 	using BaseType = float;
 	using ContainerType = float;
 	constexpr static const size32_t Size = 4;
@@ -125,7 +125,7 @@ struct FormatTraits<ComponentFormat::Float> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::Float2> {
+struct FormatTraits<AttributeFormat::Float2> {
 	using BaseType = float;
 	using ContainerType = math::Vector<2, float>;
 	constexpr static const size32_t Size = 8;
@@ -133,7 +133,7 @@ struct FormatTraits<ComponentFormat::Float2> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::Float3> {
+struct FormatTraits<AttributeFormat::Float3> {
 	using BaseType = float;
 	using ContainerType = math::Vector<3, float>;
 	constexpr static const size32_t Size = 12;
@@ -141,7 +141,7 @@ struct FormatTraits<ComponentFormat::Float3> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::Float4> {
+struct FormatTraits<AttributeFormat::Float4> {
 	using BaseType = float;
 	using ContainerType = math::Vector<4, float>;
 	constexpr static const size32_t Size = 16;
@@ -149,7 +149,7 @@ struct FormatTraits<ComponentFormat::Float4> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::Float16> {
+struct FormatTraits<AttributeFormat::Float16> {
 	using BaseType = float;
 	using ContainerType = math::Vector<16, float>;
 	constexpr static const size32_t Size = 64;
@@ -157,7 +157,7 @@ struct FormatTraits<ComponentFormat::Float16> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::Double> {
+struct FormatTraits<AttributeFormat::Double> {
 	using BaseType = double;
 	using ContainerType = double;
 	constexpr static const size32_t Size = 8;
@@ -165,7 +165,7 @@ struct FormatTraits<ComponentFormat::Double> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::Double2> {
+struct FormatTraits<AttributeFormat::Double2> {
 	using BaseType = double;
 	using ContainerType = math::Vector<2, double>;
 	constexpr static const size32_t Size = 16;
@@ -173,7 +173,7 @@ struct FormatTraits<ComponentFormat::Double2> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::Double3> {
+struct FormatTraits<AttributeFormat::Double3> {
 	using BaseType = double;
 	using ContainerType = math::Vector<3, double>;
 	constexpr static const size32_t Size = 24;
@@ -181,7 +181,7 @@ struct FormatTraits<ComponentFormat::Double3> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::Double4> {
+struct FormatTraits<AttributeFormat::Double4> {
 	using BaseType = double;
 	using ContainerType = math::Vector<4, double>;
 	constexpr static const size32_t Size = 32;
@@ -189,7 +189,7 @@ struct FormatTraits<ComponentFormat::Double4> {
 };
 
 template <>
-struct FormatTraits<ComponentFormat::Double16> {
+struct FormatTraits<AttributeFormat::Double16> {
 	using BaseType = double;
 	using ContainerType = math::Vector<16, double>;
 	constexpr static const size32_t Size = 128;
@@ -197,7 +197,7 @@ struct FormatTraits<ComponentFormat::Double16> {
 };
 
 
-enum class ComponentRole {
+enum class AttributeRole {
 	Generic,
 	Position,
 	Normal,
@@ -207,17 +207,23 @@ enum class ComponentRole {
 };
 
 
-struct BufferComponent {
+struct AttrBufferComponent {
 	std::string name;
-	ComponentFormat format;
-	ComponentRole role;
-	uint8_t* base;
-	size_t strideBytes;
+	AttributeFormat format;
+	AttributeRole role;
 };
 
 
-using BufferFormat = std::vector<BufferComponent>;
+using AttrBufferFormat = std::vector<AttrBufferComponent>;
 
+
+class AttributeBuffer {
+	AttrBufferFormat format_;
+
+public:
+	AttributeBuffer(AttrBufferFormat format, size32_t itemCount);
+	
+};
 
 
 
