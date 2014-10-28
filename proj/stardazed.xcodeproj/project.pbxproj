@@ -64,7 +64,7 @@
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
 		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
-		8E2389C619F5A04400080E15 /* Buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E2389C519F5A04400080E15 /* Buffer.hpp */; };
+		8E2389C619F5A04400080E15 /* AttributeBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E2389C519F5A04400080E15 /* AttributeBuffer.hpp */; };
 		8E31873619ED460000D3B189 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E31873519ED460000D3B189 /* OpenGL.framework */; };
 		8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */; };
 		8E6A0DBA19B39E1E00DF0921 /* DevicesContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */; };
@@ -147,7 +147,7 @@
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
 		8E19672519ACD69F009CB5E6 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
-		8E2389C519F5A04400080E15 /* Buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Buffer.hpp; sourceTree = "<group>"; };
+		8E2389C519F5A04400080E15 /* AttributeBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AttributeBuffer.hpp; sourceTree = "<group>"; };
 		8E31873519ED460000D3B189 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Manipulators.cpp; sourceTree = "<group>"; };
 		8E46C1D119DAE44A009A85A1 /* Manipulators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Manipulators.hpp; sourceTree = "<group>"; };
@@ -387,7 +387,7 @@
 			isa = PBXGroup;
 			children = (
 				8EA7092619D75FC000129E2D /* PixelFormat.hpp */,
-				8E2389C519F5A04400080E15 /* Buffer.hpp */,
+				8E2389C519F5A04400080E15 /* AttributeBuffer.hpp */,
 				8EB49E8219FFEF7D003F687C /* AttributeBuffer.cpp */,
 				8EA7092119D75FC000129E2D /* ConstantBuffer.hpp */,
 				8EA7092919D75FC000129E2D /* Texture.hpp */,
@@ -438,7 +438,7 @@
 				8EA7093019D75FC000129E2D /* RenderContext.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
 				8EA7093219D75FC000129E2D /* Texture.hpp in Headers */,
-				8E2389C619F5A04400080E15 /* Buffer.hpp in Headers */,
+				8E2389C619F5A04400080E15 /* AttributeBuffer.hpp in Headers */,
 				8EA7092A19D75FC000129E2D /* ConstantBuffer.hpp in Headers */,
 				8E112DDF199E60A50029CD38 /* SceneController.hpp in Headers */,
 				8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */,

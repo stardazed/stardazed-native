@@ -1,16 +1,17 @@
 // ------------------------------------------------------------------
-// render::Buffer - stardazed
+// render::AttributeBuffer - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDER_BUFFER_H
-#define SD_RENDER_BUFFER_H
+#ifndef SD_RENDER_ATTRIBUTEBUFFER_H
+#define SD_RENDER_ATTRIBUTEBUFFER_H
 
 #include "system/Config.hpp"
 #include "math/Vector.hpp"
 
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace stardazed {
 namespace render {
@@ -203,7 +204,8 @@ enum class AttributeRole {
 	Normal,
 	Tangent,
 	Colour,
-	UV, UVW
+	UV,
+	UVW
 };
 
 
@@ -219,9 +221,11 @@ using AttrBufferFormat = std::vector<AttrBufferComponent>;
 
 class AttributeBuffer {
 	AttrBufferFormat format_;
+	size32_t itemSizeBytes_;
+	std::unique_ptr<uint8_t[]> data_;
 
 public:
-	AttributeBuffer(AttrBufferFormat format, size32_t itemCount);
+	AttributeBuffer(const AttrBufferFormat& format, size32_t itemCount);
 	
 };
 
