@@ -9,17 +9,14 @@ namespace stardazed {
 namespace render {
 
 
-size32_t calcFormatItemSize(const AttrBufferFormat& format) {
-	return 16;
-}
+AttributeBuffer::AttributeBuffer(const AttributeList& attrList, size32_t itemCount) {
+	attrList_.reserve(attrList.size());
+	size32_t offset = 0;
 
-
-AttributeBuffer::AttributeBuffer(const AttrBufferFormat& format, size32_t itemCount)
-: format_(format)
-, itemSizeBytes_(calcFormatItemSize(format_))
-, data_(std::make_unique<uint8_t[]>(itemSizeBytes_))
-{
-	
+	for (auto& attr : attrList) {
+		offset = nextOffsetForFormatAndAlignment(offset, attr.format, alignment);
+		attrList_.emplace_back(attr, offset);
+	}
 }
 
 	

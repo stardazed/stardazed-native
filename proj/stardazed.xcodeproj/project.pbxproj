@@ -85,6 +85,7 @@
 		8EA7093219D75FC000129E2D /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA7092919D75FC000129E2D /* Texture.hpp */; };
 		8EB49E8319FFEF7D003F687C /* AttributeBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EB49E8219FFEF7D003F687C /* AttributeBuffer.cpp */; };
 		8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EBB0AB519C1022700843A1F /* FrameContext.hpp */; };
+		8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */; };
 		8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF71ECB19D8600A00AA373B /* RenderContext.hpp */; };
 /* End PBXBuildFile section */
 
@@ -169,6 +170,7 @@
 		8EA7092919D75FC000129E2D /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
 		8EB49E8219FFEF7D003F687C /* AttributeBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AttributeBuffer.cpp; sourceTree = "<group>"; };
 		8EBB0AB519C1022700843A1F /* FrameContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameContext.hpp; sourceTree = "<group>"; };
+		8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferFields.hpp; sourceTree = "<group>"; };
 		8EF71ECB19D8600A00AA373B /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -387,6 +389,7 @@
 			isa = PBXGroup;
 			children = (
 				8EA7092619D75FC000129E2D /* PixelFormat.hpp */,
+				8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */,
 				8E2389C519F5A04400080E15 /* AttributeBuffer.hpp */,
 				8EB49E8219FFEF7D003F687C /* AttributeBuffer.cpp */,
 				8EA7092119D75FC000129E2D /* ConstantBuffer.hpp */,
@@ -414,6 +417,7 @@
 				8E112DBD199E5FE20029CD38 /* Mesh.hpp in Headers */,
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
 				8E112D8C199E5F870029CD38 /* ObjectPool.hpp in Headers */,
+				8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */,
 				8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */,
 				8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */,
 				8E6A0DBA19B39E1E00DF0921 /* DevicesContext.hpp in Headers */,

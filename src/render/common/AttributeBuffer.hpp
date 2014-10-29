@@ -8,6 +8,7 @@
 
 #include "system/Config.hpp"
 #include "math/Vector.hpp"
+#include "math/Matrix.hpp"
 
 #include <string>
 #include <vector>
@@ -17,23 +18,31 @@ namespace stardazed {
 namespace render {
 
 
-enum class AttributeFormat : uint8_t {
+enum class ComponentAlignment {
+	Natural,
+	GLStd140
+};
+
+
+enum class AttributeFormat : uint16_t {
 	UByte,  SByte,
 	UShort, SShort,
 	UInt,   SInt,
 	ULong,  SLong,
 	
 	Float,
-	Float2,
-	Float3,
-	Float4,
-	Float16,
+	Vec2,
+	Vec3,
+	Vec4,
+	Mat3,
+	Mat4,
 	
 	Double,
-	Double2,
-	Double3,
-	Double4,
-	Double16
+	DVec2,
+	DVec3,
+	DVec4,
+	DMat3,
+	DMat4
 };
 
 
@@ -52,6 +61,11 @@ constexpr const size32_t FormatSize = FormatTraits<CF>::Size;
 template <AttributeFormat CF>
 constexpr const size32_t FormatAlign = FormatTraits<CF>::Align;
 
+template <AttributeFormat CF>
+constexpr const size32_t FormatMinAlign = sizeof(typename FormatTraits<CF>::BaseType);
+
+
+// -- Integer Fields
 
 template <>
 struct FormatTraits<AttributeFormat::UByte> {
@@ -117,6 +131,9 @@ struct FormatTraits<AttributeFormat::SLong> {
 	constexpr static const size32_t Align = 8;
 };
 
+
+// -- Float-based Fields
+
 template <>
 struct FormatTraits<AttributeFormat::Float> {
 	using BaseType = float;
@@ -126,7 +143,7 @@ struct FormatTraits<AttributeFormat::Float> {
 };
 
 template <>
-struct FormatTraits<AttributeFormat::Float2> {
+struct FormatTraits<AttributeFormat::Vec2> {
 	using BaseType = float;
 	using ContainerType = math::Vector<2, float>;
 	constexpr static const size32_t Size = 8;
@@ -134,7 +151,7 @@ struct FormatTraits<AttributeFormat::Float2> {
 };
 
 template <>
-struct FormatTraits<AttributeFormat::Float3> {
+struct FormatTraits<AttributeFormat::Vec3> {
 	using BaseType = float;
 	using ContainerType = math::Vector<3, float>;
 	constexpr static const size32_t Size = 12;
@@ -142,7 +159,7 @@ struct FormatTraits<AttributeFormat::Float3> {
 };
 
 template <>
-struct FormatTraits<AttributeFormat::Float4> {
+struct FormatTraits<AttributeFormat::Vec4> {
 	using BaseType = float;
 	using ContainerType = math::Vector<4, float>;
 	constexpr static const size32_t Size = 16;
@@ -150,12 +167,23 @@ struct FormatTraits<AttributeFormat::Float4> {
 };
 
 template <>
-struct FormatTraits<AttributeFormat::Float16> {
+struct FormatTraits<AttributeFormat::Mat3> {
 	using BaseType = float;
-	using ContainerType = math::Vector<16, float>;
+	using ContainerType = math::Matrix<3, 3, float>;
 	constexpr static const size32_t Size = 64;
 	constexpr static const size32_t Align = 16;
 };
+
+template <>
+struct FormatTraits<AttributeFormat::Mat4> {
+	using BaseType = float;
+	using ContainerType = math::Matrix<4, 4, float>;
+	constexpr static const size32_t Size = 64;
+	constexpr static const size32_t Align = 16;
+};
+
+
+// -- Double-based Fields
 
 template <>
 struct FormatTraits<AttributeFormat::Double> {
@@ -166,7 +194,7 @@ struct FormatTraits<AttributeFormat::Double> {
 };
 
 template <>
-struct FormatTraits<AttributeFormat::Double2> {
+struct FormatTraits<AttributeFormat::DVec2> {
 	using BaseType = double;
 	using ContainerType = math::Vector<2, double>;
 	constexpr static const size32_t Size = 16;
@@ -174,7 +202,7 @@ struct FormatTraits<AttributeFormat::Double2> {
 };
 
 template <>
-struct FormatTraits<AttributeFormat::Double3> {
+struct FormatTraits<AttributeFormat::DVec3> {
 	using BaseType = double;
 	using ContainerType = math::Vector<3, double>;
 	constexpr static const size32_t Size = 24;
@@ -182,7 +210,7 @@ struct FormatTraits<AttributeFormat::Double3> {
 };
 
 template <>
-struct FormatTraits<AttributeFormat::Double4> {
+struct FormatTraits<AttributeFormat::DVec4> {
 	using BaseType = double;
 	using ContainerType = math::Vector<4, double>;
 	constexpr static const size32_t Size = 32;
@@ -190,15 +218,23 @@ struct FormatTraits<AttributeFormat::Double4> {
 };
 
 template <>
-struct FormatTraits<AttributeFormat::Double16> {
+struct FormatTraits<AttributeFormat::DMat3> {
 	using BaseType = double;
-	using ContainerType = math::Vector<16, double>;
+	using ContainerType = math::Matrix<3, 3, double>;
+	constexpr static const size32_t Size = 128;
+	constexpr static const size32_t Align = 32;
+};
+
+template <>
+struct FormatTraits<AttributeFormat::DMat4> {
+	using BaseType = double;
+	using ContainerType = math::Matrix<4, 4, double>;
 	constexpr static const size32_t Size = 128;
 	constexpr static const size32_t Align = 32;
 };
 
 
-enum class AttributeRole {
+enum class AttributeRole : uint16_t {
 	Generic,
 	Position,
 	Normal,
@@ -209,23 +245,29 @@ enum class AttributeRole {
 };
 
 
-struct AttrBufferComponent {
+struct AttributeDescriptor {
 	std::string name;
 	AttributeFormat format;
 	AttributeRole role;
 };
 
 
-using AttrBufferFormat = std::vector<AttrBufferComponent>;
+using AttributeList = std::vector<AttributeDescriptor>;
 
 
 class AttributeBuffer {
-	AttrBufferFormat format_;
+	struct PositionedAttribute {
+		AttributeDescriptor attr;
+		size32_t offset;
+	};
+
+	std::vector<PositionedAttribute> attrList_;
+	
 	size32_t itemSizeBytes_;
 	std::unique_ptr<uint8_t[]> data_;
 
 public:
-	AttributeBuffer(const AttrBufferFormat& format, size32_t itemCount);
+	AttributeBuffer(const AttributeList&, ComponentAlignment, size32_t itemCount);
 	
 };
 
