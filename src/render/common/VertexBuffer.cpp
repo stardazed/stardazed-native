@@ -12,6 +12,8 @@ namespace render {
 
 
 constexpr size32_t alignFieldOnSize(size32_t size, size32_t offset) {
+	// FIXME: this will fail if size is not a power of 2
+	// extend to nearest power of 2, then - 1
 	size32_t mask = size - 1;
 	return (offset + mask) & ~mask;
 }
