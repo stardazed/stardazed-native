@@ -75,15 +75,13 @@ public:
 	: public std::iterator<std::random_access_iterator_tag, NativeFieldType>
 	, public FullyComparableTrait<AttrIterator<NativeFieldType>>
 	{
-		const VertexBuffer& vb_;
-		const PositionedAttribute& attr_;
-		uint8_t* position_;
-		size32_t rowBytes_;
+		uint8_t* position_ = nullptr;
+		size32_t rowBytes_ = 0;
 		
 	public:
+		constexpr AttrIterator() {}
 		constexpr AttrIterator(const VertexBuffer& vb, const PositionedAttribute& attr)
-		: vb_{vb}, attr_{attr}
-		, position_{ vb.data_.get() + attr.offset }
+		: position_{ vb.data_.get() + attr.offset }
 		, rowBytes_{ vb.itemSizeBytes() }
 		{}
 		
@@ -110,19 +108,34 @@ public:
 
 		friend AttrIterator& operator +=(AttrIterator&, size32_t);
 		friend AttrIterator& operator -=(AttrIterator&, size32_t);
+		
+		constexpr ptrdiff_t operator -(const AttrIterator& b) {
+			return (position_ - b.position_) / static_cast<ptrdiff_t>(rowBytes_);
+		}
 	};
 	
 	template <typename T>
 	friend class AttrIterator;
 	
 	template <typename T>
-	AttrIterator<T> attrBegin(const PositionedAttribute& attr) { return { *this, attr }; }
+	AttrIterator<T> attrBegin(const PositionedAttribute& attr) {
+		return { *this, attr };
+	}
 
 	template <typename T>
 	AttrIterator<T> attrEnd(const PositionedAttribute& attr) {
-		auto it = attrBegin<T>(attr);
-		return std::next(it, itemCount_);
+		return attrBegin<T>(attr) + itemCount_;
 	}
+	
+	template <typename T>
+	AttrIterator<T> attrBegin(AttributeRole role) { return attrBegin<T>(*attrByRole(role)); }
+	template <typename T>
+	AttrIterator<T> attrEnd(AttributeRole role) { return attrEnd<T>(*attrByRole(role)); }
+
+	template <typename T>
+	AttrIterator<T> attrBegin(const std::string& name) { return attrBegin<T>(*attrByName(name)); }
+	template <typename T>
+	AttrIterator<T> attrEnd(const std::string& name) { return attrEnd<T>(*attrByName(name));	}
 };
 
 
@@ -132,7 +145,6 @@ constexpr VertexBuffer::AttrIterator<T> operator +(const VertexBuffer::AttrItera
 	ret.position_ += ret.rowBytes_ * count;
 	return ret;
 }
-
 
 template <typename T>
 constexpr VertexBuffer::AttrIterator<T> operator +(size32_t count, const VertexBuffer::AttrIterator<T>& iter) {

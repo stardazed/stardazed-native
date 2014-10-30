@@ -9,6 +9,11 @@
 namespace stardazed {
 namespace render {
 
+
+void MeshDescriptor::createVertexBuffer(const AttributeList& attrs, size32_t itemCount) {
+	vertexBuffer_ = std::make_unique<VertexBuffer>(attrs, itemCount);
+}
+
 /*
 void MeshDescriptor::calcVertexNormals() {
 	vertexNormals.assign(vertexes.size(), { 0, 0, 1 });

@@ -28,11 +28,11 @@ VertexBuffer::VertexBuffer(const AttributeList& attrList, size32_t itemCount) {
 	size32_t offset = 0, maxElemSize = 0;
 
 	// calculate positioning of successive attributes in linear item
-	std::transform(begin(attrList), end(attrList), begin(attrs_),
+	std::transform(begin(attrList), end(attrList), std::back_inserter(attrs_),
 		[&offset, &maxElemSize](const Attribute& attr) -> PositionedAttribute {
 			auto field = getField(attr);
 			auto size = fieldSize(field);
-			maxElemSize = std::max(maxElemSize, size);
+			maxElemSize = std::max(maxElemSize, elementSize(field.type));
 
 			auto alignedOffset = alignFieldOnElement(field.type, offset);
 			offset = alignedOffset + size;
@@ -50,7 +50,7 @@ VertexBuffer::VertexBuffer(const AttributeList& attrList, size32_t itemCount) {
 
 const PositionedAttribute* VertexBuffer::attrByPredicate(std::function<bool(const PositionedAttribute&)> pred) const {
 	auto it = std::find_if(begin(attrs_), end(attrs_), pred);
-	
+
 	if (it == end(attrs_))
 		return nullptr;
 	return &(*it);

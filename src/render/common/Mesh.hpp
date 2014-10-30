@@ -34,14 +34,13 @@ enum class VertexWinding {
 
 class MeshDescriptor {
 	std::unique_ptr<VertexBuffer> vertexBuffer_;
-	std::vector<render::Tri> faces;
-	VertexWinding winding = VertexWinding::CounterClockwise;
 
 public:
+	void createVertexBuffer(const AttributeList&, size32_t);
+	VertexBuffer& vertexBuffer() { return *vertexBuffer_; }
 
-	// derived data generation
-	void calcVertexNormals();
-	void calcVertexTangents();
+	std::vector<render::Tri> faces;
+	VertexWinding winding = VertexWinding::CounterClockwise;
 
 	math::AABB calcAABB() const;
 
