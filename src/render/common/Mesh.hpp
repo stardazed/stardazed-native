@@ -7,12 +7,13 @@
 #define SD_RENDER_MESH_H
 
 #include "system/Config.hpp"
-#include "render/common/Buffer.hpp"
+#include "render/common/VertexBuffer.hpp"
 #include "math/Vector.hpp"
 #include "math/AABB.hpp"
 
 #include <array>
 #include <vector>
+#include <memory>
 
 namespace stardazed {
 namespace render {
@@ -31,17 +32,17 @@ enum class VertexWinding {
 };
 
 
-struct MeshDescriptor {
-	BufferFormat format;
-
-	// faces
+class MeshDescriptor {
+	std::unique_ptr<VertexBuffer> vertexBuffer_;
 	std::vector<render::Tri> faces;
 	VertexWinding winding = VertexWinding::CounterClockwise;
+
+public:
 
 	// derived data generation
 	void calcVertexNormals();
 	void calcVertexTangents();
-	
+
 	math::AABB calcAABB() const;
 
 	// observers

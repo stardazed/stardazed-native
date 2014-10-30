@@ -149,13 +149,13 @@ MatrixColumnIterator<M, N, T> colEnd(const Matrix<M,N,T>& matrix, size_t col) {
 // ---- Equality test (mostly for tests)
 
 template <size_t M, size_t N, typename T>
-constexpr bool operator==(const Matrix<M, N, T>& a, const Matrix<M, N, T>& b) {
+constexpr bool operator ==(const Matrix<M, N, T>& a, const Matrix<M, N, T>& b) {
 	return std::equal(a.dataBegin(), a.dataEnd(), b.dataBegin());
 }
 
 
 template <size_t M, size_t N, typename T>
-constexpr bool operator!=(const Matrix<M, N, T>& a, const Matrix<M, N, T>& b) {
+constexpr bool operator !=(const Matrix<M, N, T>& a, const Matrix<M, N, T>& b) {
 	return !(a == b);
 }
 
