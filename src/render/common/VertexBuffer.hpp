@@ -12,6 +12,7 @@
 #include "math/Vector.hpp"
 #include "math/Matrix.hpp"
 
+#include <array>
 #include <string>
 #include <vector>
 #include <memory>
@@ -19,6 +20,14 @@
 
 namespace stardazed {
 namespace render {
+
+
+// exposition only, no real support for Tri32 yet
+using Tri16 = std::array<uint16_t, 3>;
+using Tri32 = std::array<uint32_t, 3>;
+
+using Tri = Tri16;
+
 
 
 enum class AttributeRole : uint16_t {
@@ -53,7 +62,7 @@ constexpr Field getField(const PositionedAttribute& posAttr) { return posAttr.at
 
 
 class VertexBuffer {
-	std::vector<PositionedAttribute> attrs_;
+ 	std::vector<PositionedAttribute> attrs_;
 	size32_t itemSizeBytes_, itemCount_;
 	std::unique_ptr<uint8_t[]> data_;
 	
@@ -99,8 +108,8 @@ public:
 		constexpr const AttrIterator& operator --() { position_ -= rowBytes_; return *this; }
 		constexpr AttrIterator operator --(int) { auto ret = *this; position_ -= rowBytes_; return ret; }
 		
-		constexpr bool operator ==(const AttrIterator& other) { return position_ == other.position_; }
-		constexpr bool operator <(const AttrIterator& other) { return position_ < other.position_; }
+		constexpr bool operator ==(const AttrIterator& other) const { return position_ == other.position_; }
+		constexpr bool operator <(const AttrIterator& other) const { return position_ < other.position_; }
 		
 		friend constexpr AttrIterator operator +(const AttrIterator&, size32_t);
 		friend constexpr AttrIterator operator +(size32_t, const AttrIterator&);
@@ -118,14 +127,9 @@ public:
 	friend class AttrIterator;
 	
 	template <typename T>
-	AttrIterator<T> attrBegin(const PositionedAttribute& attr) {
-		return { *this, attr };
-	}
-
+	AttrIterator<T> attrBegin(const PositionedAttribute& attr) { return { *this, attr }; }
 	template <typename T>
-	AttrIterator<T> attrEnd(const PositionedAttribute& attr) {
-		return attrBegin<T>(attr) + itemCount_;
-	}
+	AttrIterator<T> attrEnd(const PositionedAttribute& attr) { return attrBegin<T>(attr) + itemCount_; }
 	
 	template <typename T>
 	AttrIterator<T> attrBegin(AttributeRole role) { return attrBegin<T>(*attrByRole(role)); }

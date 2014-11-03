@@ -7,9 +7,10 @@
 #define SD_RENDER_MESH_H
 
 #include "system/Config.hpp"
-#include "render/common/VertexBuffer.hpp"
 #include "math/Vector.hpp"
 #include "math/AABB.hpp"
+#include "render/common/VertexBuffer.hpp"
+#include "render/common/VertexDerivedData.hpp"
 
 #include <array>
 #include <vector>
@@ -17,13 +18,6 @@
 
 namespace stardazed {
 namespace render {
-
-
-// exposition only, no real support for Tri32 yet
-using Tri16 = std::array<uint16_t, 3>;
-using Tri32 = std::array<uint32_t, 3>;
-
-using Tri = Tri16;
 
 
 enum class VertexWinding {
@@ -37,7 +31,7 @@ class MeshDescriptor {
 
 public:
 	void createVertexBuffer(const AttributeList&, size32_t);
-	VertexBuffer& vertexBuffer() { return *vertexBuffer_; }
+	VertexBuffer& vertexBuffer() const { return *vertexBuffer_; }
 
 	std::vector<render::Tri> faces;
 	VertexWinding winding = VertexWinding::CounterClockwise;
