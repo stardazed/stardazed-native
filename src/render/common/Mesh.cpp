@@ -5,6 +5,7 @@
 
 #include "math/Constants.hpp"
 #include "render/common/Mesh.hpp"
+#include "render/common/VertexDerivedData.hpp"
 
 #include <cassert>
 #include <numeric>
@@ -19,6 +20,8 @@ void MeshDescriptor::createVertexBuffer(const AttributeList& attrs, size32_t ite
 
 
 math::AABB MeshDescriptor::calcAABB() const {
+	assert(vertexBuffer().attrByRole(AttributeRole::Position));
+
 	math::AABB aabb;
 	
 	std::for_each(vertexBuffer().attrBegin<math::Vec3>(AttributeRole::Position), vertexBuffer().attrEnd<math::Vec3>(AttributeRole::Position),
@@ -27,6 +30,23 @@ math::AABB MeshDescriptor::calcAABB() const {
 		});
 	
 	return aabb;
+}
+
+
+void MeshDescriptor::genVertexNormals() {
+	auto posAttr = vertexBuffer().attrByRole(AttributeRole::Position),
+		 normAttr = vertexBuffer().attrByRole(AttributeRole::Normal);
+
+	assert(posAttr && normAttr);
+
+	auto vertBegin = vertexBuffer().attrBegin<math::Vec3>(*posAttr),
+		 vertEnd   = vertexBuffer().attrEnd<math::Vec3>(*posAttr);
+	auto normBegin = vertexBuffer().attrBegin<math::Vec3>(*normAttr),
+		 normEnd   = vertexBuffer().attrEnd<math::Vec3>(*normAttr);
+	auto faceBegin = faces.begin(),
+		 faceEnd   = faces.end();
+	
+	calcVertexNormals(vertBegin, vertEnd, normBegin, normEnd, faceBegin, faceEnd);
 }
 
 

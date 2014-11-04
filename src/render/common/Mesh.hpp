@@ -10,7 +10,6 @@
 #include "math/Vector.hpp"
 #include "math/AABB.hpp"
 #include "render/common/VertexBuffer.hpp"
-#include "render/common/VertexDerivedData.hpp"
 
 #include <array>
 #include <vector>
@@ -37,10 +36,9 @@ public:
 	VertexWinding winding = VertexWinding::CounterClockwise;
 
 	math::AABB calcAABB() const;
-
-	// observers
-	bool isMinimallyComplete() const;
-	bool isInternallyConsistent() const;
+	
+	// derived data generation
+	void genVertexNormals();
 };
 
 

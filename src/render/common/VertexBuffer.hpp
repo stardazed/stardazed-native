@@ -101,7 +101,12 @@ public:
 			auto indexedPos = position_ + (rowBytes_ * index);
 			return *reinterpret_cast<NativeFieldType*>(indexedPos);
 		}
-
+		
+		constexpr const NativeFieldType& operator [](size32_t index) const {
+			auto indexedPos = position_ + (rowBytes_ * index);
+			return *reinterpret_cast<const NativeFieldType*>(indexedPos);
+		}
+		
 		constexpr const AttrIterator& operator ++() { position_ += rowBytes_; return *this; }
 		constexpr AttrIterator operator ++(int) { auto ret = *this; position_ += rowBytes_; return ret; }
 		
@@ -111,12 +116,33 @@ public:
 		constexpr bool operator ==(const AttrIterator& other) const { return position_ == other.position_; }
 		constexpr bool operator <(const AttrIterator& other) const { return position_ < other.position_; }
 		
-		friend constexpr AttrIterator operator +(const AttrIterator&, size32_t);
-		friend constexpr AttrIterator operator +(size32_t, const AttrIterator&);
-		friend constexpr AttrIterator operator -(const AttrIterator&, size32_t);
+		friend constexpr AttrIterator operator +(const AttrIterator& iter, size32_t count) {
+			auto ret = iter;
+			ret.position_ += ret.rowBytes_ * count;
+			return ret;
+		}
 
-		friend AttrIterator& operator +=(AttrIterator&, size32_t);
-		friend AttrIterator& operator -=(AttrIterator&, size32_t);
+		friend constexpr AttrIterator operator +(size32_t count, const AttrIterator& iter) {
+			auto ret = iter;
+			ret.position_ += ret.rowBytes_ * count;
+			return ret;
+		}
+
+		friend constexpr AttrIterator operator -(const AttrIterator& iter, size32_t count) {
+			auto ret = iter;
+			ret.position_ -= ret.rowBytes_ * count;
+			return ret;
+		}
+
+		friend AttrIterator& operator +=(AttrIterator& iter, size32_t count) {
+			iter.position_ += iter.rowBytes_ * count;
+			return iter;
+		}
+
+		friend AttrIterator& operator -=(AttrIterator& iter, size32_t count) {
+			iter.position_ -= iter.rowBytes_ * count;
+			return iter;
+		}
 		
 		constexpr ptrdiff_t operator -(const AttrIterator& b) {
 			return (position_ - b.position_) / static_cast<ptrdiff_t>(rowBytes_);
@@ -141,40 +167,6 @@ public:
 	template <typename T>
 	AttrIterator<T> attrEnd(const std::string& name) { return attrEnd<T>(*attrByName(name));	}
 };
-
-
-template <typename T>
-constexpr VertexBuffer::AttrIterator<T> operator +(const VertexBuffer::AttrIterator<T>& iter, size32_t count) {
-	auto ret = iter;
-	ret.position_ += ret.rowBytes_ * count;
-	return ret;
-}
-
-template <typename T>
-constexpr VertexBuffer::AttrIterator<T> operator +(size32_t count, const VertexBuffer::AttrIterator<T>& iter) {
-	auto ret = iter;
-	ret.position_ += ret.rowBytes_ * count;
-	return ret;
-}
-
-template <typename T>
-constexpr VertexBuffer::AttrIterator<T> operator -(const VertexBuffer::AttrIterator<T>& iter, size32_t count) {
-	auto ret = iter;
-	ret.position_ -= ret.rowBytes_ * count;
-	return ret;
-}
-
-template <typename T>
-VertexBuffer::AttrIterator<T>& operator +=(VertexBuffer::AttrIterator<T>& iter, size32_t count) {
-	iter.position_ += iter.rowBytes_ * count;
-	return iter;
-}
-
-template <typename T>
-VertexBuffer::AttrIterator<T>& operator -=(VertexBuffer::AttrIterator<T>& iter, size32_t count) {
-	iter.position_ -= iter.rowBytes_ * count;
-	return iter;
-}
 
 
 } // ns render
