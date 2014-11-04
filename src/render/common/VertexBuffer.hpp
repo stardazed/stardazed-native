@@ -80,7 +80,7 @@ public:
 	template <typename Storage>
 	void allocate(size32_t itemCount) {
 		itemCount_ = itemCount;
-		storage_ = std::make_unique<Storage>(itemCount_);
+		storage_ = std::make_unique<Storage>(itemCount_ * itemSizeBytes_);
 	}
 
 	// -- attribute metadata

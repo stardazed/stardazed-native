@@ -45,7 +45,7 @@ void MeshDescriptor::genVertexNormals() {
 		 normEnd   = vertexBuffer.attrEnd<math::Vec3>(*normAttr);
 	auto faceBegin = faces.begin(),
 		 faceEnd   = faces.end();
-	
+
 	calcVertexNormals(vertBegin, vertEnd, normBegin, normEnd, faceBegin, faceEnd);
 }
 

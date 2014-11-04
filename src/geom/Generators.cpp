@@ -12,7 +12,7 @@ namespace stardazed {
 namespace geom {
 namespace gen {
 
-
+/*
 render::MeshDescriptor plane() {
 	using namespace render;
 	MeshDescriptor mesh;
@@ -36,7 +36,7 @@ render::MeshDescriptor plane() {
 	return mesh;
 }
 
-/*
+ 
 render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 						   math::Angle fromAng, math::Angle toAng, int angleSteps) {
 	render::MeshDescriptor m;
