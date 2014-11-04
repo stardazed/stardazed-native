@@ -24,8 +24,7 @@ constexpr size32_t alignFieldOnElement(ElementType element, size32_t offset) {
 }
 
 
-VertexBuffer::VertexBuffer(const AttributeList& attrList, size32_t itemCount) {
-	itemCount_ = itemCount;
+VertexBuffer::VertexBuffer(const AttributeList& attrList) {
 	attrs_.reserve(attrList.size());
 	size32_t offset = 0, maxElemSize = 0;
 
@@ -44,9 +43,6 @@ VertexBuffer::VertexBuffer(const AttributeList& attrList, size32_t itemCount) {
 	// align full item size on boundary of biggest element in attribute list, with min of float boundary
 	maxElemSize = std::max(elementSize(ElementType::Float), maxElemSize);
 	itemSizeBytes_ = alignFieldOnSize(maxElemSize, offset);
-
-	// allocate memory for all items and fields
-	data_ = std::make_unique<uint8_t[]>(itemSizeBytes_ * itemCount_);
 }
 
 

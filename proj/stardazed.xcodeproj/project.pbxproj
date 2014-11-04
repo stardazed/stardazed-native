@@ -68,6 +68,8 @@
 		8E31873619ED460000D3B189 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E31873519ED460000D3B189 /* OpenGL.framework */; };
 		8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */; };
 		8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */; };
+		8E4C740A1A0929D4006CF46D /* BufferStorage.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74091A0929D4006CF46D /* BufferStorage.hpp */; };
+		8E4C740C1A09346D006CF46D /* IndexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C740B1A09346D006CF46D /* IndexBuffer.hpp */; };
 		8E6A0DBA19B39E1E00DF0921 /* DevicesContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */; };
 		8E6A0DBC19B39E7400DF0921 /* mac_DevicesContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DBB19B39E7400DF0921 /* mac_DevicesContext.hpp */; };
 		8E6A0DBE19B3A03600DF0921 /* Keyboard.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DBD19B3A03600DF0921 /* Keyboard.hpp */; };
@@ -154,6 +156,8 @@
 		8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Manipulators.cpp; sourceTree = "<group>"; };
 		8E46C1D119DAE44A009A85A1 /* Manipulators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Manipulators.hpp; sourceTree = "<group>"; };
 		8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexDerivedData.hpp; sourceTree = "<group>"; };
+		8E4C74091A0929D4006CF46D /* BufferStorage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferStorage.hpp; sourceTree = "<group>"; };
+		8E4C740B1A09346D006CF46D /* IndexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IndexBuffer.hpp; sourceTree = "<group>"; };
 		8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DevicesContext.hpp; sourceTree = "<group>"; };
 		8E6A0DBB19B39E7400DF0921 /* mac_DevicesContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_DevicesContext.hpp; sourceTree = "<group>"; };
 		8E6A0DBD19B3A03600DF0921 /* Keyboard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
@@ -392,8 +396,10 @@
 			children = (
 				8EA7092619D75FC000129E2D /* PixelFormat.hpp */,
 				8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */,
+				8E4C74091A0929D4006CF46D /* BufferStorage.hpp */,
 				8E2389C519F5A04400080E15 /* VertexBuffer.hpp */,
 				8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */,
+				8E4C740B1A09346D006CF46D /* IndexBuffer.hpp */,
 				8EA7092119D75FC000129E2D /* ConstantBuffer.hpp */,
 				8EA7092919D75FC000129E2D /* Texture.hpp */,
 				8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */,
@@ -421,6 +427,7 @@
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
 				8E112D8C199E5F870029CD38 /* ObjectPool.hpp in Headers */,
 				8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */,
+				8E4C740A1A0929D4006CF46D /* BufferStorage.hpp in Headers */,
 				8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */,
 				8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */,
 				8E6A0DBA19B39E1E00DF0921 /* DevicesContext.hpp in Headers */,
@@ -428,6 +435,7 @@
 				8EA7093119D75FC000129E2D /* Shader.hpp in Headers */,
 				8E112DB9199E5FE20029CD38 /* Buffer.hpp in Headers */,
 				8E112DDB199E60A50029CD38 /* Behaviour.hpp in Headers */,
+				8E4C740C1A09346D006CF46D /* IndexBuffer.hpp in Headers */,
 				8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */,
 				8E112D46199E55100029CD38 /* Angle.hpp in Headers */,
 				8E112DBF199E5FE20029CD38 /* Pipeline.hpp in Headers */,

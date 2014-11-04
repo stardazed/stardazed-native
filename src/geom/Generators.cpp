@@ -12,24 +12,31 @@ namespace stardazed {
 namespace geom {
 namespace gen {
 
-/*
+
 render::MeshDescriptor plane() {
-	render::MeshDescriptor mesh;
+	using namespace render;
+	MeshDescriptor mesh;
 	
-	mesh.vertexes.push_back({ -1, -1, 0 });
-	mesh.vertexes.push_back({  1, -1, 0 });
-	mesh.vertexes.push_back({  1,  1, 0 });
-	mesh.vertexes.push_back({ -1,  1, 0 });
+	mesh.createVertexBuffer({
+		{ { fieldVec3(), "position" }, AttributeRole::Position }
+	}, 4);
+	
+	auto verts = mesh.vertexBuffer().attrBegin<math::Vec3>(AttributeRole::Position);
+	
+	*verts++ = { -1, -1, 0 };
+	*verts++ = {  1, -1, 0 };
+	*verts++ = {  1,  1, 0 };
+	*verts++ = { -1,  1, 0 };
 	
 	mesh.faces.push_back({ 0, 2, 1 });
 	mesh.faces.push_back({ 2, 0, 3 });
 	
-	mesh.calcVertexNormals();
+	mesh.genVertexNormals();
 	
 	return mesh;
 }
 
-
+/*
 render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 						   math::Angle fromAng, math::Angle toAng, int angleSteps) {
 	render::MeshDescriptor m;

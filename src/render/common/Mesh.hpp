@@ -13,7 +13,6 @@
 
 #include <array>
 #include <vector>
-#include <memory>
 
 namespace stardazed {
 namespace render {
@@ -26,11 +25,9 @@ enum class VertexWinding {
 
 
 class MeshDescriptor {
-	std::unique_ptr<VertexBuffer> vertexBuffer_;
-
 public:
-	void createVertexBuffer(const AttributeList&, size32_t);
-	VertexBuffer& vertexBuffer() const { return *vertexBuffer_; }
+	MeshDescriptor(const AttributeList&);
+	VertexBuffer vertexBuffer;
 
 	std::vector<render::Tri> faces;
 	VertexWinding winding = VertexWinding::CounterClockwise;

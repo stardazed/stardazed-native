@@ -9,6 +9,7 @@
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
 #include "render/common/BufferFields.hpp"
+#include "render/common/BufferStorage.hpp"
 #include "math/Vector.hpp"
 #include "math/Matrix.hpp"
 
@@ -62,16 +63,27 @@ constexpr Field getField(const PositionedAttribute& posAttr) { return posAttr.at
 
 
 class VertexBuffer {
+	size32_t itemSizeBytes_ = 0, itemCount_ = 0;
+	std::unique_ptr<BufferStorage> storage_;
  	std::vector<PositionedAttribute> attrs_;
-	size32_t itemSizeBytes_, itemCount_;
-	std::unique_ptr<uint8_t[]> data_;
 	
 	const PositionedAttribute* attrByPredicate(std::function<bool(const PositionedAttribute&)>) const;
 
 public:
-	VertexBuffer(const AttributeList&, size32_t itemCount);
+	VertexBuffer(const AttributeList&);
+
+	// -- buffer data management
 
 	size32_t itemSizeBytes() const { return itemSizeBytes_; }
+	size32_t bufferSizeBytes() const { return itemSizeBytes_ * itemCount_; }
+	
+	template <typename Storage>
+	void allocate(size32_t itemCount) {
+		itemCount_ = itemCount;
+		storage_ = std::make_unique<Storage>(itemCount_);
+	}
+
+	// -- attribute metadata
 
 	const PositionedAttribute* attrByRole(AttributeRole) const;
 	const PositionedAttribute* attrByName(const std::string&) const;
@@ -90,7 +102,7 @@ public:
 	public:
 		constexpr AttrIterator() {}
 		constexpr AttrIterator(const VertexBuffer& vb, const PositionedAttribute& attr)
-		: position_{ vb.data_.get() + attr.offset }
+		: position_{ vb.storage_->getAs<uint8_t>() + attr.offset }
 		, rowBytes_{ vb.itemSizeBytes() }
 		{}
 		
@@ -153,19 +165,19 @@ public:
 	friend class AttrIterator;
 	
 	template <typename T>
-	AttrIterator<T> attrBegin(const PositionedAttribute& attr) { return { *this, attr }; }
+	AttrIterator<T> attrBegin(const PositionedAttribute& attr) const { return { *this, attr }; }
 	template <typename T>
-	AttrIterator<T> attrEnd(const PositionedAttribute& attr) { return attrBegin<T>(attr) + itemCount_; }
+	AttrIterator<T> attrEnd(const PositionedAttribute& attr) const { return attrBegin<T>(attr) + itemCount_; }
 	
 	template <typename T>
-	AttrIterator<T> attrBegin(AttributeRole role) { return attrBegin<T>(*attrByRole(role)); }
+	AttrIterator<T> attrBegin(AttributeRole role) const { return attrBegin<T>(*attrByRole(role)); }
 	template <typename T>
-	AttrIterator<T> attrEnd(AttributeRole role) { return attrEnd<T>(*attrByRole(role)); }
+	AttrIterator<T> attrEnd(AttributeRole role) const { return attrEnd<T>(*attrByRole(role)); }
 
 	template <typename T>
-	AttrIterator<T> attrBegin(const std::string& name) { return attrBegin<T>(*attrByName(name)); }
+	AttrIterator<T> attrBegin(const std::string& name) const { return attrBegin<T>(*attrByName(name)); }
 	template <typename T>
-	AttrIterator<T> attrEnd(const std::string& name) { return attrEnd<T>(*attrByName(name));	}
+	AttrIterator<T> attrEnd(const std::string& name) const { return attrEnd<T>(*attrByName(name)); }
 };
 
 
