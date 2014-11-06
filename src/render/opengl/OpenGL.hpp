@@ -17,4 +17,43 @@
 #endif
 
 
+namespace stardazed {
+namespace render {
+
+
+// -- basic GL "object" wrappers
+
+class GLVertexArrayObject {
+	GLuint vao_ = 0;
+	
+public:
+	GLVertexArrayObject() {
+		glGenVertexArrays(1, &vao_);
+	}
+	
+	~GLVertexArrayObject() {
+		if (vao_)
+			glDeleteVertexArrays(1, &vao_);
+	}
+	
+	void bind() const { glBindVertexArray(vao_); }
+	void unbind() const { glBindVertexArray(0); }
+};
+
+
+
+// -- GL convenience functions
+
+template <typename GLObj, typename F>
+inline void withBound(const GLObj& obj, F&& func) {
+	obj.bind();
+	func();
+	obj.unbind();
+}
+
+	
+} // ns render
+} // ns stardazed
+
+
 #endif

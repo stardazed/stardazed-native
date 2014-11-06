@@ -23,11 +23,11 @@ class Mesh {
 	
 	math::AABB aabb_;
 
-	OpenGLBuffer<math::Vec3> vertexBuffer_, vertexNormalBuffer_;
-	OpenGLBuffer<render::Tri, GL_ELEMENT_ARRAY_BUFFER> faceBuffer_;
+	GLBuffer<math::Vec3> vertexBuffer_, vertexNormalBuffer_;
+	GLBuffer<render::Tri, GL_ELEMENT_ARRAY_BUFFER> faceBuffer_;
 
-	OpenGLBuffer<math::Vec3> vertexTangentBuffer_;
-	OpenGLBuffer<math::Vec2> vertexUVBuffer_;
+	GLBuffer<math::Vec3> vertexTangentBuffer_;
+	GLBuffer<math::Vec2> vertexUVBuffer_;
 
 public:
 	Mesh(const MeshDescriptor&);

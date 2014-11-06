@@ -73,54 +73,82 @@ GL_TEXTURE_BUFFER
 */
 
 
+enum class GLArrayType {
+	Attribute,
+	Index
+};
+
+
 namespace detail {
 	GLbitfield glAccessFlagsForBCA(BufferClientAccess access);
 	GLenum glUsageHint(BufferUpdateFrequency frequency, BufferClientAccess typicalAccess);
+	GLenum glTargetForArrayType(GLArrayType);
 }
 
 
 
-template <typename T>
 class Buffer {
 	GLuint name_ {0};
-	size_t count_ {0};
+	GLenum target_ {0}, usage_ {0};
+	size32_t byteSize_ {0};
 
 public:
-	Buffer() {
+	Buffer(GLenum target, BufferUpdateFrequency frequency, BufferClientAccess access)
+	: target_{ target }
+	, usage_{ detail::glUsageHint(frequency, access) }
+	{
 		glGenBuffers(1, &name_);
 	}
+
+	Buffer(GLArrayType type, BufferUpdateFrequency frequency, BufferClientAccess access)
+	: Buffer(detail::glTargetForArrayType(type), frequency, access)
+	{}
 	
-	~Buffer() {
-		glDeleteBuffers(1, &name_);
-	}
-	
-	void reserve(size32_t count, BufferUpdateFrequency frequency, BufferClientAccess access) {
-		count_ = count;
-//		glBufferData(target, byteSize(), nullptr, usageHint);
+	virtual ~Buffer() {
+		if (name_)
+			glDeleteBuffers(1, &name_);
 	}
 
-	void allocate(BufferUpdateFrequency frequency, BufferClientAccess access) {
-		auto usageHint = detail::glUsageHint(frequency, access);
-//		glBufferData(target, byteSize(), nullptr, usageHint);
+	void allocate(size32_t bytes, void* data) {
+		byteSize_ = bytes;
+		bind();
+		glBufferData(target_, bytes, data, usage_);
+		unbind();
+	}
+	
+	void allocate(size32_t bytes) {
+		allocate(bytes, nullptr);
+	}
+	
+	void write(size32_t bytes, void* data, size32_t offset) {
+		bind();
+		glBufferSubData(target_, offset, bytes, data);
+		unbind();
+	}
+	
+	void update(void* data) {
+		write(byteSize_, data, 0);
 	}
 	
 	GLuint name() const { return name_; }
-
-	size_t size() const { return count_; }
-	size_t byteSize() const { return sizeof(T) * count_; }
+	GLenum target() const { return target_; }
+	size32_t byteSize() const { return byteSize_; }
+	
+	void bind() const { glBindBuffer(target_, name_); }
+	void unbind() const { glBindBuffer(target_, 0); }
 };
 
 
 template <typename T, GLenum Type = GL_ARRAY_BUFFER>
-class OpenGLBuffer {
+class GLBuffer {
 	GLuint name_ {0};
 	
 public:
-	OpenGLBuffer() {
+	GLBuffer() {
 		glGenBuffers(1, &name_);
 	}
 
-	~OpenGLBuffer() {
+	~GLBuffer() {
 		if (name_)
 			glDeleteBuffers(1, &name_);
 	}

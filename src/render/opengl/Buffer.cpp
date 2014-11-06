@@ -88,6 +88,17 @@ namespace detail {
 		
 		assert(false && "Invalid frequency or access level");
 	}
+	
+	GLenum glTargetForArrayType(GLArrayType type) {
+		switch (type) {
+			case GLArrayType::Attribute:
+				return GL_ARRAY_BUFFER;
+			case GLArrayType::Index:
+				return GL_ELEMENT_ARRAY_BUFFER;
+		}
+
+		assert(false && "Invalid array type");
+	}
 
 } // ns detail
 
