@@ -201,11 +201,6 @@ RenderContext::~RenderContext() {
 }
 
 
-Mesh* RenderContext::makeStaticMesh(const MeshDescriptor& mesh) {
-	return meshPool_.emplace(mesh);
-}
-
-
 Shader* RenderContext::loadShaderFromPath(ShaderType type, const std::string& path) {
 	return shaderPool_.emplace(type, readTextFile(path));
 }

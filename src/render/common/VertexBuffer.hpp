@@ -84,10 +84,20 @@ public:
 	}
 
 	// -- attribute metadata
+	
+	size32_t attributeCount() const { return static_cast<size32_t>(attrs_.size()); }
 
 	const PositionedAttribute* attrByRole(AttributeRole) const;
 	const PositionedAttribute* attrByName(const std::string&) const;
 	const PositionedAttribute* attrByIndex(size32_t) const;
+	
+	// -- raw data pointers
+	
+	void* basePointer() const { return storage_->getAs<void*>(); }
+	
+	void* attrBasePointer(const PositionedAttribute&) const;
+	void* attrBasePointer(AttributeRole) const;
+	void* attrBasePointer(const std::string&) const;
 
 	// -- iteration over attribute data
 

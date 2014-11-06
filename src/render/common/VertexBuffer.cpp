@@ -76,5 +76,20 @@ const PositionedAttribute* VertexBuffer::attrByIndex(size32_t index) const {
 }
 
 
+void* VertexBuffer::attrBasePointer(const PositionedAttribute& attr) const {
+	return storage_->getAs<uint8_t>() + attr.offset;
+}
+
+
+void* VertexBuffer::attrBasePointer(AttributeRole role) const {
+	return attrBasePointer(*attrByRole(role));
+}
+
+
+void* VertexBuffer::attrBasePointer(const std::string& name) const {
+	return attrBasePointer(*attrByName(name));
+}
+
+
 } // ns render
 } // ns stardazed

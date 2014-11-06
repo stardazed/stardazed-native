@@ -16,6 +16,8 @@
 #	error "No OpenGL support yet for this platform"
 #endif
 
+#include <type_traits>
+
 
 namespace stardazed {
 namespace render {
@@ -44,10 +46,15 @@ public:
 
 // -- GL convenience functions
 
-template <typename GLObj, typename F>
-inline void withBound(const GLObj& obj, F&& func) {
-	obj.bind();
+template <typename F>
+inline void withBound(F&& func) {
 	func();
+}
+
+template <typename GLObj, typename... More>
+inline void withBound(const GLObj& obj, More&&... more) {
+	obj.bind();
+	withBound(std::forward<More&&>(more)...);
 	obj.unbind();
 }
 

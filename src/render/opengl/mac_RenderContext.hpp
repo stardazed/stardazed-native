@@ -9,7 +9,6 @@
 #include "system/Config.hpp"
 #include "container/ObjectPool.hpp"
 #include "render/common/RenderContext.hpp"
-#include "render/opengl/Mesh.hpp"
 #include "render/opengl/Shader.hpp"
 #include "render/opengl/Pipeline.hpp"
 
@@ -25,7 +24,6 @@ public:
 	RenderContext(const RenderContextDescriptor&);
 	~RenderContext();
 	
-	Mesh* makeStaticMesh(const MeshDescriptor&);
 	Shader* loadShaderFromPath(ShaderType type, const std::string& path);
 	Pipeline* makePipeline(const PipelineDescriptor& descriptor);
 	
@@ -38,7 +36,6 @@ private:
 	// object storage
 	container::ObjectPool<Pipeline, 128> pipelinePool_;
 	container::ObjectPool<Shader, 512> shaderPool_;
-	container::ObjectPoolChain<Mesh, 512> meshPool_;
 
 	// place obj-c stuff in implementation file only
 	class PlatformData;

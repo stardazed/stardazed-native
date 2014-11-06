@@ -41,20 +41,7 @@ public:
 		for (It cur = from; cur != to; ++cur) {
 			scene::Entity& entity = entityFromIter(cur);
 
-			if (entity.mesh && entity.pipeline) {
-				auto modelViewMat = viewMat_ * entity.transform.toMatrix4();
-
-//				auto constantBuffer = entity.pipeline->constantBuffer();
-//				constantBuffer->setModelViewMatrix(modelViewMat);
-//				constantBuffer->setModelViewProjectionMatrix(projMat_ * modelViewMat);
-//
-//				// inverse + transpose only necessary if a non-uniform scale factor is applied
-//				auto normalMat = math::transpose(math::inverse(math::extractSubMatrix<3, 3>(modelViewMat)));
-//				constantBuffer->setNormalMatrix(normalMat);
-				
-				entity.pipeline->activate();
-				entity.mesh->draw();
-			}
+			// <-- render entity
 
 			// <-- render children
 		}

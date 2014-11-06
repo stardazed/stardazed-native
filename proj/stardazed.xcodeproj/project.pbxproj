@@ -36,8 +36,6 @@
 		8E112DB9199E5FE20029CD38 /* Buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DA4199E5FE20029CD38 /* Buffer.hpp */; };
 		8E112DBA199E5FE20029CD38 /* ConstantBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DA5199E5FE20029CD38 /* ConstantBuffer.cpp */; };
 		8E112DBB199E5FE20029CD38 /* ConstantBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DA6199E5FE20029CD38 /* ConstantBuffer.hpp */; };
-		8E112DBC199E5FE20029CD38 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DA7199E5FE20029CD38 /* Mesh.cpp */; };
-		8E112DBD199E5FE20029CD38 /* Mesh.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DA8199E5FE20029CD38 /* Mesh.hpp */; };
 		8E112DBE199E5FE20029CD38 /* Pipeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DA9199E5FE20029CD38 /* Pipeline.cpp */; };
 		8E112DBF199E5FE20029CD38 /* Pipeline.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DAA199E5FE20029CD38 /* Pipeline.hpp */; };
 		8E112DC0199E5FE20029CD38 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DAB199E5FE20029CD38 /* Shader.cpp */; };
@@ -123,8 +121,6 @@
 		8E112DA4199E5FE20029CD38 /* Buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Buffer.hpp; sourceTree = "<group>"; };
 		8E112DA5199E5FE20029CD38 /* ConstantBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstantBuffer.cpp; sourceTree = "<group>"; };
 		8E112DA6199E5FE20029CD38 /* ConstantBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBuffer.hpp; sourceTree = "<group>"; };
-		8E112DA7199E5FE20029CD38 /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
-		8E112DA8199E5FE20029CD38 /* Mesh.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mesh.hpp; sourceTree = "<group>"; };
 		8E112DA9199E5FE20029CD38 /* Pipeline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pipeline.cpp; sourceTree = "<group>"; };
 		8E112DAA199E5FE20029CD38 /* Pipeline.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Pipeline.hpp; sourceTree = "<group>"; };
 		8E112DAB199E5FE20029CD38 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
@@ -315,8 +311,6 @@
 				8E112DA3199E5FE20029CD38 /* Buffer.cpp */,
 				8E112DA6199E5FE20029CD38 /* ConstantBuffer.hpp */,
 				8E112DA5199E5FE20029CD38 /* ConstantBuffer.cpp */,
-				8E112DA8199E5FE20029CD38 /* Mesh.hpp */,
-				8E112DA7199E5FE20029CD38 /* Mesh.cpp */,
 				8E112DAC199E5FE20029CD38 /* Shader.hpp */,
 				8E112DAB199E5FE20029CD38 /* Shader.cpp */,
 				8E112DAA199E5FE20029CD38 /* Pipeline.hpp */,
@@ -423,7 +417,6 @@
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
 				8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */,
 				8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */,
-				8E112DBD199E5FE20029CD38 /* Mesh.hpp in Headers */,
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
 				8E112D8C199E5F870029CD38 /* ObjectPool.hpp in Headers */,
 				8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */,
@@ -541,7 +534,6 @@
 				8E112DBE199E5FE20029CD38 /* Pipeline.cpp in Sources */,
 				8E112DE1199E60A50029CD38 /* Scene.cpp in Sources */,
 				8EB49E8319FFEF7D003F687C /* VertexBuffer.cpp in Sources */,
-				8E112DBC199E5FE20029CD38 /* Mesh.cpp in Sources */,
 				8E147FAF19BB9944002836CA /* RunLoop.cpp in Sources */,
 				8E112DC0199E5FE20029CD38 /* Shader.cpp in Sources */,
 				8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */,

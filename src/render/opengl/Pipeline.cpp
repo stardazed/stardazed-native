@@ -9,9 +9,9 @@ namespace stardazed {
 namespace render {
 
 
-/*
 namespace detail {
 
+/*
 ShaderConstantMapping::ShaderConstantMapping(GLuint shaderProgram) {
 	program_ = shaderProgram;
 	mvMat_ = glGetUniformLocation(program_, "modelViewMatrix");
@@ -28,7 +28,7 @@ void ShaderConstantMapping::apply(const ConstantBuffer& constants) const {
 	if (normalMat_ > -1)
 		glProgramUniformMatrix3fv(program_, normalMat_, 1, GL_FALSE, constants.normalMatrix().dataBegin());
 }
-
+*/
 
 OpenGLFaceCulling::OpenGLFaceCulling(FaceCulling fc) {
 	enabled_ = fc != FaceCulling::Disabled;
@@ -107,7 +107,7 @@ Pipeline::Pipeline(const PipelineDescriptor& descriptor)
 		if (shader) {
 			auto shaderName = shader->glShader_;
 			glUseProgramStages(glPipeline_, stage, shaderName);
-			shaderConstants.emplace_back(shaderName);
+//			shaderConstants.emplace_back(shaderName);
 		}
 	};
 	
@@ -123,8 +123,8 @@ Pipeline::~Pipeline() {
 
 void Pipeline::activate() {
 	glBindProgramPipeline(glPipeline_);
-	for (const auto& sc : shaderConstants)
-		sc.apply(constants_);
+//	for (const auto& sc : shaderConstants)
+//		sc.apply(constants_);
 
 	cullingMode_.apply();
 	depthTestMode_.apply();
@@ -134,7 +134,7 @@ void Pipeline::activate() {
 void Pipeline::deactivate() {
 	glBindProgramPipeline(0);
 }
-*/
+
 
 } // ns render
 } // ns stardazed

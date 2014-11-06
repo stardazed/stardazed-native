@@ -20,29 +20,6 @@ namespace stardazed {
 namespace render {
 
 
-namespace detail {
-	// set the proper default pointer for a Buffer for a contained type T
-
-	template <typename T>
-	void setDefaultAttribPointer(GLuint attribIndex);
-	
-	template <>
-	void setDefaultAttribPointer<math::Vec2>(GLuint attribIndex);
-
-	template <>
-	void setDefaultAttribPointer<math::Vec3>(GLuint attribIndex);
-	
-	template <>
-	void setDefaultAttribPointer<math::Vec4>(GLuint attribIndex);
-	
-	template <>
-	void setDefaultAttribPointer<render::Tri16>(GLuint attribIndex);
-	
-	template <>
-	void setDefaultAttribPointer<render::Tri32>(GLuint attribIndex);
-}
-
-
 enum class BufferClientAccess {
 	None,
 	ReadOnly,
@@ -86,25 +63,24 @@ namespace detail {
 }
 
 
-
-class Buffer {
+class GLBuffer {
 	GLuint name_ {0};
 	GLenum target_ {0}, usage_ {0};
 	size32_t byteSize_ {0};
 
 public:
-	Buffer(GLenum target, BufferUpdateFrequency frequency, BufferClientAccess access)
+	GLBuffer(GLenum target, BufferUpdateFrequency frequency, BufferClientAccess access)
 	: target_{ target }
 	, usage_{ detail::glUsageHint(frequency, access) }
 	{
 		glGenBuffers(1, &name_);
 	}
 
-	Buffer(GLArrayType type, BufferUpdateFrequency frequency, BufferClientAccess access)
-	: Buffer(detail::glTargetForArrayType(type), frequency, access)
+	GLBuffer(GLArrayType type, BufferUpdateFrequency frequency, BufferClientAccess access)
+	: GLBuffer(detail::glTargetForArrayType(type), frequency, access)
 	{}
 	
-	virtual ~Buffer() {
+	~GLBuffer() {
 		if (name_)
 			glDeleteBuffers(1, &name_);
 	}
@@ -136,47 +112,6 @@ public:
 	
 	void bind() const { glBindBuffer(target_, name_); }
 	void unbind() const { glBindBuffer(target_, 0); }
-};
-
-
-template <typename T, GLenum Type = GL_ARRAY_BUFFER>
-class GLBuffer {
-	GLuint name_ {0};
-	
-public:
-	GLBuffer() {
-		glGenBuffers(1, &name_);
-	}
-
-	~GLBuffer() {
-		if (name_)
-			glDeleteBuffers(1, &name_);
-	}
-	
-	void bind() const {
-		glBindBuffer(Type, name_);
-	}
-	
-	template <typename Seq> // Seq = Sequence<T>
-	void initialize(const Seq& elements, GLenum usage) const {
-		glBindBuffer(Type, name_);
-		glBufferData(Type, elements.size() * sizeof(T), elements.data(), usage);
-		glBindBuffer(Type, 0);
-	}
-	
-	template <typename Seq> // Seq = Sequence<T>
-	void update(const Seq& elements, GLintptr offset = 0) const {
-		glBindBuffer(Type, name_);
-		glBufferSubData(Type, offset, elements.size() * sizeof(T), elements.data());
-		glBindBuffer(Type, 0);
-	}
-	
-	void assignToVAOAttribute(GLuint attribIndex) const {
-		glBindBuffer(Type, name_);
-		glEnableVertexAttribArray(attribIndex);
-		detail::setDefaultAttribPointer<T>(attribIndex);
-		glBindBuffer(Type, 0);
-	}
 };
 
 
