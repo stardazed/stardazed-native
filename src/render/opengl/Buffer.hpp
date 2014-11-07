@@ -10,6 +10,7 @@
 #include "util/ConceptTraits.hpp"
 
 #include "math/Vector.hpp"
+#include "render/common/BufferStorage.hpp"
 #include "render/common/Mesh.hpp"
 #include "render/opengl/OpenGL.hpp"
 
@@ -96,14 +97,14 @@ public:
 		allocate(bytes, nullptr);
 	}
 	
+	void allocate(const BufferStorage& storage) {
+		allocate(static_cast<size32_t>(storage.byteSize()), storage.getAs<void*>());
+	}
+	
 	void write(size32_t bytes, void* data, size32_t offset) {
 		bind();
 		glBufferSubData(target_, offset, bytes, data);
 		unbind();
-	}
-	
-	void update(void* data) {
-		write(byteSize_, data, 0);
 	}
 	
 	GLuint name() const { return name_; }

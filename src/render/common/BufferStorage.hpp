@@ -25,11 +25,14 @@ public:
 	T* getAs() const {
 		return reinterpret_cast<T*>(get());
 	}
+	
+	virtual size_t byteSize() const = 0;
 };
 
 
 class OwnedBufferStorage : public BufferStorage {
 	std::unique_ptr<uint8_t[]> ptr_;
+	size_t byteSize_;
 
 	uint8_t* get() const override {
 		return ptr_.get();
@@ -38,7 +41,12 @@ class OwnedBufferStorage : public BufferStorage {
 public:
 	OwnedBufferStorage(size_t byteSize)
 	: ptr_(std::make_unique<uint8_t[]>(byteSize))
+	, byteSize_{byteSize}
 	{}
+	
+	size_t byteSize() const override {
+		return byteSize_;
+	}
 };
 
 

@@ -82,6 +82,8 @@ public:
 		itemCount_ = itemCount;
 		storage_ = std::make_unique<Storage>(itemCount_ * itemSizeBytes_);
 	}
+	
+	BufferStorage* storage() const { return storage_.get(); }
 
 	// -- attribute metadata
 	
