@@ -35,6 +35,7 @@ enum class BufferUpdateFrequency {
 	Frequently
 };
 
+
 /*
 GL_ARRAY_BUFFER
 GL_ELEMENT_ARRAY_BUFFER
@@ -86,6 +87,8 @@ public:
 			glDeleteBuffers(1, &name_);
 	}
 
+	// -- initialization
+
 	void allocate(size32_t bytes, void* data) {
 		byteSize_ = bytes;
 		bind();
@@ -100,13 +103,79 @@ public:
 	void allocate(const BufferStorage& storage) {
 		allocate(static_cast<size32_t>(storage.byteSize()), storage.getAs<void*>());
 	}
+
+	// -- direct updates
 	
 	void write(size32_t bytes, void* data, size32_t offset) {
-		bind();
 		glBufferSubData(target_, offset, bytes, data);
-		unbind();
 	}
 	
+	void bindAndWrite(size32_t bytes, void* data, size32_t offset) {
+		bind();
+		write(bytes, data, offset);
+		unbind();
+	}
+
+	// -- memory mapped access
+private:
+	template <typename T>
+	T* mapForUpdates(size32_t offset, size32_t bytes, GLbitfield flags) {
+		assert(offset + bytes < byteSize_);
+		return static_cast<T*>(glMapBufferRange(target_, offset, bytes, flags));
+	}
+
+public:
+	template <typename T>
+	const T* mapRangeForReading(size32_t offset, size32_t bytes) {
+		assert(offset + bytes < byteSize_);
+		return static_cast<const T*>(glMapBufferRange(target_, offset, bytes, GL_MAP_READ_BIT));
+	}
+	
+	template <typename T>
+	const T* mapBufferForReading() {
+		return mapRangeForReading<T>(0, byteSize_);
+	}
+	
+	template <typename T>
+	T* mapRangeForWriting(size32_t offset, size32_t bytes) {
+		return mapForUpdates<T>(offset, bytes, GL_MAP_WRITE_BIT);
+	}
+	
+	template <typename T>
+	T* mapBufferForWriting() {
+		return mapRangeForWriting<T>(0, byteSize_);
+	}
+	
+	template <typename T>
+	T* invalidateAndMapRangeForWriting(size32_t offset, size32_t bytes) {
+		return mapForUpdates<T>(offset, bytes, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT);
+	}
+	
+	template <typename T>
+	T* invalidateAndMapBufferForWriting() {
+		return invalidateAndMapRangeForWriting<T>(0, byteSize_);
+	}
+	
+	template <typename T>
+	T* mapRangeForFullAccess(size32_t offset, size32_t bytes) {
+		return mapForUpdates<T>(offset, bytes, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT);
+	}
+	
+	template <typename T>
+	T* mapBufferForFullAccess() {
+		return mapRangeForFullAccess<T>(0, byteSize_);
+	}
+	
+	// -- specialized
+
+	void bindRangeToSubIndex(size32_t offset, size32_t bytes, uint32_t index) {
+		assert(target_ == GL_UNIFORM_BUFFER || target_ == GL_TRANSFORM_FEEDBACK_BUFFER);
+		assert(offset + bytes < byteSize_);
+		glBindBufferRange(target_, index, name_, static_cast<GLintptr>(offset), bytes);
+	}
+	
+	// -- observers
+
 	GLuint name() const { return name_; }
 	GLenum target() const { return target_; }
 	size32_t byteSize() const { return byteSize_; }
