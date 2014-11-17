@@ -117,6 +117,7 @@ public:
 	}
 
 	// -- memory mapped access
+
 private:
 	template <typename T>
 	T* mapForUpdates(size32_t offset, size32_t bytes, GLbitfield flags) {
@@ -153,7 +154,7 @@ public:
 	
 	template <typename T>
 	T* invalidateAndMapBufferForWriting() {
-		return invalidateAndMapRangeForWriting<T>(0, byteSize_);
+		return mapForUpdates<T>(0, byteSize_, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
 	}
 	
 	template <typename T>
