@@ -11,24 +11,6 @@ namespace render {
 
 namespace detail {
 
-/*
-ShaderConstantMapping::ShaderConstantMapping(GLuint shaderProgram) {
-	program_ = shaderProgram;
-	mvMat_ = glGetUniformLocation(program_, "modelViewMatrix");
-	mvpMat_ = glGetUniformLocation(program_, "modelViewProjectionMatrix");
-	normalMat_ = glGetUniformLocation(program_, "normalMatrix");
-}
-
-
-void ShaderConstantMapping::apply(const ConstantBuffer& constants) const {
-	if (mvMat_ > -1)
-		glProgramUniformMatrix4fv(program_, mvMat_, 1, GL_FALSE, constants.modelViewMatrix().dataBegin());
-	if (mvpMat_ > -1)
-		glProgramUniformMatrix4fv(program_, mvpMat_, 1, GL_FALSE, constants.modelViewProjectionMatrix().dataBegin());
-	if (normalMat_ > -1)
-		glProgramUniformMatrix3fv(program_, normalMat_, 1, GL_FALSE, constants.normalMatrix().dataBegin());
-}
-*/
 
 OpenGLFaceCulling::OpenGLFaceCulling(FaceCulling fc) {
 	enabled_ = fc != FaceCulling::Disabled;
@@ -107,7 +89,6 @@ Pipeline::Pipeline(const PipelineDescriptor& descriptor)
 		if (shader) {
 			auto shaderName = shader->glShader_;
 			glUseProgramStages(glPipeline_, stage, shaderName);
-//			shaderConstants.emplace_back(shaderName);
 		}
 	};
 	
@@ -123,8 +104,6 @@ Pipeline::~Pipeline() {
 
 void Pipeline::activate() {
 	glBindProgramPipeline(glPipeline_);
-//	for (const auto& sc : shaderConstants)
-//		sc.apply(constants_);
 
 	cullingMode_.apply();
 	depthTestMode_.apply();

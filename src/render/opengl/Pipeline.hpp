@@ -21,17 +21,6 @@ namespace render {
 
 namespace detail {
 
-/*
-class ShaderConstantMapping {
-	GLuint program_;
-	GLint mvMat_, mvpMat_, normalMat_;
-
-public:
-	explicit ShaderConstantMapping(GLuint shaderProgram);
-	void apply(const ConstantBuffer&) const;
-};
-*/
-
 class OpenGLFaceCulling {
 	bool enabled_;
 	GLenum mode_;
@@ -51,7 +40,6 @@ public:
 	inline void apply() const;
 };
 
-
 } // ns detail
 
 
@@ -60,15 +48,11 @@ class Pipeline {
 	detail::OpenGLDepthTest depthTestMode_;
 
 	GLuint glPipeline_;
-//	ConstantBuffer constants_;
-//	std::vector<detail::ShaderConstantMapping> shaderConstants;
 	
 public:
 	Pipeline(const PipelineDescriptor&);
 	~Pipeline();
 	SD_DEFAULT_MOVE_OPS(Pipeline)
-	
-//	ConstantBuffer* constantBuffer() { return &constants_; }
 	
 	void activate();
 	void deactivate();
