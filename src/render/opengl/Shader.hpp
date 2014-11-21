@@ -10,6 +10,7 @@
 #include "util/ConceptTraits.hpp"
 #include "render/common/Shader.hpp"
 #include "render/opengl/OpenGL.hpp"
+#include "render/opengl/Buffer.hpp"
 
 #include <string>
 #include <vector>
@@ -36,6 +37,10 @@ public:
 	SD_DEFAULT_MOVE_OPS(Shader)
 
 	ShaderType type() const { return type_; }
+	
+	// ---- Uniforms
+	
+	void bindBufferSubIndexToNamedBlock(GLBuffer&, uint32_t, const std::string&);
 };
 
 

@@ -22,7 +22,8 @@ class Client {
 	
 public:
 	Client(
-	   render::RenderContext& rc, audio::AudioContext& ac,
+	   render::RenderContext& rc,
+	   audio::AudioContext& ac,
 	   device::DevicesContext& dc
 	)
 	: renderCtx_(rc)

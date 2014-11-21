@@ -11,7 +11,7 @@
 
 #include <algorithm>
 
-#include <OpenGL/gl3.h>
+#include <render/opengl/OpenGL.hpp>
 
 namespace stardazed {
 namespace scene {
@@ -75,10 +75,11 @@ void SceneController::simulationFrame(time::Duration deltaTime) {
 	// very basic for now
 	runtime::FrameContext frame{ client_, deltaTime };
 
-	std::for_each(scene_.allEntitiesBegin(), scene_.allEntitiesEnd(), [this,&frame](scene::Entity& entity){
-		if (entity.behaviour)
-			entity.behaviour->update(entity, scene_, frame);
-	});
+	std::for_each(scene_.allEntitiesBegin(), scene_.allEntitiesEnd(),
+		[this,&frame](scene::Entity& entity){
+			if (entity.behaviour)
+				entity.behaviour->update(entity, scene_, frame);
+		});
 }
 
 

@@ -59,9 +59,10 @@ enum class GLArrayType {
 
 
 namespace detail {
-	GLbitfield glAccessFlagsForBCA(BufferClientAccess access);
-	GLenum glUsageHint(BufferUpdateFrequency frequency, BufferClientAccess typicalAccess);
-	GLenum glTargetForArrayType(GLArrayType);
+	constexpr GLbitfield glAccessFlagsForBCA(BufferClientAccess access);
+	constexpr GLenum glUsageHint(BufferUpdateFrequency frequency, BufferClientAccess typicalAccess);
+	constexpr GLenum glTargetForArrayType(GLArrayType);
+	constexpr GLenum glBindingNameForTarget(GLenum target);
 }
 
 
@@ -91,9 +92,7 @@ public:
 
 	void allocate(size32_t bytes, void* data) {
 		byteSize_ = bytes;
-		bind();
 		glBufferData(target_, bytes, data, usage_);
-		unbind();
 	}
 	
 	void allocate(size32_t bytes) {
@@ -108,12 +107,6 @@ public:
 	
 	void write(size32_t bytes, void* data, size32_t offset) {
 		glBufferSubData(target_, offset, bytes, data);
-	}
-	
-	void bindAndWrite(size32_t bytes, void* data, size32_t offset) {
-		bind();
-		write(bytes, data, offset);
-		unbind();
 	}
 
 	// -- memory mapped access
@@ -156,7 +149,7 @@ public:
 	T* invalidateAndMapBufferForWriting() {
 		return mapForUpdates<T>(0, byteSize_, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
 	}
-	
+
 	template <typename T>
 	T* mapRangeForFullAccess(size32_t offset, size32_t bytes) {
 		return mapForUpdates<T>(offset, bytes, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT);
@@ -181,9 +174,38 @@ public:
 	GLenum target() const { return target_; }
 	size32_t byteSize() const { return byteSize_; }
 	
+	// -- gl binding
+	
 	void bind() const { glBindBuffer(target_, name_); }
-	void unbind() const { glBindBuffer(target_, 0); }
 };
+
+
+
+// ---- Buffer Binding Helpers
+
+inline GLuint saveAndBind(const GLBuffer& buffer) {
+	GLuint currentlyBound;
+	glGetIntegerv(detail::glBindingNameForTarget(buffer.target()), reinterpret_cast<GLint*>(&currentlyBound));
+	if (currentlyBound != buffer.name())
+		buffer.bind();
+	
+	return currentlyBound;
+}
+
+
+inline void unbindAndRestore(const GLBuffer& buffer, GLuint savedBufferName) {
+	if (savedBufferName != buffer.name()) {
+		glBindBuffer(buffer.target(), savedBufferName);
+	}
+}
+
+
+template <typename F>
+void bindAndRestoreBuffer(const GLBuffer& buffer, F&& func) {
+	auto currentBuf = saveAndBind(buffer);
+	func();
+	unbindAndRestore(buffer, currentBuf);
+}
 
 
 } // ns render

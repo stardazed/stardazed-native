@@ -85,15 +85,15 @@ Pipeline::Pipeline(const PipelineDescriptor& descriptor)
 {
 	glGenProgramPipelines(1, &glPipeline_);
 	
-	auto attachShader = [=](const Shader* shader, GLbitfield stage) {
-		if (shader) {
-			auto shaderName = shader->glShader_;
-			glUseProgramStages(glPipeline_, stage, shaderName);
-		}
-	};
-	
-	attachShader(descriptor.vertexShader, GL_VERTEX_SHADER_BIT);
-	attachShader(descriptor.fragmentShader, GL_FRAGMENT_SHADER_BIT);
+	if (descriptor.vertexShader) {
+		vertexShader_ = descriptor.vertexShader;
+		glUseProgramStages(glPipeline_, GL_VERTEX_SHADER_BIT, vertexShader_->glShader_);
+	}
+
+	if (descriptor.fragmentShader) {
+		fragmentShader_ = descriptor.fragmentShader;
+		glUseProgramStages(glPipeline_, GL_FRAGMENT_SHADER_BIT, fragmentShader_->glShader_);
+	}
 }
 
 
@@ -102,7 +102,7 @@ Pipeline::~Pipeline() {
 }
 
 
-void Pipeline::activate() {
+void Pipeline::bind() {
 	glBindProgramPipeline(glPipeline_);
 
 	cullingMode_.apply();
@@ -110,7 +110,7 @@ void Pipeline::activate() {
 }
 
 
-void Pipeline::deactivate() {
+void Pipeline::unbind() {
 	glBindProgramPipeline(0);
 }
 

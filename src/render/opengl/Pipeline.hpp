@@ -30,7 +30,7 @@ public:
 	inline void apply() const;
 };
 
-	
+
 class OpenGLDepthTest {
 	bool enabled_;
 	GLenum mode_;
@@ -46,6 +46,9 @@ public:
 class Pipeline {
 	detail::OpenGLFaceCulling cullingMode_;
 	detail::OpenGLDepthTest depthTestMode_;
+	
+	Shader* vertexShader_ = nullptr;
+	Shader* fragmentShader_ = nullptr;
 
 	GLuint glPipeline_;
 	
@@ -54,8 +57,11 @@ public:
 	~Pipeline();
 	SD_DEFAULT_MOVE_OPS(Pipeline)
 	
-	void activate();
-	void deactivate();
+	void bind();
+	void unbind();
+	
+	Shader* vertexShader() const { return vertexShader_; }
+	Shader* fragmentShader() const { return fragmentShader_; }
 };
 
 
