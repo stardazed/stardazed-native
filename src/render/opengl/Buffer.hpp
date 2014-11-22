@@ -281,12 +281,12 @@ namespace detail {
 		}
 
 		static void bindBufferToIndex(const GLBuffer& buffer, uint32_t index) {
-			assert(index < maxIndex());
+			assert(static_cast<GLint>(index) < maxIndex());
 			glBindBufferBase(target, index, buffer.name());
 		}
 
 		static void bindBufferRangeToIndex(const GLBuffer& buffer, size32_t offset, size32_t bytes, uint32_t index) {
-			assert(index < maxIndex());
+			assert(static_cast<GLint>(index) < maxIndex());
 			assert(offset + bytes < buffer.byteSize());
 			glBindBufferRange(target, index, buffer.name(), static_cast<GLintptr>(offset), bytes);
 		}
@@ -295,7 +295,9 @@ namespace detail {
 } // ns detail
 
 // global GL array of indexed uniform blocks
+template class detail::IndexedBufferOps<GL_UNIFORM_BUFFER>;
 using UniformBlockArray = detail::IndexedBufferOps<GL_UNIFORM_BUFFER>;
+
 
 
 } // ns render

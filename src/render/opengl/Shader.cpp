@@ -19,7 +19,7 @@ constexpr GLenum glForSDShaderType(ShaderType type) {
 		case ShaderType::Domain:   return GL_TESS_EVALUATION_SHADER;
 		case ShaderType::Geometry: return GL_GEOMETRY_SHADER;
 		case ShaderType::Fragment: return GL_FRAGMENT_SHADER;
-		case ShaderType::Compute:  return GL_NONE; // FIXME: use 4.3 headers
+		case ShaderType::Compute:  return GL_NONE; // maybe in 10.11
 		case ShaderType::None:     return GL_NONE;
 	}
 
