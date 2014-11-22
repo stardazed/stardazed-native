@@ -49,9 +49,9 @@ Shader::~Shader() {
 }
 
 
-void Shader::bindBufferSubIndexToNamedBlock(GLBuffer& buffer, uint32_t subIndex, const std::string& blockName) {
-	auto blockPos = glGetUniformBlockIndex(glShader_, blockName.c_str());
-	glUniformBlockBinding(glShader_, blockPos, subIndex);
+void Shader::bindUniformIndexToNamedBlock(uint32_t index, const char* blockName) {
+	auto blockPos = glGetUniformBlockIndex(glShader_, blockName);
+	glUniformBlockBinding(glShader_, blockPos, index);
 }
 
 

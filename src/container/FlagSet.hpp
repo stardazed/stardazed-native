@@ -7,7 +7,6 @@
 #define SD_CONTAINER_FLAGSET_H
 
 #include "system/Config.hpp"
-#include <cstdint>
 #include <limits>
 
 namespace stardazed {

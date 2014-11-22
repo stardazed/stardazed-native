@@ -8,7 +8,6 @@
 
 #include "system/Config.hpp"
 #include "render/common/Pipeline.hpp"
-#include "render/opengl/ConstantBuffer.hpp"
 #include "render/opengl/Shader.hpp"
 #include "util/ConceptTraits.hpp"
 
@@ -58,7 +57,6 @@ public:
 	SD_DEFAULT_MOVE_OPS(Pipeline)
 	
 	void bind();
-	void unbind();
 	
 	Shader* vertexShader() const { return vertexShader_; }
 	Shader* fragmentShader() const { return fragmentShader_; }

@@ -39,7 +39,7 @@ public:
 	template <typename It>
 	void renderEntityRange(It from, It to) {
 		for (It cur = from; cur != to; ++cur) {
-			scene::Entity& entity = entityFromIter(cur);
+			// scene::Entity& entity = entityFromIter(cur);
 
 			// <-- render entity
 

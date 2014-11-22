@@ -23,92 +23,43 @@ namespace stardazed {
 namespace render {
 
 
-// -- GL binding helpers
-
-// need to be specialized for specific gl types
-template <typename GLObj>
-void bind(const GLObj&);
+// -- bind multiple objects
 
 template <typename GLObj>
-void clearBinding(const GLObj&);
+inline void bindMultiple(const GLObj& obj) {
+	obj.bind();
+}
+
+template <typename GLObj, typename... More>
+inline void bindMultiple(const GLObj& obj, More&&... more) {
+	obj.bind();
+	bindMultiple(std::forward<More&&>(more)...);
+}
 
 
-// --
+// -- specialized by bindable types
 
+template <typename GLObj>
+GLuint saveAndBind(const GLObj&);
+
+template <typename GLObj>
+void unbindAndRestore(const GLObj&, GLuint previousBinding);
+
+
+// -- do action in lambda with one or more objects bound
+// -- the previous bindings are restored after the lambda
 
 template <typename F>
-inline void withBound(F&& func) {
+void withTempBound(F&& func) {
 	func();
 }
 
 template <typename GLObj, typename... More>
-inline void withBound(const GLObj& obj, More&&... more) {
-	obj.bind();
-	withBound(std::forward<More&&>(more)...);
-	obj.unbind();
+void withTempBound(const GLObj& obj, More... more) {
+	auto previous = saveAndBind(obj);
+	withTempBound(std::forward<More&&>(more)...);
+	unbindAndRestore(obj, previous);
 }
-
-
-template <typename Bindable>
-class RecursiveBindable {
-	const Bindable& bindable_;
-	int bindCount_ = 0;
-	
-public:
-	constexpr RecursiveBindable(const Bindable& bindable)
-	: bindable_(bindable)
-	{}
-	
-	~RecursiveBindable() {
-		assert(bindCount_ == 0);
-	}
-	
-	void bind() {
-		if (bindCount_ == 0)
-			bindable_.bind();
-		++bindCount_;
-	}
-	
-	void unbind() {
-		assert(bindCount_ > 0);
-		--bindCount_;
-		if (bindCount_ == 0)
-			bindable_.unbind();
-	}
-	
-	int bindCount() const { return bindCount_; }
-};
-
-
-// -- basic GL "object" wrappers
-
-
-class GLVertexArrayObject {
-	GLuint vao_ = 0;
-
-public:
-	GLVertexArrayObject() {
-		glGenVertexArrays(1, &vao_);
-	}
-
-	~GLVertexArrayObject() {
-		if (vao_)
-			glDeleteVertexArrays(1, &vao_);
-	}
-	
-	GLuint glVAO() const { return vao_; }
-};
-
-template <>
-void bind(const GLVertexArrayObject& vao) {
-	glBindVertexArray(vao.glVAO());
-}
-
-template <>
-void clearBinding(const GLVertexArrayObject&) {
-	glBindVertexArray(0);
-}
-
 
 	
 } // ns render

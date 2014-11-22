@@ -40,7 +40,10 @@ public:
 	
 	// ---- Uniforms
 	
-	void bindBufferSubIndexToNamedBlock(GLBuffer&, uint32_t, const std::string&);
+	void bindUniformIndexToNamedBlock(uint32_t index, const char* blockName);
+	void bindUniformIndexToNamedBlock(uint32_t index, const std::string& blockName) {
+		bindUniformIndexToNamedBlock(index, blockName.c_str());
+	}
 };
 
 

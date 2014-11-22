@@ -110,10 +110,5 @@ void Pipeline::bind() {
 }
 
 
-void Pipeline::unbind() {
-	glBindProgramPipeline(0);
-}
-
-
 } // ns render
 } // ns stardazed

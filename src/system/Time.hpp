@@ -8,7 +8,6 @@
 
 #include "system/Config.hpp"
 
-#include <cstdint>
 #include <chrono>
 
 namespace stardazed {
