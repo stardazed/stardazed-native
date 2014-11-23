@@ -61,48 +61,48 @@ public:
 		return uniformPositionForName(valueName.c_str());
 	}
 	
-	void setUniform(GLint valuePos, float value) { glUniform1f(valuePos, value); }
-	void setUniform(GLint valuePos, int32_t value) { glUniform1i(valuePos, value); }
-	void setUniform(GLint valuePos, uint32_t value) { glUniform1ui(valuePos, value); }
+	void setUniform(GLint valuePos, float value) { glProgramUniform1f(glShader_, valuePos, value); }
+	void setUniform(GLint valuePos, int32_t value) { glProgramUniform1i(glShader_, valuePos, value); }
+	void setUniform(GLint valuePos, uint32_t value) { glProgramUniform1ui(glShader_, valuePos, value); }
 
 	void setUniform(GLint valuePos, const math::Vector<2, float>& value) {
-		glUniform2fv(valuePos, 1, value.data);
+		glProgramUniform2fv(glShader_, valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<3, float>& value) {
-		glUniform3fv(valuePos, 1, value.data);
+		glProgramUniform3fv(glShader_, valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<4, float>& value) {
-		glUniform4fv(valuePos, 1, value.data);
+		glProgramUniform4fv(glShader_, valuePos, 1, value.data);
 	}
 
 	void setUniform(GLint valuePos, const math::Vector<2, int32_t>& value) {
-		glUniform2iv(valuePos, 1, value.data);
+		glProgramUniform2iv(glShader_, valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<3, int32_t>& value) {
-		glUniform3iv(valuePos, 1, value.data);
+		glProgramUniform3iv(glShader_, valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<4, int32_t>& value) {
-		glUniform4iv(valuePos, 1, value.data);
+		glProgramUniform4iv(glShader_, valuePos, 1, value.data);
 	}
 	
 	void setUniform(GLint valuePos, const math::Vector<2, uint32_t>& value) {
-		glUniform2uiv(valuePos, 1, value.data);
+		glProgramUniform2uiv(glShader_, valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<3, uint32_t>& value) {
-		glUniform3uiv(valuePos, 1, value.data);
+		glProgramUniform3uiv(glShader_, valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<4, uint32_t>& value) {
-		glUniform4uiv(valuePos, 1, value.data);
+		glProgramUniform4uiv(glShader_, valuePos, 1, value.data);
 	}
 	
 	void setUniform(GLint valuePos, const math::Matrix<2, 2, float>& value) {
-		glUniformMatrix2fv(valuePos, 1, GL_FALSE, value.data);
+		glProgramUniformMatrix2fv(glShader_, valuePos, 1, GL_FALSE, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Matrix<3, 3, float>& value) {
-		glUniformMatrix3fv(valuePos, 1, GL_FALSE, value.data);
+		glProgramUniformMatrix3fv(glShader_, valuePos, 1, GL_FALSE, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Matrix<4, 4, float>& value) {
-		glUniformMatrix4fv(valuePos, 1, GL_FALSE, value.data);
+		glProgramUniformMatrix4fv(glShader_, valuePos, 1, GL_FALSE, value.data);
 	}
 };
 
