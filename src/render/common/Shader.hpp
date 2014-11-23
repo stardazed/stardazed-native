@@ -13,13 +13,11 @@ namespace render {
 
 
 enum class ShaderType {
-	None,
 	Vertex,
 	Hull,      // OpenGL term: Tesselation Control
 	Domain,    // OpenGL term: Tesselation Evaluation
 	Geometry,
-	Fragment,  // DirectX term: pixel
-	Compute
+	Fragment  // DirectX term: pixel
 };
 
 

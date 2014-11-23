@@ -19,8 +19,6 @@ constexpr GLenum glForSDShaderType(ShaderType type) {
 		case ShaderType::Domain:   return GL_TESS_EVALUATION_SHADER;
 		case ShaderType::Geometry: return GL_GEOMETRY_SHADER;
 		case ShaderType::Fragment: return GL_FRAGMENT_SHADER;
-		case ShaderType::Compute:  return GL_NONE; // maybe in 10.11
-		case ShaderType::None:     return GL_NONE;
 	}
 
 	assert(false && "Unknown ShaderType");
@@ -38,7 +36,7 @@ Shader::Shader(ShaderType type, const std::string& source)
 	if (logLength > 0) {
 		std::vector<char> errors(logLength + 1);
 		glGetProgramInfoLog(glShader_, logLength, NULL, &errors[0]);
-		log("GLSL: %s", errors.data());
+		log("GLSL Errors:\n%s", errors.data());
 	}
 }
 
@@ -46,12 +44,6 @@ Shader::Shader(ShaderType type, const std::string& source)
 Shader::~Shader() {
 	if (glShader_)
 		glDeleteProgram(glShader_);
-}
-
-
-void Shader::bindUniformIndexToNamedBlock(uint32_t index, const char* blockName) {
-	auto blockPos = glGetUniformBlockIndex(glShader_, blockName);
-	glUniformBlockBinding(glShader_, blockPos, index);
 }
 
 
