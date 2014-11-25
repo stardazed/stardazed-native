@@ -11,7 +11,6 @@
 #include "math/AABB.hpp"
 #include "render/common/VertexBuffer.hpp"
 
-#include <array>
 #include <vector>
 
 namespace stardazed {
@@ -27,14 +26,12 @@ enum class VertexWinding {
 class MeshDescriptor {
 public:
 	MeshDescriptor(const AttributeList&);
+
 	VertexBuffer vertexBuffer;
+	std::vector<Tri> faces;
 
-	std::vector<render::Tri> faces;
-	VertexWinding winding = VertexWinding::CounterClockwise;
-
-	math::AABB calcAABB() const;
-	
 	// derived data generation
+	math::AABB calcAABB() const;
 	void genVertexNormals();
 };
 
