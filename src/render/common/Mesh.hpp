@@ -17,12 +17,6 @@ namespace stardazed {
 namespace render {
 
 
-enum class VertexWinding {
-	Clockwise,
-	CounterClockwise
-};
-
-
 class MeshDescriptor {
 public:
 	MeshDescriptor(const AttributeList&);
