@@ -21,7 +21,6 @@
 		8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */; };
 		8E112D83199E5F540029CD38 /* MemoryResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D7F199E5F540029CD38 /* MemoryResource.hpp */; };
 		8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */; };
-		8E112D85199E5F540029CD38 /* SystemMemoryResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D81199E5F540029CD38 /* SystemMemoryResource.hpp */; };
 		8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D87199E5F870029CD38 /* FlagSet.hpp */; };
 		8E112D8C199E5F870029CD38 /* ObjectPool.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D88199E5F870029CD38 /* ObjectPool.hpp */; };
 		8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D89199E5F870029CD38 /* RefTree.hpp */; };
@@ -104,7 +103,6 @@
 		8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BasicPoolAllocator.hpp; sourceTree = "<group>"; };
 		8E112D7F199E5F540029CD38 /* MemoryResource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MemoryResource.hpp; sourceTree = "<group>"; };
 		8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = STLAllocAdapter.hpp; sourceTree = "<group>"; };
-		8E112D81199E5F540029CD38 /* SystemMemoryResource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SystemMemoryResource.hpp; sourceTree = "<group>"; };
 		8E112D87199E5F870029CD38 /* FlagSet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FlagSet.hpp; sourceTree = "<group>"; };
 		8E112D88199E5F870029CD38 /* ObjectPool.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ObjectPool.hpp; sourceTree = "<group>"; };
 		8E112D89199E5F870029CD38 /* RefTree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RefTree.hpp; sourceTree = "<group>"; };
@@ -261,7 +259,6 @@
 				8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */,
 				8E112D7F199E5F540029CD38 /* MemoryResource.hpp */,
 				8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */,
-				8E112D81199E5F540029CD38 /* SystemMemoryResource.hpp */,
 			);
 			path = memory;
 			sourceTree = "<group>";
@@ -451,7 +448,6 @@
 				8E112D95199E5FC70029CD38 /* ConceptTraits.hpp in Headers */,
 				8E112DB7199E5FE20029CD38 /* OpenGL.hpp in Headers */,
 				8EA7092D19D75FC000129E2D /* Mesh.hpp in Headers */,
-				8E112D85199E5F540029CD38 /* SystemMemoryResource.hpp in Headers */,
 				8E19671919ACCADD009CB5E6 /* Bindings.hpp in Headers */,
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
 				8E89E99C19AD4896001AB2AF /* mac_RenderContext.hpp in Headers */,
