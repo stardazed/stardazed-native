@@ -184,8 +184,7 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 	}
 	
 	platformData_->verticalSync = descriptor.verticalSync;
-	
-	// FIXME
+
 	glClearColor(0, 0, 0, 0);
 }
 

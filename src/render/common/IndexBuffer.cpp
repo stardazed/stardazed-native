@@ -9,11 +9,6 @@ namespace stardazed {
 namespace render {
 
 
-void IndexBuffer::allocate(size32_t triangleCount) {
-	
-}
-
-
 void IndexBuffer::reverseWinding() {
 	
 }
