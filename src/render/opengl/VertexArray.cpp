@@ -28,7 +28,7 @@ constexpr GLenum glTypeForElementType(ElementType et) {
 }
 
 
-static void bindAttributeImpl(const PositionedAttribute& attr, size32_t stride, uint32_t toVAIndex) {
+static void bindAttributeImpl(const PositionedAttribute& attr, size32 stride, uint32_t toVAIndex) {
 	glEnableVertexAttribArray(toVAIndex);
 	
 	auto field = getField(attr);
@@ -44,10 +44,10 @@ static void bindAttributeImpl(const PositionedAttribute& attr, size32_t stride, 
 
 
 void GLVertexArray::bindVertexBufferAttributes(const VertexBuffer& vb, uint32_t startBoundIndex) {
-	size32_t attrCount = vb.attributeCount(),
+	size32 attrCount = vb.attributeCount(),
 	         stride = vb.itemSizeBytes();
 	
-	for (size32_t attrIndex = 0; attrIndex < attrCount; ++attrIndex) {
+	for (size32 attrIndex = 0; attrIndex < attrCount; ++attrIndex) {
 		auto attr = vb.attrByIndex(attrIndex);
 		bindAttributeImpl(*attr, stride, attrIndex + startBoundIndex);
 	}

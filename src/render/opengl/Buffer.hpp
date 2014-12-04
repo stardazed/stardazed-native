@@ -129,7 +129,7 @@ namespace detail {
 class GLBuffer {
 	GLuint name_ {0};
 	GLenum target_ {0}, usage_ {0};
-	size32_t byteSize_ {0};
+	size32 byteSize_ {0};
 
 public:
 	GLBuffer(GLenum target, BufferUpdateFrequency frequency, BufferClientAccess access)
@@ -150,22 +150,22 @@ public:
 
 	// -- initialization
 
-	void allocate(size32_t bytes, void* data) {
+	void allocate(size32 bytes, void* data) {
 		byteSize_ = bytes;
 		glBufferData(target_, bytes, data, usage_);
 	}
 	
-	void allocate(size32_t bytes) {
+	void allocate(size32 bytes) {
 		allocate(bytes, nullptr);
 	}
 	
 	void allocate(const BufferStorage& storage) {
-		allocate(static_cast<size32_t>(storage.byteSize()), storage.getAs<void*>());
+		allocate(static_cast<size32>(storage.byteSize()), storage.getAs<void*>());
 	}
 
 	// -- direct updates
 	
-	void write(size32_t bytes, void* data, size32_t offset) {
+	void write(size32 bytes, void* data, size32 offset) {
 		glBufferSubData(target_, offset, bytes, data);
 	}
 
@@ -173,14 +173,14 @@ public:
 
 private:
 	template <typename T>
-	T* mapForUpdates(size32_t offset, size32_t bytes, GLbitfield flags) {
+	T* mapForUpdates(size32 offset, size32 bytes, GLbitfield flags) {
 		assert(offset + bytes < byteSize_);
 		return static_cast<T*>(glMapBufferRange(target_, offset, bytes, flags));
 	}
 
 public:
 	template <typename T>
-	const T* mapRangeForReading(size32_t offset, size32_t bytes) {
+	const T* mapRangeForReading(size32 offset, size32 bytes) {
 		assert(offset + bytes < byteSize_);
 		return static_cast<const T*>(glMapBufferRange(target_, offset, bytes, GL_MAP_READ_BIT));
 	}
@@ -191,7 +191,7 @@ public:
 	}
 	
 	template <typename T>
-	T* mapRangeForWriting(size32_t offset, size32_t bytes) {
+	T* mapRangeForWriting(size32 offset, size32 bytes) {
 		return mapForUpdates<T>(offset, bytes, GL_MAP_WRITE_BIT);
 	}
 	
@@ -201,7 +201,7 @@ public:
 	}
 	
 	template <typename T>
-	T* invalidateAndMapRangeForWriting(size32_t offset, size32_t bytes) {
+	T* invalidateAndMapRangeForWriting(size32 offset, size32 bytes) {
 		return mapForUpdates<T>(offset, bytes, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT);
 	}
 	
@@ -211,7 +211,7 @@ public:
 	}
 
 	template <typename T>
-	T* mapRangeForFullAccess(size32_t offset, size32_t bytes) {
+	T* mapRangeForFullAccess(size32 offset, size32 bytes) {
 		return mapForUpdates<T>(offset, bytes, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT);
 	}
 	
@@ -224,7 +224,7 @@ public:
 
 	GLuint name() const { return name_; }
 	GLenum target() const { return target_; }
-	size32_t byteSize() const { return byteSize_; }
+	size32 byteSize() const { return byteSize_; }
 	
 	// -- binding
 	
@@ -285,7 +285,7 @@ namespace detail {
 			glBindBufferBase(target, index, buffer.name());
 		}
 
-		static void bindBufferRangeToGlobalIndex(const GLBuffer& buffer, size32_t offset, size32_t bytes, uint32_t index) {
+		static void bindBufferRangeToGlobalIndex(const GLBuffer& buffer, size32 offset, size32 bytes, uint32_t index) {
 			assert(static_cast<GLint>(index) < maxIndex());
 			assert(offset + bytes < buffer.byteSize());
 			glBindBufferRange(target, index, buffer.name(), static_cast<GLintptr>(offset), bytes);

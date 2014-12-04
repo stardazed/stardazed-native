@@ -54,7 +54,7 @@ using AttributeList = std::vector<Attribute>;
 
 struct PositionedAttribute {
 	Attribute attr;
-	size32_t offset;
+	size32 offset;
 };
 
 
@@ -63,7 +63,7 @@ constexpr Field getField(const PositionedAttribute& posAttr) { return posAttr.at
 
 
 class VertexBuffer {
-	size32_t itemSizeBytes_ = 0, itemCount_ = 0;
+	size32 itemSizeBytes_ = 0, itemCount_ = 0;
 	std::unique_ptr<BufferStorage> storage_;
  	std::vector<PositionedAttribute> attrs_;
 	
@@ -74,11 +74,11 @@ public:
 
 	// -- buffer data management
 
-	size32_t itemSizeBytes() const { return itemSizeBytes_; }
-	size32_t bufferSizeBytes() const { return itemSizeBytes_ * itemCount_; }
+	size32 itemSizeBytes() const { return itemSizeBytes_; }
+	size32 bufferSizeBytes() const { return itemSizeBytes_ * itemCount_; }
 	
 	template <typename Storage>
-	void allocate(size32_t itemCount) {
+	void allocate(size32 itemCount) {
 		itemCount_ = itemCount;
 		storage_ = std::make_unique<Storage>(itemCount_ * itemSizeBytes_);
 	}
@@ -87,11 +87,11 @@ public:
 
 	// -- attribute metadata
 	
-	size32_t attributeCount() const { return static_cast<size32_t>(attrs_.size()); }
+	size32 attributeCount() const { return static_cast<size32>(attrs_.size()); }
 
 	const PositionedAttribute* attrByRole(AttributeRole) const;
 	const PositionedAttribute* attrByName(const std::string&) const;
-	const PositionedAttribute* attrByIndex(size32_t) const;
+	const PositionedAttribute* attrByIndex(size32) const;
 	
 	// -- raw data pointers
 	
@@ -109,7 +109,7 @@ public:
 	, public FullyComparableTrait<AttrIterator<NativeFieldType>>
 	{
 		uint8_t* position_ = nullptr;
-		size32_t rowBytes_ = 0;
+		size32 rowBytes_ = 0;
 		
 	public:
 		constexpr AttrIterator() {}
@@ -121,12 +121,12 @@ public:
 		constexpr NativeFieldType& operator *() { return *reinterpret_cast<NativeFieldType*>(position_); }
 		constexpr NativeFieldType* operator ->() { return reinterpret_cast<NativeFieldType*>(position_); }
 		
-		constexpr NativeFieldType& operator [](size32_t index) {
+		constexpr NativeFieldType& operator [](size32 index) {
 			auto indexedPos = position_ + (rowBytes_ * index);
 			return *reinterpret_cast<NativeFieldType*>(indexedPos);
 		}
 		
-		constexpr const NativeFieldType& operator [](size32_t index) const {
+		constexpr const NativeFieldType& operator [](size32 index) const {
 			auto indexedPos = position_ + (rowBytes_ * index);
 			return *reinterpret_cast<const NativeFieldType*>(indexedPos);
 		}
@@ -140,30 +140,30 @@ public:
 		constexpr bool operator ==(const AttrIterator& other) const { return position_ == other.position_; }
 		constexpr bool operator <(const AttrIterator& other) const { return position_ < other.position_; }
 		
-		friend constexpr AttrIterator operator +(const AttrIterator& iter, size32_t count) {
+		friend constexpr AttrIterator operator +(const AttrIterator& iter, size32 count) {
 			auto ret = iter;
 			ret.position_ += ret.rowBytes_ * count;
 			return ret;
 		}
 
-		friend constexpr AttrIterator operator +(size32_t count, const AttrIterator& iter) {
+		friend constexpr AttrIterator operator +(size32 count, const AttrIterator& iter) {
 			auto ret = iter;
 			ret.position_ += ret.rowBytes_ * count;
 			return ret;
 		}
 
-		friend constexpr AttrIterator operator -(const AttrIterator& iter, size32_t count) {
+		friend constexpr AttrIterator operator -(const AttrIterator& iter, size32 count) {
 			auto ret = iter;
 			ret.position_ -= ret.rowBytes_ * count;
 			return ret;
 		}
 
-		friend AttrIterator& operator +=(AttrIterator& iter, size32_t count) {
+		friend AttrIterator& operator +=(AttrIterator& iter, size32 count) {
 			iter.position_ += iter.rowBytes_ * count;
 			return iter;
 		}
 
-		friend AttrIterator& operator -=(AttrIterator& iter, size32_t count) {
+		friend AttrIterator& operator -=(AttrIterator& iter, size32 count) {
 			iter.position_ -= iter.rowBytes_ * count;
 			return iter;
 		}

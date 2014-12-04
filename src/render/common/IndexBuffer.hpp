@@ -35,7 +35,7 @@ public:
 	// --
 	
 	template <typename Alloc>
-	void allocate(Alloc& allocator, size32_t triangleCount) {
+	void allocate(Alloc& allocator, size32 triangleCount) {
 		
 	}
 	

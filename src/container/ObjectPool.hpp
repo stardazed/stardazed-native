@@ -92,7 +92,7 @@ public:
 	constexpr ConstIterator end() const { return { current_ }; }
 	
 private:
-	constexpr T* nextPtr() {
+	T* nextPtr() {
 		return current_++;
 	}
 	

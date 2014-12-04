@@ -27,7 +27,7 @@ class Entity {
 public:
 	Entity(EntityType type) : type_(type) {}
 	Entity() : Entity(EntityType::Generic) {}
-	
+
 	EntityType type() const { return type_; }
 
 	// -- components

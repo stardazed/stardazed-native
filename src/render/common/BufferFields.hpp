@@ -60,7 +60,7 @@ using ElementNativeType = typename ElementTraits<ET>::Type;
 
 struct Field {
 	ElementType type;
-	size32_t count;
+	size32 count;
 };
 
 
@@ -92,7 +92,7 @@ constexpr Field getField(const NamedField& namedField) { return namedField.field
 
 // --- Native sizes for ElementTypes and Fields
 
-constexpr size32_t elementSize(ElementType et) {
+constexpr size32 elementSize(ElementType et) {
 	switch (et) {
 		case ElementType::UInt8:  return sizeof(ElementNativeType<ElementType::UInt8>);
 		case ElementType::SInt8:  return sizeof(ElementNativeType<ElementType::SInt8>);
@@ -109,7 +109,7 @@ constexpr size32_t elementSize(ElementType et) {
 }
 
 
-constexpr size32_t fieldSize(Field field) {
+constexpr size32 fieldSize(Field field) {
 	return elementSize(field.type) * field.count;
 }
 

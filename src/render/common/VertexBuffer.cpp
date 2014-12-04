@@ -11,22 +11,22 @@ namespace stardazed {
 namespace render {
 
 
-constexpr size32_t alignFieldOnSize(size32_t size, size32_t offset) {
+constexpr size32 alignFieldOnSize(size32 size, size32 offset) {
 	// FIXME: this will fail if size is not a power of 2
 	// extend to nearest power of 2, then - 1
-	size32_t mask = size - 1;
+	size32 mask = size - 1;
 	return (offset + mask) & ~mask;
 }
 
 
-constexpr size32_t alignFieldOnElement(ElementType element, size32_t offset) {
+constexpr size32 alignFieldOnElement(ElementType element, size32 offset) {
 	return alignFieldOnSize(elementSize(element), offset);
 }
 
 
 VertexBuffer::VertexBuffer(const AttributeList& attrList) {
 	attrs_.reserve(attrList.size());
-	size32_t offset = 0, maxElemSize = 0;
+	size32 offset = 0, maxElemSize = 0;
 
 	// calculate positioning of successive attributes in linear item
 	std::transform(begin(attrList), end(attrList), std::back_inserter(attrs_),
@@ -69,7 +69,7 @@ const PositionedAttribute* VertexBuffer::attrByName(const std::string& name) con
 }
 
 
-const PositionedAttribute* VertexBuffer::attrByIndex(size32_t index) const {
+const PositionedAttribute* VertexBuffer::attrByIndex(size32 index) const {
 	if (attrs_.size() > index)
 		return &attrs_[index];
 	return nullptr;
