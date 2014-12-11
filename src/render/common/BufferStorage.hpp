@@ -8,6 +8,7 @@
 
 #include "system/Config.hpp"
 
+#include <alloca.h>
 #include <memory>
 
 namespace stardazed {

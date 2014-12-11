@@ -43,6 +43,7 @@ namespace sd = stardazed;
 // -- common headers
 
 #include <cstdint>
+#include <cassert>
 
 
 // -- common types

@@ -7,7 +7,8 @@
 #define SD_RENDER_INDEXBUFFER_H
 
 #include "system/Config.hpp"
-#include "render/common/BufferStorage.hpp"
+#include "math/Vector.hpp"
+#include "render/common/VertexBuffer.hpp"
 
 #include <memory>
 
@@ -15,48 +16,72 @@ namespace stardazed {
 namespace render {
 
 
-enum class VertexWinding {
-	Clockwise,
-	CounterClockwise
-};
+using TriangleI16 = math::Vector<3, uint16_t>;
+using TriangleI32 = math::Vector<3, uint32_t>;
 
 
-class IndexBuffer {
-	std::unique_ptr<BufferStorage> storage_;
-	VertexWinding winding_;
+namespace detail {
+	template <ElementType IndexType>
+	struct TriangleTypeForIndexType;
 	
-	void reverseWinding();
+	template <>
+	struct TriangleTypeForIndexType<ElementType::UInt16> {
+		using Triangle = TriangleI16;
+	};
 
+	template <>
+	struct TriangleTypeForIndexType<ElementType::UInt32> {
+		using Triangle = TriangleI32;
+	};
+}
+
+
+template <ElementType IndexType>
+class IndexBuffer {
+	VertexBuffer indexBuffer_;
+	const PositionedAttribute *indexAttr_;
+	
 public:
-	IndexBuffer(VertexWinding winding = VertexWinding::CounterClockwise)
-	: winding_{winding}
+	using TriangleType = typename detail::TriangleTypeForIndexType<IndexType>::Triangle;
+
+	IndexBuffer()
+	: indexBuffer_({
+		{ { { IndexType, 3 }, std::string{"index"} }, AttributeRole::Index }
+	})
+	, indexAttr_(indexBuffer_.attrByIndex(0))
 	{}
 	
 	// --
 	
-	template <typename Alloc>
-	void allocate(Alloc& allocator, size32 triangleCount) {
-		
+	size32 bytesRequired(size32 triangleCount) const {
+		return indexBuffer_.bytesRequired(triangleCount);
+	}
+	
+	void allocate(size32 triangleCount) {
+		indexBuffer_.allocate(triangleCount);
 	}
 	
 	// --
 	
-	VertexWinding winding() const { return winding_; }
-	
-	void setWinding(VertexWinding newWinding) {
-		if (newWinding == winding_)
-			return;
-		winding_ = newWinding;
-		reverseWinding();
-	}
+	constexpr ElementType elementType() const { return IndexType; }
+	size32 count() const { return indexBuffer_.itemCount(); }
 
-	void flipWinding() {
-		if (winding_ == VertexWinding::Clockwise)
-			setWinding(VertexWinding::CounterClockwise);
-		else
-			setWinding(VertexWinding::Clockwise);
+	// --
+	
+	VertexBuffer::AttrIterator<TriangleType> begin() {
+		return indexBuffer_.attrBegin<TriangleType>(*indexAttr_);
+	}
+	
+	VertexBuffer::AttrIterator<TriangleType> end() {
+		return indexBuffer_.attrEnd<TriangleType>(*indexAttr_);
 	}
 };
+
+
+// -- Aliases
+
+using Index16Buffer = IndexBuffer<ElementType::UInt16>;
+using Index32Buffer = IndexBuffer<ElementType::UInt32>;
 
 
 } // ns render

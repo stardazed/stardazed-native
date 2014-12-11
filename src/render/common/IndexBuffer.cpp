@@ -9,10 +9,6 @@ namespace stardazed {
 namespace render {
 
 
-void IndexBuffer::reverseWinding() {
-	
-}
-
-
 } // ns render
 } // ns stardazed
+ 

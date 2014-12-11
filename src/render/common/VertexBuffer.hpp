@@ -23,14 +23,6 @@ namespace stardazed {
 namespace render {
 
 
-// exposition only, no real support for Tri32 yet
-using Tri16 = std::array<uint16_t, 3>;
-using Tri32 = std::array<uint32_t, 3>;
-
-using Tri = Tri16;
-
-
-
 enum class AttributeRole : uint16_t {
 	Generic,
 	Position,
@@ -75,12 +67,17 @@ public:
 	// -- buffer data management
 
 	size32 itemSizeBytes() const { return itemSizeBytes_; }
+	size32 itemCount() const { return itemCount_; }
 	size32 bufferSizeBytes() const { return itemSizeBytes_ * itemCount_; }
+	
+	size32 bytesRequired(size32 itemCount) const {
+		return itemCount * itemSizeBytes_;
+	}
 	
 	template <typename Storage>
 	void allocate(size32 itemCount) {
 		itemCount_ = itemCount;
-		storage_ = std::make_unique<Storage>(itemCount_ * itemSizeBytes_);
+		storage_ = std::make_unique<Storage>(bytesRequired(itemCount_));
 	}
 	
 	BufferStorage* storage() const { return storage_.get(); }

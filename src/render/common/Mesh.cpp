@@ -20,11 +20,12 @@ MeshDescriptor::MeshDescriptor(const AttributeList& attrs)
 
 
 math::AABB MeshDescriptor::calcAABB() const {
-	assert(vertexBuffer.attrByRole(AttributeRole::Position));
+	auto posAttr = vertexBuffer.attrByRole(AttributeRole::Position);
+	assert(posAttr);
 
 	math::AABB aabb;
 	
-	std::for_each(vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position), vertexBuffer.attrEnd<math::Vec3>(AttributeRole::Position),
+	std::for_each(vertexBuffer.attrBegin<math::Vec3>(*posAttr), vertexBuffer.attrEnd<math::Vec3>(*posAttr),
 		[&aabb](const math::Vec3& vec) {
 			aabb.includeVector3(vec);
 		});
