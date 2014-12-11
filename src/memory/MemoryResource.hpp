@@ -14,58 +14,48 @@ namespace stardazed {
 namespace memory {
 
 
-class Allocator {
+size_t kiloBytes(size_t kb) { return 1024ul * kb; }
+size_t megaBytes(size_t mb) { return 1024ul * kiloBytes(mb); }
+size_t gigaBytes(size_t gb) { return 1024ul * megaBytes(gb); }
+
+
+class SystemAllocator {
+	SystemAllocator() = delete;
+
 public:
-	virtual ~Allocator() {}
-
-	virtual void* allocate(size_t) = 0;
-	virtual void deallocate(void*, size_t) = 0;
-};
-
-
-class SystemAllocator : public Allocator {
-public:
-	void* allocate(size_t byteSize) override {
-		return std::malloc(byteSize);
+	static void* allocate(size_t byteSize) {
+		return std::calloc(1, byteSize);
 	}
 	
-	void deallocate(void* ptr, size_t) override {
+	static void deallocate(void* ptr, size_t) {
 		std::free(ptr);
 	}
 };
 
 
-class PoolAllocator : public Allocator {
+class LinearMemoryPool {
 	size_t size_, offset_ = 0;
-	Allocator* alloc_;
-	uint8_t* base_ = nullptr;
+	uint8_t* pool_ = nullptr;
 
 public:
-	PoolAllocator(size_t poolSizeBytes, Allocator* baseAllocator)
+	LinearMemoryPool(size_t poolSizeBytes)
 	: size_(poolSizeBytes)
-	, alloc_(baseAllocator)
 	{
-		base_ = static_cast<uint8_t*>(baseAllocator->allocate(size_));
+		pool_ = static_cast<uint8_t*>(SystemAllocator::allocate(size_));
 	}
 	
-	~PoolAllocator() {
-		baseAllocator->deallocate(base_);
+	~LinearMemoryPool() {
+		SystemAllocator::deallocate(pool_, size_);
 	}
 
 	void* allocate(size_t byteSize) override {
-		if (offset_ + byteSize > size_)
-			return nullptr;
-		auto ret = base_;
+		assert(offset_ + byteSize <= size_);
+
+		auto ret = pool_ + offset_;
 		offset_ += byteSize;
 		return ret;
 	}
-
-	void deallocate(void*, size_t) override {
-	}
 };
-
-
-class
 
 
 } // ns memory
