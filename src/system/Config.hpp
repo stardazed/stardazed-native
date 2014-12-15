@@ -62,6 +62,10 @@ using uint64 = uint64_t;
 using size32 = uint32_t; // 64-bit sizes are often overkill, use size32 for those cases
 using size64 = uint64_t;
 
+using bool8  = uint8_t;
+using bool16 = uint16_t; // wide boolean types
+using bool32 = uint32_t;
+
 
 } // ns stardazed
 

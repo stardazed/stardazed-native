@@ -14,31 +14,83 @@ namespace stardazed {
 namespace device {
 
 
-DevicesSnapshot::DevicesSnapshot(KeyboardSnapshot kss)
-: keyboard_(kss) // FIXME: too many copies
-{}
-
-
-const KeyboardSnapshot& DevicesSnapshot::keyboard() const {
-	return keyboard_;
-}
-
-
-
 DevicesContext::DevicesContext() {
 	buildKeyTranslationTable();
 }
 
 
-void DevicesContext::handleKeyDown(Key key) {
-	keyboard_.press(key);
-//	log("press %z", static_cast<size_t>(key));
-}
+void DevicesContext::handleKeyTransition(Key key, bool isDown) {
+	// update keyboard state for polling
+	if (isDown)
+		keyboard_.press(key);
+	else
+		keyboard_.release(key);
 
+	// update keyboard controller
+	Controller& controller = controllers_.controllers[0];
+	KeyboardControllerConfig& config = keyboardControllerConfig;
 
-void DevicesContext::handleKeyUp(Key key) {
-	keyboard_.release(key);
-//	log("release %z", static_cast<size_t>(key));
+	auto updateStickWithKeys = [key, isDown](Stick& stick, Key left, Key right, Key up, Key down) {
+		if (key == left) {
+			stick.posX = -1 * (int)isDown;
+			++stick.left.halfTransitionCount;
+			stick.left.endedDown = isDown;
+		}
+		else if (key == right) {
+			stick.posX = 1 * (int)isDown;
+			++stick.right.halfTransitionCount;
+			stick.right.endedDown = isDown;
+		}
+		if (key == up) {
+			stick.posY = 1 * (int)isDown;
+			++stick.up.halfTransitionCount;
+			stick.up.endedDown = isDown;
+		}
+		else if (key == down) {
+			stick.posY = -1 * (int)isDown;
+			++stick.down.halfTransitionCount;
+			stick.down.endedDown = isDown;
+		}
+	};
+
+	updateStickWithKeys(controller.leftStick, config.leftStickLeft, config.leftStickRight, config.leftStickUp, config.leftStickDown);
+	updateStickWithKeys(controller.rightStick, config.rightStickLeft, config.rightStickRight, config.rightStickUp, config.rightStickDown);
+	updateStickWithKeys(controller.dPad, config.dPadLeft, config.dPadRight, config.dPadUp, config.dPadDown);
+	
+	if (key == config.btnA) {
+		++controller.A.halfTransitionCount;
+		controller.A.endedDown = isDown;
+	}
+	if (key == config.btnB) {
+		++controller.B.halfTransitionCount;
+		controller.B.endedDown = isDown;
+	}
+	if (key == config.btnX) {
+		++controller.X.halfTransitionCount;
+		controller.X.endedDown = isDown;
+	}
+	if (key == config.btnY) {
+		++controller.Y.halfTransitionCount;
+		controller.Y.endedDown = isDown;
+	}
+
+	if (key == config.btnL1) {
+		++controller.L1.halfTransitionCount;
+		controller.L1.endedDown = isDown;
+	}
+	if (key == config.btnR1) {
+		++controller.R1.halfTransitionCount;
+		controller.R1.endedDown = isDown;
+	}
+
+	if (key == config.btnSelect) {
+		++controller.select.halfTransitionCount;
+		controller.select.endedDown = isDown;
+	}
+	if (key == config.btnStart) {
+		++controller.start.halfTransitionCount;
+		controller.start.endedDown = isDown;
+	}
 }
 
 
@@ -63,9 +115,12 @@ void DevicesContext::processSystemEvents() {
 									   inMode: NSDefaultRunLoopMode
 									  dequeue: YES];
 			if (ev) {
-				switch([ev type]) {
-					case NSKeyDown: handleKeyDown(keyTransTable_[[ev keyCode]]); break;
-					case NSKeyUp:   handleKeyUp(keyTransTable_[[ev keyCode]]); break;
+				auto eventType = [ev type];
+				switch(eventType) {
+					case NSKeyDown:
+					case NSKeyUp:
+						handleKeyTransition(keyTransTable_[ev.keyCode], eventType == NSKeyDown);
+						break;
 
 					case NSLeftMouseDown: break;
 					default: break;
@@ -82,11 +137,6 @@ void DevicesContext::processSystemEvents() {
 
 void DevicesContext::frame() {
 	processSystemEvents();
-}
-
-
-const DevicesSnapshot DevicesContext::snapshot() {
-	return { keyboard_.snapshot() };
 }
 
 

@@ -15,37 +15,68 @@ namespace stardazed {
 namespace device {
 
 
-class DevicesSnapshot {
-	KeyboardSnapshot keyboard_;
-	
-public:
-	DevicesSnapshot(KeyboardSnapshot);
-	const KeyboardSnapshot& keyboard() const;
+struct Button { // 2 bytes
+	uint8_t halfTransitionCount;
+	bool endedDown;
+};
+
+
+struct Stick { // 16 bytes
+	float posX, posY;
+	Button left, right, up, down;
+};
+
+
+struct Controller { // 4 + (3 * 16) + (10 * 2) + 8 = 80 bytes
+	bool16 isConnected, isAnalog;
+	Stick leftStick, rightStick, dPad;
+	Button A, B, X, Y, L1, R1;
+	float L2, R2;
+	Button select, start;
+};
+
+
+struct KeyboardControllerConfig {
+	Key leftStickLeft, leftStickRight, leftStickUp, leftStickDown;
+	Key rightStickLeft, rightStickRight, rightStickUp, rightStickDown;
+	Key dPadLeft, dPadRight, dPadUp, dPadDown;
+
+	Key btnA, btnB, btnX, btnY, btnL1, btnR1, btnSelect, btnStart;
+	// L2 and R2 not supported by default (analog triggers)
+};
+
+
+struct ControllerSet {
+	static const int MAX_CONTROLLERS = 8;
+	Controller controllers[MAX_CONTROLLERS];
+
+	const Controller* begin() const { return std::begin(controllers); }
+	const Controller* end() const   { return std::end(controllers); }
 };
 
 
 class DevicesContext {
 	Keyboard keyboard_;
 	std::array<Key, 512> keyTransTable_;
+	ControllerSet controllers_;
+	KeyboardControllerConfig keyboardControllerConfig;
 
 	void buildKeyTranslationTable();
 	void processSystemEvents();
 	
-	void handleKeyDown(Key);
-	void handleKeyUp(Key);
+	void handleKeyTransition(Key, bool isDown);
 	
 public:
 	DevicesContext();
+	
+	void setKeyboardControllerConfig(const KeyboardControllerConfig& kbConfig) {
+		keyboardControllerConfig = kbConfig;
+	}
 
 	void frame();
-	const DevicesSnapshot snapshot();
-
-	// TODO: some things that would go in here
-//	void discoverJoysticks();
-//	
-//	void lockPointer();
-//	void unlockPointer();
-//	void movePointerTo(Vec2);
+	
+	const Keyboard& keyboard() const { return keyboard_; }
+	const ControllerSet& controllers() const { return controllers_; }
 };
 
 

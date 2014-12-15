@@ -60,20 +60,6 @@ enum class Key : uint16_t {
 };
 
 
-class Keyboard;
-
-
-class KeyboardSnapshot {
-	std::bitset<128> pressed_;
-	
-	friend class Keyboard;
-	KeyboardSnapshot(std::bitset<128>);
-
-public:
-	bool isPressed(Key) const;
-};
-
-
 class Keyboard {
 	std::bitset<128> pressed_;
 
@@ -81,7 +67,6 @@ class Keyboard {
 
 public:
 	Keyboard() = default;
-	const KeyboardSnapshot snapshot() const;
 
 	bool isPressed(Key) const;
 	void press(Key);

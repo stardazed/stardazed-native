@@ -14,21 +14,6 @@ constexpr uint16_t keyIndexForKey(Key k) {
 }
 
 
-KeyboardSnapshot::KeyboardSnapshot(std::bitset<128> keys)
-: pressed_(keys)
-{}
-
-
-bool KeyboardSnapshot::isPressed(Key k) const {
-	return pressed_.test(keyIndexForKey(k));
-}
-
-
-const KeyboardSnapshot Keyboard::snapshot() const {
-	return { pressed_ };
-}
-
-
 bool Keyboard::isPressed(Key k) const {
 	return pressed_.test(keyIndexForKey(k));
 }
