@@ -12,9 +12,8 @@ namespace stardazed {
 namespace runtime {
 
 
-RunLoop::RunLoop(Application& app, Client& client)
-: app_(app)
-, client_(client)
+RunLoop::RunLoop(Client& client)
+: client_(client)
 , sceneCtl_(nullptr)
 {
 	// reasonable defaults
@@ -31,14 +30,14 @@ void RunLoop::setSceneController(scene::SceneController& ctl) {
 void RunLoop::mainLoop() {
 	previousTime_ = time::now();
 
-	while (! app_.shouldQuit()) {
+	while (! Application::shouldQuit()) {
 		auto currentTime = time::now();
 		auto elapsedTime = currentTime - previousTime_;
 		previousTime_ = currentTime;
 
 		client_.devices().frame();
 		
-		if (app_.isActive()) {
+		if (Application::isActive()) {
 			simulationLag_ += elapsedTime;
 			renderLag_ += elapsedTime;
 			

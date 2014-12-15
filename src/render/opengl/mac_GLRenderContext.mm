@@ -33,8 +33,7 @@
 @implementation SDWindowDelegate
 - (BOOL)windowShouldClose:(id)sender {
 	SD_UNUSED_PARAM(sender)
-	// FIXME: either refactor App to be a singleton or something else
-//	stardazed::quitNow();
+	sd::Application::quitNow();
 	return NO;
 }
 @end

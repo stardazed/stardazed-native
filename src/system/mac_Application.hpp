@@ -13,24 +13,22 @@ namespace stardazed {
 
 
 class Application {
-	SD_NOCOPYORMOVE_CLASS(Application)
+	Application() = delete;
 
-	bool quit_ = false;
-	bool active_ = false;
-	
-	void changeToResourcesDirectory();
+	static bool quit_;
+	static bool active_;
 
 public:
-	Application();
-	
+	static void init();
+
 	// -- active refers to app being frontmost
-	void setActive(bool);
-	bool isActive() const { return active_; }
+	static void setActive(bool);
+	static bool isActive() { return active_; }
 	
 	// -- handling of Quit signal from system or user
-	void quitNow();
-	bool shouldQuit() const { return quit_; }
-	void resetShouldQuitFlag();
+	static void quitNow();
+	static bool shouldQuit() { return quit_; }
+	static void resetShouldQuitFlag();
 };
 
 

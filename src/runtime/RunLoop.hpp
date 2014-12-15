@@ -39,7 +39,6 @@ public:
 	
 
 class RunLoop {
-	Application& app_;
 	Client& client_;
 	scene::SceneController* sceneCtl_;
 
@@ -54,7 +53,7 @@ class RunLoop {
 public:
 	FPSStats stats;
 
-	RunLoop(Application& app, Client& client);
+	RunLoop(Client& client);
 	
 	void setSimulationFPS(int sfps) { simulationFrameTime_ = time::hertz(sfps); }
 	void setMaxRenderFPS(int rfps) { renderFrameTime_ = time::hertz(rfps); }
