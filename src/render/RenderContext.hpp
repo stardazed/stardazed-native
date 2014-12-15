@@ -7,7 +7,7 @@
 
 #if SD_PLATFORM_OSX
 #	if SD_RENDER_ENGINE_OPENGL
-#		include "render/opengl/mac_RenderContext.hpp"
+#		include "render/opengl/mac_GLRenderContext.hpp"
 #	else
 #		error "Unsupported Render Engine."
 #	endif

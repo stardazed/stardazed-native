@@ -13,14 +13,19 @@ namespace stardazed {
 namespace audio {
 
 
-// -- PLACEHOLDER FILE
+struct AudioContextDescriptor {
+	float sampleRate;
+};
+
 
 class AudioContext {
 	SD_NOCOPYORMOVE_CLASS(AudioContext)
 
 public:
-	AudioContext() {}
-	virtual ~AudioContext() = default;
+	AudioContext(const AudioContextDescriptor&);
+	~AudioContext();
+	
+	void start();
 };
 
 

@@ -63,6 +63,7 @@
 		8E19F7251A25350C00A13CF6 /* IndexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E19F7241A25350C00A13CF6 /* IndexBuffer.cpp */; };
 		8E2389C619F5A04400080E15 /* VertexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E2389C519F5A04400080E15 /* VertexBuffer.hpp */; };
 		8E31873619ED460000D3B189 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E31873519ED460000D3B189 /* OpenGL.framework */; };
+		8E44B4031A3EFD390059C57D /* mac_AudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E44B4021A3EFD390059C57D /* mac_AudioContext.mm */; };
 		8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */; };
 		8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */; };
 		8E4C740A1A0929D4006CF46D /* BufferStorage.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74091A0929D4006CF46D /* BufferStorage.hpp */; };
@@ -74,8 +75,8 @@
 		8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E6A0DBF19B3A53E00DF0921 /* mac_DevicesContext.mm */; };
 		8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DC119B3A5CB00DF0921 /* mac_VKeyCodes.hpp */; };
 		8E6A0DC419B3A7D900DF0921 /* Keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E6A0DC319B3A7D900DF0921 /* Keyboard.cpp */; };
-		8E89E99C19AD4896001AB2AF /* mac_RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_RenderContext.hpp */; };
-		8E89E99D19AD4896001AB2AF /* mac_RenderContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_RenderContext.mm */; };
+		8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */; };
+		8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */; };
 		8EA7092C19D75FC000129E2D /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EA7092319D75FC000129E2D /* Mesh.cpp */; };
 		8EA7092D19D75FC000129E2D /* Mesh.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA7092419D75FC000129E2D /* Mesh.hpp */; };
 		8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA7092519D75FC000129E2D /* Pipeline.hpp */; };
@@ -145,6 +146,7 @@
 		8E19F7241A25350C00A13CF6 /* IndexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexBuffer.cpp; sourceTree = "<group>"; };
 		8E2389C519F5A04400080E15 /* VertexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexBuffer.hpp; sourceTree = "<group>"; };
 		8E31873519ED460000D3B189 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		8E44B4021A3EFD390059C57D /* mac_AudioContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_AudioContext.mm; sourceTree = "<group>"; };
 		8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Manipulators.cpp; sourceTree = "<group>"; };
 		8E46C1D119DAE44A009A85A1 /* Manipulators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Manipulators.hpp; sourceTree = "<group>"; };
 		8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexDerivedData.hpp; sourceTree = "<group>"; };
@@ -157,8 +159,8 @@
 		8E6A0DBF19B3A53E00DF0921 /* mac_DevicesContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_DevicesContext.mm; sourceTree = "<group>"; };
 		8E6A0DC119B3A5CB00DF0921 /* mac_VKeyCodes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_VKeyCodes.hpp; sourceTree = "<group>"; };
 		8E6A0DC319B3A7D900DF0921 /* Keyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Keyboard.cpp; sourceTree = "<group>"; };
-		8E89E99A19AD4896001AB2AF /* mac_RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_RenderContext.hpp; sourceTree = "<group>"; };
-		8E89E99B19AD4896001AB2AF /* mac_RenderContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_RenderContext.mm; sourceTree = "<group>"; };
+		8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_GLRenderContext.hpp; sourceTree = "<group>"; };
+		8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_GLRenderContext.mm; sourceTree = "<group>"; };
 		8EA7092319D75FC000129E2D /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
 		8EA7092419D75FC000129E2D /* Mesh.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mesh.hpp; sourceTree = "<group>"; };
 		8EA7092519D75FC000129E2D /* Pipeline.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Pipeline.hpp; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 		8E0EF74419A0E06F00CF38A2 /* audio */ = {
 			isa = PBXGroup;
 			children = (
+				8E44B4021A3EFD390059C57D /* mac_AudioContext.mm */,
 				8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */,
 			);
 			path = audio;
@@ -308,8 +311,8 @@
 				8E112DAB199E5FE20029CD38 /* Shader.cpp */,
 				8E112DAA199E5FE20029CD38 /* Pipeline.hpp */,
 				8E112DA9199E5FE20029CD38 /* Pipeline.cpp */,
-				8E89E99A19AD4896001AB2AF /* mac_RenderContext.hpp */,
-				8E89E99B19AD4896001AB2AF /* mac_RenderContext.mm */,
+				8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */,
+				8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */,
 			);
 			path = opengl;
 			sourceTree = "<group>";
@@ -450,7 +453,7 @@
 				8EA7092D19D75FC000129E2D /* Mesh.hpp in Headers */,
 				8E19671919ACCADD009CB5E6 /* Bindings.hpp in Headers */,
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
-				8E89E99C19AD4896001AB2AF /* mac_RenderContext.hpp in Headers */,
+				8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */,
 				8E112DC1199E5FE20029CD38 /* Shader.hpp in Headers */,
 				8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */,
 				8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */,
@@ -514,6 +517,7 @@
 			files = (
 				8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */,
 				8E112DDC199E60A50029CD38 /* Camera.cpp in Sources */,
+				8E44B4031A3EFD390059C57D /* mac_AudioContext.mm in Sources */,
 				8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */,
 				8EA7092C19D75FC000129E2D /* Mesh.cpp in Sources */,
 				8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */,
@@ -524,7 +528,7 @@
 				8E112DC0199E5FE20029CD38 /* Shader.cpp in Sources */,
 				8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */,
 				8E5C92701A212567007E3774 /* VertexArray.cpp in Sources */,
-				8E89E99D19AD4896001AB2AF /* mac_RenderContext.mm in Sources */,
+				8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */,
 				8E112DC9199E60150029CD38 /* Generators.cpp in Sources */,
 				8E112D48199E55100029CD38 /* Matrix.cpp in Sources */,
 				8E112DDA199E60A50029CD38 /* Behaviour.cpp in Sources */,

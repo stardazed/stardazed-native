@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// render::mac_OpenGLContext - stardazed
+// render::mac_GLRenderContext - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDER_MAC_OPENGLCONTEXT_H
-#define SD_RENDER_MAC_OPENGLCONTEXT_H
+#ifndef SD_RENDER_MAC_GLRENDERCONTEXT_H
+#define SD_RENDER_MAC_GLRENDERCONTEXT_H
 
 #include "system/Config.hpp"
 #include "container/ObjectPool.hpp"

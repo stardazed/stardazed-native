@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------
-// mac_OpenGLContext.mm - stardazed
+// mac_GLRenderContext.mm - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "mac_RenderContext.hpp"
+#include "render/opengl/mac_GLRenderContext.hpp"
 
 #include "util/ConceptTraits.hpp"
 #include "system/Application.hpp"
