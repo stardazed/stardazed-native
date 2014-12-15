@@ -21,6 +21,17 @@ enum class EntityType {
 };
 
 
+class Entity;
+
+
+class Renderable {
+public:
+	virtual ~Renderable() = default;
+	
+	virtual void render(const math::Mat4& projMat, const math::Mat4& viewMat, const Entity& entity) const = 0;
+};
+
+
 class Entity {
 	EntityType type_;
 
@@ -32,7 +43,7 @@ public:
 
 	// -- components
 	Transform transform;
-	render::Pipeline* pipeline = nullptr;
+	scene::Renderable* renderable = nullptr;
 	scene::Behaviour* behaviour = nullptr;
 };
 
