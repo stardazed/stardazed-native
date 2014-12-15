@@ -79,13 +79,19 @@ static NSOpenGLPixelFormat* pixelFormatForContextDescriptor(const render::Render
 		valueAttr(NSOpenGLPFASamples, desc.antiAliasSamples);
 	}
 
-	// default frame buffer colour size
+	// frame buffer colour size (fixed)
 	valueAttr(NSOpenGLPFAColorSize, 24);
 	valueAttr(NSOpenGLPFAAlphaSize, 8);
 	
-	// default depth buffer size
-	if (desc.depthBits > 0)
+	// depth and stencil buffer size
+	if (desc.depthBits != 0) {
+		assert(desc.depthBits == 16 || desc.depthBits == 24 || desc.depthBits == 32);
 		valueAttr(NSOpenGLPFADepthSize, desc.depthBits);
+	}
+	if (desc.stencilBits != 0) {
+		assert(desc.stencilBits == 8);
+		valueAttr(NSOpenGLPFAStencilSize, desc.stencilBits);
+	}
 
 	attrs.push_back(0);
 	return [[NSOpenGLPixelFormat alloc] initWithAttributes: attrs.data()];

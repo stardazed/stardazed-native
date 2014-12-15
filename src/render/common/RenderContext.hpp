@@ -41,7 +41,8 @@ struct RenderContextDescriptor {
 	FullscreenAntiAliasMethod fsaa = FullscreenAntiAliasMethod::MSAA;
 	int antiAliasSamples = 4;
 	
-	int depthBits = 0; // default depth buffer size in bits/sample (0, 16, 32)
+	int depthBits = 0;   // default depth buffer size in bits/sample (0, 16, 24, 32 - AMD only)
+	int stencilBits = 0; // default stencil buffer size (0, 8) good to combine with depth == 24
 };
 
 
