@@ -22,12 +22,12 @@ class FPSStats {
 	
 public:
 	void frameRendered() {
-		++frames_;
-
 		auto t = time::now();
 		if (frames_ == 0)
 			t0_ = t;
 		lastT_ = t;
+
+		++frames_;
 	}
 	
 	float fps() const {
@@ -36,7 +36,7 @@ public:
 		return 0;
 	}
 };
-	
+
 
 class RunLoop {
 	Client& client_;

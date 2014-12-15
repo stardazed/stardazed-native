@@ -105,7 +105,7 @@ static bool shouldForwardEvent(NSEvent* event) {
 					(evType == NSApplicationDefined) ||
 					(evType == NSPeriodic);
 
-	return sysEvent || ((evType == NSKeyDown) && ([event modifierFlags] & NSCommandKeyMask));
+	return sysEvent || evType == NSLeftMouseDown || ((evType == NSKeyDown) && ([event modifierFlags] & NSCommandKeyMask));
 }
 
 
