@@ -24,8 +24,7 @@ public:
 	void lookAt(const math::Vec3& target, const math::Vec3& up = {0,1,0});
 
 	void rotate(math::Angle overX, math::Angle overY, math::Angle overZ) {
-		// fromEuler takes yaw, pitch and roll arguments -> Y, X, Z
-		rotation *= math::Quat::fromEuler(overY, overX, overZ);
+		rotation *= math::Quat::fromEuler(overZ, overY, overX);
 	}
 
 	void rotate(const math::Vec3& axis, math::Angle angle) {
