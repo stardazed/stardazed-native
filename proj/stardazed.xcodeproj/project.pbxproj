@@ -64,6 +64,7 @@
 		8E2389C619F5A04400080E15 /* VertexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E2389C519F5A04400080E15 /* VertexBuffer.hpp */; };
 		8E31873619ED460000D3B189 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E31873519ED460000D3B189 /* OpenGL.framework */; };
 		8E44B4031A3EFD390059C57D /* mac_AudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E44B4021A3EFD390059C57D /* mac_AudioContext.mm */; };
+		8E44B4051A3F41380059C57D /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E44B4041A3F41380059C57D /* AudioUnit.framework */; };
 		8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */; };
 		8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */; };
 		8E4C740A1A0929D4006CF46D /* BufferStorage.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74091A0929D4006CF46D /* BufferStorage.hpp */; };
@@ -147,6 +148,7 @@
 		8E2389C519F5A04400080E15 /* VertexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexBuffer.hpp; sourceTree = "<group>"; };
 		8E31873519ED460000D3B189 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		8E44B4021A3EFD390059C57D /* mac_AudioContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_AudioContext.mm; sourceTree = "<group>"; };
+		8E44B4041A3F41380059C57D /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Manipulators.cpp; sourceTree = "<group>"; };
 		8E46C1D119DAE44A009A85A1 /* Manipulators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Manipulators.hpp; sourceTree = "<group>"; };
 		8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexDerivedData.hpp; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E44B4051A3F41380059C57D /* AudioUnit.framework in Frameworks */,
 				8E31873619ED460000D3B189 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,8 +210,8 @@
 		8E112D24199E53CC0029CD38 = {
 			isa = PBXGroup;
 			children = (
-				8E31873519ED460000D3B189 /* OpenGL.framework */,
 				8E112D3A199E54AF0029CD38 /* src */,
+				8E44B4091A3F41700059C57D /* Frameworks */,
 				8E112D2E199E53CC0029CD38 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -366,6 +369,15 @@
 				8E19672519ACD69F009CB5E6 /* mac_Logging.mm */,
 			);
 			path = system;
+			sourceTree = "<group>";
+		};
+		8E44B4091A3F41700059C57D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8E31873519ED460000D3B189 /* OpenGL.framework */,
+				8E44B4041A3F41380059C57D /* AudioUnit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		8E6A0DB819B3847700DF0921 /* device */ = {

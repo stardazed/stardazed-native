@@ -17,7 +17,7 @@ namespace device {
 
 struct Button { // 2 bytes
 	uint8_t halfTransitionCount;
-	bool endedDown;
+	bool8 endedDown;
 };
 
 
@@ -27,12 +27,12 @@ struct Stick { // 16 bytes
 };
 
 
-struct Controller { // 4 + (3 * 16) + (10 * 2) + 8 = 80 bytes
+struct Controller { // 4 + (3 * 16) + (8 * 2) + 8 = 68 bytes
 	bool16 isConnected, isAnalog;
 	Stick leftStick, rightStick, dPad;
 	Button A, B, X, Y, L1, R1;
-	float L2, R2;
 	Button select, start;
+	float L2, R2;
 };
 
 
@@ -42,7 +42,7 @@ struct KeyboardControllerConfig {
 	Key dPadLeft, dPadRight, dPadUp, dPadDown;
 
 	Key btnA, btnB, btnX, btnY, btnL1, btnR1, btnSelect, btnStart;
-	// L2 and R2 not supported by default (analog triggers)
+	// L2 and R2 not supported by definition (analog triggers)
 };
 
 

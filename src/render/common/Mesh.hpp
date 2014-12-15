@@ -12,9 +12,13 @@
 #include "render/common/VertexBuffer.hpp"
 
 #include <vector>
+#include <array>
 
 namespace stardazed {
 namespace render {
+
+
+using Tri = std::array<uint16_t, 3>;
 
 
 class MeshDescriptor {

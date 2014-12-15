@@ -16,21 +16,18 @@ namespace runtime {
 
 class FrameContext {
 	Client& client_;
-	device::DevicesSnapshot devicesSnapshot_;
 	time::Duration deltaTime_;
 
 public:
 	FrameContext(Client& client,
 				 time::Duration deltaTime)
 	: client_(client)
-	, devicesSnapshot_(client_.devices().snapshot())
 	, deltaTime_(deltaTime)
 	{}
 	
 	time::Duration deltaTime() { return deltaTime_; }
 
 	auto& client()  { return client_; }
-	auto& input()   { return devicesSnapshot_; }
 };
 
 

@@ -16,6 +16,10 @@ namespace device {
 
 DevicesContext::DevicesContext() {
 	buildKeyTranslationTable();
+	
+	// controller 0 is the keyboard controller
+	controllers_.controllers[0].isConnected = true;
+	controllers_.controllers[0].isAnalog = false;
 }
 
 
