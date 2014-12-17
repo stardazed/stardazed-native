@@ -18,10 +18,6 @@ namespace device {
 DevicesContext::DevicesContext() {
 	buildKeyTranslationTable();
 	initControllers();
-	
-	// controller 0 is the keyboard controller
-	controllers_.controllers[0].isConnected = true;
-	controllers_.controllers[0].isAnalog = false;
 }
 
 
@@ -32,37 +28,29 @@ void DevicesContext::handleKeyTransition(Key key, bool isDown) {
 	else
 		keyboard_.release(key);
 
-	// update keyboard controller
-	Controller& controller = controllers_.controllers[0];
+	// update keyboard controller (#0)
+	Controller& controller = controllers_[0].controller;
 	KeyboardControllerConfig& config = keyboardControllerConfig_;
 
-	auto updateStickWithKeys = [key, isDown](Stick& stick, Key left, Key right, Key up, Key down) {
-		if (key == left) {
-			stick.posX = -1 * (int)isDown;
-			++stick.left.halfTransitionCount;
-			stick.left.endedDown = isDown;
-		}
-		else if (key == right) {
-			stick.posX = 1 * (int)isDown;
-			++stick.right.halfTransitionCount;
-			stick.right.endedDown = isDown;
-		}
-		if (key == up) {
-			stick.posY = 1 * (int)isDown;
-			++stick.up.halfTransitionCount;
-			stick.up.endedDown = isDown;
-		}
-		else if (key == down) {
-			stick.posY = -1 * (int)isDown;
-			++stick.down.halfTransitionCount;
-			stick.down.endedDown = isDown;
-		}
-	};
-
-	updateStickWithKeys(controller.leftStick, config.leftStickLeft, config.leftStickRight, config.leftStickUp, config.leftStickDown);
-	updateStickWithKeys(controller.rightStick, config.rightStickLeft, config.rightStickRight, config.rightStickUp, config.rightStickDown);
-	updateStickWithKeys(controller.dPad, config.dPadLeft, config.dPadRight, config.dPadUp, config.dPadDown);
+	// Directional Pad
+	if (key == config.dPadLeft) {
+		++controller.dPad.left.halfTransitionCount;
+		controller.dPad.left.endedDown = isDown;
+	}
+	else if (key == config.dPadRight) {
+		++controller.dPad.right.halfTransitionCount;
+		controller.dPad.right.endedDown = isDown;
+	}
+	if (key == config.dPadUp) {
+		++controller.dPad.up.halfTransitionCount;
+		controller.dPad.up.endedDown = isDown;
+	}
+	else if (key == config.dPadDown) {
+		++controller.dPad.down.halfTransitionCount;
+		controller.dPad.down.endedDown = isDown;
+	}
 	
+	// Face Buttons
 	if (key == config.btnA) {
 		++controller.A.halfTransitionCount;
 		controller.A.endedDown = isDown;
@@ -80,15 +68,17 @@ void DevicesContext::handleKeyTransition(Key key, bool isDown) {
 		controller.Y.endedDown = isDown;
 	}
 
-	if (key == config.btnL1) {
-		++controller.L1.halfTransitionCount;
-		controller.L1.endedDown = isDown;
+	// Shoulder Buttons
+	if (key == config.btnLeftShoulder) {
+		++controller.leftShoulder.halfTransitionCount;
+		controller.leftShoulder.endedDown = isDown;
 	}
-	if (key == config.btnR1) {
-		++controller.R1.halfTransitionCount;
-		controller.R1.endedDown = isDown;
+	if (key == config.btnRightShoulder) {
+		++controller.rightShoulder.halfTransitionCount;
+		controller.rightShoulder.endedDown = isDown;
 	}
 
+	// Select, Start
 	if (key == config.btnSelect) {
 		++controller.select.halfTransitionCount;
 		controller.select.endedDown = isDown;
@@ -147,28 +137,68 @@ void DevicesContext::frame() {
 
 
 static void hidDeviceRemoved(void* context, IOReturn, void*) {
-	auto devCtx = static_cast<DevicesContext*>(context);
+	auto controllerCtx = static_cast<ControllerDriverContext*>(context);
+	controllerCtx->controller.isConnected = false;
 }
 
 
 static void hidDeviceAdded(void* context, IOReturn, void*, IOHIDDeviceRef device) {
 	auto devCtx = static_cast<DevicesContext*>(context);
-	
+
+	// -- get the vendor and product ID for quick identification
 	auto vendorIDRef = (CFNumberRef)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey));
 	auto productIDRef = (CFNumberRef)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey));
 	
 	int vendorID, productID;
 	CFNumberGetValue(vendorIDRef, kCFNumberIntType, &vendorID);
 	CFNumberGetValue(productIDRef, kCFNumberIntType, &productID);
-	
-//	IOHIDDeviceRegisterInputValueCallback(device, <#IOHIDValueCallback callback#>, context);
-	IOHIDDeviceRegisterRemovalCallback(device, hidDeviceRemoved, context);
+
+	// -- find if we have a registered driver that knows this controller
+	auto driverIt = std::find_if(devCtx->driversBegin(), devCtx->driversEnd(),
+		[device, vendorID, productID](ControllerDriver* driver){
+			return driver->supportsDevice(device, vendorID, productID);
+		});
+
+	// -- open device for comms and register callbacks
+	if (driverIt != devCtx->driversEnd()) {
+		if (IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone) == kIOReturnSuccess) {
+			auto& controllerCtx = devCtx->createController();
+			auto callback = (*driverIt)->callbackForDevice(device, vendorID, productID);
+
+			IOHIDDeviceRegisterInputValueCallback(device, callback, &controllerCtx);
+			IOHIDDeviceRegisterRemovalCallback(device, hidDeviceRemoved, &controllerCtx);
+		}
+		else {
+			// FIXME: can't open device communications, log
+		}
+	}
+	else {
+		// FIXME: no suitable driver found, report or log
+	}
+}
+
+
+Controller* DevicesContext::controllerAtIndex(size32 index) {
+	if (index >= controllers_.size())
+		return nullptr;
+	return &controllers_[index].controller;
+}
+
+
+ControllerDriverContext& DevicesContext::createController() {
+	controllers_.push_back({ {}, this });
+	return controllers_.back();
 }
 
 
 void DevicesContext::initControllers() {
 	// -- register the controller drivers
+	controllerDrivers_.push_back(new X360ControllerDriver{});
 	
+	// -- create controller #0, the (built-in) keyboard controller
+	controllers_.push_back({ {}, this });
+	controllers_[0].controller.isConnected = true;
+	controllers_[0].controller.isAnalog = false;
 
 	// -- setup the HID manager and callbacks
 	hidManager_ = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
@@ -193,15 +223,7 @@ void DevicesContext::initControllers() {
 	
 	IOHIDManagerSetDeviceMatchingMultiple(hidManager_, (__bridge CFArrayRef)criteria);
 	IOHIDManagerRegisterDeviceMatchingCallback(hidManager_, hidDeviceAdded, this);
-//		IOHIDManagerRegisterDeviceRemovalCallback(hidManager_, HIDDeviceRemoved, this);
 	IOHIDManagerScheduleWithRunLoop(hidManager_, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
-	
-//	if (IOHIDManagerOpen(hidManager_, kIOHIDOptionsTypeNone) == kIOReturnSuccess) {
-//		IOHIDManagerRegisterInputValueCallback(hidManager_, HIDAction, this);
-//	}
-//	else {
-//		// TODO(jeff): Diagnostic
-//	}
 }
 
 

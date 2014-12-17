@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// device::Keyboard - stardazed
+// device::mac_X360Controller - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
@@ -14,14 +14,11 @@
 namespace stardazed {
 namespace device {
 
-static const int X360LeftThumbDeadZone = 7849;
-static const int X360RightThumbDeadZone = 8689;
 
-
-class X360ControllerHIDClient {
+class X360ControllerDriver : public ControllerDriver {
 public:
-	static bool supportsHIDDevice(IOHIDDeviceRef);
-	
+	bool supportsDevice(IOHIDDeviceRef, int, int) override;
+	IOHIDValueCallback callbackForDevice(IOHIDDeviceRef, int vendorID, int productID) override;
 };
 
 

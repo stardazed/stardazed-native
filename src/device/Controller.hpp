@@ -18,22 +18,27 @@ struct Button { // 2 bytes
 };
 
 
-struct Stick { // 16 bytes
+struct Stick { // 8 bytes
 	float posX, posY;
+};
+
+
+struct DirectionalPad { // 8 bytes
 	Button left, right, up, down;
 };
 
 
-struct Controller { // 4 + (3 * 16) + (8 * 2) + 8 = 68 bytes
+struct Controller { // 4 + (3 * 8) + (10 * 2) + 8 = 56 bytes
 	bool16 isConnected, isAnalog;
-	Stick leftStick, rightStick, dPad;
-	Button A, B, X, Y, L1, R1;
+	Stick leftStick, rightStick;
+	DirectionalPad dPad;
+	Button A, B, X, Y, leftShoulder, rightShoulder;
+	Button leftThumb, rightThumb;
 	Button select, start;
-	float L2, R2;
+	float leftTrigger, rightTrigger;
 };
 
-	
-	
+
 } // ns device
 } // ns stardazed
 

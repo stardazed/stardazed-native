@@ -41,7 +41,7 @@ std::string toString(const std::vector<T>& vt) {
 
 
 // Simple printf-like formatted string -- experimental
-// TODO: needs actual argument inspection
+// FIXME: needs actual argument inspection
 class FmtString {
 	std::string fmt_, baked_;
 	std::string::const_iterator scan_;

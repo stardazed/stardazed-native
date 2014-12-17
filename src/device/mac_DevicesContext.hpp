@@ -10,6 +10,7 @@
 #include "device/Keyboard.hpp"
 #include "device/Controller.hpp"
 
+#include <vector>
 #include <array>
 
 #include <IOKit/hid/IOHIDLib.h>
@@ -19,20 +20,28 @@ namespace device {
 
 
 struct KeyboardControllerConfig {
-	Key leftStickLeft, leftStickRight, leftStickUp, leftStickDown;
-	Key rightStickLeft, rightStickRight, rightStickUp, rightStickDown;
 	Key dPadLeft, dPadRight, dPadUp, dPadDown;
-
-	Key btnA, btnB, btnX, btnY, btnL1, btnR1, btnSelect, btnStart;
-	// L2 and R2 not supported by definition (analog triggers)
+	Key btnA, btnB, btnX, btnY;
+	Key btnLeftShoulder, btnRightShoulder;
+	Key btnSelect, btnStart;
+	// Sticks and trigger are not supported by definition (analog)
+	// Essentially, the keyboard is a SNES controller
 };
 
 
-struct ControllerSet {
-	std::array<Controller, 8> controllers;
+class DevicesContext;
 
-	const Controller* begin() const { return std::begin(controllers); }
-	const Controller* end() const   { return std::end(controllers); }
+struct ControllerDriverContext {
+	Controller controller;
+	DevicesContext* devicesContext;
+};
+
+
+class ControllerDriver {
+public:
+	virtual ~ControllerDriver() {}
+	virtual bool supportsDevice(IOHIDDeviceRef, int vendorID, int productID) = 0;
+	virtual IOHIDValueCallback callbackForDevice(IOHIDDeviceRef, int vendorID, int productID) = 0;
 };
 
 
@@ -40,8 +49,11 @@ class DevicesContext {
 	Keyboard keyboard_;
 	std::array<Key, 512> keyTransTable_;
 
-	ControllerSet controllers_;
+	std::vector<ControllerDriver*> controllerDrivers_;
+	std::vector<ControllerDriverContext> controllers_;
 	KeyboardControllerConfig keyboardControllerConfig_;
+	
+	using DriverIter = decltype(controllerDrivers_)::const_iterator;
 	
 	IOHIDManagerRef hidManager_;
 
@@ -61,7 +73,11 @@ public:
 	void frame();
 	
 	const Keyboard& keyboard() const { return keyboard_; }
-	const ControllerSet& controllers() const { return controllers_; }
+	Controller* controllerAtIndex(size32 index);
+	ControllerDriverContext& createController();
+	
+	DriverIter driversBegin() const { return controllerDrivers_.cbegin(); }
+	DriverIter driversEnd() const { return controllerDrivers_.cend(); }
 };
 
 
