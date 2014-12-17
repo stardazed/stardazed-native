@@ -75,6 +75,9 @@
 		8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E6A0DBF19B3A53E00DF0921 /* mac_DevicesContext.mm */; };
 		8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DC119B3A5CB00DF0921 /* mac_VKeyCodes.hpp */; };
 		8E6A0DC419B3A7D900DF0921 /* Keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E6A0DC319B3A7D900DF0921 /* Keyboard.cpp */; };
+		8E71E4511A40EE460060DC95 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E71E4501A40EE460060DC95 /* IOKit.framework */; };
+		8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */; };
+		8E71E4551A40FB170060DC95 /* Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4541A40FB170060DC95 /* Controller.hpp */; };
 		8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */; };
 		8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */; };
 		8EA7092C19D75FC000129E2D /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EA7092319D75FC000129E2D /* Mesh.cpp */; };
@@ -159,6 +162,9 @@
 		8E6A0DBF19B3A53E00DF0921 /* mac_DevicesContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_DevicesContext.mm; sourceTree = "<group>"; };
 		8E6A0DC119B3A5CB00DF0921 /* mac_VKeyCodes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_VKeyCodes.hpp; sourceTree = "<group>"; };
 		8E6A0DC319B3A7D900DF0921 /* Keyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Keyboard.cpp; sourceTree = "<group>"; };
+		8E71E4501A40EE460060DC95 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_X360Controller.hpp; sourceTree = "<group>"; };
+		8E71E4541A40FB170060DC95 /* Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
 		8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_GLRenderContext.hpp; sourceTree = "<group>"; };
 		8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_GLRenderContext.mm; sourceTree = "<group>"; };
 		8EA7092319D75FC000129E2D /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
@@ -177,6 +183,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E71E4511A40EE460060DC95 /* IOKit.framework in Frameworks */,
 				8E44B4051A3F41380059C57D /* AudioUnit.framework in Frameworks */,
 				8E31873619ED460000D3B189 /* OpenGL.framework in Frameworks */,
 			);
@@ -363,6 +370,7 @@
 		8E44B4091A3F41700059C57D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8E71E4501A40EE460060DC95 /* IOKit.framework */,
 				8E31873519ED460000D3B189 /* OpenGL.framework */,
 				8E44B4041A3F41380059C57D /* AudioUnit.framework */,
 			);
@@ -374,10 +382,12 @@
 			children = (
 				8E6A0DBD19B3A03600DF0921 /* Keyboard.hpp */,
 				8E6A0DC319B3A7D900DF0921 /* Keyboard.cpp */,
-				8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */,
+				8E71E4541A40FB170060DC95 /* Controller.hpp */,
+				8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */,
 				8E6A0DC119B3A5CB00DF0921 /* mac_VKeyCodes.hpp */,
 				8E6A0DBB19B39E7400DF0921 /* mac_DevicesContext.hpp */,
 				8E6A0DBF19B3A53E00DF0921 /* mac_DevicesContext.mm */,
+				8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */,
 			);
 			path = device;
 			sourceTree = "<group>";
@@ -425,6 +435,7 @@
 				8E112DB9199E5FE20029CD38 /* Buffer.hpp in Headers */,
 				8E112DDB199E60A50029CD38 /* Behaviour.hpp in Headers */,
 				8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */,
+				8E71E4551A40FB170060DC95 /* Controller.hpp in Headers */,
 				8E112D46199E55100029CD38 /* Angle.hpp in Headers */,
 				8E112DBF199E5FE20029CD38 /* Pipeline.hpp in Headers */,
 				8E112DE0199E60A50029CD38 /* Entity.hpp in Headers */,
@@ -437,6 +448,7 @@
 				8E112D44199E55100029CD38 /* AABB.hpp in Headers */,
 				8E112D83199E5F540029CD38 /* MemoryResource.hpp in Headers */,
 				8EA7093019D75FC000129E2D /* RenderContext.hpp in Headers */,
+				8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
 				8E2389C619F5A04400080E15 /* VertexBuffer.hpp in Headers */,
 				8E112DDF199E60A50029CD38 /* SceneController.hpp in Headers */,

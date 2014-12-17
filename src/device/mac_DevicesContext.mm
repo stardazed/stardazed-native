@@ -5,9 +5,10 @@
 
 #include "device/mac_DevicesContext.hpp"
 #include "device/mac_VKeyCodes.hpp"
-#include "system/Logging.hpp"
+#include "device/mac_X360Controller.hpp"
 
 #include <algorithm>
+
 #import <AppKit/AppKit.h>
 
 namespace stardazed {
@@ -16,6 +17,7 @@ namespace device {
 
 DevicesContext::DevicesContext() {
 	buildKeyTranslationTable();
+	initControllers();
 	
 	// controller 0 is the keyboard controller
 	controllers_.controllers[0].isConnected = true;
@@ -32,7 +34,7 @@ void DevicesContext::handleKeyTransition(Key key, bool isDown) {
 
 	// update keyboard controller
 	Controller& controller = controllers_.controllers[0];
-	KeyboardControllerConfig& config = keyboardControllerConfig;
+	KeyboardControllerConfig& config = keyboardControllerConfig_;
 
 	auto updateStickWithKeys = [key, isDown](Stick& stick, Key left, Key right, Key up, Key down) {
 		if (key == left) {
@@ -141,6 +143,65 @@ void DevicesContext::processSystemEvents() {
 
 void DevicesContext::frame() {
 	processSystemEvents();
+}
+
+
+static void hidDeviceRemoved(void* context, IOReturn, void*) {
+	auto devCtx = static_cast<DevicesContext*>(context);
+}
+
+
+static void hidDeviceAdded(void* context, IOReturn, void*, IOHIDDeviceRef device) {
+	auto devCtx = static_cast<DevicesContext*>(context);
+	
+	auto vendorIDRef = (CFNumberRef)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey));
+	auto productIDRef = (CFNumberRef)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey));
+	
+	int vendorID, productID;
+	CFNumberGetValue(vendorIDRef, kCFNumberIntType, &vendorID);
+	CFNumberGetValue(productIDRef, kCFNumberIntType, &productID);
+	
+//	IOHIDDeviceRegisterInputValueCallback(device, <#IOHIDValueCallback callback#>, context);
+	IOHIDDeviceRegisterRemovalCallback(device, hidDeviceRemoved, context);
+}
+
+
+void DevicesContext::initControllers() {
+	// -- register the controller drivers
+	
+
+	// -- setup the HID manager and callbacks
+	hidManager_ = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+	
+	NSArray* criteria = @[
+		@{	(NSString*)CFSTR(kIOHIDDeviceUsagePageKey):
+				[NSNumber numberWithInt:kHIDPage_GenericDesktop],
+			(NSString*)CFSTR(kIOHIDDeviceUsageKey):
+				[NSNumber numberWithInt:kHIDUsage_GD_Joystick]
+		},
+		@{	(NSString*)CFSTR(kIOHIDDeviceUsagePageKey):
+				[NSNumber numberWithInt:kHIDPage_GenericDesktop],
+			(NSString*)CFSTR(kIOHIDDeviceUsageKey):
+				[NSNumber numberWithInt:kHIDUsage_GD_GamePad]
+		},
+		@{	(NSString*)CFSTR(kIOHIDDeviceUsagePageKey):
+				[NSNumber numberWithInt:kHIDPage_GenericDesktop],
+			(NSString*)CFSTR(kIOHIDDeviceUsageKey):
+				[NSNumber numberWithInt:kHIDUsage_GD_MultiAxisController]
+		}
+	];
+	
+	IOHIDManagerSetDeviceMatchingMultiple(hidManager_, (__bridge CFArrayRef)criteria);
+	IOHIDManagerRegisterDeviceMatchingCallback(hidManager_, hidDeviceAdded, this);
+//		IOHIDManagerRegisterDeviceRemovalCallback(hidManager_, HIDDeviceRemoved, this);
+	IOHIDManagerScheduleWithRunLoop(hidManager_, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+	
+//	if (IOHIDManagerOpen(hidManager_, kIOHIDOptionsTypeNone) == kIOReturnSuccess) {
+//		IOHIDManagerRegisterInputValueCallback(hidManager_, HIDAction, this);
+//	}
+//	else {
+//		// TODO(jeff): Diagnostic
+//	}
 }
 
 
