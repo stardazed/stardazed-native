@@ -7,7 +7,6 @@
 #define SD_SYSTEM_MAC_APPLICATION_H
 
 #include "system/Config.hpp"
-#include "util/ConceptTraits.hpp"
 
 namespace stardazed {
 
@@ -20,15 +19,17 @@ class Application {
 
 public:
 	static void init();
+	
+	static void main();
 
 	// -- active refers to app being frontmost
-	static void setActive(bool);
+	static void setActive(bool active) { active_ = active; }
 	static bool isActive() { return active_; }
 	
 	// -- handling of Quit signal from system or user
-	static void quitNow();
 	static bool shouldQuit() { return quit_; }
-	static void resetShouldQuitFlag();
+	static void quitNow() { quit_ = true; }
+	static void resetShouldQuitFlag() { quit_ = false; }
 };
 
 

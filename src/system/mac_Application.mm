@@ -4,7 +4,11 @@
 // ------------------------------------------------------------------
 
 #include "system/mac_Application.hpp"
+#include "system/Time.hpp"
 #include "system/Logging.hpp"
+#include "util/ConceptTraits.hpp"
+
+#include <thread>
 
 #import <AppKit/AppKit.h>
 
@@ -42,6 +46,34 @@ bool Application::quit_ = false;
 bool Application::active_ = true;
 
 
+void Application::main() {
+	auto frameDuration = time::hertz(60);
+
+	while (! shouldQuit()) {
+		auto frameStartTime = time::now();
+		
+		// devices_.frame();
+		
+		if (isActive()) {
+			// game update and render and sound
+		}
+		
+		auto frameAfterUpdateTime = time::now();
+		auto frameTimeSpent = frameAfterUpdateTime - frameStartTime;
+		
+		if (frameTimeSpent < frameDuration) {
+			auto sleepTime = frameDuration - frameTimeSpent;
+			std::this_thread::sleep_for(sleepTime);
+		}
+		else {
+			
+		}
+		
+		// render_.swap();
+	}
+}
+
+
 static void changeToResourcesDirectory() {
 	const char *resourcePath = [[[NSBundle mainBundle] resourcePath] UTF8String];
 	chdir(resourcePath);
@@ -65,24 +97,6 @@ void Application::init() {
 	
 	active_ = true;
 	[app finishLaunching];
-}
-
-
-// -- active state
-
-void Application::setActive(bool active) {
-	active_ = active;
-}
-
-
-// -- quit state
-
-void Application::quitNow() {
-	quit_ = true;
-}
-
-void Application::resetShouldQuitFlag() {
-	quit_ = false;
 }
 
 
