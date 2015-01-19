@@ -14,8 +14,6 @@
 #include "render/common/Mesh.hpp"
 #include "render/opengl/OpenGL.hpp"
 
-#include <cassert>
-
 
 namespace stardazed {
 namespace render {

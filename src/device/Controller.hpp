@@ -39,6 +39,23 @@ struct Controller { // 4 + (3 * 8) + (10 * 2) + 8 = 56 bytes
 };
 
 
+inline Stick stickFromDPad(const DirectionalPad& dPad) {
+	Stick stick {};
+	
+	if (dPad.left.endedDown)
+		stick.posX = -1;
+	else if (dPad.right.endedDown)
+		stick.posX =  1;
+
+	if (dPad.up.endedDown)
+		stick.posY = -1;
+	else if (dPad.down.endedDown)
+		stick.posY =  1;
+	
+	return stick;
+}
+
+
 } // ns device
 } // ns stardazed
 
