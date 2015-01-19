@@ -5,8 +5,6 @@
 
 #include "render/opengl/VertexArray.hpp"
 
-#include <cassert>
-
 namespace stardazed {
 namespace render {
 
