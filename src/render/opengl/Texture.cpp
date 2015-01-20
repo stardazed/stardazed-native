@@ -91,6 +91,11 @@ struct DDS_HEADER {
 };
 
 
+constexpr uint32 fourCharCode(char a, char b, char c, char d) {
+	return (d << 24) | (c << 16) | (b << 8) | a;
+}
+
+
 void Texture::loadDDS(const std::string& resourcePath) {
 	DDS_HEADER header;
 	std::ifstream file{ resourcePath, std::ios::binary };
@@ -109,9 +114,9 @@ void Texture::loadDDS(const std::string& resourcePath) {
 	
 	TexturePixelFormat format;
 	switch (header.ddspf.dwFourCC) {
-		case 'DXT1': format = TexturePixelFormat::DXT1; break;
-		case 'DXT3': format = TexturePixelFormat::DXT3; break;
-		case 'DXT5': format = TexturePixelFormat::DXT5; break;
+		case fourCharCode('D','X','T','1'): format = TexturePixelFormat::DXT1; break;
+		case fourCharCode('D','X','T','3'): format = TexturePixelFormat::DXT3; break;
+		case fourCharCode('D','X','T','5'): format = TexturePixelFormat::DXT5; break;
 		default:
 			assert(!"unknown pixel format of DDS file");
 	}
