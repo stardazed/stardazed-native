@@ -20,13 +20,13 @@ constexpr GLenum glTargetForTextureKind(const TextureKind kind) {
 }
 
 
-constexpr GLint glImageFormatForTexturePixelFormat(const TexturePixelFormat format) {
+constexpr GLint glImageFormatForTextureDataFormat(const TextureDataFormat format) {
 	switch (format) {
-		case TexturePixelFormat::RGBA8: return GL_RGBA8;
+		case TextureDataFormat::RGBA8: return GL_RGBA8;
 			
-		case TexturePixelFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-		case TexturePixelFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-		case TexturePixelFormat::DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case TextureDataFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+		case TextureDataFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+		case TextureDataFormat::DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
 	}
 	
 	assert(!"unknown texture pixel format");
@@ -47,10 +47,10 @@ Texture::~Texture() {
 }
 
 
-void Texture::allocate(size32 width, size32 height, uint8_t levels, TexturePixelFormat format) {
+void Texture::allocate(size32 width, size32 height, uint8_t levels, TextureDataFormat format) {
 	glBindTexture(glTexTarget_, glTex_);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexStorage2D(glTexTarget_, levels, glImageFormatForTexturePixelFormat(format), width, height);
+	glTexStorage2D(glTexTarget_, levels, glImageFormatForTextureDataFormat(format), width, height);
 }
 
 
@@ -112,17 +112,17 @@ void Texture::loadDDS(const std::string& resourcePath) {
 	auto buffer = std::make_unique<uint8[]>(dataSize);
 	file.read(reinterpret_cast<char*>(buffer.get()), dataSize);
 	
-	TexturePixelFormat format;
+	TextureDataFormat format;
 	switch (header.ddspf.dwFourCC) {
-		case fourCharCode('D','X','T','1'): format = TexturePixelFormat::DXT1; break;
-		case fourCharCode('D','X','T','3'): format = TexturePixelFormat::DXT3; break;
-		case fourCharCode('D','X','T','5'): format = TexturePixelFormat::DXT5; break;
+		case fourCharCode('D','X','T','1'): format = TextureDataFormat::DXT1; break;
+		case fourCharCode('D','X','T','3'): format = TextureDataFormat::DXT3; break;
+		case fourCharCode('D','X','T','5'): format = TextureDataFormat::DXT5; break;
 		default:
 			assert(!"unknown pixel format of DDS file");
 	}
-	auto glFormat = glImageFormatForTexturePixelFormat(format);
+	auto glFormat = glImageFormatForTextureDataFormat(format);
 	
-	size32 blockSize = (format == TexturePixelFormat::DXT1) ? 8 : 16;
+	size32 blockSize = (format == TextureDataFormat::DXT1) ? 8 : 16;
 	size32 offset = 0;
 	auto mipMaps = header.dwMipMapCount;
 	auto width = header.dwWidth;

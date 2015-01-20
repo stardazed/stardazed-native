@@ -74,6 +74,7 @@ public:
 	
 	const Keyboard& keyboard() const { return keyboard_; }
 	Controller* controllerAtIndex(size32 index);
+	Controller* keyboardController();
 	ControllerDriverContext& createController();
 	
 	DriverIter driversBegin() const { return controllerDrivers_.cbegin(); }

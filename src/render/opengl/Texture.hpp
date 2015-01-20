@@ -21,12 +21,20 @@ enum class TextureKind {
 };
 
 
-enum class TexturePixelFormat {
+enum class TextureDataFormat {
 	RGBA8,
 	
 	DXT1,
 	DXT3,
 	DXT5
+};
+
+
+class TextureDataProvider {
+public:
+	virtual ~TextureDataProvider() {}
+	
+	virtual size32 width() = 0;
 };
 
 
@@ -39,7 +47,9 @@ public:
 	Texture(TextureKind kind);
 	~Texture();
 	
-	void allocate(size32 width, size32 height, uint8_t levels, TexturePixelFormat format);
+	TextureKind kind() const { return kind_; }
+	
+	void allocate(size32 width, size32 height, uint8_t levels, TextureDataFormat format);
 	
 	// -- image files
 	void loadDDS(const std::string& resourcePath);

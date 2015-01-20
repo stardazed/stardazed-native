@@ -185,6 +185,11 @@ Controller* DevicesContext::controllerAtIndex(size32 index) {
 }
 
 
+Controller* DevicesContext::keyboardController() {
+	return controllerAtIndex(0);
+}
+
+
 ControllerDriverContext& DevicesContext::createController() {
 	controllers_.push_back({ {}, this });
 	return controllers_.back();
