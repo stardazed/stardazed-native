@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------
 
 #include "render/common/Texture.hpp"
+
 #include <fstream>
 
 namespace stardazed {
@@ -79,22 +80,24 @@ DDSDataProvider::DDSDataProvider(const std::string& resourcePath) {
 	mipMaps_ = header.dwMipMapCount;
 	width_ = header.dwWidth;
 	height_ = header.dwHeight;
-	
-//	for (uint32 level = 0; level < mipMaps; ++level) {
-//		size32 size = ((width + 3) / 4) * ((height + 3) / 4) * blockSize;
-//		
-//		offset += size;
-//		width  /= 2;
-//		height /= 2;
-//	}
+}
+
+
+size32 DDSDataProvider::dataSizeForLevel(size32 level) const {
+	size32 blockSize = (format_ == ImageDataFormat::DXT1) ? 8 : 16;
+	auto mipWidth = width_ >> level;
+	auto mipHeight = height_ >> level;
+
+	return ((mipWidth + 3) / 4) * ((mipHeight + 3) / 4) * blockSize;
 }
 
 
 ImageData DDSDataProvider::imageDataForLevel(size32 level) const {
 	assert(level < mipMaps_);
 
-	size32 blockSize = (format_ == ImageDataFormat::DXT1) ? 8 : 16;
 	size32 offset = 0;
+	for (size32 lv=0; lv < level; ++lv)
+		offset += dataSizeForLevel(lv);
 	
 	auto mipWidth = width_ >> level;
 	auto mipHeight = height_ >> level;
@@ -103,8 +106,8 @@ ImageData DDSDataProvider::imageDataForLevel(size32 level) const {
 	mipData.width = mipWidth;
 	mipData.height = mipHeight;
 	mipData.format = format_;
-	mipData.size = ((mipWidth + 3) / 4) * ((mipHeight + 3) / 4) * blockSize;
-	mipData.data = nullptr;
+	mipData.size = dataSizeForLevel(level);
+	mipData.data = data_.get() + offset;
 	return mipData;
 }
 	

@@ -10,139 +10,102 @@ namespace stardazed {
 namespace render {
 
 
-constexpr GLenum glTargetForTextureKind(const TextureKind kind) {
-	switch (kind) {
-		case TextureKind::Single2D: return GL_TEXTURE_2D;
-		case TextureKind::CubeMap:  return GL_TEXTURE_CUBE_MAP;
+constexpr GLint glImageFormatForImageDataFormat(ImageDataFormat format) {
+	switch (format) {
+		case ImageDataFormat::RGBA8: return GL_RGBA;
+			
+		case ImageDataFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+		case ImageDataFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+		case ImageDataFormat::DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		
+		default:
+			assert(!"unknown texture pixel format");
 	}
-	
-	assert(!"unknown texture kind");
 }
 
 
-constexpr GLint glImageFormatForImageDataFormat(const ImageDataFormat format) {
+constexpr GLint glSizedImageFormatForImageDataFormat(ImageDataFormat format) {
 	switch (format) {
 		case ImageDataFormat::RGBA8: return GL_RGBA8;
 			
 		case ImageDataFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
 		case ImageDataFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
 		case ImageDataFormat::DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-	}
-	
-	assert(!"unknown texture pixel format");
-}
 
-
-Texture::Texture(TextureKind kind)
-: kind_(kind)
-, glTexTarget_(glTargetForTextureKind(kind))
-{
-	glGenTextures(1, &glTex_);
-}
-
-
-Texture::~Texture() {
-	if (glTex_)
-		glDeleteTextures(1, &glTex_);
-}
-
-
-void Texture::allocate(size32 width, size32 height, uint8_t levels, ImageDataFormat format) {
-	glBindTexture(glTexTarget_, glTex_);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexStorage2D(glTexTarget_, levels, glImageFormatForImageDataFormat(format), width, height);
-}
-
-
-//  ____  ____  ____    _____ _ _
-// |  _ \|  _ \/ ___|  |  ___(_) | ___  ___
-// | | | | | | \___ \  | |_  | | |/ _ \/ __|
-// | |_| | |_| |___) | |  _| | | |  __/\__ \
-// |____/|____/|____/  |_|   |_|_|\___||___/
-//
-
-struct DDS_PIXELFORMAT {
-	uint32 dwSize;
-	uint32 dwFlags;
-	uint32 dwFourCC;
-	uint32 dwRGBBitCount;
-	uint32 dwRBitMask;
-	uint32 dwGBitMask;
-	uint32 dwBBitMask;
-	uint32 dwABitMask;
-};
-
-
-struct DDS_HEADER {
-	uint32           dwSize;
-	uint32           dwFlags;
-	uint32           dwHeight;
-	uint32           dwWidth;
-	uint32           dwPitchOrLinearSize;
-	uint32           dwDepth;
-	uint32           dwMipMapCount;
-	uint32           dwReserved1[11];
-	DDS_PIXELFORMAT  ddspf;
-	uint32           dwCaps;
-	uint32           dwCaps2;
-	uint32           dwCaps3;
-	uint32           dwCaps4;
-	uint32           dwReserved2;
-};
-
-
-constexpr uint32 fourCharCode(char a, char b, char c, char d) {
-	return (d << 24) | (c << 16) | (b << 8) | a;
-}
-
-
-void Texture::loadDDS(const std::string& resourcePath) {
-	DDS_HEADER header;
-	std::ifstream file{ resourcePath, std::ios::binary };
-	assert(file.is_open());
-	
-	char cookie[4];
-	file.read(cookie, 4);
-	assert(strncmp(cookie, "DDS ", 4) == 0);
-	
-	file.read(reinterpret_cast<char*>(&header), sizeof(DDS_HEADER));
-	size32 dataSize = header.dwPitchOrLinearSize;
-	if (header.dwMipMapCount > 1)
-		dataSize *= 2;
-	auto buffer = std::make_unique<uint8[]>(dataSize);
-	file.read(reinterpret_cast<char*>(buffer.get()), dataSize);
-	
-	ImageDataFormat format;
-	switch (header.ddspf.dwFourCC) {
-		case fourCharCode('D','X','T','1'): format = ImageDataFormat::DXT1; break;
-		case fourCharCode('D','X','T','3'): format = ImageDataFormat::DXT3; break;
-		case fourCharCode('D','X','T','5'): format = ImageDataFormat::DXT5; break;
 		default:
-			assert(!"unknown pixel format of DDS file");
+			assert(!"unknown texture pixel format");
 	}
-	auto glFormat = glImageFormatForImageDataFormat(format);
-	
-	size32 blockSize = (format == ImageDataFormat::DXT1) ? 8 : 16;
-	size32 offset = 0;
-	auto mipMaps = header.dwMipMapCount;
-	auto width = header.dwWidth;
-	auto height = header.dwHeight;
-	
-	allocate(width, height, mipMaps, format);
-	
-	for (uint32 level = 0; level < mipMaps; ++level) {
-		size32 size = ((width + 3) / 4) * ((height + 3) / 4) * blockSize;
-		glCompressedTexSubImage2D(glTexTarget_, level,
-								  0, 0, width, height,
-								  glFormat, size, buffer.get() + offset);
-	 
-		offset += size;
-		width  /= 2;
-		height /= 2;
-	}
+}
 
-	if (mipMaps == 1)
-		glGenerateMipmap(glTexTarget_);
+
+constexpr GLenum glPixelDataTypeForImageDataFormat(ImageDataFormat format) {
+	assert(! imageDataFormatIsCompressed(format));
+	
+	switch (format) {
+		case ImageDataFormat::RGBA8: return GL_UNSIGNED_BYTE;
+
+		default:
+			assert(!"unhandled image data format");
+	}
+}
+
+
+constexpr GLenum glTargetForCubeMapFace(CubeMapFace face) {
+	switch (face) {
+		case CubeMapFace::NegX: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+		case CubeMapFace::PosX: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+		case CubeMapFace::NegY: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+		case CubeMapFace::PosY: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+		case CubeMapFace::NegZ: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+		case CubeMapFace::PosZ: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+	}
+}
+
+
+void Texture2D::allocate(size32 width, size32 height, uint8_t levels, ImageDataFormat format) {
+	bind();
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glTexStorage2D(GL_TEXTURE_2D, levels, glSizedImageFormatForImageDataFormat(format), width, height);
+
+	width_ = width; height_ = height;
+	format_ = format;
+}
+
+
+void Texture2D::uploadImageData(const ImageData& image, uint8 level) {
+	assert(image.width == width_ >> level);
+	assert(image.height == height_ >> level);
+	assert(image.format == format_);
+	
+	auto glFormat = glImageFormatForImageDataFormat(image.format);
+
+	if (imageDataFormatIsCompressed(image.format)) {
+		glCompressedTexSubImage2D(GL_TEXTURE_2D, level,
+								  0, 0, image.width, image.height,
+								  glFormat, image.size, image.data);
+	}
+	else {
+		auto glPixelType = glPixelDataTypeForImageDataFormat(image.format);
+
+		glTexSubImage2D(GL_TEXTURE_2D, level,
+						0, 0, image.width, image.height,
+						glFormat, glPixelType, image.data);
+	}
+}
+
+
+void Texture2D::load(const TextureDataProvider& provider) {
+	auto width    = provider.width();
+	auto height   = provider.height();
+	auto mipMaps  = provider.mipMapCount();
+
+	allocate(width, height, mipMaps, provider.format());
+
+	for (uint32 level = 0; level < mipMaps; ++level) {
+		auto image = provider.imageDataForLevel(level);
+		uploadImageData(image, level);
+	 }
 }
 
 

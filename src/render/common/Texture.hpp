@@ -15,13 +15,19 @@ namespace stardazed {
 namespace render {
 
 
-enum class TextureKind {
-	Single2D,
-	CubeMap
+enum class ColourComponent {
+	Red,
+	Green,
+	Blue,
+	Alpha,
+	Zero,
+	One
 };
 
 
 enum class ImageDataFormat {
+	None,
+
 	RGBA8,
 	
 	DXT1,
@@ -35,6 +41,13 @@ struct ImageData {
 	ImageDataFormat format;
 	size32 width, height, size;
 };
+
+
+constexpr bool imageDataFormatIsCompressed(ImageDataFormat format) {
+	return	format == ImageDataFormat::DXT1 ||
+			format == ImageDataFormat::DXT3 ||
+			format == ImageDataFormat::DXT5;
+}
 
 
 class TextureDataProvider {
@@ -55,6 +68,8 @@ class DDSDataProvider : public TextureDataProvider {
 	ImageDataFormat format_;
 	std::unique_ptr<char[]> data_;
 	
+	size32 dataSizeForLevel(size32 level) const;
+	
 public:
 	DDSDataProvider(const std::string& resourcePath);
 	
@@ -64,6 +79,16 @@ public:
 	ImageDataFormat format() const override { return format_; }
 	
 	ImageData imageDataForLevel(size32 level) const override;
+};
+
+
+enum class CubeMapFace {
+	NegX,
+	PosX,
+	NegY,
+	PosY,
+	NegZ,
+	PosZ
 };
 
 

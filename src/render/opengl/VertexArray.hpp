@@ -16,7 +16,7 @@ namespace render {
 
 class GLVertexArray {
 	GLuint glVAO_ = 0;
-	
+
 public:
 	GLVertexArray() {
 		glGenVertexArrays(1, &glVAO_);
@@ -28,15 +28,12 @@ public:
 	}
 	
 	// -- attributes
-
 	void bindVertexBufferAttributes(const VertexBuffer&, uint32_t startBoundIndex = 0);
 
 	// -- observers
-
 	GLuint name() const { return glVAO_; }
 
 	// -- binding
-	
 	void bind() const { glBindVertexArray(glVAO_); }
 };
 

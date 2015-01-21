@@ -61,7 +61,7 @@ void withTempBound(const GLObj& obj, More... more) {
 	unbindAndRestore(obj, previous);
 }
 
-	
+
 } // ns render
 } // ns stardazed
 
