@@ -67,6 +67,8 @@
 		8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */; };
 		8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */; };
 		8E4C740A1A0929D4006CF46D /* BufferStorage.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74091A0929D4006CF46D /* BufferStorage.hpp */; };
+		8E54FE591A6F0AD3003D649A /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E54FE581A6F0AD3003D649A /* Texture.hpp */; };
+		8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E54FE5A1A6F0BC7003D649A /* Texture.cpp */; };
 		8E5C926E1A2123C1007E3774 /* VertexArray.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5C926D1A2123C1007E3774 /* VertexArray.hpp */; };
 		8E5C92701A212567007E3774 /* VertexArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C926F1A212567007E3774 /* VertexArray.cpp */; };
 		8E6A0DBA19B39E1E00DF0921 /* DevicesContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */; };
@@ -157,6 +159,8 @@
 		8E46C1D119DAE44A009A85A1 /* Manipulators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Manipulators.hpp; sourceTree = "<group>"; };
 		8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexDerivedData.hpp; sourceTree = "<group>"; };
 		8E4C74091A0929D4006CF46D /* BufferStorage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferStorage.hpp; sourceTree = "<group>"; };
+		8E54FE581A6F0AD3003D649A /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
+		8E54FE5A1A6F0BC7003D649A /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		8E5C926D1A2123C1007E3774 /* VertexArray.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexArray.hpp; sourceTree = "<group>"; };
 		8E5C926F1A212567007E3774 /* VertexArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexArray.cpp; sourceTree = "<group>"; };
 		8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DevicesContext.hpp; sourceTree = "<group>"; };
@@ -413,6 +417,8 @@
 				8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */,
 				8EA7092419D75FC000129E2D /* Mesh.hpp */,
 				8EA7092319D75FC000129E2D /* Mesh.cpp */,
+				8E54FE581A6F0AD3003D649A /* Texture.hpp */,
+				8E54FE5A1A6F0BC7003D649A /* Texture.cpp */,
 				8EA7092819D75FC000129E2D /* Shader.hpp */,
 				8EA7092519D75FC000129E2D /* Pipeline.hpp */,
 				8EA7092719D75FC000129E2D /* RenderContext.hpp */,
@@ -460,6 +466,7 @@
 				8EA7093019D75FC000129E2D /* RenderContext.hpp in Headers */,
 				8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
+				8E54FE591A6F0AD3003D649A /* Texture.hpp in Headers */,
 				8E2389C619F5A04400080E15 /* VertexBuffer.hpp in Headers */,
 				8E112DDF199E60A50029CD38 /* SceneController.hpp in Headers */,
 				8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */,
@@ -558,6 +565,7 @@
 				8E112DE3199E60A50029CD38 /* Transform.cpp in Sources */,
 				8E112D98199E5FC70029CD38 /* TextFile.cpp in Sources */,
 				8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */,
+				8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */,
 				8E112D96199E5FC70029CD38 /* StringFormat.cpp in Sources */,
 				8E112DB8199E5FE20029CD38 /* Buffer.cpp in Sources */,
 				8E19F7251A25350C00A13CF6 /* IndexBuffer.cpp in Sources */,
