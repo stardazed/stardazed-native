@@ -51,7 +51,7 @@ namespace detail {
 
 		// -- binding
 		void bind() const {
-			glBindTexture(GL_TEXTURE_2D, glTex_);
+			glBindTexture(Target, glTex_);
 		}
 
 		void useTextureUnit(uint8 unit) {
