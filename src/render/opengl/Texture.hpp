@@ -75,6 +75,19 @@ public:
 };
 
 
+class TextureCubeMap : public detail::GLTexture<GL_TEXTURE_CUBE_MAP> {
+	size32 width_ = 0, height_ = 0;
+	ImageDataFormat format_ = ImageDataFormat::None;
+
+public:
+	void allocate(size32 width, size32 height, uint8 levels, ImageDataFormat);
+	
+	void uploadFaceImageData(const ImageData&, uint8 level, CubeMapFace);
+	
+	void loadFace(const TextureDataProvider&, CubeMapFace);
+};
+
+
 // ---- Texture Binding Specializations
 
 template <>
@@ -91,6 +104,23 @@ template <>
 inline void unbindAndRestore(const Texture2D& t2, GLuint savedT2Name) {
 	if (savedT2Name != t2.name())
 		glBindTexture(GL_TEXTURE_2D, savedT2Name);
+}
+
+
+template <>
+inline GLuint saveAndBind(const TextureCubeMap& tcm) {
+	GLuint currentlyBound;
+	glGetIntegerv(GL_TEXTURE_BINDING_CUBE_MAP, reinterpret_cast<GLint*>(&currentlyBound));
+	if (currentlyBound != tcm.name())
+		tcm.bind();
+	
+	return currentlyBound;
+}
+
+template <>
+inline void unbindAndRestore(const TextureCubeMap& tcm, GLuint savedTCMName) {
+	if (savedTCMName != tcm.name())
+		glBindTexture(GL_TEXTURE_CUBE_MAP, savedTCMName);
 }
 
 

@@ -83,24 +83,24 @@ DDSDataProvider::DDSDataProvider(const std::string& resourcePath) {
 }
 
 
-size32 DDSDataProvider::dataSizeForLevel(size32 level) const {
+size32 DDSDataProvider::dataSizeForLevel(uint8 level) const {
 	size32 blockSize = (format_ == ImageDataFormat::DXT1) ? 8 : 16;
-	auto mipWidth = width_ >> level;
-	auto mipHeight = height_ >> level;
+	auto mipWidth = dimensionAtMipLevel(width_, level);
+	auto mipHeight = dimensionAtMipLevel(height_, level);
 
 	return ((mipWidth + 3) / 4) * ((mipHeight + 3) / 4) * blockSize;
 }
 
 
-ImageData DDSDataProvider::imageDataForLevel(size32 level) const {
+ImageData DDSDataProvider::imageDataForLevel(uint8 level) const {
 	assert(level < mipMaps_);
 
 	size32 offset = 0;
 	for (size32 lv=0; lv < level; ++lv)
 		offset += dataSizeForLevel(lv);
 	
-	auto mipWidth = width_ >> level;
-	auto mipHeight = height_ >> level;
+	auto mipWidth = dimensionAtMipLevel(width_, level);
+	auto mipHeight = dimensionAtMipLevel(height_, level);
 	
 	ImageData mipData {};
 	mipData.width = mipWidth;

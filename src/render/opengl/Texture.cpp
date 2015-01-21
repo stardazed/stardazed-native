@@ -62,6 +62,30 @@ constexpr GLenum glTargetForCubeMapFace(CubeMapFace face) {
 }
 
 
+void uploadSubImage2D(GLenum target, const ImageData& image, uint8 level, int offsetX, int offsetY) {
+	auto glFormat = glImageFormatForImageDataFormat(image.format);
+	
+	if (imageDataFormatIsCompressed(image.format)) {
+		glCompressedTexSubImage2D(target, level,
+								  offsetX, offsetY, image.width, image.height,
+								  glFormat, image.size, image.data);
+	}
+	else {
+		auto glPixelType = glPixelDataTypeForImageDataFormat(image.format);
+		
+		glTexSubImage2D(target, level,
+						offsetX, offsetY, image.width, image.height,
+						glFormat, glPixelType, image.data);
+	}
+}
+
+
+//  _____         _                  ____  ____
+// |_   _|____  _| |_ _   _ _ __ ___|___ \|  _ \
+//   | |/ _ \ \/ / __| | | | '__/ _ \ __) | | | |
+//   | |  __/>  <| |_| |_| | | |  __// __/| |_| |
+//   |_|\___/_/\_\\__|\__,_|_|  \___|_____|____/
+//
 void Texture2D::allocate(size32 width, size32 height, uint8_t levels, ImageDataFormat format) {
 	bind();
 
@@ -74,24 +98,11 @@ void Texture2D::allocate(size32 width, size32 height, uint8_t levels, ImageDataF
 
 
 void Texture2D::uploadImageData(const ImageData& image, uint8 level) {
-	assert(image.width == width_ >> level);
-	assert(image.height == height_ >> level);
+	assert(image.width == dimensionAtMipLevel(width_, level));
+	assert(image.height == dimensionAtMipLevel(height_, level));
 	assert(image.format == format_);
 	
-	auto glFormat = glImageFormatForImageDataFormat(image.format);
-
-	if (imageDataFormatIsCompressed(image.format)) {
-		glCompressedTexSubImage2D(GL_TEXTURE_2D, level,
-								  0, 0, image.width, image.height,
-								  glFormat, image.size, image.data);
-	}
-	else {
-		auto glPixelType = glPixelDataTypeForImageDataFormat(image.format);
-
-		glTexSubImage2D(GL_TEXTURE_2D, level,
-						0, 0, image.width, image.height,
-						glFormat, glPixelType, image.data);
-	}
+	uploadSubImage2D(GL_TEXTURE_2D, image, level, 0, 0);
 }
 
 
@@ -106,6 +117,40 @@ void Texture2D::load(const TextureDataProvider& provider) {
 		auto image = provider.imageDataForLevel(level);
 		uploadImageData(image, level);
 	 }
+}
+
+
+//  _____         _                   ____      _          __  __
+// |_   _|____  _| |_ _   _ _ __ ___ / ___|   _| |__   ___|  \/  | __ _ _ __
+//   | |/ _ \ \/ / __| | | | '__/ _ \ |  | | | | '_ \ / _ \ |\/| |/ _` | '_ \
+//   | |  __/>  <| |_| |_| | | |  __/ |__| |_| | |_) |  __/ |  | | (_| | |_) |
+//   |_|\___/_/\_\\__|\__,_|_|  \___|\____\__,_|_.__/ \___|_|  |_|\__,_| .__/
+//                                                                     |_|
+void TextureCubeMap::allocate(size32 width, size32 height, uint8 levels, ImageDataFormat format) {
+	bind();
+	
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glTexStorage2D(GL_TEXTURE_CUBE_MAP, levels, glSizedImageFormatForImageDataFormat(format), width, height);
+	
+	width_ = width; height_ = height;
+	format_ = format;
+}
+
+
+void TextureCubeMap::uploadFaceImageData(const ImageData& image, uint8 level, CubeMapFace face) {
+	assert(image.width == dimensionAtMipLevel(width_, level));
+	assert(image.height == dimensionAtMipLevel(height_, level));
+	assert(image.format == format_);
+
+	uploadSubImage2D(glTargetForCubeMapFace(face), image, level, 0, 0);
+}
+
+
+void TextureCubeMap::loadFace(const TextureDataProvider& provider, CubeMapFace face) {
+	for (uint32 level = 0; level < provider.mipMapCount(); ++level) {
+		auto image = provider.imageDataForLevel(level);
+		uploadFaceImageData(image, level, face);
+	}
 }
 
 

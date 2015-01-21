@@ -56,10 +56,10 @@ public:
 	
 	virtual size32 width() const = 0;
 	virtual size32 height() const = 0;
-	virtual size32 mipMapCount() const = 0;
+	virtual uint8 mipMapCount() const = 0;
 	virtual ImageDataFormat format() const = 0;
 	
-	virtual ImageData imageDataForLevel(size32 level) const = 0;
+	virtual ImageData imageDataForLevel(uint8 level) const = 0;
 };
 
 
@@ -68,17 +68,17 @@ class DDSDataProvider : public TextureDataProvider {
 	ImageDataFormat format_;
 	std::unique_ptr<char[]> data_;
 	
-	size32 dataSizeForLevel(size32 level) const;
+	size32 dataSizeForLevel(uint8 level) const;
 	
 public:
 	DDSDataProvider(const std::string& resourcePath);
 	
 	size32 width() const override { return width_; }
 	size32 height() const override { return height_; }
-	size32 mipMapCount() const override { return mipMaps_; }
+	uint8 mipMapCount() const override { return mipMaps_; }
 	ImageDataFormat format() const override { return format_; }
 	
-	ImageData imageDataForLevel(size32 level) const override;
+	ImageData imageDataForLevel(uint8 level) const override;
 };
 
 
@@ -90,6 +90,11 @@ enum class CubeMapFace {
 	NegZ,
 	PosZ
 };
+
+
+inline size32 dimensionAtMipLevel(size32 dim, uint8 level) {
+	return std::max(1u, dim >> level);
+}
 
 
 } // ns render
