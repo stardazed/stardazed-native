@@ -57,7 +57,7 @@ constexpr Field getField(const PositionedAttribute& posAttr) { return posAttr.at
 class VertexBuffer {
 	size32 itemSizeBytes_ = 0, itemCount_ = 0;
 	std::unique_ptr<BufferStorage> storage_;
- 	std::vector<PositionedAttribute> attrs_;
+	std::vector<PositionedAttribute> attrs_;
 	
 	const PositionedAttribute* attrByPredicate(std::function<bool(const PositionedAttribute&)>) const;
 

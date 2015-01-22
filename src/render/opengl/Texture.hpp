@@ -31,6 +31,7 @@ namespace detail {
 
 	template <GLenum Target>
 	class GLTexture {
+		int32 textureUnit_ = 0;
 		GLuint glTex_;
 	public:
 		GLTexture() { glGenTextures(1, &glTex_); }
@@ -51,12 +52,12 @@ namespace detail {
 
 		// -- binding
 		void bind() const {
+			glActiveTexture(GL_TEXTURE0 + textureUnit_);
 			glBindTexture(Target, glTex_);
 		}
 
-		void useTextureUnit(uint8 unit) {
-			glActiveTexture(GL_TEXTURE0 + unit);
-		}
+		int32 textureUnit() const { return textureUnit_; }
+		void setTextureUnit(int32 unit) { textureUnit_ = unit; }
 	};
 	
 } // ns detail
