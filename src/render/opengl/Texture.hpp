@@ -76,11 +76,11 @@ public:
 
 
 class TextureCubeMap : public detail::GLTexture<GL_TEXTURE_CUBE_MAP> {
-	size32 width_ = 0, height_ = 0;
+	size32 side_ = 0;
 	ImageDataFormat format_ = ImageDataFormat::None;
 
 public:
-	void allocate(size32 width, size32 height, uint8 levels, ImageDataFormat);
+	void allocate(size32 side, uint8 levels, ImageDataFormat);
 	
 	void uploadFaceImageData(const ImageData&, uint8 level, CubeMapFace);
 	

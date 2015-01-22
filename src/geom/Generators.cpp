@@ -99,22 +99,31 @@ render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 	
 	return m;
 }
-
+*/
 
 render::MeshDescriptor cube(const float diameter) {
-	auto hd = diameter;
-	render::MeshDescriptor mesh;
+	using namespace render;
+
+	MeshDescriptor mesh({
+		{ { render::fieldVec3(), "position" }, AttributeRole::Position },
+		{ { render::fieldVec3(), "normal" }, AttributeRole::Normal }
+	});
+	mesh.vertexBuffer.allocate<OwnedBufferStorage>(8);
+	mesh.faces.reserve(12);
 	
 	// vertexes
-	mesh.vertexes.push_back({ -hd, -hd, -hd });
-	mesh.vertexes.push_back({  hd, -hd, -hd });
-	mesh.vertexes.push_back({  hd,  hd, -hd });
-	mesh.vertexes.push_back({ -hd,  hd, -hd });
-	
-	mesh.vertexes.push_back({ -hd, -hd,  hd });
-	mesh.vertexes.push_back({  hd, -hd,  hd });
-	mesh.vertexes.push_back({  hd,  hd,  hd });
-	mesh.vertexes.push_back({ -hd,  hd,  hd });
+	auto hd = diameter / 2.f;
+	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
+
+	*posIter++ = { -hd, -hd, -hd };
+	*posIter++ = {  hd, -hd, -hd };
+	*posIter++ = {  hd,  hd, -hd };
+	*posIter++ = { -hd,  hd, -hd };
+
+	*posIter++ = { -hd, -hd,  hd };
+	*posIter++ = {  hd, -hd,  hd };
+	*posIter++ = {  hd,  hd,  hd };
+	*posIter++ = { -hd,  hd,  hd };
 
 	// faces
 	mesh.faces.push_back({ 0, 2, 1 }); // front
@@ -130,13 +139,13 @@ render::MeshDescriptor cube(const float diameter) {
 	mesh.faces.push_back({ 3, 6, 2 }); // bottom
 	mesh.faces.push_back({ 6, 3, 7 });
 	
-	mesh.calcVertexNormals();
-	
+	mesh.genVertexNormals();
+
 	return mesh;
 }
 
 
-
+/*
 render::MeshDescriptor sphere(const int rows, const int segs, const float radius, float sliceFrom, float sliceTo) {
 	assert(rows >= 2);
 	assert(segs >= 4);

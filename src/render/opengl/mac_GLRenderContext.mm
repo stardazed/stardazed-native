@@ -190,7 +190,10 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 	
 	platformData_->verticalSync = descriptor.verticalSync;
 
+	// -- some sensible global defaults
+	// FIXME: these may/should likely go somewhere else?
 	glClearColor(0, 0, 0, 0);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 }
 
 

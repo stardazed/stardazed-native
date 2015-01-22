@@ -126,20 +126,20 @@ void Texture2D::load(const TextureDataProvider& provider) {
 //   | |  __/>  <| |_| |_| | | |  __/ |__| |_| | |_) |  __/ |  | | (_| | |_) |
 //   |_|\___/_/\_\\__|\__,_|_|  \___|\____\__,_|_.__/ \___|_|  |_|\__,_| .__/
 //                                                                     |_|
-void TextureCubeMap::allocate(size32 width, size32 height, uint8 levels, ImageDataFormat format) {
+void TextureCubeMap::allocate(size32 side, uint8 levels, ImageDataFormat format) {
 	bind();
 	
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexStorage2D(GL_TEXTURE_CUBE_MAP, levels, glSizedImageFormatForImageDataFormat(format), width, height);
+	glTexStorage2D(GL_TEXTURE_CUBE_MAP, levels, glSizedImageFormatForImageDataFormat(format), side, side);
 	
-	width_ = width; height_ = height;
+	side_ = side;
 	format_ = format;
 }
 
 
 void TextureCubeMap::uploadFaceImageData(const ImageData& image, uint8 level, CubeMapFace face) {
-	assert(image.width == dimensionAtMipLevel(width_, level));
-	assert(image.height == dimensionAtMipLevel(height_, level));
+	assert(image.width == dimensionAtMipLevel(side_, level));
+	assert(image.width == image.height);
 	assert(image.format == format_);
 
 	uploadSubImage2D(glTargetForCubeMapFace(face), image, level, 0, 0);
