@@ -35,13 +35,17 @@ render::MeshDescriptor plane() {
 	
 	return mesh;
 }
-
+*/
  
 render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 						   math::Angle fromAng, math::Angle toAng, int angleSteps) {
-	render::MeshDescriptor m;
-	
 	using math::Radians; using math::Tau;
+	using namespace render;
+	
+	MeshDescriptor m({
+		{ { render::fieldVec3(), "position" }, AttributeRole::Position },
+		{ { render::fieldVec3(), "normal" }, AttributeRole::Normal }
+	});
 	
 	// -- arc shape
 	Radians angA = fromAng.rad(), angB = toAng.rad();
@@ -60,14 +64,14 @@ render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 	});
 	
 	// -- buffers
-	size_t vertexCount = radiusVerts * angleVerts;
-	size_t faceCount = (radiusSteps * 2) * angleSteps;
+	size32 vertexCount = radiusVerts * angleVerts;
+	size32 faceCount = (radiusSteps * 2) * angleSteps;
 
-	m.vertexes.resize(vertexCount);
+	m.vertexBuffer.allocate<OwnedBufferStorage>(vertexCount);
 	m.faces.reserve(faceCount);
 	
 	// -- vertexes
-	auto vit = m.vertexes.begin();
+	auto vit = m.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
 	for (int step=0; step < angleVerts; ++step) {
 		auto ang = angA + (step * angStep);
 		std::transform(begin(radii), end(radii), vit, [ang](float r) {
@@ -95,11 +99,11 @@ render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 		vix += radiusVerts;
 	}
 
-	m.calcVertexNormals();
+	m.genVertexNormals();
 	
 	return m;
 }
-*/
+
 
 render::MeshDescriptor cube(const float diameter) {
 	using namespace render;
