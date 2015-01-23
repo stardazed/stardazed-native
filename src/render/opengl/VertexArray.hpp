@@ -7,6 +7,7 @@
 #define SD_RENDER_OPENGLVERTEXARRAY_H
 
 #include "system/Config.hpp"
+#include "util/ConceptTraits.hpp"
 #include "render/common/VertexBuffer.hpp"
 #include "render/opengl/OpenGL.hpp"
 
@@ -23,9 +24,10 @@ public:
 	}
 	
 	~GLVertexArray() {
-		if (glVAO_)
-			glDeleteVertexArrays(1, &glVAO_);
+		glDeleteVertexArrays(1, &glVAO_);
 	}
+
+	SD_DEFAULT_MOVE_OPS(GLVertexArray)
 	
 	// -- attributes
 	void bindVertexBufferAttributes(const VertexBuffer&, uint32_t startBoundIndex = 0);

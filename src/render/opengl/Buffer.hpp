@@ -145,6 +145,8 @@ public:
 		if (name_)
 			glDeleteBuffers(1, &name_);
 	}
+	
+	SD_DEFAULT_MOVE_OPS(GLBuffer)
 
 	// -- initialization
 
