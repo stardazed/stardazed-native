@@ -55,7 +55,7 @@ void withTempBound(F&& func) {
 }
 
 template <typename GLObj, typename... More>
-void withTempBound(const GLObj& obj, More... more) {
+void withTempBound(const GLObj& obj, More&&... more) {
 	auto previous = saveAndBind(obj);
 	withTempBound(std::forward<More&&>(more)...);
 	unbindAndRestore(obj, previous);

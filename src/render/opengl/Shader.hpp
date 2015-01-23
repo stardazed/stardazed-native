@@ -36,6 +36,7 @@ public:
 	SD_DEFAULT_MOVE_OPS(Shader)
 
 	ShaderType type() const { return type_; }
+	GLuint name() const { return glShader_; }
 	
 	// ---- Uniform Blocks
 	

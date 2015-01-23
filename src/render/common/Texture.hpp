@@ -83,12 +83,12 @@ public:
 
 
 enum class CubeMapFace {
-	NegX,
 	PosX,
-	NegY,
+	NegX,
 	PosY,
-	NegZ,
-	PosZ
+	NegY,
+	PosZ,
+	NegZ
 };
 
 

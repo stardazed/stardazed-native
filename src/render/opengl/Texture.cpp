@@ -52,12 +52,12 @@ constexpr GLenum glPixelDataTypeForImageDataFormat(ImageDataFormat format) {
 
 constexpr GLenum glTargetForCubeMapFace(CubeMapFace face) {
 	switch (face) {
-		case CubeMapFace::NegX: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
 		case CubeMapFace::PosX: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
-		case CubeMapFace::NegY: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+		case CubeMapFace::NegX: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
 		case CubeMapFace::PosY: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
-		case CubeMapFace::NegZ: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+		case CubeMapFace::NegY: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
 		case CubeMapFace::PosZ: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+		case CubeMapFace::NegZ: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
 	}
 }
 
@@ -110,8 +110,6 @@ void Texture2D::load(const TextureDataProvider& provider) {
 	auto width    = provider.width();
 	auto height   = provider.height();
 	auto mipMaps  = provider.mipMapCount();
-
-	allocate(width, height, mipMaps, provider.format());
 
 	for (uint32 level = 0; level < mipMaps; ++level) {
 		auto image = provider.imageDataForLevel(level);

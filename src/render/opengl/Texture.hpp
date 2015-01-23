@@ -7,6 +7,7 @@
 #define SD_RENDER_OPENGLTEXTURE_H
 
 #include "system/Config.hpp"
+#include "util/ConceptTraits.hpp"
 #include "render/common/Texture.hpp"
 #include "render/opengl/OpenGL.hpp"
 
@@ -35,7 +36,10 @@ namespace detail {
 		GLuint glTex_;
 	public:
 		GLTexture() { glGenTextures(1, &glTex_); }
-		~GLTexture() { glDeleteTextures(1, &glTex_); }
+		~GLTexture() {
+			glDeleteTextures(1, &glTex_);
+		}
+		SD_DEFAULT_MOVE_OPS(GLTexture)
 
 		GLuint name() const { return glTex_; }
 
