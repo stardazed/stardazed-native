@@ -158,5 +158,18 @@ void TextureCubeMap::loadFace(const TextureDataProvider& provider, CubeMapFace f
 }
 
 
+void TextureCubeMap::loadAllFaces(const TextureDataProvider& posX, const TextureDataProvider& negX,
+								  const TextureDataProvider& posY, const TextureDataProvider& negY,
+								  const TextureDataProvider& posZ, const TextureDataProvider& negZ)
+{
+	loadFace(posX, CubeMapFace::PosX);
+	loadFace(negX, CubeMapFace::NegX);
+	loadFace(posY, CubeMapFace::PosY);
+	loadFace(negY, CubeMapFace::NegY);
+	loadFace(posZ, CubeMapFace::PosZ);
+	loadFace(negZ, CubeMapFace::NegZ);	
+}
+
+
 } // ns render
 } // ns stardazed

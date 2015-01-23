@@ -90,6 +90,9 @@ public:
 	void uploadFaceImageData(const ImageData&, uint8 level, CubeMapFace);
 	
 	void loadFace(const TextureDataProvider&, CubeMapFace);
+	void loadAllFaces(const TextureDataProvider&, const TextureDataProvider&,
+					  const TextureDataProvider&, const TextureDataProvider&,
+					  const TextureDataProvider&, const TextureDataProvider&);
 };
 
 
