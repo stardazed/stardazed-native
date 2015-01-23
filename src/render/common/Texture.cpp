@@ -173,10 +173,10 @@ ImageData BMPDataProvider::imageDataForLevel(uint8 level) const {
 	assert(level == 0);
 	
 	ImageData image {};
-	image.width = width_;
-	image.height = height_;
-	image.format = ImageDataFormat::RGB8;
-	image.size = 3u * width_ * height_;
+	image.width = width();
+	image.height = height();
+	image.format = format();
+	image.size = 3u * width() * height();
 	image.data = data_.get();
 	return image;
 }

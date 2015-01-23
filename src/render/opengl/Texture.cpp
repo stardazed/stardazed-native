@@ -13,7 +13,9 @@ namespace render {
 constexpr GLint glImageFormatForImageDataFormat(ImageDataFormat format) {
 	switch (format) {
 		case ImageDataFormat::RGB8: return GL_RGB;
+		case ImageDataFormat::BGR8: return GL_BGR;
 		case ImageDataFormat::RGBA8: return GL_RGBA;
+		case ImageDataFormat::BGRA8: return GL_BGRA;
 			
 		case ImageDataFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
 		case ImageDataFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
@@ -25,10 +27,12 @@ constexpr GLint glImageFormatForImageDataFormat(ImageDataFormat format) {
 }
 
 
-constexpr GLint glSizedImageFormatForImageDataFormat(ImageDataFormat format) {
+constexpr GLint glInternalFormatForImageDataFormat(ImageDataFormat format) {
 	switch (format) {
 		case ImageDataFormat::RGB8: return GL_RGB8;
+		case ImageDataFormat::BGR8: return GL_RGB8;   // swizzled
 		case ImageDataFormat::RGBA8: return GL_RGBA8;
+		case ImageDataFormat::BGRA8: return GL_RGBA8; // swizzled
 			
 		case ImageDataFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
 		case ImageDataFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
@@ -45,7 +49,9 @@ constexpr GLenum glPixelDataTypeForImageDataFormat(ImageDataFormat format) {
 	
 	switch (format) {
 		case ImageDataFormat::RGB8: return GL_UNSIGNED_BYTE;
+		case ImageDataFormat::BGR8: return GL_UNSIGNED_BYTE;
 		case ImageDataFormat::RGBA8: return GL_UNSIGNED_BYTE;
+		case ImageDataFormat::BGRA8: return GL_UNSIGNED_BYTE;
 
 		default:
 			assert(!"unhandled image data format");
@@ -93,7 +99,7 @@ void Texture2D::allocate(size32 width, size32 height, uint8_t levels, ImageDataF
 	bind();
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexStorage2D(GL_TEXTURE_2D, levels, glSizedImageFormatForImageDataFormat(format), width, height);
+	glTexStorage2D(GL_TEXTURE_2D, levels, glInternalFormatForImageDataFormat(format), width, height);
 
 	width_ = width; height_ = height;
 	format_ = format;
@@ -136,7 +142,10 @@ void TextureCubeMap::allocate(size32 side, uint8 levels, ImageDataFormat format)
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexStorage2D(GL_TEXTURE_CUBE_MAP, levels, glSizedImageFormatForImageDataFormat(format), side, side);
+	glTexStorage2D(GL_TEXTURE_CUBE_MAP, levels, glInternalFormatForImageDataFormat(format), side, side);
+	
+	if (format == ImageDataFormat::BGR8 || format == ImageDataFormat::BGRA8)
+		setSwizzleMask(ColourComponent::Red, ColourComponent::Green, ColourComponent::Blue, ColourComponent::Alpha);
 	
 	side_ = side;
 	format_ = format;

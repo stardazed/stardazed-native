@@ -145,25 +145,38 @@ render::MeshDescriptor cube(const float diameter) {
 }
 
 
-/*
+
 render::MeshDescriptor sphere(const int rows, const int segs, const float radius, float sliceFrom, float sliceTo) {
+	using math::Pi; using math::Tau;
+	using namespace render;
+	
 	assert(rows >= 2);
 	assert(segs >= 4);
 	sliceFrom = math::clamp(sliceFrom, 0.f, 1.f);
 	sliceTo = math::clamp(sliceTo, 0.f, 1.f);
 	assert(sliceTo > sliceFrom);
-	
-	using math::Pi; using math::Tau;
 
-	render::MeshDescriptor mesh;
+	bool hasTopDisc = sliceFrom == 0.f,
+	hasBottomDisc = sliceTo == 1.f;
+	
+	MeshDescriptor mesh({
+		{ { render::fieldVec3(), "position" }, AttributeRole::Position },
+		{ { render::fieldVec3(), "normal" }, AttributeRole::Normal }
+	});
+	
+	size32 vertexCount = segs * (rows - 1);
+	if (hasTopDisc) ++vertexCount;
+	if (hasBottomDisc) ++vertexCount;
+	mesh.vertexBuffer.allocate<OwnedBufferStorage>(vertexCount);
+	mesh.faces.reserve(2u * segs * rows);
+	
+	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position),
+		beginIter = posIter;
 	
 	auto slice = sliceTo - sliceFrom,
 		piFrom = sliceFrom * Pi.val(),
 		piSlice = slice * Pi.val();
 	
-	bool hasTopDisc = sliceFrom == 0.f,
-		hasBottomDisc = sliceTo == 1.f;
-
 	for (int row=0; row <= rows; ++row) {
 		float y = std::cos(piFrom + (piSlice / rows) * row) * radius;
 		float segRad = std::sin(piFrom + (piSlice / rows) * row) * radius;
@@ -173,20 +186,20 @@ render::MeshDescriptor sphere(const int rows, const int segs, const float radius
 			(hasBottomDisc && row == rows)
 		) {
 			// center top or bottom
-			mesh.vertexes.push_back({ 0, y, 0 });
+			*posIter++ = { 0, y, 0 };
 		}
 		else {
 			for (int seg=0; seg < segs; ++seg) {
 				float x = math::sin((Tau / segs) * seg) * segRad;
 				float z = math::cos((Tau / segs) * seg) * segRad;
-				mesh.vertexes.push_back({ x, y, z });
+				*posIter++ = { x, y, z };
 			}
 		}
 
 		// construct row of faces
 		if (row > 0) {
-			int raix = static_cast<int>(mesh.vertexes.size()),
-				rbix = static_cast<int>(mesh.vertexes.size()),
+			int raix = static_cast<int>(posIter - beginIter),
+				rbix = static_cast<int>(posIter - beginIter),
 				ramul, rbmul;
 			
 			if (hasTopDisc && row == 1) {
@@ -220,10 +233,10 @@ render::MeshDescriptor sphere(const int rows, const int segs, const float radius
 		}
 	}
 	
-	mesh.calcVertexNormals();
+	mesh.genVertexNormals();
 	return mesh;
 }
-*/
+
 
 } // ns gen
 } // ns geom

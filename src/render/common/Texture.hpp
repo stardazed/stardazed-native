@@ -29,7 +29,9 @@ enum class ImageDataFormat {
 	None,
 
 	RGB8,
+	BGR8,
 	RGBA8,
+	BGRA8,
 	
 	DXT1,
 	DXT3,
@@ -93,7 +95,7 @@ public:
 	size32 width() const override { return width_; }
 	size32 height() const override { return height_; }
 	uint8 mipMapCount() const override { return 1; }
-	ImageDataFormat format() const override { return ImageDataFormat::RGB8; }
+	ImageDataFormat format() const override { return ImageDataFormat::BGR8; }
 	
 	ImageData imageDataForLevel(uint8 level) const override;
 };
