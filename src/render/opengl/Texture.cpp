@@ -12,6 +12,7 @@ namespace render {
 
 constexpr GLint glImageFormatForImageDataFormat(ImageDataFormat format) {
 	switch (format) {
+		case ImageDataFormat::RGB8: return GL_RGB;
 		case ImageDataFormat::RGBA8: return GL_RGBA;
 			
 		case ImageDataFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
@@ -26,6 +27,7 @@ constexpr GLint glImageFormatForImageDataFormat(ImageDataFormat format) {
 
 constexpr GLint glSizedImageFormatForImageDataFormat(ImageDataFormat format) {
 	switch (format) {
+		case ImageDataFormat::RGB8: return GL_RGB8;
 		case ImageDataFormat::RGBA8: return GL_RGBA8;
 			
 		case ImageDataFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
@@ -42,6 +44,7 @@ constexpr GLenum glPixelDataTypeForImageDataFormat(ImageDataFormat format) {
 	assert(! imageDataFormatIsCompressed(format));
 	
 	switch (format) {
+		case ImageDataFormat::RGB8: return GL_UNSIGNED_BYTE;
 		case ImageDataFormat::RGBA8: return GL_UNSIGNED_BYTE;
 
 		default:
@@ -107,9 +110,7 @@ void Texture2D::uploadImageData(const ImageData& image, uint8 level) {
 
 
 void Texture2D::load(const TextureDataProvider& provider) {
-	auto width    = provider.width();
-	auto height   = provider.height();
-	auto mipMaps  = provider.mipMapCount();
+	auto mipMaps = provider.mipMapCount();
 
 	for (uint32 level = 0; level < mipMaps; ++level) {
 		auto image = provider.imageDataForLevel(level);
@@ -127,6 +128,7 @@ void Texture2D::load(const TextureDataProvider& provider) {
 void TextureCubeMap::allocate(size32 side, uint8 levels, ImageDataFormat format) {
 	bind();
 	
+	// FIXME: this needs to move to a Sampler object
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

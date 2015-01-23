@@ -110,7 +110,77 @@ ImageData DDSDataProvider::imageDataForLevel(uint8 level) const {
 	mipData.data = data_.get() + offset;
 	return mipData;
 }
+
+
+//  ____  __  __ ____    _____ _ _
+// | __ )|  \/  |  _ \  |  ___(_) | ___  ___
+// |  _ \| |\/| | |_) | | |_  | | |/ _ \/ __|
+// | |_) | |  | |  __/  |  _| | | |  __/\__ \
+// |____/|_|  |_|_|     |_|   |_|_|\___||___/
+//
+
+struct BITMAPFILEHEADER {
+	uint16 bfType;
+	uint32 bfSize;
+	uint16 bfReserved1;
+	uint16 bfReserved2;
+	uint32 bfOffBits;
+} __attribute__((__packed__));
+
+
+struct BITMAPINFOHEADER {
+	uint32 biSize;
+	int32  biWidth;
+	int32  biHeight;
+	uint16 biPlanes;
+	uint16 biBitCount;
+	uint32 biCompression;
+	uint32 biSizeImage;
+	int32  biXPelsPerMeter;
+	int32  biYPelsPerMeter;
+	uint32 biClrUsed;
+	uint32 biClrImportant;
+} __attribute__((__packed__));
+
+
+BMPDataProvider::BMPDataProvider(const std::string& resourcePath) {
+	std::ifstream file{ resourcePath, std::ios::binary };
+	assert(file.is_open());
+
+	BITMAPFILEHEADER header;
+	file.read(reinterpret_cast<char*>(&header), sizeof(BITMAPFILEHEADER));
+	assert(file && header.bfType == 0x4D42);
 	
+	BITMAPINFOHEADER info;
+	file.read(reinterpret_cast<char*>(&info), sizeof(BITMAPINFOHEADER));
+	assert(file && info.biBitCount == 24 && info.biCompression == 0);
+	
+	width_ = info.biWidth;
+	height_ = info.biHeight;
+	
+	auto dataSize   = 3u * width_ * height_;
+	auto dataOffset = header.bfOffBits;
+	auto headerSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
+	
+	assert(dataOffset == headerSize);
+	
+	data_ = std::make_unique<char[]>(dataSize);
+	file.read(data_.get(), dataSize);
+}
+
+
+ImageData BMPDataProvider::imageDataForLevel(uint8 level) const {
+	assert(level == 0);
+	
+	ImageData image {};
+	image.width = width_;
+	image.height = height_;
+	image.format = ImageDataFormat::RGB8;
+	image.size = 3u * width_ * height_;
+	image.data = data_.get();
+	return image;
+}
+
 	
 } // ns render
 } // ns stardazed
