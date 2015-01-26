@@ -93,6 +93,23 @@
 		8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EBB0AB519C1022700843A1F /* FrameContext.hpp */; };
 		8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */; };
 		8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */; };
+		8EF701F91A76F90B00454341 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EA1A76F90B00454341 /* adler32.c */; };
+		8EF701FA1A76F90B00454341 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EB1A76F90B00454341 /* crc32.c */; };
+		8EF701FB1A76F90B00454341 /* crc32.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701EC1A76F90B00454341 /* crc32.h */; };
+		8EF701FC1A76F90B00454341 /* gzguts.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701ED1A76F90B00454341 /* gzguts.h */; };
+		8EF701FD1A76F90B00454341 /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EE1A76F90B00454341 /* inffast.c */; };
+		8EF701FE1A76F90B00454341 /* inffast.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701EF1A76F90B00454341 /* inffast.h */; };
+		8EF701FF1A76F90B00454341 /* inffixed.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701F01A76F90B00454341 /* inffixed.h */; };
+		8EF702001A76F90B00454341 /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701F11A76F90B00454341 /* inflate.c */; };
+		8EF702011A76F90B00454341 /* inflate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701F21A76F90B00454341 /* inflate.h */; };
+		8EF702021A76F90B00454341 /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701F31A76F90B00454341 /* inftrees.c */; };
+		8EF702031A76F90B00454341 /* inftrees.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701F41A76F90B00454341 /* inftrees.h */; };
+		8EF702041A76F90B00454341 /* zconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701F51A76F90B00454341 /* zconf.h */; };
+		8EF702051A76F90B00454341 /* zlib.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701F61A76F90B00454341 /* zlib.h */; };
+		8EF702061A76F90B00454341 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701F71A76F90B00454341 /* zutil.c */; };
+		8EF702071A76F90B00454341 /* zutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701F81A76F90B00454341 /* zutil.h */; };
+		8EF702091A76FA6600454341 /* PNGFile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF702081A76FA6600454341 /* PNGFile.hpp */; };
+		8EF7020B1A77036000454341 /* PNGFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7020A1A77036000454341 /* PNGFile.cpp */; };
 		8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF71ECB19D8600A00AA373B /* RenderContext.hpp */; };
 /* End PBXBuildFile section */
 
@@ -185,6 +202,23 @@
 		8EBB0AB519C1022700843A1F /* FrameContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameContext.hpp; sourceTree = "<group>"; };
 		8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferFields.hpp; sourceTree = "<group>"; };
 		8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_X360Controller.cpp; sourceTree = "<group>"; };
+		8EF701EA1A76F90B00454341 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
+		8EF701EB1A76F90B00454341 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
+		8EF701EC1A76F90B00454341 /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc32.h; sourceTree = "<group>"; };
+		8EF701ED1A76F90B00454341 /* gzguts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gzguts.h; sourceTree = "<group>"; };
+		8EF701EE1A76F90B00454341 /* inffast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inffast.c; sourceTree = "<group>"; };
+		8EF701EF1A76F90B00454341 /* inffast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffast.h; sourceTree = "<group>"; };
+		8EF701F01A76F90B00454341 /* inffixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffixed.h; sourceTree = "<group>"; };
+		8EF701F11A76F90B00454341 /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inflate.c; sourceTree = "<group>"; };
+		8EF701F21A76F90B00454341 /* inflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inflate.h; sourceTree = "<group>"; };
+		8EF701F31A76F90B00454341 /* inftrees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inftrees.c; sourceTree = "<group>"; };
+		8EF701F41A76F90B00454341 /* inftrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inftrees.h; sourceTree = "<group>"; };
+		8EF701F51A76F90B00454341 /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zconf.h; sourceTree = "<group>"; };
+		8EF701F61A76F90B00454341 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
+		8EF701F71A76F90B00454341 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
+		8EF701F81A76F90B00454341 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
+		8EF702081A76FA6600454341 /* PNGFile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PNGFile.hpp; sourceTree = "<group>"; };
+		8EF7020A1A77036000454341 /* PNGFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PNGFile.cpp; sourceTree = "<group>"; };
 		8EF71ECB19D8600A00AA373B /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -225,6 +259,7 @@
 		8E112D24199E53CC0029CD38 = {
 			isa = PBXGroup;
 			children = (
+				8EF701E81A76F25900454341 /* ext */,
 				8E112D3A199E54AF0029CD38 /* src */,
 				8E44B4091A3F41700059C57D /* Frameworks */,
 				8E112D2E199E53CC0029CD38 /* Products */,
@@ -417,6 +452,8 @@
 				8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */,
 				8EA7092419D75FC000129E2D /* Mesh.hpp */,
 				8EA7092319D75FC000129E2D /* Mesh.cpp */,
+				8EF702081A76FA6600454341 /* PNGFile.hpp */,
+				8EF7020A1A77036000454341 /* PNGFile.cpp */,
 				8E54FE581A6F0AD3003D649A /* Texture.hpp */,
 				8E54FE5A1A6F0BC7003D649A /* Texture.cpp */,
 				8EA7092819D75FC000129E2D /* Shader.hpp */,
@@ -426,6 +463,37 @@
 			path = common;
 			sourceTree = "<group>";
 		};
+		8EF701E81A76F25900454341 /* ext */ = {
+			isa = PBXGroup;
+			children = (
+				8EF701E91A76F8F200454341 /* zlibredux */,
+			);
+			name = ext;
+			path = ../ext;
+			sourceTree = "<group>";
+		};
+		8EF701E91A76F8F200454341 /* zlibredux */ = {
+			isa = PBXGroup;
+			children = (
+				8EF701EA1A76F90B00454341 /* adler32.c */,
+				8EF701EB1A76F90B00454341 /* crc32.c */,
+				8EF701EC1A76F90B00454341 /* crc32.h */,
+				8EF701ED1A76F90B00454341 /* gzguts.h */,
+				8EF701EE1A76F90B00454341 /* inffast.c */,
+				8EF701EF1A76F90B00454341 /* inffast.h */,
+				8EF701F01A76F90B00454341 /* inffixed.h */,
+				8EF701F11A76F90B00454341 /* inflate.c */,
+				8EF701F21A76F90B00454341 /* inflate.h */,
+				8EF701F31A76F90B00454341 /* inftrees.c */,
+				8EF701F41A76F90B00454341 /* inftrees.h */,
+				8EF701F51A76F90B00454341 /* zconf.h */,
+				8EF701F61A76F90B00454341 /* zlib.h */,
+				8EF701F71A76F90B00454341 /* zutil.c */,
+				8EF701F81A76F90B00454341 /* zutil.h */,
+			);
+			path = zlibredux;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -433,6 +501,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EF702051A76F90B00454341 /* zlib.h in Headers */,
 				8E6A0DBE19B3A03600DF0921 /* Keyboard.hpp in Headers */,
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
 				8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */,
@@ -466,8 +535,12 @@
 				8EA7093019D75FC000129E2D /* RenderContext.hpp in Headers */,
 				8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
+				8EF701FC1A76F90B00454341 /* gzguts.h in Headers */,
+				8EF702011A76F90B00454341 /* inflate.h in Headers */,
 				8E54FE591A6F0AD3003D649A /* Texture.hpp in Headers */,
+				8EF702091A76FA6600454341 /* PNGFile.hpp in Headers */,
 				8E2389C619F5A04400080E15 /* VertexBuffer.hpp in Headers */,
+				8EF701FF1A76F90B00454341 /* inffixed.h in Headers */,
 				8E112DDF199E60A50029CD38 /* SceneController.hpp in Headers */,
 				8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */,
 				8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */,
@@ -476,18 +549,23 @@
 				8E112DED199E60B70029CD38 /* Time.hpp in Headers */,
 				8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */,
 				8E019A5519C602BF009318C5 /* Config.hpp in Headers */,
+				8EF702031A76F90B00454341 /* inftrees.h in Headers */,
 				8E6A0DBC19B39E7400DF0921 /* mac_DevicesContext.hpp in Headers */,
 				8E112D8E199E5F870029CD38 /* RingBuffer.hpp in Headers */,
 				8E112D95199E5FC70029CD38 /* ConceptTraits.hpp in Headers */,
 				8E112DB7199E5FE20029CD38 /* OpenGL.hpp in Headers */,
 				8EA7092D19D75FC000129E2D /* Mesh.hpp in Headers */,
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
+				8EF701FE1A76F90B00454341 /* inffast.h in Headers */,
 				8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */,
 				8E112DC1199E5FE20029CD38 /* Shader.hpp in Headers */,
 				8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */,
+				8EF701FB1A76F90B00454341 /* crc32.h in Headers */,
 				8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */,
 				8E112D49199E55100029CD38 /* Matrix.hpp in Headers */,
 				8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */,
+				8EF702041A76F90B00454341 /* zconf.h in Headers */,
+				8EF702071A76F90B00454341 /* zutil.h in Headers */,
 				8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */,
 				8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */,
 			);
@@ -549,16 +627,22 @@
 				8E44B4031A3EFD390059C57D /* mac_AudioContext.mm in Sources */,
 				8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */,
 				8EA7092C19D75FC000129E2D /* Mesh.cpp in Sources */,
+				8EF701FD1A76F90B00454341 /* inffast.c in Sources */,
 				8E90F1251A6D51B700AD015B /* Texture.cpp in Sources */,
 				8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */,
 				8E112DBE199E5FE20029CD38 /* Pipeline.cpp in Sources */,
 				8E112DE1199E60A50029CD38 /* Scene.cpp in Sources */,
 				8EB49E8319FFEF7D003F687C /* VertexBuffer.cpp in Sources */,
+				8EF702001A76F90B00454341 /* inflate.c in Sources */,
+				8EF702061A76F90B00454341 /* zutil.c in Sources */,
 				8E147FAF19BB9944002836CA /* RunLoop.cpp in Sources */,
+				8EF701F91A76F90B00454341 /* adler32.c in Sources */,
 				8E112DC0199E5FE20029CD38 /* Shader.cpp in Sources */,
 				8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */,
 				8E5C92701A212567007E3774 /* VertexArray.cpp in Sources */,
 				8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */,
+				8EF7020B1A77036000454341 /* PNGFile.cpp in Sources */,
+				8EF701FA1A76F90B00454341 /* crc32.c in Sources */,
 				8E112DC9199E60150029CD38 /* Generators.cpp in Sources */,
 				8E112D48199E55100029CD38 /* Matrix.cpp in Sources */,
 				8E112DDA199E60A50029CD38 /* Behaviour.cpp in Sources */,
@@ -567,6 +651,7 @@
 				8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */,
 				8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */,
 				8E112D96199E5FC70029CD38 /* StringFormat.cpp in Sources */,
+				8EF702021A76F90B00454341 /* inftrees.c in Sources */,
 				8E112DB8199E5FE20029CD38 /* Buffer.cpp in Sources */,
 				8E19F7251A25350C00A13CF6 /* IndexBuffer.cpp in Sources */,
 				8E112DDE199E60A50029CD38 /* SceneController.cpp in Sources */,
