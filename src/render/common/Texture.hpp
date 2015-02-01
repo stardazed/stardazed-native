@@ -27,6 +27,9 @@ enum class ColourComponent {
 
 enum class ImageDataFormat {
 	None,
+	
+	R8,
+	RG8,
 
 	RGB8,
 	BGR8,
@@ -96,6 +99,23 @@ public:
 	size32 height() const override { return height_; }
 	uint8 mipMapCount() const override { return 1; }
 	ImageDataFormat format() const override { return ImageDataFormat::BGR8; }
+	
+	ImageData imageDataForLevel(uint8 level) const override;
+};
+
+
+class PNGDataProvider : public TextureDataProvider {
+	size32 width_, height_, size_;
+	ImageDataFormat format_;
+	std::unique_ptr<uint8[]> data_;
+
+public:
+	PNGDataProvider(const std::string& resourcePath);
+	
+	size32 width() const override { return width_; }
+	size32 height() const override { return height_; }
+	uint8 mipMapCount() const override { return 1; }
+	ImageDataFormat format() const override { return format_; }
 	
 	ImageData imageDataForLevel(uint8 level) const override;
 };

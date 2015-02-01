@@ -4,8 +4,10 @@
 // ------------------------------------------------------------------
 
 #include "render/common/Texture.hpp"
+#include "render/common/PNGFile.hpp"
 
 #include <fstream>
+#include <algorithm>
 
 namespace stardazed {
 namespace render {
@@ -177,6 +179,50 @@ ImageData BMPDataProvider::imageDataForLevel(uint8 level) const {
 	image.height = height();
 	image.format = format();
 	image.size = 3u * width() * height();
+	image.data = data_.get();
+	return image;
+}
+
+
+//  ____  _   _  ____   _____ _ _
+// |  _ \| \ | |/ ___| |  ___(_) | ___  ___
+// | |_) |  \| | |  _  | |_  | | |/ _ \/ __|
+// |  __/| |\  | |_| | |  _| | | |  __/\__ \
+// |_|   |_| \_|\____| |_|   |_|_|\___||___/
+//
+
+PNGDataProvider::PNGDataProvider(const std::string& resourcePath) {
+	PNGFile png(resourcePath);
+	
+	switch (png.bytesPerPixel()) {
+		case 1: format_ = ImageDataFormat::R8; break;
+		case 2: format_ = ImageDataFormat::RG8; break;
+		case 3: format_ = ImageDataFormat::RGB8; break;
+		case 4: format_ = ImageDataFormat::RGBA8; break;
+		default:
+			assert(!"bytes per pixel not in range");
+	}
+	
+	size_ = png.rowBytes() * png.height();
+	data_ = std::make_unique<uint8[]>(size_);
+	auto dataPtr = data_.get();
+
+	for (auto row = 0u; row < png.height(); ++row) {
+		auto line = png.rowDataPointer(row);
+		std::copy(line, line + png.rowBytes(), dataPtr);
+		dataPtr += png.rowBytes();
+	}
+}
+
+
+ImageData PNGDataProvider::imageDataForLevel(uint8 level) const {
+	assert(level == 0);
+	
+	ImageData image {};
+	image.width = width();
+	image.height = height();
+	image.format = format();
+	image.size = size_;
 	image.data = data_.get();
 	return image;
 }

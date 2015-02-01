@@ -12,6 +12,9 @@ namespace render {
 
 constexpr GLint glImageFormatForImageDataFormat(ImageDataFormat format) {
 	switch (format) {
+		case ImageDataFormat::R8: return GL_RED;
+		case ImageDataFormat::RG8: return GL_RG;
+
 		case ImageDataFormat::RGB8: return GL_RGB;
 		case ImageDataFormat::BGR8: return GL_BGR;
 		case ImageDataFormat::RGBA8: return GL_RGBA;
@@ -29,6 +32,9 @@ constexpr GLint glImageFormatForImageDataFormat(ImageDataFormat format) {
 
 constexpr GLint glInternalFormatForImageDataFormat(ImageDataFormat format) {
 	switch (format) {
+		case ImageDataFormat::R8: return GL_R8;
+		case ImageDataFormat::RG8: return GL_RG8;
+			
 		case ImageDataFormat::RGB8: return GL_RGB8;
 		case ImageDataFormat::BGR8: return GL_RGB8;   // swizzled
 		case ImageDataFormat::RGBA8: return GL_RGBA8;
@@ -48,6 +54,8 @@ constexpr GLenum glPixelDataTypeForImageDataFormat(ImageDataFormat format) {
 	assert(! imageDataFormatIsCompressed(format));
 	
 	switch (format) {
+		case ImageDataFormat::R8: return GL_UNSIGNED_BYTE;
+		case ImageDataFormat::RG8: return GL_UNSIGNED_BYTE;
 		case ImageDataFormat::RGB8: return GL_UNSIGNED_BYTE;
 		case ImageDataFormat::BGR8: return GL_UNSIGNED_BYTE;
 		case ImageDataFormat::RGBA8: return GL_UNSIGNED_BYTE;

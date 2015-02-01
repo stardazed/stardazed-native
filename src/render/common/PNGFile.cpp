@@ -108,10 +108,6 @@ void PNGFile::nextChunk(std::istream& png) {
 	png.read(reinterpret_cast<char*>(&chdr), sizeof(ChunkHeader));
 	chdr.dataSize = ntohl(chdr.dataSize);
 	
-	auto typeName = std::string { reinterpret_cast<char*>(&chdr.chunkType), reinterpret_cast<char*>(&chdr.chunkType) + 4 };
-	// std::cout << "Chunk: " << typeName << '\n';
-	// std::cout << "Size : " << chdr.dataSize << '\n';
-	
 	switch (chdr.chunkType) {
 		case HeaderChunk:
 		{
@@ -123,9 +119,6 @@ void PNGFile::nextChunk(std::istream& png) {
 			sd::log("Height: %d\n", height_);
 			sd::log("Bits  : %d\n", (int)ihdr.BitDepth);
 			sd::log("Kind  : %d\n", (int)ihdr.ColorType);
-			sd::log("Compression : %d\n", (int)ihdr.Compression);
-			sd::log("Filter : %d\n", (int)ihdr.Filter);
-			sd::log("Interlace : %d\n", (int)ihdr.Interlace);
 			
 			assert(ihdr.BitDepth == 8);
 			assert((ColorType)ihdr.ColorType != ColorType::Palette);
