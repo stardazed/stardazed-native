@@ -23,7 +23,7 @@ namespace render {
 
 class PNGFile {
 	uint32 width_ = 0, height_ = 0, bpp_ = 0;
-	std::vector<uint8_t> compressedData_, imageData_;
+	std::vector<uint8> compressedData_, imageData_;
 	
 	void nextChunk(std::istream&);
 	void unfilterImage();

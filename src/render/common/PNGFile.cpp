@@ -1,6 +1,9 @@
 // ------------------------------------------------------------------
 // render::PNGFile.cpp - stardazed
 // (c) 2015 by Arthur Langereis
+//
+// inflateBuffer code based on code from Mark Adler's zpipe.c sample code: http://zlib.net/zpipe.c
+// png format and filter spec defined at: http://www.fileformat.info/format/png/corion.htm
 // ------------------------------------------------------------------
 
 #include "render/common/PNGFile.hpp"
@@ -14,71 +17,60 @@ namespace render {
 
 
 struct ChunkHeader {
-	uint32_t dataSize;
-	uint32_t chunkType;
+	uint32 dataSize;
+	uint32 chunkType;
 };
 
 
-constexpr uint32_t fourCharCode(char a, char b, char c, char d) {
+constexpr uint32 fourCharCode(char a, char b, char c, char d) {
 	return (d << 24) | (c << 16) | (b << 8) | a;
 }
 
-enum ChunkType : uint32_t {
+
+enum ChunkType : uint32 {
 	HeaderChunk = fourCharCode('I','H','D','R'),
 	ImageDataChunk = fourCharCode('I','D','A','T'),
 	EndChunk = fourCharCode('I','E','N','D')
 };
 
+	
+enum class ColorType : uint8 {
+	Grayscale = 0,
+	RGB = 2,
+	Palette = 3,
+	GrayscaleAlpha = 4,
+	RGBA = 6
+};
+
 
 struct IHDRChunk {
-	uint32_t Width;        // Width of image in pixels
-	uint32_t Height;       // Height of image in pixels
-	uint8_t BitDepth;      // Bits per pixel or per sample
-	uint8_t ColorType;     // Color interpretation indicator
-	uint8_t Compression;   // Compression type indicator
-	uint8_t Filter;        // Filter type indicator
-	uint8_t Interlace;     // Type of interlacing scheme used
+	uint32 Width;        // Width of image in pixels
+	uint32 Height;       // Height of image in pixels
+	uint8 BitDepth;      // Bits per pixel or per sample
+	uint8 ColorType;     // Color interpretation indicator
+	uint8 Compression;   // Compression type indicator
+	uint8 Filter;        // Filter type indicator
+	uint8 Interlace;     // Type of interlacing scheme used
 } __attribute__((__packed__));
 
 static_assert(sizeof(IHDRChunk) == 13, "IHDRChunk type must be packed");
 
 
-int inflateBuffer(const std::vector<uint8_t>& source, std::vector<uint8_t>& dest) {
-	int ret;
-	unsigned have;
+static int inflateBuffer(const std::vector<uint8_t>& source, std::vector<uint8_t>& dest) {
 	z_stream strm;
-	
-	// allocate inflate state
 	strm.zalloc = nullptr;
 	strm.zfree = nullptr;
 	strm.opaque = nullptr;
-	strm.avail_in = static_cast<uint32_t>(source.size());
+	strm.avail_in = static_cast<uint32>(source.size());
 	strm.next_in = const_cast<uint8*>(source.data());
-	ret = inflateInit(&strm);
+	strm.avail_out = static_cast<uint32>(dest.size());
+	strm.next_out = dest.data();
+
+	auto ret = inflateInit(&strm);
 	if (ret != Z_OK)
 		return ret;
 	
-	const uint32_t tempBufSize = 512 * 1024;
-	std::vector<uint8_t> tempBuf(tempBufSize);
-	auto appender = std::back_inserter(dest);
-	
-	do {
-		strm.avail_out = tempBufSize;
-		strm.next_out = tempBuf.data();
-		
-		ret = inflate(&strm, Z_NO_FLUSH);
-		assert(ret != Z_STREAM_ERROR);  // state not clobbered
-		
-		if (ret == Z_NEED_DICT || ret == Z_DATA_ERROR || ret == Z_MEM_ERROR) {
-			inflateEnd(&strm);
-			return ret;
-		}
-		
-		have = tempBufSize - strm.avail_out;
-		std::copy(tempBuf.begin(), tempBuf.begin() + have, appender);
-	} while (strm.avail_out == 0);
-	
-	// clean up and return
+	ret = inflate(&strm, Z_NO_FLUSH);
 	inflateEnd(&strm);
 	return ret == Z_STREAM_END ? Z_OK : Z_DATA_ERROR;
 }
@@ -109,7 +101,7 @@ PNGFile::PNGFile(const std::string& resourcePath) {
 
 
 void PNGFile::nextChunk(std::istream& png) {
-	std::vector<uint8_t> tempData(8192); // seems to be common IDAT data size
+	std::vector<uint8> tempData(8192); // seems to be common IDAT data size
 	auto appender = std::back_inserter(compressedData_);
 	
 	ChunkHeader chdr;
@@ -136,12 +128,14 @@ void PNGFile::nextChunk(std::istream& png) {
 			sd::log("Interlace : %d\n", (int)ihdr.Interlace);
 			
 			assert(ihdr.BitDepth == 8);
+			assert((ColorType)ihdr.ColorType != ColorType::Palette);
+			assert(ihdr.Filter == 0);
 			assert(ihdr.Interlace == 0);
 			
-			switch (ihdr.ColorType) {
-				case 2: bpp_ = 3; break;
-				case 4: bpp_ = 2; break;
-				case 6: bpp_ = 4; break;
+			switch ((ColorType)ihdr.ColorType) {
+				case ColorType::RGB: bpp_ = 3; break;
+				case ColorType::GrayscaleAlpha: bpp_ = 2; break;
+				case ColorType::RGBA: bpp_ = 4; break;
 				default: bpp_ = 1; break;
 			}
 			
@@ -170,9 +164,8 @@ void PNGFile::nextChunk(std::istream& png) {
 
 
 void PNGFile::unfilterImage() {
-	auto addv = [](uint8_t a, uint8_t b) {
-		uint32_t s32 = (uint32_t)a + (uint32_t)b;
-		return s32 & 0xff;
+	auto addv = [](uint32 a, uint32 b) {
+		return (a + b) & 0xff;
 	};
 	
 	auto rowPtr = imageData_.data();
@@ -197,7 +190,7 @@ void PNGFile::unfilterImage() {
 					++row;
 				}
 			}
-			else if (filter == LFUp && lineIx > 0) {
+			else if (filter == LFUp) {
 				while (bytes--) {
 					*row = addv(*row, *(row - rowPitch));
 					++row;
@@ -251,13 +244,26 @@ void PNGFile::unfilterImage() {
 					}
 				}
 				else {
-					while (bytes) {
-						if (bytes + bpp_ <= rowBytes)
-							*row = addv(*row, paethPredictor(*(row - bpp_), *(row - rowPitch), *(row - rowPitch - bpp_)));
-						else
-							*row = addv(*row, paethPredictor(0, *(row - rowPitch), 0));
+					auto rowAbove = row - rowPitch;
+					auto rowLeft = row;                 // row and rowAbove are first pushed +bpp_ bytes in first loop
+					auto rowAboveLeft = row - rowPitch; // placing these to row(Above) - bpp_ positions for the 2nd loop
+					
+					auto firstBytes = bpp_;
+					bytes -= bpp_;
+					
+					while (firstBytes--) {
+						*row = addv(*row, paethPredictor(0, *rowAbove, 0));
 						++row;
-						--bytes;
+						++rowAbove;
+					}
+					
+					while (bytes--) {
+						*row = addv(*row, paethPredictor(*rowLeft, *rowAbove, *rowAboveLeft));
+						
+						++row;
+						++rowLeft;
+						++rowAbove;
+						++rowAboveLeft;
 					}
 				}
 			}
