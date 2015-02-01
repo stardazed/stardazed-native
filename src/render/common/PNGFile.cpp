@@ -118,7 +118,6 @@ void PNGFile::nextChunk(std::istream& png) {
 			height_ = ntohl(ihdr.Height);
 			sd::log("Width : %d\n", width_);
 			sd::log("Height: %d\n", height_);
-			sd::log("Bits  : %d\n", (int)ihdr.BitDepth);
 			sd::log("Kind  : %d\n", (int)ihdr.ColorType);
 			
 			assert(ihdr.BitDepth == 8);
