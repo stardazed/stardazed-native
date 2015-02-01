@@ -26,7 +26,7 @@ class PNGFile {
 	std::vector<uint8> compressedData_, imageData_;
 	
 	void nextChunk(std::istream&);
-	void unfilterImage();
+	void unfilterImage(uint8* imageDataPtr);
 	
 public:
 	PNGFile(const std::string& resourcePath);

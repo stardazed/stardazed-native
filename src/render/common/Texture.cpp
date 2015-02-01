@@ -194,6 +194,9 @@ ImageData BMPDataProvider::imageDataForLevel(uint8 level) const {
 PNGDataProvider::PNGDataProvider(const std::string& resourcePath) {
 	PNGFile png(resourcePath);
 	
+	width_ = png.width();
+	height_ = png.height();
+	
 	switch (png.bytesPerPixel()) {
 		case 1: format_ = ImageDataFormat::R8; break;
 		case 2: format_ = ImageDataFormat::RG8; break;

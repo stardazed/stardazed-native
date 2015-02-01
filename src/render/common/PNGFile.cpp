@@ -94,9 +94,10 @@ PNGFile::PNGFile(const std::string& resourcePath) {
 	
 	while (png)
 		nextChunk(png);
-	
+
+	imageData_.resize((rowBytes() + 1) * height());
 	inflateBuffer(compressedData_, imageData_);
-	unfilterImage();
+	unfilterImage(imageData_.data());
 }
 
 
@@ -156,12 +157,12 @@ void PNGFile::nextChunk(std::istream& png) {
 }
 
 
-void PNGFile::unfilterImage() {
+void PNGFile::unfilterImage(uint8* imageDataPtr) {
 	auto addv = [](uint32 a, uint32 b) {
 		return (a + b) & 0xff;
 	};
 	
-	auto rowPtr = imageData_.data();
+	auto rowPtr = imageDataPtr;
 	auto rowBytes = width_ * bpp_;
 	auto rowPitch = rowBytes + 1;
 	
