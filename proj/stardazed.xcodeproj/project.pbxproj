@@ -290,8 +290,8 @@
 				8E112DE5199E60B70029CD38 /* system */,
 			);
 			name = src;
-			path = /Users/arthur/Documents/Creations/lib/stardazed/src;
-			sourceTree = "<absolute>";
+			path = ../src;
+			sourceTree = "<group>";
 		};
 		8E112D3B199E54FE0029CD38 /* math */ = {
 			isa = PBXGroup;
