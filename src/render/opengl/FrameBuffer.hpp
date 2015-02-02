@@ -24,14 +24,15 @@ public:
 	FrameBuffer() {
 		glGenFramebuffers(1, &glFBO_);
 	}
-
 	~FrameBuffer() {
 		glDeleteFramebuffers(1, &glFBO_);
 	}
+	SD_DEFAULT_MOVE_OPS(FrameBuffer)
+	
 	
 	void addShadowDepthMap(uint32 width, uint32 height);
 	
-	
+	GLuint name() const { return glFBO_; }
 };
 	
 		

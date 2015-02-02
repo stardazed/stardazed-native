@@ -36,7 +36,7 @@ public:
 	void perspective(math::Angle fovy, size_t pixelWidth, size_t pixelHeight, float zNear, float zFar);
 	
 	// -- view
-	const math::Mat4 viewMatrix() const;
+	math::Mat4 viewMatrix() const;
 };
 
 

@@ -44,7 +44,7 @@ void Camera::perspective(math::Angle fovy, size_t pixelWidth, size_t pixelHeight
 }
 
 
-const math::Mat4 Camera::viewMatrix() const {
+math::Mat4 Camera::viewMatrix() const {
 	using namespace math;
 	
 	auto& trans = transform();
