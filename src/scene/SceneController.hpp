@@ -8,12 +8,21 @@
 
 #include "system/Config.hpp"
 #include "scene/Scene.hpp"
+#include "scene/Renderable.hpp"
 #include "runtime/Client.hpp"
 #include "system/Time.hpp"
 
 namespace stardazed {
 namespace scene {
-	
+
+
+template <typename It>
+Entity& entityFromIter(It it) { return *it; }
+
+template <>
+Entity& entityFromIter(container::RefTree<Entity>::Iterator it);
+
+
 	
 class SceneController {
 	scene::Scene scene_;
@@ -26,8 +35,22 @@ public:
 	SceneController(runtime::Client&);
 	virtual ~SceneController() {}
 
+	template <typename It>
+	void renderEntityRange(const RenderPassInfo& rpi, It from, It to) {
+		for (It cur = from; cur != to; ++cur) {
+			Entity& entity = entityFromIter(cur);
+			
+			// -- render entity
+			if (entity.renderable) {
+				entity.renderable->render(rpi, entity);
+			}
+			
+			// <-- render children
+		}
+	}
+
+	virtual void renderFrame(time::Duration) = 0;
 	void simulationFrame(time::Duration);
-	void renderFrame(time::Duration);
 
 	Scene& scene() { return scene_; }
 };

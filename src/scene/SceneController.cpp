@@ -16,62 +16,14 @@
 namespace stardazed {
 namespace scene {
 
-
-template <typename It>
-inline scene::Entity& entityFromIter(It it) { return *it; }
-
-template <>
-inline scene::Entity& entityFromIter(container::RefTree<scene::Entity>::Iterator it) { return (*it)->item(); }
-
-
-class RenderPass {
-	math::Mat4 projMat_, viewMat_, viewProjMat_;
-	scene::Scene& scene_;
 	
-public:
-	RenderPass(scene::Scene& scene, const scene::Camera& cam)
-	: projMat_ { cam.projectionMatrix() }
-	, viewMat_ { cam.viewMatrix() }
-	, viewProjMat_ { projMat_ * viewMat_ }
-	, scene_ { scene }
-	{}
-
-	template <typename It>
-	void renderEntityRange(It from, It to) {
-		for (It cur = from; cur != to; ++cur) {
-			scene::Entity& entity = entityFromIter(cur);
-
-			// -- render entity
-			if (entity.renderable) {
-				entity.renderable->render(projMat_, viewMat_, entity);
-			}
-
-			// <-- render children
-		}
-	}
-
-	void render() {
-		auto rootBegin = scene_.rootEntitiesBegin();
-		auto rootEnd   = scene_.rootEntitiesEnd();
-		
-		renderEntityRange(rootBegin, rootEnd);
-	}
-};
+template <>
+Entity& entityFromIter(container::RefTree<Entity>::Iterator it) { return (*it)->item(); }
 
 
 SceneController::SceneController(runtime::Client& client)
 : client_(client)
 {}
-
-
-void SceneController::renderFrame(time::Duration) {
-	// *cough*
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	auto& cam = *(scene_.camerasBegin()); // boom
-	RenderPass rp { scene_, cam };
-	rp.render();
-}
 
 
 void SceneController::simulationFrame(time::Duration deltaTime) {

@@ -28,6 +28,7 @@ enum class ColourComponent {
 enum class ImageDataFormat {
 	None,
 	
+	// 8-bit component
 	R8,
 	RG8,
 
@@ -36,9 +37,17 @@ enum class ImageDataFormat {
 	RGBA8,
 	BGRA8,
 	
+	// S3TC
 	DXT1,
 	DXT3,
-	DXT5
+	DXT5,
+	
+	// Depth
+	Depth16I,
+	Depth24I,
+	Depth32I,
+	Depth32F,
+	DepthShadow = Depth32F // alias
 };
 
 

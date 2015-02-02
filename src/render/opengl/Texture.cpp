@@ -43,6 +43,11 @@ constexpr GLint glInternalFormatForImageDataFormat(ImageDataFormat format) {
 		case ImageDataFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
 		case ImageDataFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
 		case ImageDataFormat::DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		
+		case ImageDataFormat::Depth16I: return GL_DEPTH_COMPONENT16;
+		case ImageDataFormat::Depth24I: return GL_DEPTH_COMPONENT24;
+		case ImageDataFormat::Depth32I: return GL_DEPTH_COMPONENT32;
+		case ImageDataFormat::Depth32F: return GL_DEPTH_COMPONENT32F;
 
 		default:
 			assert(!"unknown texture pixel format");
