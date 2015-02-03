@@ -65,6 +65,31 @@ constexpr bool imageDataFormatIsCompressed(ImageDataFormat format) {
 }
 
 
+constexpr size32 imageDataFormatBytesPerPixel(ImageDataFormat format) {
+	assert(! imageDataFormatIsCompressed(format));
+
+	switch (format) {
+		case ImageDataFormat::R8:
+			return 1;
+		case ImageDataFormat::RG8:
+		case ImageDataFormat::Depth16I:
+			return 2;
+		case ImageDataFormat::RGB8:
+		case ImageDataFormat::BGR8:
+		case ImageDataFormat::Depth24I:
+			return 3;
+		case ImageDataFormat::RGBA8:
+		case ImageDataFormat::BGRA8:
+		case ImageDataFormat::Depth32I:
+		case ImageDataFormat::Depth32F:
+			return 4;
+		
+		default:
+			assert(!"unhandled image data format");
+	}
+}
+
+
 class TextureDataProvider {
 public:
 	virtual ~TextureDataProvider() {}
@@ -114,12 +139,29 @@ public:
 
 
 class PNGDataProvider : public TextureDataProvider {
-	size32 width_, height_, size_;
+	size32 width_, height_;
 	ImageDataFormat format_;
 	std::unique_ptr<uint8[]> data_;
 
 public:
 	PNGDataProvider(const std::string& resourcePath);
+	
+	size32 width() const override { return width_; }
+	size32 height() const override { return height_; }
+	uint8 mipMapCount() const override { return 1; }
+	ImageDataFormat format() const override { return format_; }
+	
+	ImageData imageDataForLevel(uint8 level) const override;
+};
+
+
+class TGADataProvider : public TextureDataProvider {
+	size32 width_, height_;
+	ImageDataFormat format_;
+	std::unique_ptr<uint8[]> data_;
+	
+public:
+	TGADataProvider(const std::string& resourcePath);
 	
 	size32 width() const override { return width_; }
 	size32 height() const override { return height_; }

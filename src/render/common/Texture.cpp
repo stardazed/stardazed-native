@@ -206,8 +206,8 @@ PNGDataProvider::PNGDataProvider(const std::string& resourcePath) {
 			assert(!"bytes per pixel not in range");
 	}
 	
-	size_ = png.rowBytes() * png.height();
-	data_ = std::make_unique<uint8[]>(size_);
+	auto size = png.rowBytes() * png.height();
+	data_ = std::make_unique<uint8[]>(size);
 	auto dataPtr = data_.get();
 
 	for (auto row = 0u; row < png.height(); ++row) {
@@ -225,7 +225,88 @@ ImageData PNGDataProvider::imageDataForLevel(uint8 level) const {
 	image.width = width();
 	image.height = height();
 	image.format = format();
-	image.size = size_;
+	image.size = imageDataFormatBytesPerPixel(format()) * width() * height();
+	image.data = data_.get();
+	return image;
+}
+
+
+//  _____ ____    _      _____ _ _
+// |_   _/ ___|  / \    |  ___(_) | ___  ___
+//   | || |  _  / _ \   | |_  | | |/ _ \/ __|
+//   | || |_| |/ ___ \  |  _| | | |  __/\__ \
+//   |_| \____/_/   \_\ |_|   |_|_|\___||___/
+//
+
+enum TGAImageType : uint8 {
+	TGAIT_None = 0,
+	TGAIT_Paletted = 1,
+	TGAIT_RGB = 2,
+	TGAIT_Grayscale = 3,
+
+	TGAIT_RLEBit = 8,
+	TGAIT_CompressedBit = 32
+};
+
+struct TGAFileHeader {
+	uint8  identLengthUnused;
+	uint8  usePalette;
+	TGAImageType imageType;
+	uint16 firstPaletteIndex;
+	uint16 paletteEntryCount;
+	uint8  paletteBits;
+	uint16 originX;
+	uint16 originY;
+	uint16 width;
+	uint16 height;
+	uint8  bitDepth;
+	uint8  flagsUnused;
+} __attribute__((__packed__));
+
+static_assert(sizeof(TGAFileHeader) == 18, "");
+
+
+TGADataProvider::TGADataProvider(const std::string& resourcePath) {
+	std::ifstream file{ resourcePath, std::ios::binary };
+	assert(file.is_open());
+	
+	TGAFileHeader header;
+	file.read(reinterpret_cast<char*>(&header), sizeof(TGAFileHeader));
+
+	assert(header.identLengthUnused == 0);
+	assert(header.usePalette == 0);
+	assert(! (header.imageType & TGAIT_RLEBit));
+	assert(! (header.imageType & TGAIT_CompressedBit));
+	
+	width_ = header.width;
+	height_ = header.height;
+
+	if (header.imageType == TGAIT_RGB) {
+		format_ = ImageDataFormat::BGR8;
+		assert(header.bitDepth == 24);
+	}
+	else if (header.imageType == TGAIT_Grayscale) {
+		format_ = ImageDataFormat::R8;
+		assert(header.bitDepth == 8);
+	}
+	else {
+		assert(!"unknown or inconsistent image type");
+	}
+	
+	auto dataSize = imageDataFormatBytesPerPixel(format_) * width_ * height_;
+	data_ = std::make_unique<uint8[]>(dataSize);
+	file.read(reinterpret_cast<char*>(data_.get()), dataSize);
+}
+
+
+ImageData TGADataProvider::imageDataForLevel(uint8 level) const {
+	assert(level == 0);
+	
+	ImageData image {};
+	image.width = width();
+	image.height = height();
+	image.format = format();
+	image.size = imageDataFormatBytesPerPixel(format()) * width() * height();
 	image.data = data_.get();
 	return image;
 }
