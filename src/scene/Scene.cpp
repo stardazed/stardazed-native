@@ -9,8 +9,6 @@ namespace stardazed {
 namespace scene {
 
 
-// ---- factory methods
-		
 Entity* Scene::makeEntity(EntityType type) {
 	auto entity = entityPool_.emplace(type);
 
@@ -18,6 +16,12 @@ Entity* Scene::makeEntity(EntityType type) {
 	entityTree_.root().append(treeNode);
 
 	return entity;
+}
+
+
+Light* Scene::makeLight(const render::LightDescriptor& descriptor) {
+	auto lightEntity = makeEntity(EntityType::Light);
+	return lightPool_.emplace(*lightEntity, descriptor);
 }
 
 

@@ -80,6 +80,9 @@
 		8E6E53A41A7FC0AF00844C70 /* FrameBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6E53A31A7FC0AF00844C70 /* FrameBuffer.hpp */; };
 		8E6E53A61A7FC10700844C70 /* FrameBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E53A51A7FC10700844C70 /* FrameBuffer.cpp */; };
 		8E6E53A81A7FCF7800844C70 /* Renderable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6E53A71A7FCF7800844C70 /* Renderable.hpp */; };
+		8E6E53AF1A810F6000844C70 /* Light.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6E53AE1A810F6000844C70 /* Light.hpp */; };
+		8E6E53B11A810FCA00844C70 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E53B01A810FCA00844C70 /* Light.cpp */; };
+		8E6E53B31A8113C100844C70 /* Light.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6E53B21A8113C100844C70 /* Light.hpp */; };
 		8E71E4511A40EE460060DC95 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E71E4501A40EE460060DC95 /* IOKit.framework */; };
 		8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */; };
 		8E71E4551A40FB170060DC95 /* Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4541A40FB170060DC95 /* Controller.hpp */; };
@@ -192,6 +195,9 @@
 		8E6E53A31A7FC0AF00844C70 /* FrameBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameBuffer.hpp; sourceTree = "<group>"; };
 		8E6E53A51A7FC10700844C70 /* FrameBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameBuffer.cpp; sourceTree = "<group>"; };
 		8E6E53A71A7FCF7800844C70 /* Renderable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Renderable.hpp; sourceTree = "<group>"; };
+		8E6E53AE1A810F6000844C70 /* Light.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
+		8E6E53B01A810FCA00844C70 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
+		8E6E53B21A8113C100844C70 /* Light.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
 		8E71E4501A40EE460060DC95 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_X360Controller.hpp; sourceTree = "<group>"; };
 		8E71E4541A40FB170060DC95 /* Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
@@ -393,18 +399,20 @@
 		8E112DCE199E60A50029CD38 /* scene */ = {
 			isa = PBXGroup;
 			children = (
-				8E112DD8199E60A50029CD38 /* Transform.cpp */,
 				8E112DD9199E60A50029CD38 /* Transform.hpp */,
-				8E112DCF199E60A50029CD38 /* Behaviour.cpp */,
+				8E112DD8199E60A50029CD38 /* Transform.cpp */,
 				8E112DD0199E60A50029CD38 /* Behaviour.hpp */,
+				8E112DCF199E60A50029CD38 /* Behaviour.cpp */,
 				8E112DD5199E60A50029CD38 /* Entity.hpp */,
 				8E6E53A71A7FCF7800844C70 /* Renderable.hpp */,
-				8E112DD1199E60A50029CD38 /* Camera.cpp */,
+				8E6E53AE1A810F6000844C70 /* Light.hpp */,
+				8E6E53B01A810FCA00844C70 /* Light.cpp */,
 				8E112DD2199E60A50029CD38 /* Camera.hpp */,
-				8E112DD6199E60A50029CD38 /* Scene.cpp */,
+				8E112DD1199E60A50029CD38 /* Camera.cpp */,
 				8E112DD7199E60A50029CD38 /* Scene.hpp */,
-				8E112DD3199E60A50029CD38 /* SceneController.cpp */,
+				8E112DD6199E60A50029CD38 /* Scene.cpp */,
 				8E112DD4199E60A50029CD38 /* SceneController.hpp */,
+				8E112DD3199E60A50029CD38 /* SceneController.cpp */,
 			);
 			path = scene;
 			sourceTree = "<group>";
@@ -465,6 +473,7 @@
 				8EF7020A1A77036000454341 /* PNGFile.cpp */,
 				8E54FE581A6F0AD3003D649A /* Texture.hpp */,
 				8E54FE5A1A6F0BC7003D649A /* Texture.cpp */,
+				8E6E53B21A8113C100844C70 /* Light.hpp */,
 				8EA7092819D75FC000129E2D /* Shader.hpp */,
 				8EA7092519D75FC000129E2D /* Pipeline.hpp */,
 				8EA7092719D75FC000129E2D /* RenderContext.hpp */,
@@ -515,6 +524,7 @@
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
 				8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */,
 				8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */,
+				8E6E53AF1A810F6000844C70 /* Light.hpp in Headers */,
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
 				8E112D8C199E5F870029CD38 /* ObjectPool.hpp in Headers */,
 				8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */,
@@ -561,6 +571,7 @@
 				8E019A5519C602BF009318C5 /* Config.hpp in Headers */,
 				8EF702031A76F90B00454341 /* inftrees.h in Headers */,
 				8E6A0DBC19B39E7400DF0921 /* mac_DevicesContext.hpp in Headers */,
+				8E6E53B31A8113C100844C70 /* Light.hpp in Headers */,
 				8E112D8E199E5F870029CD38 /* RingBuffer.hpp in Headers */,
 				8E112D95199E5FC70029CD38 /* ConceptTraits.hpp in Headers */,
 				8E112DB7199E5FE20029CD38 /* OpenGL.hpp in Headers */,
@@ -651,6 +662,7 @@
 				8E112DC0199E5FE20029CD38 /* Shader.cpp in Sources */,
 				8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */,
 				8E5C92701A212567007E3774 /* VertexArray.cpp in Sources */,
+				8E6E53B11A810FCA00844C70 /* Light.cpp in Sources */,
 				8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */,
 				8EF7020B1A77036000454341 /* PNGFile.cpp in Sources */,
 				8EF701FA1A76F90B00454341 /* crc32.c in Sources */,
