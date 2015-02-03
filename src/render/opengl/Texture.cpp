@@ -138,6 +138,12 @@ void Texture2D::load(const TextureDataProvider& provider) {
 }
 
 
+void Texture2D::setupWithDataProvider(const TextureDataProvider& provider) {
+	allocate(provider.width(), provider.height(), provider.mipMapCount(), provider.format());
+	load(provider);
+}
+
+
 //  _____         _                   ____      _          __  __
 // |_   _|____  _| |_ _   _ _ __ ___ / ___|   _| |__   ___|  \/  | __ _ _ __
 //   | |/ _ \ \/ / __| | | | '__/ _ \ |  | | | | '_ \ / _ \ |\/| |/ _` | '_ \
@@ -192,6 +198,15 @@ void TextureCubeMap::loadAllFaces(const TextureDataProvider& posX, const Texture
 	loadFace(negY, CubeMapFace::NegY);
 	loadFace(posZ, CubeMapFace::PosZ);
 	loadFace(negZ, CubeMapFace::NegZ);	
+}
+
+
+void TextureCubeMap::setupWithDataProviders(const TextureDataProvider& posX, const TextureDataProvider& negX,
+											const TextureDataProvider& posY, const TextureDataProvider& negY,
+											const TextureDataProvider& posZ, const TextureDataProvider& negZ)
+{
+	allocate(posX.width(), posX.mipMapCount(), posX.format());
+	loadAllFaces(posX, negX, posY, negY, posZ, negZ);
 }
 
 

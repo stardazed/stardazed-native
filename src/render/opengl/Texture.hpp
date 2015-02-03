@@ -77,6 +77,8 @@ public:
 	void uploadImageData(const ImageData& image, uint8 level);
 
 	void load(const TextureDataProvider&);
+	
+	void setupWithDataProvider(const TextureDataProvider&);
 };
 
 
@@ -91,6 +93,10 @@ public:
 	
 	void loadFace(const TextureDataProvider&, CubeMapFace);
 	void loadAllFaces(const TextureDataProvider&, const TextureDataProvider&,
+					  const TextureDataProvider&, const TextureDataProvider&,
+					  const TextureDataProvider&, const TextureDataProvider&);
+
+	void setupWithDataProviders(const TextureDataProvider&, const TextureDataProvider&,
 					  const TextureDataProvider&, const TextureDataProvider&,
 					  const TextureDataProvider&, const TextureDataProvider&);
 };
