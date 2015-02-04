@@ -106,7 +106,7 @@ public:
 class DDSDataProvider : public TextureDataProvider {
 	size32 width_, height_, mipMaps_;
 	ImageDataFormat format_;
-	std::unique_ptr<char[]> data_;
+	std::unique_ptr<uint8[]> data_;
 	
 	size32 dataSizeForLevel(uint8 level) const;
 	
@@ -124,7 +124,8 @@ public:
 	
 class BMPDataProvider : public TextureDataProvider {
 	size32 width_, height_;
-	std::unique_ptr<char[]> data_;
+	ImageDataFormat format_;
+	std::unique_ptr<uint8[]> data_;
 	
 public:
 	BMPDataProvider(const std::string& resourcePath);
@@ -132,7 +133,7 @@ public:
 	size32 width() const override { return width_; }
 	size32 height() const override { return height_; }
 	uint8 mipMapCount() const override { return 1; }
-	ImageDataFormat format() const override { return ImageDataFormat::BGR8; }
+	ImageDataFormat format() const override { return format_; }
 	
 	ImageData imageDataForLevel(uint8 level) const override;
 };

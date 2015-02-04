@@ -68,8 +68,8 @@ DDSDataProvider::DDSDataProvider(const std::string& resourcePath) {
 	size32 dataSize = header.dwPitchOrLinearSize;
 	if (header.dwMipMapCount > 1)
 		dataSize *= 2;
-	data_ = std::make_unique<char[]>(dataSize);
-	file.read(data_.get(), dataSize);
+	data_ = std::make_unique<uint8[]>(dataSize);
+	file.read(reinterpret_cast<char*>(data_.get()), dataSize);
 	
 	switch (header.ddspf.dwFourCC) {
 		case fourCharCode('D','X','T','1'): format_ = ImageDataFormat::DXT1; break;
@@ -155,19 +155,27 @@ BMPDataProvider::BMPDataProvider(const std::string& resourcePath) {
 	
 	BITMAPINFOHEADER info;
 	file.read(reinterpret_cast<char*>(&info), sizeof(BITMAPINFOHEADER));
-	assert(file && info.biBitCount == 24 && info.biCompression == 0);
+	assert(file && info.biCompression == 0);
+	
+	switch (info.biBitCount) {
+		case 24: format_ = ImageDataFormat::BGR8; break;
+		case 32: format_ = ImageDataFormat::BGRA8; break;
+		default:
+			assert(!"can only handle 24 or 32 bit BMPs");
+			break;
+	}
 	
 	width_ = info.biWidth;
 	height_ = info.biHeight;
 	
-	auto dataSize   = 3u * width_ * height_;
+	auto dataSize   = imageDataFormatBytesPerPixel(format_) * width_ * height_;
 	auto dataOffset = header.bfOffBits;
 	auto headerSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
 	
 	assert(dataOffset == headerSize);
 	
-	data_ = std::make_unique<char[]>(dataSize);
-	file.read(data_.get(), dataSize);
+	data_ = std::make_unique<uint8[]>(dataSize);
+	file.read(reinterpret_cast<char*>(data_.get()), dataSize);
 }
 
 
@@ -178,7 +186,7 @@ ImageData BMPDataProvider::imageDataForLevel(uint8 level) const {
 	image.width = width();
 	image.height = height();
 	image.format = format();
-	image.size = 3u * width() * height();
+	image.size = imageDataFormatBytesPerPixel(format_) * width() * height();
 	image.data = data_.get();
 	return image;
 }
