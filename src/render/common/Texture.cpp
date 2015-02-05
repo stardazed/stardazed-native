@@ -290,8 +290,12 @@ TGADataProvider::TGADataProvider(const std::string& resourcePath) {
 	height_ = header.height;
 
 	if (header.imageType == TGAIT_RGB) {
-		format_ = ImageDataFormat::BGR8;
-		assert(header.bitDepth == 24);
+		if (header.bitDepth == 24)
+			format_ = ImageDataFormat::BGR8;
+		else if (header.bitDepth == 32)
+			format_ = ImageDataFormat::BGRA8;
+		else
+			assert(!"for RGB image types, only 24 and 32 bit depths are supported");
 	}
 	else if (header.imageType == TGAIT_Grayscale) {
 		format_ = ImageDataFormat::R8;
