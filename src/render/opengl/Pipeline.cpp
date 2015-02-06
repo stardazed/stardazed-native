@@ -87,12 +87,17 @@ Pipeline::Pipeline(const PipelineDescriptor& descriptor)
 	
 	if (descriptor.vertexShader) {
 		vertexShader_ = descriptor.vertexShader;
-		glUseProgramStages(glPipeline_, GL_VERTEX_SHADER_BIT, vertexShader_->glShader_);
+		glUseProgramStages(glPipeline_, GL_VERTEX_SHADER_BIT, vertexShader_->name());
 	}
 
+	if (descriptor.geometryShader) {
+		geometryShader_ = descriptor.geometryShader;
+		glUseProgramStages(glPipeline_, GL_GEOMETRY_SHADER_BIT, geometryShader_->name());
+	}
+	
 	if (descriptor.fragmentShader) {
 		fragmentShader_ = descriptor.fragmentShader;
-		glUseProgramStages(glPipeline_, GL_FRAGMENT_SHADER_BIT, fragmentShader_->glShader_);
+		glUseProgramStages(glPipeline_, GL_FRAGMENT_SHADER_BIT, fragmentShader_->name());
 	}
 }
 

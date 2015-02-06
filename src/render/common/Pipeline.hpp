@@ -45,6 +45,7 @@ struct PipelineDescriptor {
 	DepthTestPredicate depthTest = DepthTestPredicate::Disabled;
 	
 	Shader* vertexShader = nullptr;
+	Shader* geometryShader = nullptr;
 	Shader* fragmentShader = nullptr;
 };
 

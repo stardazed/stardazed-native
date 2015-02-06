@@ -47,6 +47,7 @@ class Pipeline {
 	detail::OpenGLDepthTest depthTestMode_;
 	
 	Shader* vertexShader_ = nullptr;
+	Shader* geometryShader_ = nullptr;
 	Shader* fragmentShader_ = nullptr;
 
 	GLuint glPipeline_;
@@ -59,6 +60,7 @@ public:
 	void bind();
 	
 	Shader* vertexShader() const { return vertexShader_; }
+	Shader* geometryShader() const { return geometryShader_; }
 	Shader* fragmentShader() const { return fragmentShader_; }
 };
 
