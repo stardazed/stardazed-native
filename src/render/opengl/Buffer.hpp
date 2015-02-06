@@ -259,8 +259,8 @@ namespace detail {
 	constexpr GLenum maxBufferBindingsNameForTarget(GLenum target) {
 		if (target == GL_UNIFORM_BUFFER)
 			return GL_MAX_UNIFORM_BUFFER_BINDINGS;
-//		if (target == GL_TRANSFORM_FEEDBACK_BUFFER);  not in os x gl?
-//			return GL_MAX_TRANSFORM_FEEDBACK_BUFFER_BINDINGS;
+		if (target == GL_TRANSFORM_FEEDBACK_BUFFER)
+			return GL_MAX_TRANSFORM_FEEDBACK_BUFFERS;
 		assert(false && "Unknown indexed buffer target");
 	}
 
@@ -298,6 +298,10 @@ namespace detail {
 // -- global GL array of indexed uniform blocks
 template class detail::IndexedBufferOps<GL_UNIFORM_BUFFER>;
 using UniformBlockArray = detail::IndexedBufferOps<GL_UNIFORM_BUFFER>;
+
+// -- global GL array of indexed transform feedback blocks
+template class detail::IndexedBufferOps<GL_TRANSFORM_FEEDBACK_BUFFER>;
+using TransformFeedbackBlockArray = detail::IndexedBufferOps<GL_TRANSFORM_FEEDBACK_BUFFER>;
 
 
 } // ns render
