@@ -8,7 +8,6 @@
 
 #include "system/Config.hpp"
 #include <array>
-#include <cassert>
 #include <algorithm>
 
 namespace stardazed {

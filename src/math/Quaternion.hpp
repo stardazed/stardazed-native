@@ -11,7 +11,6 @@
 #include "Vector.hpp"
 #include "Matrix.hpp"
 
-#include <cassert>
 #include <cmath>
 
 namespace stardazed {

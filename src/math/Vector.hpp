@@ -12,7 +12,6 @@
 #include <algorithm>
 #include <functional>
 #include <numeric>
-#include <cassert>
 #include <cmath>
 
 namespace stardazed {

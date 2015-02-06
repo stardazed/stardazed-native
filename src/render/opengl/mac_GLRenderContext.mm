@@ -12,7 +12,6 @@
 #import <AppKit/AppKit.h>
 
 #include <vector>
-#include <cassert>
 
 
 @interface SDWindow : NSWindow {}

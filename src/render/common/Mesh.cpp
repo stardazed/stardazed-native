@@ -7,7 +7,6 @@
 #include "render/common/Mesh.hpp"
 #include "render/common/VertexDerivedData.hpp"
 
-#include <cassert>
 #include <numeric>
 
 namespace stardazed {
