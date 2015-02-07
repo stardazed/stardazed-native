@@ -42,26 +42,53 @@ public:
 } // ns detail
 
 
+
+struct PipelineDescriptor {
+	FaceCulling faceCulling = FaceCulling::Disabled;
+	DepthTestPredicate depthTest = DepthTestPredicate::Disabled;
+	
+	Shader* vertexShader = nullptr;
+	Shader* geometryShader = nullptr;
+	Shader* fragmentShader = nullptr;
+};
+
+
+struct SSOPipelineDescriptor {
+	FaceCulling faceCulling = FaceCulling::Disabled;
+	DepthTestPredicate depthTest = DepthTestPredicate::Disabled;
+	
+	Program* vertexProgram = nullptr;
+	Program* geometryProgram = nullptr;
+	Program* fragmentProgram = nullptr;
+};
+
+
+
 class Pipeline {
 	detail::OpenGLFaceCulling cullingMode_;
 	detail::OpenGLDepthTest depthTestMode_;
 	
-	Shader* vertexShader_ = nullptr;
-	Shader* geometryShader_ = nullptr;
-	Shader* fragmentShader_ = nullptr;
+	Program* vertexProgram_ = nullptr;
+	Program* geometryProgram_ = nullptr;
+	Program* fragmentProgram_ = nullptr;
 
-	GLuint glPipeline_;
+	bool32 usesPipeline = false;
+	union {
+		GLuint glPipeline_;
+		Program pipeProgram_;
+	};
 	
 public:
 	Pipeline(const PipelineDescriptor&);
+	Pipeline(const SSOPipelineDescriptor&);
 	~Pipeline();
 	SD_DEFAULT_MOVE_OPS(Pipeline)
 	
 	void bind();
 	
-	Shader* vertexShader() const { return vertexShader_; }
-	Shader* geometryShader() const { return geometryShader_; }
-	Shader* fragmentShader() const { return fragmentShader_; }
+	Program* vertexProgram() const { return vertexProgram_; }
+	Program* geometryProgram() const { return geometryProgram_; }
+	Program* fragmentProgram() const { return fragmentProgram_; }
 };
 
 

@@ -208,11 +208,27 @@ RenderContext::~RenderContext() {
 
 
 Shader* RenderContext::loadShaderFromPath(ShaderType type, const std::string& path) {
-	return shaderPool_.emplace(type, readTextFile(path));
+	auto shader = shaderPool_.emplace(type);
+	shader->compileSource(readTextFile(path));
+	return shader;
+}
+
+
+Program* RenderContext::makeShaderProgram(Shader& shader) {
+	auto shaderProgram = programPool_.emplace();
+	shaderProgram->setSeparable();
+	shaderProgram->attach(shader);
+	shaderProgram->link();
+	return shaderProgram;
 }
 
 
 Pipeline* RenderContext::makePipeline(const PipelineDescriptor& descriptor) {
+	return pipelinePool_.emplace(descriptor);
+}
+
+
+Pipeline* RenderContext::makePipeline(const SSOPipelineDescriptor& descriptor) {
 	return pipelinePool_.emplace(descriptor);
 }
 

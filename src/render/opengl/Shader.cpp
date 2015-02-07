@@ -10,6 +10,67 @@ namespace stardazed {
 namespace render {
 
 
+//  ____
+// |  _ \ _ __ ___   __ _ _ __ __ _ _ __ ___
+// | |_) | '__/ _ \ / _` | '__/ _` | '_ ` _ \
+// |  __/| | | (_) | (_| | | | (_| | | | | | |
+// |_|   |_|  \___/ \__, |_|  \__,_|_| |_| |_|
+//                  |___/
+
+Program::Program()
+: glProgram_(glCreateProgram())
+{}
+
+
+Program::~Program() {
+	glDeleteProgram(glProgram_);
+}
+
+
+void Program::attach(const Shader& shader) {
+	glAttachShader(name(), shader.name());
+}
+
+
+void Program::setSeparable() {
+	GLint status;
+	glGetProgramiv(name(), GL_LINK_STATUS, &status);
+	if (status == GL_TRUE)
+		assert(!"setSeparable() must be called before link()");
+
+	glProgramParameteri(name(), GL_PROGRAM_SEPARABLE, GL_TRUE);
+}
+
+
+void Program::link() {
+	glLinkProgram(name());
+	
+	GLint status;
+	glGetProgramiv(name(), GL_LINK_STATUS, &status);
+	if (! status) {
+		GLint logLength;
+		glGetProgramiv(name(), GL_INFO_LOG_LENGTH, &logLength);
+		if (logLength > 0) {
+			std::vector<char> errors(logLength + 1);
+			glGetProgramInfoLog(name(), logLength, NULL, &errors[0]);
+			log("Link Errors:\n%s", errors.data());
+		}
+	}
+}
+
+
+void Program::bind() {
+	glUseProgram(name());
+}
+
+
+//  ____  _               _
+// / ___|| |__   __ _  __| | ___ _ __
+// \___ \| '_ \ / _` |/ _` |/ _ \ '__|
+//  ___) | | | | (_| | (_| |  __/ |
+// |____/|_| |_|\__,_|\__,_|\___|_|
+//
+
 constexpr GLenum glForSDShaderType(ShaderType type) {
 	switch (type) {
 		case ShaderType::Vertex:   return GL_VERTEX_SHADER;
@@ -18,30 +79,39 @@ constexpr GLenum glForSDShaderType(ShaderType type) {
 		case ShaderType::Geometry: return GL_GEOMETRY_SHADER;
 		case ShaderType::Fragment: return GL_FRAGMENT_SHADER;
 	}
-
-	assert(false && "Unknown ShaderType");
-}
-
-
-Shader::Shader(ShaderType type, const std::string& source)
-: type_(type)
-{
-	const auto sourcePtr = source.c_str();
-	glShader_ = glCreateShaderProgramv(glForSDShaderType(type), 1, &sourcePtr);
 	
-	GLint logLength;
-	glGetProgramiv(glShader_, GL_INFO_LOG_LENGTH, &logLength);
-	if (logLength > 0) {
-		std::vector<char> errors(logLength + 1);
-		glGetProgramInfoLog(glShader_, logLength, NULL, &errors[0]);
-		log("GLSL Errors:\n%s", errors.data());
-	}
+	assert(!"Unknown ShaderType");
 }
+
+
+Shader::Shader(ShaderType type)
+: glShader_(glCreateShader(glForSDShaderType(type)))
+, type_(type)
+{}
 
 
 Shader::~Shader() {
-	if (glShader_)
-		glDeleteProgram(glShader_);
+	glDeleteShader(glShader_);
+}
+
+
+void Shader::compileSource(const std::string& source) {
+	const auto sourcePtr = source.c_str();
+	glShaderSource(name(), 1, &sourcePtr, nullptr);
+	
+	//	glCompileShaderIncludeARB(glShader_, 1, paths, nullptr);
+	glCompileShader(name());
+	GLint success;
+	glGetShaderiv(name(), GL_COMPILE_STATUS, &success);
+	if (! success) {
+		GLint logLength;
+		glGetShaderiv(name(), GL_INFO_LOG_LENGTH, &logLength);
+		if (logLength > 0) {
+			std::vector<char> errors(logLength + 1);
+			glGetShaderInfoLog(name(), logLength, NULL, &errors[0]);
+			log("GLSL Errors:\n%s", errors.data());
+		}
+	}
 }
 
 

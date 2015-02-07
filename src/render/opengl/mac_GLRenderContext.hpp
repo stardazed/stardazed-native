@@ -25,7 +25,9 @@ public:
 	~RenderContext();
 	
 	Shader* loadShaderFromPath(ShaderType type, const std::string& path);
+	Program* makeShaderProgram(Shader&);
 	Pipeline* makePipeline(const PipelineDescriptor& descriptor);
+	Pipeline* makePipeline(const SSOPipelineDescriptor& descriptor);
 	
 	void swap();
 	
@@ -36,6 +38,7 @@ private:
 	// object storage
 	container::ObjectPool<Pipeline, 128> pipelinePool_;
 	container::ObjectPool<Shader, 512> shaderPool_;
+	container::ObjectPool<Program, 512> programPool_;
 
 	// place obj-c stuff in implementation file only
 	class PlatformData;

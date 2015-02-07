@@ -7,7 +7,6 @@
 #define SD_RENDER_PIPELINE_H
 
 #include "system/Config.hpp"
-#include "render/common/Shader.hpp"
 
 namespace stardazed {
 namespace render {
@@ -34,19 +33,6 @@ enum class DepthTestPredicate {
 	NotEqual,
 	GreaterOrEqual,
 	Greater
-};
-
-
-class Shader;
-
-
-struct PipelineDescriptor {
-	FaceCulling faceCulling = FaceCulling::Disabled;
-	DepthTestPredicate depthTest = DepthTestPredicate::Disabled;
-	
-	Shader* vertexShader = nullptr;
-	Shader* geometryShader = nullptr;
-	Shader* fragmentShader = nullptr;
 };
 
 

@@ -17,7 +17,7 @@ enum class ShaderType {
 	Hull,      // OpenGL term: Tesselation Control
 	Domain,    // OpenGL term: Tesselation Evaluation
 	Geometry,
-	Fragment  // DirectX term: pixel
+	Fragment   // DirectX term: pixel
 };
 
 

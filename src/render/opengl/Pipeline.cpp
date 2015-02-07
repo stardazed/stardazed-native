@@ -82,33 +82,66 @@ inline void OpenGLDepthTest::apply() const {
 Pipeline::Pipeline(const PipelineDescriptor& descriptor)
 : cullingMode_(descriptor.faceCulling)
 , depthTestMode_(descriptor.depthTest)
+, usesPipeline(false)
 {
-	glGenProgramPipelines(1, &glPipeline_);
-	
-	if (descriptor.vertexShader) {
-		vertexShader_ = descriptor.vertexShader;
-		glUseProgramStages(glPipeline_, GL_VERTEX_SHADER_BIT, vertexShader_->name());
-	}
+	new (&pipeProgram_) Program();
 
+	if (descriptor.vertexShader) {
+		vertexProgram_ = &pipeProgram_;
+		pipeProgram_.attach(*descriptor.vertexShader);
+	}
+	
 	if (descriptor.geometryShader) {
-		geometryShader_ = descriptor.geometryShader;
-		glUseProgramStages(glPipeline_, GL_GEOMETRY_SHADER_BIT, geometryShader_->name());
+		geometryProgram_ = &pipeProgram_;
+		pipeProgram_.attach(*descriptor.geometryShader);
 	}
 	
 	if (descriptor.fragmentShader) {
-		fragmentShader_ = descriptor.fragmentShader;
-		glUseProgramStages(glPipeline_, GL_FRAGMENT_SHADER_BIT, fragmentShader_->name());
+		fragmentProgram_ = &pipeProgram_;
+		pipeProgram_.attach(*descriptor.fragmentShader);
+	}
+	
+	pipeProgram_.link();
+}
+
+
+Pipeline::Pipeline(const SSOPipelineDescriptor& descriptor)
+: cullingMode_(descriptor.faceCulling)
+, depthTestMode_(descriptor.depthTest)
+, usesPipeline(true)
+{
+	glGenProgramPipelines(1, &glPipeline_);
+	
+	if (descriptor.vertexProgram) {
+		vertexProgram_ = descriptor.vertexProgram;
+		glUseProgramStages(glPipeline_, GL_VERTEX_SHADER_BIT, vertexProgram_->name());
+	}
+
+	if (descriptor.geometryProgram) {
+		geometryProgram_ = descriptor.geometryProgram;
+		glUseProgramStages(glPipeline_, GL_GEOMETRY_SHADER_BIT, geometryProgram_->name());
+	}
+	
+	if (descriptor.fragmentProgram) {
+		fragmentProgram_ = descriptor.fragmentProgram;
+		glUseProgramStages(glPipeline_, GL_FRAGMENT_SHADER_BIT, fragmentProgram_->name());
 	}
 }
 
 
 Pipeline::~Pipeline() {
-	glDeleteProgramPipelines(1, &glPipeline_);
+	if (usesPipeline)
+		glDeleteProgramPipelines(1, &glPipeline_);
+	else
+		pipeProgram_.~Program();
 }
 
 
 void Pipeline::bind() {
-	glBindProgramPipeline(glPipeline_);
+	if (usesPipeline)
+		glBindProgramPipeline(glPipeline_);
+	else
+		pipeProgram_.bind();
 
 	cullingMode_.apply();
 	depthTestMode_.apply();
