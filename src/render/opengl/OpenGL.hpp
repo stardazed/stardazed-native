@@ -62,6 +62,14 @@ void withTempBound(const GLObj& obj, More&&... more) {
 }
 
 
+class OpenGL {
+	OpenGL() = delete;
+
+public:
+	static bool hasExtension(const char*);
+};
+
+
 } // ns render
 } // ns stardazed
 
