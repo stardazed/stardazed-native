@@ -7,7 +7,6 @@
 #define SD_SCENE_SCENE_H
 
 #include "system/Config.hpp"
-#include "container/ObjectPool.hpp"
 #include "container/RefTree.hpp"
 #include "scene/Entity.hpp"
 #include "scene/Light.hpp"
@@ -22,17 +21,18 @@ namespace scene {
 
 
 class Scene {
-	container::ObjectPool<Camera, 32> cameraPool_;
-	container::ObjectPool<Light, 128> lightPool_;
-	container::ObjectPoolChain<Entity, 512> entityPool_;
+	std::vector<Camera> cameraPool_;
+	std::vector<Light> lightPool_;
+	std::vector<Entity> entityPool_;
 
 	std::vector<std::unique_ptr<Behaviour>> behaviours_; // polymorphic
 	
 	container::RefTree<Entity> entityTree_;
 
 public:
-	// -- factory methods
+	Scene();
 
+	// -- factory methods
 	Entity* makeEntity(EntityType type = EntityType::Generic);
 	Light* makeLight(const render::LightDescriptor&);
 	Camera* makeCamera();
@@ -46,7 +46,6 @@ public:
 
 
 	// -- scene::Entity access
-	
 	auto allEntitiesBegin() { return entityPool_.begin(); }
 	auto allEntitiesEnd() { return entityPool_.end(); }
 	

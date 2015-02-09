@@ -7,11 +7,11 @@
 #define SD_RENDER_MAC_GLRENDERCONTEXT_H
 
 #include "system/Config.hpp"
-#include "container/ObjectPool.hpp"
 #include "render/common/RenderContext.hpp"
 #include "render/opengl/Shader.hpp"
 #include "render/opengl/Pipeline.hpp"
 
+#include <vector>
 #include <string>
 #include <memory>
 
@@ -36,9 +36,9 @@ public:
 
 private:
 	// object storage
-	container::ObjectPool<Pipeline, 128> pipelinePool_;
-	container::ObjectPool<Shader, 512> shaderPool_;
-	container::ObjectPool<Program, 512> programPool_;
+	std::vector<Pipeline> pipelinePool_;
+	std::vector<Shader> shaderPool_;
+	std::vector<Program> programPool_;
 
 	// place obj-c stuff in implementation file only
 	class PlatformData;

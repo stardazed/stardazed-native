@@ -9,8 +9,17 @@ namespace stardazed {
 namespace scene {
 
 
+Scene::Scene() {
+	// FIXME: make this settable by client
+	cameraPool_.reserve(32);
+	lightPool_.reserve(128);
+	entityPool_.reserve(512);
+}
+
+
 Entity* Scene::makeEntity(EntityType type) {
-	auto entity = entityPool_.emplace(type);
+	entityPool_.emplace_back(type);
+	auto entity = &entityPool_.back();
 
 	auto treeNode = entityTree_.makeNode(*entity);
 	entityTree_.root().append(treeNode);
@@ -20,14 +29,18 @@ Entity* Scene::makeEntity(EntityType type) {
 
 
 Light* Scene::makeLight(const render::LightDescriptor& descriptor) {
-	auto lightEntity = makeEntity(EntityType::Light);
-	return lightPool_.emplace(*lightEntity, descriptor);
+	makeEntity(EntityType::Light);
+	auto& lightEntity = entityPool_.back();
+	lightPool_.emplace_back(lightEntity, descriptor);
+	return &lightPool_.back();
 }
 
 
 Camera* Scene::makeCamera() {
-	auto cameraEntity = makeEntity(EntityType::Camera);
-	return cameraPool_.emplace(*cameraEntity);
+	makeEntity(EntityType::Camera);
+	auto& cameraEntity = entityPool_.back();
+	cameraPool_.emplace_back(cameraEntity);
+	return &cameraPool_.back();
 }
 
 		

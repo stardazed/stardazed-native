@@ -33,7 +33,7 @@ public:
 	// -- projection
 	const math::Mat4& projectionMatrix() const { return projection_; }
 	void perspective(math::Angle fovy, float aspect, float zNear, float zFar);
-	void perspective(math::Angle fovy, size_t pixelWidth, size_t pixelHeight, float zNear, float zFar);
+	void perspective(math::Angle fovy, uint32 pixelWidth, uint32 pixelHeight, float zNear, float zFar);
 	
 	// -- view
 	math::Mat4 viewMatrix() const;

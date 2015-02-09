@@ -22,9 +22,7 @@
 		8E112D83199E5F540029CD38 /* MemoryResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D7F199E5F540029CD38 /* MemoryResource.hpp */; };
 		8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */; };
 		8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D87199E5F870029CD38 /* FlagSet.hpp */; };
-		8E112D8C199E5F870029CD38 /* ObjectPool.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D88199E5F870029CD38 /* ObjectPool.hpp */; };
 		8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D89199E5F870029CD38 /* RefTree.hpp */; };
-		8E112D8E199E5F870029CD38 /* RingBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D8A199E5F870029CD38 /* RingBuffer.hpp */; };
 		8E112D95199E5FC70029CD38 /* ConceptTraits.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D90199E5FC70029CD38 /* ConceptTraits.hpp */; };
 		8E112D96199E5FC70029CD38 /* StringFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112D91199E5FC70029CD38 /* StringFormat.cpp */; };
 		8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D92199E5FC70029CD38 /* StringFormat.hpp */; };
@@ -137,9 +135,7 @@
 		8E112D7F199E5F540029CD38 /* MemoryResource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MemoryResource.hpp; sourceTree = "<group>"; };
 		8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = STLAllocAdapter.hpp; sourceTree = "<group>"; };
 		8E112D87199E5F870029CD38 /* FlagSet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FlagSet.hpp; sourceTree = "<group>"; };
-		8E112D88199E5F870029CD38 /* ObjectPool.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ObjectPool.hpp; sourceTree = "<group>"; };
 		8E112D89199E5F870029CD38 /* RefTree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RefTree.hpp; sourceTree = "<group>"; };
-		8E112D8A199E5F870029CD38 /* RingBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RingBuffer.hpp; sourceTree = "<group>"; };
 		8E112D90199E5FC70029CD38 /* ConceptTraits.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConceptTraits.hpp; sourceTree = "<group>"; };
 		8E112D91199E5FC70029CD38 /* StringFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringFormat.cpp; sourceTree = "<group>"; };
 		8E112D92199E5FC70029CD38 /* StringFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StringFormat.hpp; sourceTree = "<group>"; };
@@ -336,9 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				8E112D87199E5F870029CD38 /* FlagSet.hpp */,
-				8E112D88199E5F870029CD38 /* ObjectPool.hpp */,
 				8E112D89199E5F870029CD38 /* RefTree.hpp */,
-				8E112D8A199E5F870029CD38 /* RingBuffer.hpp */,
 			);
 			path = container;
 			sourceTree = "<group>";
@@ -529,7 +523,6 @@
 				8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */,
 				8E6E53AF1A810F6000844C70 /* Light.hpp in Headers */,
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
-				8E112D8C199E5F870029CD38 /* ObjectPool.hpp in Headers */,
 				8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */,
 				8E4C740A1A0929D4006CF46D /* BufferStorage.hpp in Headers */,
 				8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */,
@@ -575,7 +568,6 @@
 				8EF702031A76F90B00454341 /* inftrees.h in Headers */,
 				8E6A0DBC19B39E7400DF0921 /* mac_DevicesContext.hpp in Headers */,
 				8E6E53B31A8113C100844C70 /* Light.hpp in Headers */,
-				8E112D8E199E5F870029CD38 /* RingBuffer.hpp in Headers */,
 				8E112D95199E5FC70029CD38 /* ConceptTraits.hpp in Headers */,
 				8E112DB7199E5FE20029CD38 /* OpenGL.hpp in Headers */,
 				8EA7092D19D75FC000129E2D /* Mesh.hpp in Headers */,

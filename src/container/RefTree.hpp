@@ -7,14 +7,13 @@
 #define SD_CONTAINER_REFTREE_H
 
 #include "system/Config.hpp"
-#include "container/ObjectPool.hpp"
 #include <vector>
 
 namespace stardazed {
 namespace container {
 		
 
-template <typename T, size_t PoolChunkCount = 512>
+template <typename T>
 class RefTree {
 	class Node {
 		T* item_;
@@ -40,16 +39,21 @@ class RefTree {
 		using Iterator = typename decltype(children_)::iterator;
 	};
 
-	container::ObjectPoolChain<Node, PoolChunkCount> nodePool_;
+	std::vector<Node> nodePool_;
 	Node* root_;
 
 public:
-	RefTree() : root_(nodePool_.emplace(nullptr)) {}
+	RefTree() {
+		nodePool_.reserve(512);
+		nodePool_.emplace_back(nullptr);
+		root_ = &nodePool_.front();
+	}
 	
 	Node& root() const { return *root_; }
 
 	Node* makeNode(T& item) {
-		return nodePool_.emplace(&item);
+		nodePool_.emplace_back(&item);
+		return &nodePool_.back();
 	}
 	
 	using Iterator = typename Node::Iterator;

@@ -188,6 +188,12 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 	}
 	
 	platformData_->verticalSync = descriptor.verticalSync;
+	
+	// -- reserve some reasonable arrays
+	// FIXME: allow for outside specification of these numbers
+	pipelinePool_.reserve(128);
+	shaderPool_.reserve(128);
+	programPool_.reserve(128);
 
 	// -- some sensible global defaults
 	// FIXME: these may/should likely go somewhere else?
@@ -208,14 +214,16 @@ RenderContext::~RenderContext() {
 
 
 Shader* RenderContext::loadShaderFromPath(ShaderType type, const std::string& path) {
-	auto shader = shaderPool_.emplace(type);
+	shaderPool_.emplace_back(type);
+	auto shader = &shaderPool_.back();
 	shader->compileSource(readTextFile(path));
 	return shader;
 }
 
 
 Program* RenderContext::makeShaderProgram(Shader& shader) {
-	auto shaderProgram = programPool_.emplace();
+	programPool_.emplace_back();
+	auto shaderProgram = &programPool_.back();
 	shaderProgram->setSeparable();
 	shaderProgram->attach(shader);
 	shaderProgram->link();
@@ -224,12 +232,14 @@ Program* RenderContext::makeShaderProgram(Shader& shader) {
 
 
 Pipeline* RenderContext::makePipeline(const PipelineDescriptor& descriptor) {
-	return pipelinePool_.emplace(descriptor);
+	pipelinePool_.emplace_back(descriptor);
+	return &pipelinePool_.back();
 }
 
 
 Pipeline* RenderContext::makePipeline(const SSOPipelineDescriptor& descriptor) {
-	return pipelinePool_.emplace(descriptor);
+	pipelinePool_.emplace_back(descriptor);
+	return &pipelinePool_.back();
 }
 
 

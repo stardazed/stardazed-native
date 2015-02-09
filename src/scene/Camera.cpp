@@ -38,7 +38,7 @@ void Camera::perspective(math::Angle fovy, float aspect, float zNear, float zFar
 }
 
 
-void Camera::perspective(math::Angle fovy, size_t pixelWidth, size_t pixelHeight, float zNear, float zFar) {
+void Camera::perspective(math::Angle fovy, uint32 pixelWidth, uint32 pixelHeight, float zNear, float zFar) {
 	float aspect = static_cast<float>(pixelWidth) / static_cast<float>(pixelHeight);
 	perspective(fovy, aspect, zNear, zFar);
 }
