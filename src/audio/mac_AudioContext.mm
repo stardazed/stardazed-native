@@ -25,7 +25,12 @@ OSStatus auCallback(void *inRefCon,
 	SD_UNUSED_PARAM(inTimeStamp)
 	SD_UNUSED_PARAM(inBusNumber)
 
-	AudioContext* context = static_cast<AudioContext*>(inRefCon);
+	// unused in this stub state
+	SD_UNUSED_PARAM(inRefCon)
+	SD_UNUSED_PARAM(inNumberFrames)
+	SD_UNUSED_PARAM(ioData)
+
+//	AudioContext* context = static_cast<AudioContext*>(inRefCon);
 //	genAudio(*soundState, ioData->mBuffers[0], inNumberFrames);
 	
 	return noErr;

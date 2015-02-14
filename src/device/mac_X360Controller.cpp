@@ -19,7 +19,7 @@ static void X360ValueCallback(void* context, IOReturn, void*, IOHIDValueRef valu
 	// -- acquire runtime context
 	auto controllerCtx = static_cast<ControllerDriverContext*>(context);
 	auto& controller = controllerCtx->controller;
-	auto devicesCtx = controllerCtx->devicesContext;
+	// auto devicesCtx = controllerCtx->devicesContext;
 
 	IOHIDElementRef element = IOHIDValueGetElement(value);
 	if (CFGetTypeID(element) != IOHIDElementGetTypeID()) {
