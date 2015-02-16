@@ -55,6 +55,9 @@ public:
 	int64 offset() const;
 	void seekAbsolute(int64 newOffset) const;
 	void seekRelative(int64 displacement) const;
+	
+	bool eof() const;
+	bool ok() const;
 };
 
 	

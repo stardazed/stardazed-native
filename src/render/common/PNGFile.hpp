@@ -7,6 +7,7 @@
 #define SD_RENDER_PNGFILE_H
 
 #include "system/Config.hpp"
+#include "filesystem/FileSystem.hpp"
 
 #include <string>
 #include <vector>
@@ -25,7 +26,7 @@ class PNGFile {
 	uint32 width_ = 0, height_ = 0, bpp_ = 0;
 	std::vector<uint8> compressedData_, imageData_;
 	
-	void nextChunk(std::istream&);
+	void nextChunk(fs::FileReadStream&);
 	void unfilterImage(uint8* imageDataPtr);
 	
 public:

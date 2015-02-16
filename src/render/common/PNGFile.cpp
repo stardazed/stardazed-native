@@ -10,7 +10,7 @@
 #include "system/Logging.hpp"
 
 #include "zlib.h"
-#include <fstream>
+#include <cstdlib>
 
 namespace stardazed {
 namespace render {
@@ -86,13 +86,13 @@ enum LineFilter : uint8 {
 
 
 PNGFile::PNGFile(const std::string& resourcePath) {
-	std::ifstream png { resourcePath, std::ios::binary };
+	fs::FileReadStream png{ fs::Path{ resourcePath } };
 	
 	uint8 realSig[8], expectedSig[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
-	png.read(reinterpret_cast<char*>(realSig), 8);
+	png.readBytes(realSig, 8);
 	assert(std::equal(realSig, realSig + 8, expectedSig, expectedSig + 8));
 	
-	while (png)
+	while (png.ok())
 		nextChunk(png);
 
 	imageData_.resize((rowBytes() + 1) * height());
@@ -101,19 +101,19 @@ PNGFile::PNGFile(const std::string& resourcePath) {
 }
 
 
-void PNGFile::nextChunk(std::istream& png) {
+void PNGFile::nextChunk(fs::FileReadStream& png) {
 	std::vector<uint8> tempData(8192); // seems to be common IDAT data size
 	auto appender = std::back_inserter(compressedData_);
 	
 	ChunkHeader chdr;
-	png.read(reinterpret_cast<char*>(&chdr), sizeof(ChunkHeader));
+	png.readStruct(&chdr);
 	chdr.dataSize = ntohl(chdr.dataSize);
 	
 	switch (chdr.chunkType) {
 		case HeaderChunk:
 		{
 			IHDRChunk ihdr;
-			png.read(reinterpret_cast<char*>(&ihdr), sizeof(IHDRChunk));
+			png.readStruct(&ihdr);
 			width_ = ntohl(ihdr.Width);
 			height_ = ntohl(ihdr.Height);
 			sd::log("Width : %d\n", width_);
@@ -140,19 +140,19 @@ void PNGFile::nextChunk(std::istream& png) {
 		{
 			if (chdr.dataSize > tempData.size())
 				tempData.resize(chdr.dataSize);
-			png.read(reinterpret_cast<char*>(tempData.data()), chdr.dataSize);
+			png.readBytes(tempData.data(), chdr.dataSize);
 			std::copy(tempData.begin(), tempData.begin() + chdr.dataSize, appender);
 			break;
 		}
 			
 		default:
 			// some other chunk, ignore
-			png.seekg(chdr.dataSize, std::ios::cur);
+			png.seekRelative(chdr.dataSize);
 			break;
 	}
 	
 	// skip crc
-	png.seekg(4, std::ios::cur);
+	png.seekRelative(4);
 }
 
 

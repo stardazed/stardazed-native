@@ -108,6 +108,17 @@ void FileReadStream::seekRelative(int64 displacement) const {
 }
 
 
+bool FileReadStream::eof() const {
+	return CFReadStreamGetStatus(stream_) == kCFStreamStatusAtEnd;
+}
+
+
+bool FileReadStream::ok() const {
+	auto status = CFReadStreamGetStatus(stream_);
+	return status != kCFStreamStatusAtEnd && status != kCFStreamStatusError;
+}
+
+
 
 } // ns fs
 } // ns stardazed
