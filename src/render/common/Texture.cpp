@@ -5,8 +5,8 @@
 
 #include "render/common/Texture.hpp"
 #include "render/common/PNGFile.hpp"
+#include "filesystem/FileSystem.hpp"
 
-#include <fstream>
 #include <algorithm>
 
 namespace stardazed {
@@ -57,19 +57,18 @@ constexpr uint32 fourCharCode(char a, char b, char c, char d) {
 
 DDSDataProvider::DDSDataProvider(const std::string& resourcePath) {
 	DDS_HEADER header;
-	std::ifstream file{ resourcePath, std::ios::binary };
-	assert(file.is_open());
+	fs::FileReadStream file{ resourcePath };
 	
 	char cookie[4];
-	file.read(cookie, 4);
+	file.readBytes(cookie, 4);
 	assert(strncmp(cookie, "DDS ", 4) == 0);
 	
-	file.read(reinterpret_cast<char*>(&header), sizeof(DDS_HEADER));
+	file.readStruct(&header);
 	size32 dataSize = header.dwPitchOrLinearSize;
 	if (header.dwMipMapCount > 1)
 		dataSize *= 2;
 	data_ = std::make_unique<uint8[]>(dataSize);
-	file.read(reinterpret_cast<char*>(data_.get()), dataSize);
+	file.readBytes(data_.get(), dataSize);
 	
 	switch (header.ddspf.dwFourCC) {
 		case fourCharCode('D','X','T','1'): format_ = ImageDataFormat::DXT1; break;
@@ -146,16 +145,15 @@ struct BITMAPINFOHEADER {
 
 
 BMPDataProvider::BMPDataProvider(const std::string& resourcePath) {
-	std::ifstream file{ resourcePath, std::ios::binary };
-	assert(file.is_open());
+	fs::FileReadStream file{ resourcePath };
 
 	BITMAPFILEHEADER header;
-	file.read(reinterpret_cast<char*>(&header), sizeof(BITMAPFILEHEADER));
-	assert(file && header.bfType == 0x4D42);
+	file.readStruct(&header);
+	assert(header.bfType == 0x4D42);
 	
 	BITMAPINFOHEADER info;
-	file.read(reinterpret_cast<char*>(&info), sizeof(BITMAPINFOHEADER));
-	assert(file && info.biCompression == 0);
+	file.readStruct(&info);
+	assert(info.biCompression == 0);
 	
 	switch (info.biBitCount) {
 		case 24: format_ = ImageDataFormat::BGR8; break;
@@ -175,7 +173,7 @@ BMPDataProvider::BMPDataProvider(const std::string& resourcePath) {
 	assert(dataOffset == headerSize);
 	
 	data_ = std::make_unique<uint8[]>(dataSize);
-	file.read(reinterpret_cast<char*>(data_.get()), dataSize);
+	file.readBytes(data_.get(), dataSize);
 }
 
 
@@ -275,11 +273,10 @@ static_assert(sizeof(TGAFileHeader) == 18, "");
 
 
 TGADataProvider::TGADataProvider(const std::string& resourcePath) {
-	std::ifstream file{ resourcePath, std::ios::binary };
-	assert(file.is_open());
+	fs::FileReadStream file{ resourcePath };
 	
 	TGAFileHeader header;
-	file.read(reinterpret_cast<char*>(&header), sizeof(TGAFileHeader));
+	file.readStruct(&header);
 
 	assert(header.identLengthUnused == 0);
 	assert(header.usePalette == 0);
@@ -307,7 +304,7 @@ TGADataProvider::TGADataProvider(const std::string& resourcePath) {
 	
 	auto dataSize = imageDataFormatBytesPerPixel(format_) * width_ * height_;
 	data_ = std::make_unique<uint8[]>(dataSize);
-	file.read(reinterpret_cast<char*>(data_.get()), dataSize);
+	file.readBytes(data_.get(), dataSize);
 }
 
 

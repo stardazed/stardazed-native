@@ -4,7 +4,6 @@
 // ------------------------------------------------------------------
 
 #include "render/opengl/Texture.hpp"
-#include <fstream>
 
 namespace stardazed {
 namespace render {

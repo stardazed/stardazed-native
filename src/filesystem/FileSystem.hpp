@@ -20,8 +20,8 @@ class Path {
 	CFURLRef url_;
 
 public:
-	explicit Path(const std::string& absPath);
-	explicit Path(const char* absPath) : Path(std::string{ absPath }) {}
+	Path(const std::string& absPath);
+	Path(const char* absPath) : Path(std::string{ absPath }) {}
 	
 	Path(const Path& basePath, const std::string& relPath);
 	Path(const Path& basePath, const char* relPath) : Path(basePath, std::string{ relPath }) {}

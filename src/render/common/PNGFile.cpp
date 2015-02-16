@@ -86,7 +86,7 @@ enum LineFilter : uint8 {
 
 
 PNGFile::PNGFile(const std::string& resourcePath) {
-	fs::FileReadStream png{ fs::Path{ resourcePath } };
+	fs::FileReadStream png{ resourcePath };
 	
 	uint8 realSig[8], expectedSig[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
 	png.readBytes(realSig, 8);
