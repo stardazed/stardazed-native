@@ -10,7 +10,6 @@
 #include <string>
 #include <vector>
 #include <type_traits>
-#include <iosfwd>
 
 namespace stardazed {
 
@@ -68,8 +67,6 @@ public:
 	}
 };
 
-
-std::ostream& operator <<(std::ostream& os, const FmtString& fs);
 
 
 } // ns stardazed

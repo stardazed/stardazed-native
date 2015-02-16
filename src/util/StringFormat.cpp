@@ -4,7 +4,6 @@
 // ------------------------------------------------------------------
 
 #include "StringFormat.hpp"
-#include <ostream>
 
 namespace stardazed {
 
@@ -53,12 +52,6 @@ void FmtString::appendValue(const std::string& s) {
 	std::copy(scan_ + 2, next, ins);
 	
 	scan_ = next;
-}
-
-
-std::ostream& operator <<(std::ostream& os, const FmtString& fs) {
-	os << fs.str();
-	return os;
 }
 
 
