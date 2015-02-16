@@ -29,17 +29,15 @@ Entity* Scene::makeEntity(EntityType type) {
 
 
 Light* Scene::makeLight(const render::LightDescriptor& descriptor) {
-	makeEntity(EntityType::Light);
-	auto& lightEntity = entityPool_.back();
-	lightPool_.emplace_back(lightEntity, descriptor);
+	auto lightEntity = makeEntity(EntityType::Light);
+	lightPool_.emplace_back(*lightEntity, descriptor);
 	return &lightPool_.back();
 }
 
 
 Camera* Scene::makeCamera() {
-	makeEntity(EntityType::Camera);
-	auto& cameraEntity = entityPool_.back();
-	cameraPool_.emplace_back(cameraEntity);
+	auto cameraEntity = makeEntity(EntityType::Camera);
+	cameraPool_.emplace_back(*cameraEntity);
 	return &cameraPool_.back();
 }
 
