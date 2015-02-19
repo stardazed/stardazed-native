@@ -86,6 +86,7 @@
 		8E71E4551A40FB170060DC95 /* Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4541A40FB170060DC95 /* Controller.hpp */; };
 		8E86FBDA1A923BE5001BCBCE /* FileSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */; };
 		8E86FBDC1A923DD5001BCBCE /* mac_FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E86FBDB1A923DD5001BCBCE /* mac_FileSystem.cpp */; };
+		8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBDE1A9650BD001BCBCE /* Plane.hpp */; };
 		8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */; };
 		8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */; };
 		8E90F1251A6D51B700AD015B /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E90F1241A6D51B700AD015B /* Texture.cpp */; };
@@ -202,6 +203,7 @@
 		8E71E4541A40FB170060DC95 /* Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
 		8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FileSystem.hpp; sourceTree = "<group>"; };
 		8E86FBDB1A923DD5001BCBCE /* mac_FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_FileSystem.cpp; sourceTree = "<group>"; };
+		8E86FBDE1A9650BD001BCBCE /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
 		8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_GLRenderContext.hpp; sourceTree = "<group>"; };
 		8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_GLRenderContext.mm; sourceTree = "<group>"; };
 		8E90F1241A6D51B700AD015B /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				8E112D42199E55100029CD38 /* Quaternion.hpp */,
 				8E112D43199E55100029CD38 /* Vector.hpp */,
 				8E112D3C199E55100029CD38 /* AABB.hpp */,
+				8E86FBDE1A9650BD001BCBCE /* Plane.hpp */,
 			);
 			path = math;
 			sourceTree = "<group>";
@@ -574,6 +577,7 @@
 				8E112DDF199E60A50029CD38 /* SceneController.hpp in Headers */,
 				8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */,
 				8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */,
+				8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */,
 				8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */,
 				8E5C926E1A2123C1007E3774 /* VertexArray.hpp in Headers */,
 				8E112DED199E60B70029CD38 /* Time.hpp in Headers */,
