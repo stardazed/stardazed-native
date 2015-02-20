@@ -22,7 +22,13 @@ enum class ElementType {
 	UInt32, SInt32,
 	UInt64, SInt64,
 	
-	Float, Double
+	Float, Double,
+	
+	// packed types
+	SInt2_10_10_10Rev,
+	UInt2_10_10_10Rev,
+	SNormInt2_10_10_10Rev,
+	UNormInt2_10_10_10Rev
 };
 
 
@@ -51,6 +57,14 @@ template <>
 struct ElementTraits<ElementType::Float>  { using Type = float; };
 template <>
 struct ElementTraits<ElementType::Double> { using Type = double; };
+template <>
+struct ElementTraits<ElementType::SInt2_10_10_10Rev> { using Type = int32_t; };
+template <>
+struct ElementTraits<ElementType::UInt2_10_10_10Rev> { using Type = uint32_t; };
+template <>
+struct ElementTraits<ElementType::SNormInt2_10_10_10Rev> { using Type = int32_t; };
+template <>
+struct ElementTraits<ElementType::UNormInt2_10_10_10Rev> { using Type = uint32_t; };
 
 template <ElementType ET>
 using ElementNativeType = typename ElementTraits<ET>::Type;
@@ -105,6 +119,12 @@ constexpr size32 elementSize(ElementType et) {
 			
 		case ElementType::Float:  return sizeof(ElementNativeType<ElementType::Float>);
 		case ElementType::Double: return sizeof(ElementNativeType<ElementType::Double>);
+		
+		case ElementType::SInt2_10_10_10Rev:
+		case ElementType::SNormInt2_10_10_10Rev:
+		case ElementType::UInt2_10_10_10Rev:
+		case ElementType::UNormInt2_10_10_10Rev:
+			return sizeof(ElementNativeType<ElementType::SInt2_10_10_10Rev>);
 	}
 }
 
