@@ -16,11 +16,11 @@ namespace math {
 class Plane {
 	Vec3 normal_;
 	float constant_;
-
+	
 public:
-	Plane(const Vec3& normal, float constant)
-	: normal_{normal}
-	, constant{constant}
+	constexpr Plane(const Vec3& normal, float constant)
+	: normal_(normal)
+	, constant_{constant}
 	{}
 	
 	constexpr bool isFacing(const Vec3& normDirection) {
@@ -28,17 +28,25 @@ public:
 	}
 	
 	constexpr float distanceToPoint(const Vec3& point) {
-		return dot(point, normal) + constant_;
+		return dot(point, normal_) + constant_;
 	}
 	
 	static constexpr Plane fromOriginAndNormal(const Vec3& origin, const Vec3& normal) {
 		return { normal, -dot(normal, origin) };
 	}
 	
-	static Plane fromTriangle(const Vec3& p1, const Vec3& p2, const Vec3& p3) {
+	static Plane fromClockWiseTriangle(const Vec3& p1, const Vec3& p2, const Vec3& p3) {
 		auto normal = normalize(cross(p2 - p1, p3 - p1));
 		return fromOriginAndNormal(p1, normal);
 	}
+	
+	static Plane fromCounterClockWiseTriangle(const Vec3& p1, const Vec3& p2, const Vec3& p3) {
+		auto normal = normalize(cross(p3 - p1, p2 - p1));
+		return fromOriginAndNormal(p1, normal);
+	}
+	
+	constexpr Vec3 normal() const { return normal_; }
+	constexpr float constant() const { return constant_; }
 };
 
 

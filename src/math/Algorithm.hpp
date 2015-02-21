@@ -18,6 +18,50 @@ namespace stardazed {
 namespace math {
 
 
+//  _
+// | |    ___ _ __ _ __
+// | |   / _ \ '__| '_ \
+// | |__|  __/ |  | |_) |
+// |_____\___|_|  | .__/
+//                |_|
+
+template <typename T>
+constexpr
+T lerp(T from, T to, T t) {
+	return from + ((to - from) * t);
+}
+
+
+template <typename T>
+Vector<2, T> lerp(const Vector<2, T>& from, const Vector<2, T>& to, T t) {
+	return {
+		lerp(from.x, to.x, t),
+		lerp(from.y, to.y, t)
+	};
+}
+
+
+template <typename T>
+Vector<3, T> lerp(const Vector<3, T>& from, const Vector<3, T>& to, T t) {
+	return {
+		lerp(from.x, to.x, t),
+		lerp(from.y, to.y, t),
+		lerp(from.z, to.z, t)
+	};
+}
+
+
+template <typename T>
+Vector<4, T> lerp(const Vector<4, T>& from, const Vector<4, T>& to, T t) {
+	return {
+		lerp(from.x, to.x, t),
+		lerp(from.y, to.y, t),
+		lerp(from.z, to.z, t),
+		lerp(from.w, to.w, t)
+	};
+}
+
+
 //   ____ _
 //  / ___| | __ _ _ __ ___  _ __
 // | |   | |/ _` | '_ ` _ \| '_ \
@@ -28,8 +72,7 @@ namespace math {
 // clamp single scalar value to specified range
 template <typename T>
 constexpr
-std::enable_if_t<std::is_arithmetic<T>::value, T>
-clamp(T val, T min, T max) {
+T clamp(T val, T min, T max) {
 	return std::max(min, std::min(max, val));
 }
 
@@ -136,8 +179,7 @@ Vector<4, T> clamp(const Vector<4, T>& vec, const Vector<4, T>& mins, const Vect
 // mix 2 values together according to ratio
 template <typename T>
 constexpr
-std::enable_if_t<std::is_arithmetic<T>::value, T>
-mix(T a, T b, T ratio) {
+T mix(T a, T b, T ratio) {
 	return a * (T{1} - ratio) + b * ratio;
 }
 
