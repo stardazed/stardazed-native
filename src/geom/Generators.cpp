@@ -13,28 +13,63 @@ namespace geom {
 namespace gen {
 
 
-render::MeshDescriptor plane(float width, float height, float gridDimension) {
+render::MeshDescriptor plane(float width, float height, float tileMaxDim) {
 	using namespace render;
 
-	MeshDescriptor mesh({
+	MeshDescriptor m({
 		{ { render::fieldVec3(), "position" }, AttributeRole::Position },
 		{ { render::fieldVec3(), "normal" }, AttributeRole::Normal }
 	});
 	
-	auto verts = mesh.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
-	grid
+	size32 tilesWide = math::max(1.0f, width / tileMaxDim),
+		   tilesHigh = math::max(1.0f, height / tileMaxDim),
+		   tileDimX  = width / tilesWide,
+		   tileDimZ  = height / tilesHigh;
 
-	*verts++ = { -1, -1, 0 };
-	*verts++ = {  1, -1, 0 };
-	*verts++ = {  1,  1, 0 };
-	*verts++ = { -1,  1, 0 };
+	size32 vertexCount = (tilesWide + 1) * (tilesHigh + 1);
+	size32 faceCount = 2 * tilesWide * tilesHigh;
 	
-	mesh.faces.push_back({ 0, 2, 1 });
-	mesh.faces.push_back({ 2, 0, 3 });
+	m.vertexBuffer.allocate<OwnedBufferStorage>(vertexCount);
+	m.faces.reserve(faceCount);
+	auto vit = m.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
 	
-	mesh.genVertexNormals();
+	float halfWidth = (tilesWide * tileDimX) / 2,
+		  halfHeight = (tilesHigh * tileDimZ) / 2;
+
+	// -- vertexes
+	for (auto z = 0u; z <= tilesHigh; ++z) {
+		float posZ = -halfHeight + (z * tileDimZ);
+
+		for (auto x = 0u; x <= tilesWide; ++x) {
+			float posX = -halfWidth	+ (x * tileDimX);
+			*vit++ = { posX, 0, posZ };
+		}
+	}
+
+	// -- faces
+	uint16 baseIndex = 0,
+		   vertexRowCount = tilesWide + 1;
+
+	for (auto z = 0u; z < tilesHigh; ++z) {
+		for (auto x = 0u; x < tilesWide; ++x) {
+			m.faces.push_back({
+				static_cast<uint16>(baseIndex + 1),
+				static_cast<uint16>(baseIndex + vertexRowCount),
+				static_cast<uint16>(baseIndex + vertexRowCount + 1)
+			});
+			m.faces.push_back({
+				static_cast<uint16>(baseIndex),
+				static_cast<uint16>(baseIndex + vertexRowCount),
+				static_cast<uint16>(baseIndex + 1)
+			});
+		}
+		
+		baseIndex += vertexRowCount;
+	}
 	
-	return mesh;
+	m.genVertexNormals();
+	
+	return m;
 }
 
  

@@ -46,7 +46,6 @@ T lerp(T from, T to, T t) {
 // clamp
 // clamp value to lower and upper bound
 
-// clamp single scalar value to specified range
 template <typename T>
 constexpr
 T clamp(T val, T lower, T upper) {
