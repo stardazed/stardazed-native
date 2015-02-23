@@ -255,34 +255,6 @@ void Sphere::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) cons
 }
 
 
-//  ____            _        __  __           _        ____
-// | __ )  __ _ ___(_) ___  |  \/  | ___  ___| |__    / ___| ___ _ __
-// |  _ \ / _` / __| |/ __| | |\/| |/ _ \/ __| '_ \  | |  _ / _ \ '_ \
-// | |_) | (_| \__ \ | (__  | |  | |  __/\__ \ | | | | |_| |  __/ | | |
-// |____/ \__,_|___/_|\___| |_|  |_|\___||___/_| |_|  \____|\___|_| |_|
-//
-render::MeshDescriptor plane(float width, float height, float tileMaxDim) {
-	return basic<Plane>(width, height, tileMaxDim);
-}
-
-
-render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
-						   math::Angle fromAng, math::Angle toAng, int angleSteps)
-{
-	return basic<Arc>(minRadius, maxRadius, radiusSteps, fromAng, toAng, angleSteps);
-}
-
-
-render::MeshDescriptor cube(float diameter) {
-	return basic<Cube>(diameter);
-}
-
-
-render::MeshDescriptor sphere(const int rows, const int segs, const float radius, float sliceFrom, float sliceTo) {
-	return basic<Sphere>(rows, segs, radius, sliceFrom, sliceTo);
-}
-
-
 } // ns gen
 } // ns geom
 } // ns stardazed

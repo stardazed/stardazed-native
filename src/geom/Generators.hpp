@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // geom::Generators - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #ifndef SD_GEOM_GENERATORS_H
@@ -19,6 +19,7 @@ namespace gen {
 using VertexAddFn = std::function<void(float, float, float)>;
 using FaceAddFn = std::function<void(uint32_t, uint32_t, uint32_t)>;
 
+
 template <typename MeshImpl>
 class MeshGenerator {
 public:
@@ -31,10 +32,12 @@ public:
 	void generate(VertexIter vertexBegin, FaceIter faceBegin) const {
 		using TriangleIndexType = std::remove_reference_t<decltype((*faceBegin)[0])>;
 		
+		// vertex is convertible to a VertexAddFn
 		auto vertex = [vit = vertexBegin](float x, float y, float z) mutable {
 			*vit++ = { x, y, z };
 		};
 		
+		// face is convertible to a FaceAddFn
 		auto face = [fit = faceBegin](uint32 a, uint32 b, uint32 c) mutable {
 			*fit++ = {
 				static_cast<TriangleIndexType>(a),
@@ -145,15 +148,19 @@ render::MeshDescriptor basic(Args&&... args) {
 }
 
 
-render::MeshDescriptor plane(float width, float height, float tileMaxDim);
+// ---- Convenience methods to create a basic MeshDescriptor for each of the primitves
 
-render::MeshDescriptor cube(float diameter = 1.0f);
+template <typename... Args>
+render::MeshDescriptor plane(Args&&... args) { return basic<Plane>(std::forward<Args>(args)...); }
 
-render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
-						   math::Angle fromAng, math::Angle toAng, int angleSteps);
+template <typename... Args>
+render::MeshDescriptor cube(Args&&... args) { return basic<Cube>(std::forward<Args>(args)...); }
 
-render::MeshDescriptor sphere(int rows = 20, int segs = 30, float radius = 1.0f,
-							  float sliceFrom = 0.0f, float sliceTo = 1.0f);
+template <typename... Args>
+render::MeshDescriptor arc(Args&&... args) { return basic<Arc>(std::forward<Args>(args)...); }
+
+template <typename... Args>
+render::MeshDescriptor sphere(Args&&... args) { return basic<Sphere>(std::forward<Args>(args)...); }
 
 
 } // ns gen
