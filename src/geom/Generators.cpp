@@ -13,269 +13,273 @@ namespace geom {
 namespace gen {
 
 
-render::MeshDescriptor plane(float width, float height, float tileMaxDim) {
-	using namespace render;
+//  ____  _
+// |  _ \| | __ _ _ __   ___
+// | |_) | |/ _` | '_ \ / _ \
+// |  __/| | (_| | | | |  __/
+// |_|   |_|\__,_|_| |_|\___|
+//
+Plane::Plane(float width, float height, float tileMaxDim) {
+	tilesWide_ = math::max(1.0f, width / tileMaxDim),
+	tilesHigh_ = math::max(1.0f, height / tileMaxDim),
+	tileDimX_  = width / tilesWide_,
+	tileDimZ_  = height / tilesHigh_;
+}
 
-	MeshDescriptor m({
-		{ { render::fieldVec3(), "position" }, AttributeRole::Position },
-		{ { render::fieldVec3(), "normal" }, AttributeRole::Normal }
-	});
-	
-	size32 tilesWide = math::max(1.0f, width / tileMaxDim),
-		   tilesHigh = math::max(1.0f, height / tileMaxDim),
-		   tileDimX  = width / tilesWide,
-		   tileDimZ  = height / tilesHigh;
 
-	size32 vertexCount = (tilesWide + 1) * (tilesHigh + 1);
-	size32 faceCount = 2 * tilesWide * tilesHigh;
+void Plane::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) const {
+	float halfWidth = (tilesWide_ * tileDimX_) / 2,
+	halfHeight = (tilesHigh_ * tileDimZ_) / 2;
 	
-	m.vertexBuffer.allocate<OwnedBufferStorage>(vertexCount);
-	m.faces.reserve(faceCount);
-	auto vit = m.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
-	
-	float halfWidth = (tilesWide * tileDimX) / 2,
-		  halfHeight = (tilesHigh * tileDimZ) / 2;
-
 	// -- vertexes
-	for (auto z = 0u; z <= tilesHigh; ++z) {
-		float posZ = -halfHeight + (z * tileDimZ);
-
-		for (auto x = 0u; x <= tilesWide; ++x) {
-			float posX = -halfWidth	+ (x * tileDimX);
-			*vit++ = { posX, 0, posZ };
+	for (auto z = 0u; z <= tilesHigh_; ++z) {
+		float posZ = -halfHeight + (z * tileDimZ_);
+		
+		for (auto x = 0u; x <= tilesWide_; ++x) {
+			float posX = -halfWidth	+ (x * tileDimX_);
+			vertex(posX, 0, posZ);
 		}
 	}
-
+	
 	// -- faces
-	uint16 baseIndex = 0,
-		   vertexRowCount = tilesWide + 1;
-
-	for (auto z = 0u; z < tilesHigh; ++z) {
-		for (auto x = 0u; x < tilesWide; ++x) {
-			m.faces.push_back({
-				static_cast<uint16>(baseIndex + 1),
-				static_cast<uint16>(baseIndex + vertexRowCount),
-				static_cast<uint16>(baseIndex + vertexRowCount + 1)
-			});
-			m.faces.push_back({
-				static_cast<uint16>(baseIndex),
-				static_cast<uint16>(baseIndex + vertexRowCount),
-				static_cast<uint16>(baseIndex + 1)
-			});
+	uint32 baseIndex = 0;
+	uint32 vertexRowCount = tilesWide_ + 1;
+	
+	for (auto z = 0u; z < tilesHigh_; ++z) {
+		for (auto x = 0u; x < tilesWide_; ++x) {
+			face(
+				baseIndex + 1,
+				baseIndex + vertexRowCount,
+				baseIndex + vertexRowCount + 1
+			);
+			face(
+				baseIndex,
+				baseIndex + vertexRowCount,
+				baseIndex + 1
+			);
 		}
 		
 		baseIndex += vertexRowCount;
 	}
-	
-	m.genVertexNormals();
-	
-	return m;
 }
 
- 
-render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
-						   math::Angle fromAng, math::Angle toAng, int angleSteps) {
+
+//   ____      _
+//  / ___|   _| |__   ___
+// | |  | | | | '_ \ / _ \
+// | |__| |_| | |_) |  __/
+//  \____\__,_|_.__/ \___|
+//
+void Cube::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) const {
+	auto hd = diameter_ / 2.f;
+	
+	// vertexes
+	vertex(-hd, -hd, -hd);
+	vertex( hd, -hd, -hd);
+	vertex( hd,  hd, -hd);
+	vertex(-hd,  hd, -hd);
+	
+	vertex(-hd, -hd,  hd);
+	vertex( hd, -hd,  hd);
+	vertex( hd,  hd,  hd);
+	vertex(-hd,  hd,  hd);
+	
+	// faces
+	face( 0, 2, 1 ); // front
+	face( 2, 0, 3 );
+	face( 1, 6, 5 ); // right
+	face( 6, 1, 2 );
+	face( 5, 7, 4 ); // back
+	face( 7, 5, 6 );
+	face( 4, 3, 0 ); // left
+	face( 3, 4, 7 );
+	face( 4, 1, 5 ); // top
+	face( 1, 4, 0 );
+	face( 3, 6, 2 ); // bottom
+	face( 6, 3, 7 );
+}
+
+
+//     _
+//    / \   _ __ ___
+//   / _ \ | '__/ __|
+//  / ___ \| | | (__
+// /_/   \_\_|  \___|
+//
+Arc::Arc(float minRadius, float maxRadius, int radiusSteps,
+		 math::Angle fromAng, math::Angle toAng, int angleSteps)
+: minRadius_(minRadius)
+, maxRadius_(maxRadius)
+, fromAng_(fromAng)
+, toAng_(toAng)
+, radiusSteps_(radiusSteps)
+, angleSteps_(angleSteps)
+{}
+
+
+void Arc::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) const {
 	using math::Radians;
 	using math::Tau;
-	using namespace render;
-	
-	MeshDescriptor m({
-		{ { render::fieldVec3(), "position" }, AttributeRole::Position },
-		{ { render::fieldVec3(), "normal" }, AttributeRole::Normal }
-	});
 	
 	// -- arc shape
-	Radians angA = fromAng.rad(), angB = toAng.rad();
+	Radians angA = fromAng_.rad(), angB = toAng_.rad();
 	if (angB < angA)
 		angB += Tau;
-	Radians angStep = (angB - angA) / angleSteps;
-
-	auto radiusVerts = radiusSteps + 1;
-	auto angleVerts  = angleSteps + 1;
+	Radians angStep = (angB - angA) / angleSteps_;
+	
+	auto radiusVerts = radiusSteps_ + 1;
+	auto angleVerts  = angleSteps_ + 1;
 	
 	// -- radius steps
 	std::vector<float> radii(radiusVerts);
-	float radStep = (maxRadius - minRadius) / radiusSteps;
-	std::generate(begin(radii), end(radii), [minRadius, radStep, i=0]() mutable {
-		return minRadius + (i++ * radStep);
+	float radStep = (maxRadius_ - minRadius_) / radiusSteps_;
+	std::generate(begin(radii), end(radii), [this, radStep, i=0]() mutable {
+		return minRadius_ + (i++ * radStep);
 	});
-	
-	// -- buffers
-	size32 vertexCount = radiusVerts * angleVerts;
-	size32 faceCount = (radiusSteps * 2) * angleSteps;
 
-	m.vertexBuffer.allocate<OwnedBufferStorage>(vertexCount);
-	m.faces.reserve(faceCount);
-	
 	// -- vertexes
-	auto vit = m.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
 	for (int step=0; step < angleVerts; ++step) {
 		auto ang = angA + (step * angStep);
-		std::transform(begin(radii), end(radii), vit, [ang](float r) {
-			return math::Vec3{ r * math::cos(ang), 0, r * math::sin(ang) };
+		std::for_each(begin(radii), end(radii), [ang, &vertex](float r) {
+			vertex(r * math::cos(ang), 0, r * math::sin(ang));
 		});
-		vit += radiusVerts;
 	}
 	
 	// -- faces
-	uint16_t vix = 0;
-	for (int seg=0; seg < angleSteps; ++seg) {
-		for (int track=0; track < radiusSteps; ++track) {
-			m.faces.push_back({
-				static_cast<uint16_t>(vix + track),
-				static_cast<uint16_t>(vix + track + 1),
-				static_cast<uint16_t>(vix + track + 1 + radiusVerts)
-			});
-			m.faces.push_back({
-				static_cast<uint16_t>(vix + track),
-				static_cast<uint16_t>(vix + track + 1 + radiusVerts),
-				static_cast<uint16_t>(vix + track + radiusVerts)
-			});
+	uint32 vix = 0;
+	for (int seg=0; seg < angleSteps_; ++seg) {
+		for (int track=0; track < radiusSteps_; ++track) {
+			face(
+				vix + track,
+				vix + track + 1,
+				vix + track + 1 + radiusVerts
+			);
+			face(
+				vix + track,
+				vix + track + 1 + radiusVerts,
+				vix + track + radiusVerts
+			);
 		}
-
+		
 		vix += radiusVerts;
 	}
-
-	m.genVertexNormals();
-	
-	return m;
 }
 
 
-render::MeshDescriptor cube(float diameter) {
-	using namespace render;
-
-	MeshDescriptor mesh({
-		{ { render::fieldVec3(), "position" }, AttributeRole::Position },
-		{ { render::fieldVec3(), "normal" }, AttributeRole::Normal }
-	});
-	mesh.vertexBuffer.allocate<OwnedBufferStorage>(8);
-	mesh.faces.reserve(12);
-	
-	// vertexes
-	auto hd = diameter / 2.f;
-	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
-
-	*posIter++ = { -hd, -hd, -hd };
-	*posIter++ = {  hd, -hd, -hd };
-	*posIter++ = {  hd,  hd, -hd };
-	*posIter++ = { -hd,  hd, -hd };
-
-	*posIter++ = { -hd, -hd,  hd };
-	*posIter++ = {  hd, -hd,  hd };
-	*posIter++ = {  hd,  hd,  hd };
-	*posIter++ = { -hd,  hd,  hd };
-
-	// faces
-	mesh.faces.push_back({ 0, 2, 1 }); // front
-	mesh.faces.push_back({ 2, 0, 3 });
-	mesh.faces.push_back({ 1, 6, 5 }); // right
-	mesh.faces.push_back({ 6, 1, 2 });
-	mesh.faces.push_back({ 5, 7, 4 }); // back
-	mesh.faces.push_back({ 7, 5, 6 });
-	mesh.faces.push_back({ 4, 3, 0 }); // left
-	mesh.faces.push_back({ 3, 4, 7 });
-	mesh.faces.push_back({ 4, 1, 5 }); // top
-	mesh.faces.push_back({ 1, 4, 0 });
-	mesh.faces.push_back({ 3, 6, 2 }); // bottom
-	mesh.faces.push_back({ 6, 3, 7 });
-	
-	mesh.genVertexNormals();
-
-	return mesh;
-}
-
-
-
-render::MeshDescriptor sphere(const int rows, const int segs, const float radius, float sliceFrom, float sliceTo) {
-	using math::Pi; using math::Tau;
-	using namespace render;
-	
+//  ____        _
+// / ___| _ __ | |__   ___ _ __ ___
+// \___ \| '_ \| '_ \ / _ \ '__/ _ \
+//  ___) | |_) | | | |  __/ | |  __/
+// |____/| .__/|_| |_|\___|_|  \___|
+//       |_|
+Sphere::Sphere(int rows, int segs, float radius, float sliceFrom, float sliceTo)
+: rows_(rows)
+, segs_(segs)
+, radius_(radius)
+, sliceFrom_(math::clamp(sliceFrom, 0.f, 1.f))
+, sliceTo_(math::clamp(sliceTo, 0.f, 1.f))
+{
 	assert(rows >= 2);
 	assert(segs >= 4);
-	sliceFrom = math::clamp(sliceFrom, 0.f, 1.f);
-	sliceTo = math::clamp(sliceTo, 0.f, 1.f);
 	assert(sliceTo > sliceFrom);
+}
 
-	bool hasTopDisc = sliceFrom == 0.f,
-	hasBottomDisc = sliceTo == 1.f;
-	
-	MeshDescriptor mesh({
-		{ { render::fieldVec3(), "position" }, AttributeRole::Position },
-		{ { render::fieldVec3(), "normal" }, AttributeRole::Normal }
-	});
-	
-	size32 vertexCount = segs * (rows - 1);
-	if (hasTopDisc) ++vertexCount;
-	if (hasBottomDisc) ++vertexCount;
-	mesh.vertexBuffer.allocate<OwnedBufferStorage>(vertexCount);
-	mesh.faces.reserve(2u * segs * rows);
-	
-	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position),
-		beginIter = posIter;
-	
-	auto slice = sliceTo - sliceFrom,
-		piFrom = sliceFrom * Pi.val(),
-		piSlice = slice * Pi.val();
-	
-	for (int row=0; row <= rows; ++row) {
-		float y = std::cos(piFrom + (piSlice / rows) * row) * radius;
-		float segRad = std::sin(piFrom + (piSlice / rows) * row) * radius;
 
+void Sphere::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) const {
+	using math::Pi;
+	using math::Tau;
+	
+	float slice = sliceTo_ - sliceFrom_,
+		  piFrom = sliceFrom_ * Pi.val(),
+		  piSlice = slice * Pi.val();
+
+	int vix = 0;
+	
+	for (int row=0; row <= rows_; ++row) {
+		float y = std::cos(piFrom + (piSlice / rows_) * row) * radius_;
+		float segRad = std::sin(piFrom + (piSlice / rows_) * row) * radius_;
+		
 		if (
-			(hasTopDisc && row == 0) ||
-			(hasBottomDisc && row == rows)
+			(hasTopDisc() && row == 0) ||
+			(hasBottomDisc() && row == rows_)
 		) {
 			// center top or bottom
-			*posIter++ = { 0, y, 0 };
+			vertex(0, y, 0);
+			++vix;
 		}
 		else {
-			for (int seg=0; seg < segs; ++seg) {
-				float x = math::sin((Tau / segs) * seg) * segRad;
-				float z = math::cos((Tau / segs) * seg) * segRad;
-				*posIter++ = { x, y, z };
+			for (int seg=0; seg < segs_; ++seg) {
+				float x = math::sin((Tau / segs_) * seg) * segRad;
+				float z = math::cos((Tau / segs_) * seg) * segRad;
+				vertex(x, y, z);
+				++vix;
 			}
 		}
-
+		
 		// construct row of faces
 		if (row > 0) {
-			int raix = static_cast<int>(posIter - beginIter),
-				rbix = static_cast<int>(posIter - beginIter),
+			int raix = vix,
+				rbix = vix,
 				ramul, rbmul;
 			
-			if (hasTopDisc && row == 1) {
-				raix -= segs + 1;
-				rbix -= segs;
+			if (hasTopDisc() && row == 1) {
+				raix -= segs_ + 1;
+				rbix -= segs_;
 				ramul = 0;
 				rbmul = 1;
 			}
-			else if (hasBottomDisc && row == rows) {
-				raix -= segs + 1;
+			else if (hasBottomDisc() && row == rows_) {
+				raix -= segs_ + 1;
 				rbix -= 1;
 				ramul = 1;
 				rbmul = 0;
 			}
 			else {
-				raix -= segs * 2;
-				rbix -= segs;
+				raix -= segs_ * 2;
+				rbix -= segs_;
 				ramul = 1;
 				rbmul = 1;
 			}
 			
-			for (int seg=0; seg < segs; ++seg) {
+			for (int seg=0; seg < segs_; ++seg) {
 				int ral = ramul * seg,
-					rar = ramul * ((seg + 1) % segs),
+					rar = ramul * ((seg + 1) % segs_),
 					rbl = rbmul * seg,
-					rbr = rbmul * ((seg + 1) % segs);
+					rbr = rbmul * ((seg + 1) % segs_);
 				
-				mesh.faces.push_back({static_cast<uint16_t>(raix + ral), static_cast<uint16_t>(rbix + rbl), static_cast<uint16_t>(raix + rar)});
-				mesh.faces.push_back({static_cast<uint16_t>(raix + rar), static_cast<uint16_t>(rbix + rbl), static_cast<uint16_t>(rbix + rbr)});
+				face(raix + ral, rbix + rbl, raix + rar);
+				face(raix + rar, rbix + rbl, rbix + rbr);
 			}
 		}
 	}
-	
-	mesh.genVertexNormals();
-	return mesh;
+}
+
+
+//  ____            _        __  __           _        ____
+// | __ )  __ _ ___(_) ___  |  \/  | ___  ___| |__    / ___| ___ _ __
+// |  _ \ / _` / __| |/ __| | |\/| |/ _ \/ __| '_ \  | |  _ / _ \ '_ \
+// | |_) | (_| \__ \ | (__  | |  | |  __/\__ \ | | | | |_| |  __/ | | |
+// |____/ \__,_|___/_|\___| |_|  |_|\___||___/_| |_|  \____|\___|_| |_|
+//
+render::MeshDescriptor plane(float width, float height, float tileMaxDim) {
+	return basic<Plane>(width, height, tileMaxDim);
+}
+
+
+render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
+						   math::Angle fromAng, math::Angle toAng, int angleSteps)
+{
+	return basic<Arc>(minRadius, maxRadius, radiusSteps, fromAng, toAng, angleSteps);
+}
+
+
+render::MeshDescriptor cube(float diameter) {
+	return basic<Cube>(diameter);
+}
+
+
+render::MeshDescriptor sphere(const int rows, const int segs, const float radius, float sliceFrom, float sliceTo) {
+	return basic<Sphere>(rows, segs, radius, sliceFrom, sliceTo);
 }
 
 
