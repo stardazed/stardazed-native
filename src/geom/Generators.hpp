@@ -15,9 +15,9 @@ namespace geom {
 namespace gen {
 
 
-//render::MeshDescriptor plane();
+render::MeshDescriptor plane(float width, float height, float gridDimension);
 
-render::MeshDescriptor cube(const float diameter = 1.0f);
+render::MeshDescriptor cube(float diameter = 1.0f);
 
 render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 						   math::Angle fromAng, math::Angle toAng, int angleSteps);

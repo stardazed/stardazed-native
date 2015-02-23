@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------
 
 #include "render/common/VertexBuffer.hpp"
+#include "math/Algorithm.hpp"
 
 #include <algorithm>
 
@@ -33,7 +34,7 @@ VertexBuffer::VertexBuffer(const AttributeList& attrList) {
 		[&offset, &maxElemSize](const Attribute& attr) -> PositionedAttribute {
 			auto field = getField(attr);
 			auto size = fieldSize(field);
-			maxElemSize = std::max(maxElemSize, elementSize(field.type));
+			maxElemSize = math::max(maxElemSize, elementSize(field.type));
 
 			auto alignedOffset = alignFieldOnElement(field.type, offset);
 			offset = alignedOffset + size;
@@ -41,7 +42,7 @@ VertexBuffer::VertexBuffer(const AttributeList& attrList) {
 		});
 
 	// align full item size on boundary of biggest element in attribute list, with min of float boundary
-	maxElemSize = std::max(elementSize(ElementType::Float), maxElemSize);
+	maxElemSize = math::max(elementSize(ElementType::Float), maxElemSize);
 	itemSizeBytes_ = alignFieldOnSize(maxElemSize, offset);
 }
 

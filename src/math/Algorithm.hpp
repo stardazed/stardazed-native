@@ -9,7 +9,6 @@
 #include "system/Config.hpp"
 #include "math/Vector.hpp"
 
-#include <type_traits>
 #include <algorithm>
 #include <numeric>
 
@@ -18,6 +17,100 @@ namespace stardazed {
 namespace math {
 
 
+//  __  __
+// |  \/  | __ ___  __
+// | |\/| |/ _` \ \/ /
+// | |  | | (_| |>  <
+// |_|  |_|\__,_/_/\_\
+//
+
+template <typename T>
+constexpr
+T max(T a, T b) {
+	return a > b ? a : b;
+}
+
+
+template <typename T>
+constexpr
+Vector<2, T> max(const Vector<2, T>& a, const Vector<2, T>& b) {
+	return {
+		max(a.x, b.x),
+		max(a.y, b.y)
+	};
+}
+
+
+template <typename T>
+constexpr
+Vector<3, T> max(const Vector<3, T>& a, const Vector<3, T>& b) {
+	return {
+		max(a.x, b.x),
+		max(a.y, b.y),
+		max(a.z, b.z)
+	};
+}
+
+
+template <typename T>
+constexpr
+Vector<4, T> max(const Vector<4, T>& a, const Vector<4, T>& b) {
+	return {
+		max(a.x, b.x),
+		max(a.y, b.y),
+		max(a.z, b.z),
+		max(a.w, b.w)
+	};
+}
+
+
+//  __  __ _
+// |  \/  (_)_ __
+// | |\/| | | '_ \
+// | |  | | | | | |
+// |_|  |_|_|_| |_|
+//
+
+template <typename T>
+constexpr
+T min(T a, T b) {
+	return a < b ? a : b;
+}
+
+
+template <typename T>
+constexpr
+Vector<2, T> min(const Vector<2, T>& a, const Vector<2, T>& b) {
+	return {
+		min(a.x, b.x),
+		min(a.y, b.y)
+	};
+}
+
+
+template <typename T>
+constexpr
+Vector<3, T> min(const Vector<3, T>& a, const Vector<3, T>& b) {
+	return {
+		min(a.x, b.x),
+		min(a.y, b.y),
+		min(a.z, b.z)
+	};
+}
+
+
+template <typename T>
+constexpr
+Vector<4, T> min(const Vector<4, T>& a, const Vector<4, T>& b) {
+	return {
+		min(a.x, b.x),
+		min(a.y, b.y),
+		min(a.z, b.z),
+		min(a.w, b.w)
+	};
+}
+
+	
 //  _
 // | |    ___ _ __ _ __
 // | |   / _ \ '__| '_ \
@@ -72,8 +165,8 @@ Vector<4, T> lerp(const Vector<4, T>& from, const Vector<4, T>& to, T t) {
 // clamp single scalar value to specified range
 template <typename T>
 constexpr
-T clamp(T val, T min, T max) {
-	return std::max(min, std::min(max, val));
+T clamp(T val, T lower, T upper) {
+	return max(lower, min(upper, val));
 }
 
 

@@ -12,17 +12,18 @@ namespace stardazed {
 namespace geom {
 namespace gen {
 
-/*
-render::MeshDescriptor plane() {
+
+render::MeshDescriptor plane(float width, float height, float gridDimension) {
 	using namespace render;
-	MeshDescriptor mesh;
+
+	MeshDescriptor mesh({
+		{ { render::fieldVec3(), "position" }, AttributeRole::Position },
+		{ { render::fieldVec3(), "normal" }, AttributeRole::Normal }
+	});
 	
-	mesh.createVertexBuffer({
-		{ { fieldVec3(), "position" }, AttributeRole::Position }
-	}, 4);
-	
-	auto verts = mesh.vertexBuffer().attrBegin<math::Vec3>(AttributeRole::Position);
-	
+	auto verts = mesh.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
+	grid
+
 	*verts++ = { -1, -1, 0 };
 	*verts++ = {  1, -1, 0 };
 	*verts++ = {  1,  1, 0 };
@@ -35,11 +36,12 @@ render::MeshDescriptor plane() {
 	
 	return mesh;
 }
-*/
+
  
 render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 						   math::Angle fromAng, math::Angle toAng, int angleSteps) {
-	using math::Radians; using math::Tau;
+	using math::Radians;
+	using math::Tau;
 	using namespace render;
 	
 	MeshDescriptor m({
@@ -105,7 +107,7 @@ render::MeshDescriptor arc(float minRadius, float maxRadius, int radiusSteps,
 }
 
 
-render::MeshDescriptor cube(const float diameter) {
+render::MeshDescriptor cube(float diameter) {
 	using namespace render;
 
 	MeshDescriptor mesh({

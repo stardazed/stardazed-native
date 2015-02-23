@@ -5,6 +5,7 @@
 
 #include "device/mac_DevicesContext.hpp"
 #include "device/mac_X360Controller.hpp"
+#include "math/Algorithm.hpp"
 
 namespace stardazed {
 namespace device {
@@ -45,10 +46,10 @@ static void X360ValueCallback(void* context, IOReturn, void*, IOHIDValueRef valu
 		float deadZone = usage < 50 ? X360LeftThumbDeadZone : X360RightThumbDeadZone;
 		
 		if (normValue < 0) {
-			normValue = std::min(0.0f, normValue + deadZone) / (32768.f - deadZone);
+			normValue = math::min(0.0f, normValue + deadZone) / (32768.f - deadZone);
 		}
 		else {
-			normValue = std::max(0.0f, normValue - deadZone) / (32767.f - deadZone);
+			normValue = math::max(0.0f, normValue - deadZone) / (32767.f - deadZone);
 		}
 		
 		switch (usage) {

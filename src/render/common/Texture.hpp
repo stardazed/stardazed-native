@@ -7,6 +7,7 @@
 #define SD_RENDER_TEXTURE_H
 
 #include "system/Config.hpp"
+#include "math/Algorithm.hpp"
 
 #include <string>
 #include <memory>
@@ -184,7 +185,7 @@ enum class CubeMapFace {
 
 
 inline size32 dimensionAtMipLevel(size32 dim, uint8 level) {
-	return std::max(1u, dim >> level);
+	return math::max(1u, dim >> level);
 }
 
 
