@@ -19,7 +19,9 @@ namespace gen {
 // |  __/| | (_| | | | |  __/
 // |_|   |_|\__,_|_| |_|\___|
 //
-Plane::Plane(float width, float height, float tileMaxDim) {
+Plane::Plane(float width, float height, float tileMaxDim, const PlaneYGenerator& yGen)
+: yGen_(yGen)
+{
 	tilesWide_ = math::max(1.0f, width / tileMaxDim),
 	tilesHigh_ = math::max(1.0f, height / tileMaxDim),
 	tileDimX_  = width / tilesWide_,
@@ -28,8 +30,8 @@ Plane::Plane(float width, float height, float tileMaxDim) {
 
 
 void Plane::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) const {
-	float halfWidth = (tilesWide_ * tileDimX_) / 2,
-	halfHeight = (tilesHigh_ * tileDimZ_) / 2;
+	float halfWidth  = (tilesWide_ * tileDimX_) / 2,
+		  halfHeight = (tilesHigh_ * tileDimZ_) / 2;
 	
 	// -- vertexes
 	for (auto z = 0u; z <= tilesHigh_; ++z) {
@@ -37,7 +39,7 @@ void Plane::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) const
 		
 		for (auto x = 0u; x <= tilesWide_; ++x) {
 			float posX = -halfWidth	+ (x * tileDimX_);
-			vertex(posX, 0, posZ);
+			vertex(posX, yGen_(posX, posZ), posZ);
 		}
 	}
 	

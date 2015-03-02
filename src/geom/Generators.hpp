@@ -9,7 +9,9 @@
 #include "system/Config.hpp"
 #include "math/Angle.hpp"
 #include "render/common/Mesh.hpp"
+
 #include <type_traits>
+#include <functional>
 
 namespace stardazed {
 namespace geom {
@@ -51,11 +53,18 @@ public:
 };
 
 
+using PlaneYGenerator = std::function<float(float, float)>;
+
 class Plane : public MeshGenerator<Plane> {
 	size32 tilesWide_, tilesHigh_, tileDimX_, tileDimZ_;
+	PlaneYGenerator yGen_;
 
 public:
-	Plane(float width, float height, float tileMaxDim);
+	Plane(float width, float height, float tileMaxDim, const PlaneYGenerator& yGen);
+
+	// delegating constructor that just yields 0.0 for all y-coords
+	Plane(float width, float height, float tileMaxDim)
+	: Plane(width, height, tileMaxDim, [](float,float){ return 0.f; }) {}
 
 	size32 vertexCount() const override { return (tilesWide_ + 1) * (tilesHigh_ + 1); }
 	size32 faceCount() const override { return 2 * tilesWide_ * tilesHigh_; }
