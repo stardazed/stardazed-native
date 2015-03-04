@@ -106,14 +106,14 @@ void PNGFile::nextChunk(fs::FileReadStream& png) {
 	auto appender = std::back_inserter(compressedData_);
 	
 	ChunkHeader chdr;
-	png.readStruct(&chdr);
+	png.readValue(&chdr);
 	chdr.dataSize = ntohl(chdr.dataSize);
 	
 	switch (chdr.chunkType) {
 		case HeaderChunk:
 		{
 			IHDRChunk ihdr;
-			png.readStruct(&ihdr);
+			png.readValue(&ihdr);
 			width_ = ntohl(ihdr.Width);
 			height_ = ntohl(ihdr.Height);
 			sd::log("Width : %d\n", width_);

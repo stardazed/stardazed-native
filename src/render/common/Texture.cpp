@@ -63,7 +63,7 @@ DDSDataProvider::DDSDataProvider(const std::string& resourcePath) {
 	file.readBytes(cookie, 4);
 	assert(strncmp(cookie, "DDS ", 4) == 0);
 	
-	file.readStruct(&header);
+	file.readValue(&header);
 	size32 dataSize = header.dwPitchOrLinearSize;
 	if (header.dwMipMapCount > 1)
 		dataSize *= 2;
@@ -148,11 +148,11 @@ BMPDataProvider::BMPDataProvider(const std::string& resourcePath) {
 	fs::FileReadStream file{ resourcePath };
 
 	BITMAPFILEHEADER header;
-	file.readStruct(&header);
+	file.readValue(&header);
 	assert(header.bfType == 0x4D42);
 	
 	BITMAPINFOHEADER info;
-	file.readStruct(&info);
+	file.readValue(&info);
 	assert(info.biCompression == 0);
 	
 	switch (info.biBitCount) {
@@ -276,7 +276,7 @@ TGADataProvider::TGADataProvider(const std::string& resourcePath) {
 	fs::FileReadStream file{ resourcePath };
 	
 	TGAFileHeader header;
-	file.readStruct(&header);
+	file.readValue(&header);
 
 	assert(header.identLengthUnused == 0);
 	assert(header.usePalette == 0);
