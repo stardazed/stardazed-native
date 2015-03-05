@@ -29,17 +29,17 @@ Plane::Plane(float width, float height, float tileMaxDim, const PlaneYGenerator&
 }
 
 
-void Plane::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face, const UVAddFn&) const {
+void Plane::generateImpl(const PositionAddFn& position, const FaceAddFn& face, const UVAddFn&) const {
 	float halfWidth  = (tilesWide_ * tileDimX_) / 2,
 		  halfHeight = (tilesHigh_ * tileDimZ_) / 2;
 	
-	// -- vertexes
+	// -- positions
 	for (auto z = 0u; z <= tilesHigh_; ++z) {
 		float posZ = -halfHeight + (z * tileDimZ_);
 		
 		for (auto x = 0u; x <= tilesWide_; ++x) {
 			float posX = -halfWidth	+ (x * tileDimX_);
-			vertex(posX, yGen_(posX, posZ), posZ);
+			position(posX, yGen_(posX, posZ), posZ);
 		}
 	}
 	
@@ -72,33 +72,49 @@ void Plane::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face, const
 // | |__| |_| | |_) |  __/
 //  \____\__,_|_.__/ \___|
 //
-void Cube::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face, const UVAddFn&) const {
-	auto hd = diameter_ / 2.f;
+void Cube::generateImpl(const PositionAddFn& position, const FaceAddFn& face, const UVAddFn& uv) const {
+	auto hd = diameter_ / 2;
+	uint32 curVtx = 0;
 	
-	// vertexes
-	vertex(-hd, -hd, -hd);
-	vertex( hd, -hd, -hd);
-	vertex( hd,  hd, -hd);
-	vertex(-hd,  hd, -hd);
-	
-	vertex(-hd, -hd,  hd);
-	vertex( hd, -hd,  hd);
-	vertex( hd,  hd,  hd);
-	vertex(-hd,  hd,  hd);
-	
-	// faces
-	face( 0, 2, 1 ); // front
-	face( 2, 0, 3 );
-	face( 1, 6, 5 ); // right
-	face( 6, 1, 2 );
-	face( 5, 7, 4 ); // back
-	face( 7, 5, 6 );
-	face( 4, 3, 0 ); // left
-	face( 3, 4, 7 );
-	face( 4, 1, 5 ); // top
-	face( 1, 4, 0 );
-	face( 3, 6, 2 ); // bottom
-	face( 6, 3, 7 );
+	// unique positions
+	math::Vec3 p[8] = {
+		{ -hd, -hd, -hd },
+		{  hd, -hd, -hd },
+		{  hd,  hd, -hd },
+		{ -hd,  hd, -hd },
+
+		{ -hd, -hd,  hd },
+		{  hd, -hd,  hd },
+		{  hd,  hd,  hd },
+		{ -hd,  hd,  hd }
+	};
+
+	// topleft, topright, botright, botleft
+	auto quad = [&, hd](int a, int b, int c, int d) {
+		position(p[a].x, p[a].y, p[a].z);
+		position(p[b].x, p[b].y, p[b].z);
+		position(p[c].x, p[c].y, p[c].z);
+		position(p[d].x, p[d].y, p[d].z);
+
+		// each cube quad shows texture fully
+		uv(0, 0);
+		uv(1, 0);
+		uv(1, 1);
+		uv(0, 1);
+
+		// ccw faces
+		face(curVtx, curVtx + 2, curVtx + 1);
+		face(curVtx + 2, curVtx, curVtx + 3);
+		
+		curVtx += 4;
+	};
+
+	quad(3, 2, 1, 0); // front
+	quad(7, 3, 0, 4); // left
+	quad(6, 7, 1, 5); // back
+	quad(2, 6, 5, 1); // right
+	quad(7, 6, 2, 3); // top
+	quad(5, 4, 0, 1); // bottom
 }
 
 
@@ -119,7 +135,7 @@ Arc::Arc(float minRadius, float maxRadius, int radiusSteps,
 {}
 
 
-void Arc::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face, const UVAddFn&) const {
+void Arc::generateImpl(const PositionAddFn& position, const FaceAddFn& face, const UVAddFn&) const {
 	using math::Radians;
 	using math::Tau;
 	
@@ -139,11 +155,11 @@ void Arc::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face, const U
 		return minRadius_ + (i++ * radStep);
 	});
 
-	// -- vertexes
+	// -- positions
 	for (int step=0; step < angleVerts; ++step) {
 		auto ang = angA + (step * angStep);
-		std::for_each(begin(radii), end(radii), [ang, &vertex](float r) {
-			vertex(r * math::cos(ang), 0, r * math::sin(ang));
+		std::for_each(begin(radii), end(radii), [ang, &position](float r) {
+			position(r * math::cos(ang), 0, r * math::sin(ang));
 		});
 	}
 	
@@ -187,7 +203,7 @@ Sphere::Sphere(int rows, int segs, float radius, float sliceFrom, float sliceTo)
 }
 
 
-void Sphere::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face, const UVAddFn&) const {
+void Sphere::generateImpl(const PositionAddFn& position, const FaceAddFn& face, const UVAddFn&) const {
 	using math::Pi;
 	using math::Tau;
 	
@@ -206,14 +222,14 @@ void Sphere::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face, cons
 			(hasBottomDisc() && row == rows_)
 		) {
 			// center top or bottom
-			vertex(0, y, 0);
+			position(0, y, 0);
 			++vix;
 		}
 		else {
 			for (int seg=0; seg < segs_; ++seg) {
 				float x = math::sin((Tau / segs_) * seg) * segRad;
 				float z = math::cos((Tau / segs_) * seg) * segRad;
-				vertex(x, y, z);
+				position(x, y, z);
 				++vix;
 			}
 		}

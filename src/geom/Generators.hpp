@@ -19,8 +19,8 @@ namespace geom {
 namespace gen {
 
 
-using VertexAddFn = std::function<void(float, float, float)>;
-using FaceAddFn = std::function<void(uint32_t, uint32_t, uint32_t)>;
+using PositionAddFn = std::function<void(float, float, float)>;
+using FaceAddFn = std::function<void(uint32, uint32, uint32)>;
 using UVAddFn = std::function<void(float, float)>;
 
 
@@ -45,16 +45,18 @@ class MeshGenerator {
 public:
 	virtual ~MeshGenerator() = default;
 	
+	// both position and UV attributes have vertexCount elements
 	virtual size32 vertexCount() const = 0;
+	// each face is a triangle (3 indexes into the vertex arrays)
 	virtual size32 faceCount() const = 0;
 
-	template <typename VertexIter, typename FaceIter, typename UVIter>
-	void generate(VertexIter vertexBegin, FaceIter faceBegin, UVIter uvBegin) const {
+	template <typename PositionIter, typename FaceIter, typename UVIter>
+	void generate(PositionIter positionBegin, FaceIter faceBegin, UVIter uvBegin) const {
 		using TriangleIndexType = std::remove_reference_t<decltype((*faceBegin)[0])>;
 		
 		// vertex is convertible to a VertexAddFn
-		auto vertex = [vit = vertexBegin](float x, float y, float z) mutable {
-			*vit++ = { x, y, z };
+		auto position = [pit = positionBegin](float x, float y, float z) mutable {
+			*pit++ = { x, y, z };
 		};
 		
 		// face is convertible to a FaceAddFn
@@ -71,12 +73,13 @@ public:
 			*uvit++ = { u, v };
 		};
 		
-		static_cast<const MeshImpl*>(this)->generateImpl(vertex, face, uv);
+		static_cast<const MeshImpl*>(this)->generateImpl(position, face, uv);
 	}
 
-	template <typename VertexIter, typename FaceIter>
-	void generate(VertexIter vertexBegin, FaceIter faceBegin) const {
-		generate(vertexBegin, faceBegin, detail::BlackHole{});
+	template <typename PositionIter, typename FaceIter>
+	void generate(PositionIter positionBegin, FaceIter faceBegin) const {
+		// non-UV version just passes a blackhole iterator
+		generate(positionBegin, faceBegin, detail::BlackHole{});
 	}
 };
 
@@ -97,7 +100,7 @@ public:
 	size32 vertexCount() const override { return (tilesWide_ + 1) * (tilesHigh_ + 1); }
 	size32 faceCount() const override { return 2 * tilesWide_ * tilesHigh_; }
 	
-	void generateImpl(const VertexAddFn&, const FaceAddFn&, const UVAddFn&) const;
+	void generateImpl(const PositionAddFn&, const FaceAddFn&, const UVAddFn&) const;
 };
 
 
@@ -109,10 +112,10 @@ public:
 	: diameter_(diameter)
 	{}
 	
-	size32 vertexCount() const override { return 8; }
+	size32 vertexCount() const override { return 24; }
 	size32 faceCount() const override { return 12; }
 	
-	void generateImpl(const VertexAddFn&, const FaceAddFn&, const UVAddFn&) const;
+	void generateImpl(const PositionAddFn&, const FaceAddFn&, const UVAddFn&) const;
 };
 
 
@@ -133,7 +136,7 @@ public:
 		return (radiusSteps_ * 2) * angleSteps_;
 	}
 	
-	void generateImpl(const VertexAddFn&, const FaceAddFn&, const UVAddFn&) const;
+	void generateImpl(const PositionAddFn&, const FaceAddFn&, const UVAddFn&) const;
 };
 
 
@@ -159,7 +162,7 @@ public:
 		return 2u * segs_ * rows_;
 	}
 	
-	void generateImpl(const VertexAddFn&, const FaceAddFn&, const UVAddFn&) const;
+	void generateImpl(const PositionAddFn&, const FaceAddFn&, const UVAddFn&) const;
 };
 
 
