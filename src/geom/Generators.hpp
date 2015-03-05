@@ -88,14 +88,15 @@ using PlaneYGenerator = std::function<float(float, float)>;
 
 class Plane : public MeshGenerator<Plane> {
 	size32 tilesWide_, tilesHigh_, tileDimX_, tileDimZ_;
+	float tileUVStep_;
 	PlaneYGenerator yGen_;
 
 public:
-	Plane(float width, float height, float tileMaxDim, const PlaneYGenerator& yGen);
+	Plane(float width, float height, float tileMaxDim, float tileUVStep, const PlaneYGenerator& yGen);
 
 	// delegating constructor that just yields 0.0 for all y-coords
-	Plane(float width, float height, float tileMaxDim)
-	: Plane(width, height, tileMaxDim, [](float,float){ return 0.f; }) {}
+	Plane(float width, float height, float tileMaxDim, float tileUVStep = 1.0)
+	: Plane(width, height, tileMaxDim, tileUVStep, [](float,float){ return 0.f; }) {}
 
 	size32 vertexCount() const override { return (tilesWide_ + 1) * (tilesHigh_ + 1); }
 	size32 faceCount() const override { return 2 * tilesWide_ * tilesHigh_; }

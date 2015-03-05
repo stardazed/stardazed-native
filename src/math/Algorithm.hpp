@@ -7,7 +7,7 @@
 #define SD_MATH_ALGORITHM_H
 
 #include "system/Config.hpp"
-
+#include <cmath>
 
 namespace stardazed {
 namespace math {
@@ -61,6 +61,19 @@ constexpr
 T mix(T a, T b, T ratio) {
 	return a * (T{1} - ratio) + b * ratio;
 }
+
+
+// linearCoord
+// return fraction of number and 1-fract for negative numbers
+// to have linear increasing fractions for all numbers for e.g. uv-coords
+template <typename T>
+float texCoord(T v) {
+	v -= trunc(v);
+	if (v < 0)
+		v += 1.f;
+	return v;
+};
+
 
 
 } // ns math

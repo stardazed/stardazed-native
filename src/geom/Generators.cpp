@@ -8,6 +8,8 @@
 #include "math/Vector.hpp"
 #include "math/Algorithm.hpp"
 
+#include <cmath>
+
 namespace stardazed {
 namespace geom {
 namespace gen {
@@ -19,20 +21,22 @@ namespace gen {
 // |  __/| | (_| | | | |  __/
 // |_|   |_|\__,_|_| |_|\___|
 //
-Plane::Plane(float width, float height, float tileMaxDim, const PlaneYGenerator& yGen)
+Plane::Plane(float width, float height, float tileMaxDim, float tileUVStep, const PlaneYGenerator& yGen)
 : yGen_(yGen)
 {
 	tilesWide_ = math::max(1.0f, width / tileMaxDim),
 	tilesHigh_ = math::max(1.0f, height / tileMaxDim),
 	tileDimX_  = width / tilesWide_,
 	tileDimZ_  = height / tilesHigh_;
+	
+	tileUVStep_ = tileUVStep;
 }
 
 
-void Plane::generateImpl(const PositionAddFn& position, const FaceAddFn& face, const UVAddFn&) const {
+void Plane::generateImpl(const PositionAddFn& position, const FaceAddFn& face, const UVAddFn& uv) const {
 	float halfWidth  = (tilesWide_ * tileDimX_) / 2,
 		  halfHeight = (tilesHigh_ * tileDimZ_) / 2;
-	
+
 	// -- positions
 	for (auto z = 0u; z <= tilesHigh_; ++z) {
 		float posZ = -halfHeight + (z * tileDimZ_);
@@ -40,6 +44,7 @@ void Plane::generateImpl(const PositionAddFn& position, const FaceAddFn& face, c
 		for (auto x = 0u; x <= tilesWide_; ++x) {
 			float posX = -halfWidth	+ (x * tileDimX_);
 			position(posX, yGen_(posX, posZ), posZ);
+			uv(math::texCoord(posX * tileUVStep_), math::texCoord(posZ * tileUVStep_));
 		}
 	}
 	
