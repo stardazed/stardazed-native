@@ -29,7 +29,7 @@ Plane::Plane(float width, float height, float tileMaxDim, const PlaneYGenerator&
 }
 
 
-void Plane::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) const {
+void Plane::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face, const UVAddFn&) const {
 	float halfWidth  = (tilesWide_ * tileDimX_) / 2,
 		  halfHeight = (tilesHigh_ * tileDimZ_) / 2;
 	
@@ -72,7 +72,7 @@ void Plane::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) const
 // | |__| |_| | |_) |  __/
 //  \____\__,_|_.__/ \___|
 //
-void Cube::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) const {
+void Cube::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face, const UVAddFn&) const {
 	auto hd = diameter_ / 2.f;
 	
 	// vertexes
@@ -119,7 +119,7 @@ Arc::Arc(float minRadius, float maxRadius, int radiusSteps,
 {}
 
 
-void Arc::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) const {
+void Arc::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face, const UVAddFn&) const {
 	using math::Radians;
 	using math::Tau;
 	
@@ -187,7 +187,7 @@ Sphere::Sphere(int rows, int segs, float radius, float sliceFrom, float sliceTo)
 }
 
 
-void Sphere::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face) const {
+void Sphere::generateImpl(const VertexAddFn& vertex, const FaceAddFn& face, const UVAddFn&) const {
 	using math::Pi;
 	using math::Tau;
 	
