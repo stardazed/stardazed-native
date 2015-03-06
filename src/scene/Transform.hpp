@@ -36,11 +36,14 @@ public:
 	}
 	
 	void translate(const math::Vec3& translation) {
-		position += rotation * translation;
+		float len = math::length(translation);
+		if (math::nearEqual(len, 0.0f))
+			return;
+		position += (rotation * translation) * len;
 	}
 
 	void translate(float x, float y, float z) {
-		position += rotation * math::Vec3{ x, y, z };
+		translate(math::Vec3{ x, y, z });
 	}
 
 	void translateGlobal(const math::Vec3& globalTranslation) {
