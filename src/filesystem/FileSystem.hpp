@@ -48,8 +48,13 @@ public:
 	void readBytes(void* buffer, size64 byteCount);
 	
 	template <typename T>
-	void readStruct(T* object) {
-		readBytes(object, sizeof(T));
+	void readValue(T* value) {
+		readBytes(value, sizeof(T));
+	}
+	
+	template <typename T, size_t N>
+	void readValueArray(T* array) {
+		readBytes(array, sizeof(T) * N);
 	}
 	
 	int64 offset() const;
