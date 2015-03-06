@@ -208,19 +208,21 @@ Sphere::Sphere(int rows, int segs, float radius, float sliceFrom, float sliceTo)
 }
 
 
-void Sphere::generateImpl(const PositionAddFn& position, const FaceAddFn& face, const UVAddFn&) const {
+void Sphere::generateImpl(const PositionAddFn& position, const FaceAddFn& face, const UVAddFn& uv) const {
 	using math::Pi;
 	using math::Tau;
 	
 	float slice = sliceTo_ - sliceFrom_,
 		  piFrom = sliceFrom_ * Pi.val(),
-		  piSlice = slice * Pi.val();
+		  piSlice = slice * Pi.val(),
+		  halfPiSlice = slice / 2;
 
 	int vix = 0;
 	
 	for (int row=0; row <= rows_; ++row) {
 		float y = std::cos(piFrom + (piSlice / rows_) * row) * radius_;
 		float segRad = std::sin(piFrom + (piSlice / rows_) * row) * radius_;
+		float texV = std::sin(piFrom + (halfPiSlice / rows_) * row);
 		
 		if (
 			(hasTopDisc() && row == 0) ||
@@ -234,7 +236,10 @@ void Sphere::generateImpl(const PositionAddFn& position, const FaceAddFn& face, 
 			for (int seg=0; seg < segs_; ++seg) {
 				float x = math::sin((Tau / segs_) * seg) * segRad;
 				float z = math::cos((Tau / segs_) * seg) * segRad;
+				float texU = math::sin(((Pi / 2) / rows_) * row);
+
 				position(x, y, z);
+				uv(texU, texV);
 				++vix;
 			}
 		}
