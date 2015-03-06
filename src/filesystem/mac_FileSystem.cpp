@@ -93,6 +93,7 @@ int64 FileReadStream::offset() const {
 	auto offsetNr = static_cast<CFNumberRef>(CFReadStreamCopyProperty(stream_, kCFStreamPropertyFileCurrentOffset));
 	size64 offset = 0;
 	CFNumberGetValue(offsetNr, kCFNumberLongLongType, &offset);
+	CFRelease(offsetNr);
 	return offset;
 }
 
@@ -100,6 +101,7 @@ int64 FileReadStream::offset() const {
 void FileReadStream::seekAbsolute(int64 newOffset) const {
 	auto offsetNr = CFNumberCreate(nullptr, kCFNumberLongLongType, &newOffset);
 	CFReadStreamSetProperty(stream_, kCFStreamPropertyFileCurrentOffset, offsetNr);
+	CFRelease(offsetNr);
 }
 
 

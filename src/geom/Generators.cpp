@@ -24,8 +24,8 @@ namespace gen {
 Plane::Plane(float width, float height, float tileMaxDim, float tileUVStep, const PlaneYGenerator& yGen)
 : yGen_(yGen)
 {
-	tilesWide_ = math::max(1.0f, width / tileMaxDim),
-	tilesHigh_ = math::max(1.0f, height / tileMaxDim),
+	tilesWide_ = math::max(1.f, width / tileMaxDim),
+	tilesHigh_ = math::max(1.f, height / tileMaxDim),
 	tileDimX_  = width / tilesWide_,
 	tileDimZ_  = height / tilesHigh_;
 	
@@ -47,7 +47,7 @@ void Plane::generateImpl(const PositionAddFn& position, const FaceAddFn& face, c
 			uv(math::texCoord(posX * tileUVStep_), math::texCoord(posZ * tileUVStep_));
 		}
 	}
-	
+
 	// -- faces
 	uint32 baseIndex = 0;
 	uint32 vertexRowCount = tilesWide_ + 1;
@@ -55,17 +55,17 @@ void Plane::generateImpl(const PositionAddFn& position, const FaceAddFn& face, c
 	for (auto z = 0u; z < tilesHigh_; ++z) {
 		for (auto x = 0u; x < tilesWide_; ++x) {
 			face(
-				baseIndex + 1,
-				baseIndex + vertexRowCount,
-				baseIndex + vertexRowCount + 1
+				baseIndex + x + 1,
+				baseIndex + x + vertexRowCount,
+				baseIndex + x + vertexRowCount + 1
 			);
 			face(
-				baseIndex,
-				baseIndex + vertexRowCount,
-				baseIndex + 1
+				baseIndex + x,
+				baseIndex + x + vertexRowCount,
+				baseIndex + x + 1
 			);
 		}
-		
+
 		baseIndex += vertexRowCount;
 	}
 }
@@ -116,7 +116,7 @@ void Cube::generateImpl(const PositionAddFn& position, const FaceAddFn& face, co
 
 	quad(3, 2, 1, 0); // front
 	quad(7, 3, 0, 4); // left
-	quad(6, 7, 1, 5); // back
+	quad(6, 7, 4, 5); // back
 	quad(2, 6, 5, 1); // right
 	quad(7, 6, 2, 3); // top
 	quad(5, 4, 0, 1); // bottom
@@ -230,6 +230,7 @@ void Sphere::generateImpl(const PositionAddFn& position, const FaceAddFn& face, 
 		) {
 			// center top or bottom
 			position(0, y, 0);
+			uv(0.5, texV);
 			++vix;
 		}
 		else {

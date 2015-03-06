@@ -87,8 +87,8 @@ public:
 using PlaneYGenerator = std::function<float(float, float)>;
 
 class Plane : public MeshGenerator<Plane> {
-	size32 tilesWide_, tilesHigh_, tileDimX_, tileDimZ_;
-	float tileUVStep_;
+	size32 tilesWide_, tilesHigh_;
+	float tileDimX_, tileDimZ_, tileUVStep_;
 	PlaneYGenerator yGen_;
 
 public:
