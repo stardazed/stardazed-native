@@ -229,6 +229,12 @@ public:
 	// -- binding
 	
 	void bind() const { glBindBuffer(target_, name_); }
+	
+	static GLuint boundAtTarget(GLenum target) {
+		GLuint currentlyBound;
+		glGetIntegerv(detail::glBindingNameForTarget(target), reinterpret_cast<GLint*>(&currentlyBound));
+		return currentlyBound;
+	}
 };
 
 
@@ -236,8 +242,7 @@ public:
 
 template <>
 inline GLuint saveAndBind(const GLBuffer& buffer) {
-	GLuint currentlyBound;
-	glGetIntegerv(detail::glBindingNameForTarget(buffer.target()), reinterpret_cast<GLint*>(&currentlyBound));
+	auto currentlyBound = GLBuffer::boundAtTarget(buffer.target());
 	if (currentlyBound != buffer.name())
 		buffer.bind();
 	

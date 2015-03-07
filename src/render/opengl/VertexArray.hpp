@@ -36,7 +36,9 @@ public:
 	GLuint name() const { return glVAO_; }
 
 	// -- binding
-	void bind() const { glBindVertexArray(glVAO_); }
+	void bind() const {
+		glBindVertexArray(glVAO_);
+	}
 };
 
 
