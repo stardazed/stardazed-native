@@ -8,7 +8,6 @@
 
 #include "system/Config.hpp"
 #include <string>
-#include <vector>
 #include <type_traits>
 
 namespace stardazed {
@@ -20,26 +19,11 @@ std::string toString(const T t, typename std::enable_if_t<std::is_arithmetic<T>:
 	return std::to_string(t);
 }
 
-// built-in arrays
-template <typename T>
-std::string toString(T* at, size_t N) {
-	bool rest = false;
-	std::string s {'[', 1};
-	for (T *pt = at, *et = at + N; pt != et; ++pt) {
-		if (rest)
-			s += ',';
-		else
-			rest = true;
-		
-		s += toString(*pt);
-	}
-	return s + ']';
-}
-
+// Container types and built-in arrays
 template <typename C>
 // requires Container<C>
-std::string toString(const C& ct, typename C::value_type* = nullptr) {
-	using T = typename C::value_type;
+std::string toString(const C& ct, decltype(std::begin(ct))* = nullptr) {
+	using T = decltype(*std::begin(ct));
 	
 	bool rest = false;
 	std::string s {'[', 1};
