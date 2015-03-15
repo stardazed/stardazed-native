@@ -116,9 +116,9 @@ void PNGFile::nextChunk(fs::FileReadStream& png) {
 			png.readValue(&ihdr);
 			width_ = ntohl(ihdr.Width);
 			height_ = ntohl(ihdr.Height);
-			sd::log("Width : %d\n", width_);
-			sd::log("Height: %d\n", height_);
-			sd::log("Kind  : %d\n", (int)ihdr.ColorType);
+			sd::log("Width : ", width_);
+			sd::log("Height: ", height_);
+			sd::log("Kind  : ", (int)ihdr.ColorType);
 			
 			assert(ihdr.BitDepth == 8);
 			assert((ColorType)ihdr.ColorType != ColorType::Palette);

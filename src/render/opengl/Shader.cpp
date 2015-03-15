@@ -53,7 +53,7 @@ void Program::link() {
 		if (logLength > 0) {
 			std::vector<char> errors(logLength + 1);
 			glGetProgramInfoLog(name(), logLength, NULL, &errors[0]);
-			log("Link Errors:\n%s", errors.data());
+			log("Link Errors:\n", errors.data());
 		}
 	}
 }
@@ -109,7 +109,7 @@ void Shader::compileSource(const std::string& source) {
 		if (logLength > 0) {
 			std::vector<char> errors(logLength + 1);
 			glGetShaderInfoLog(name(), logLength, NULL, &errors[0]);
-			log("GLSL Errors:\n%s", errors.data());
+			log("GLSL Errors:\n", errors.data());
 		}
 	}
 }

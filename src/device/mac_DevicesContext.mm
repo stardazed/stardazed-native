@@ -6,6 +6,7 @@
 #include "device/mac_DevicesContext.hpp"
 #include "device/mac_VKeyCodes.hpp"
 #include "device/mac_X360Controller.hpp"
+#include "system/Logging.hpp"
 
 #include <algorithm>
 
@@ -174,6 +175,7 @@ static void hidDeviceAdded(void* context, IOReturn, void*, IOHIDDeviceRef device
 	}
 	else {
 		// FIXME: no suitable driver found, report or log
+		sd::log("Unknown Controller/Gamepad, vendorID: ", vendorID, "; productID: ", productID);
 	}
 }
 

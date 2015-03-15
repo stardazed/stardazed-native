@@ -27,7 +27,7 @@ void FrameBuffer::addShadowDepthMap(uint32 width, uint32 height) {
 	
 	auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (status != GL_FRAMEBUFFER_COMPLETE) {
-		sd::log("fbo not complete: %d", status);
+		sd::log("fbo not complete: ", status);
 	}
 }
 

@@ -69,35 +69,25 @@ std::string toString(const char * cs);
 std::string toString(std::string s);
 
 
+// concatAsString(...)
+// returns a string with the toString() representations of each
+// passed argument concatenated together.
+namespace detail {
+	void concatAsString(std::string&);
+	
+	template <typename T, typename... Ts>
+	void concatAsString(std::string& buf, const T& t, Ts&&... ts) {
+		buf += toString(t);
+		concatAsString(buf, std::forward<Ts>(ts)...);
+	}
+}
 
-// Simple printf-like formatted string -- experimental
-// FIXME: needs actual argument inspection
-class FmtString {
-	std::string fmt_, baked_;
-	std::string::const_iterator scan_;
-	
-	void appendValue(const std::string&);
-	
-public:
-	FmtString(std::string s);
-	FmtString(const char* cs) : FmtString(std::string{cs}) {}
-	
-	const std::string& str() const {
-		return baked_;
-	}
-	
-	operator std::string() {
-		return baked_;
-	}
-	
-	template <typename T>
-	FmtString& operator %(T t) {
-		// FIXME: check type of placeholder, etc.
-		appendValue(toString(t));
-		return *this;
-	}
-};
-
+template <typename... Ts>
+std::string concatAsString(Ts&&... ts) {
+	std::string buf;
+	detail::concatAsString(buf, std::forward<Ts>(ts)...);
+	return buf;
+}
 
 
 } // ns stardazed
