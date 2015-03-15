@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // StringFormat - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #ifndef SD_STRINGFORMAT_H
@@ -20,22 +20,53 @@ std::string toString(const T t, typename std::enable_if_t<std::is_arithmetic<T>:
 	return std::to_string(t);
 }
 
+// built-in arrays
+template <typename T>
+std::string toString(T* at, size_t N) {
+	bool rest = false;
+	std::string s {'[', 1};
+	for (T *pt = at, *et = at + N; pt != et; ++pt) {
+		if (rest)
+			s += ',';
+		else
+			rest = true;
+		
+		s += toString(*pt);
+	}
+	return s + ']';
+}
+
+template <typename C>
+// requires Container<C>
+std::string toString(const C& ct, typename C::value_type* = nullptr) {
+	using T = typename C::value_type;
+	
+	bool rest = false;
+	std::string s {'[', 1};
+	for (const T& t : ct) {
+		if (rest)
+			s += ',';
+		else
+			rest = true;
+		s += toString(t);
+	}
+	return s + ']';
+}
+
+
+// pointers
+std::string toString(std::nullptr_t);
+
+template <typename T>
+std::string toString(const T* p) {
+	return p ? std::string("(Pointer)", 9) : std::string("nullptr", 7);
+}
+
 
 // basic conversions
 std::string toString(const bool b);
 std::string toString(const char * cs);
 std::string toString(std::string s);
-
-
-// very basic vector<T> serialization
-// change this to more of a Sequence concept template later
-template <typename T>
-std::string toString(const std::vector<T>& vt) {
-	std::string s {"["};
-	for (T& t : vt)
-		s += toString(t) + ",";
-	return s + "]";
-}
 
 
 

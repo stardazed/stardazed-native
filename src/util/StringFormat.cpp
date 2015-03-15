@@ -8,6 +8,10 @@
 namespace stardazed {
 
 
+std::string toString(std::nullptr_t) {
+	return std::string("nullptr", 7);
+}
+
 std::string toString(const bool b) {
 	return b ? std::string("true",4) : std::string("false",5);
 }
@@ -46,7 +50,7 @@ void FmtString::appendValue(const std::string& s) {
 		return; // warning?
 	
 	auto ins = std::back_inserter(baked_);
-	
+
 	std::copy(s.cbegin(), s.cend(), ins);
 	auto next = std::find(scan_ + 2, fmt_.cend(), '%');
 	std::copy(scan_ + 2, next, ins);

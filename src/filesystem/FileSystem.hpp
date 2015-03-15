@@ -52,8 +52,8 @@ public:
 		readBytes(value, sizeof(T));
 	}
 	
-	template <typename T, size_t N>
-	void readValueArray(T* array) {
+	template <typename T>
+	void readValueArray(T* array, size_t N) {
 		readBytes(array, sizeof(T) * N);
 	}
 	
