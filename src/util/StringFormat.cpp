@@ -18,7 +18,7 @@ std::string toString(std::nullptr_t) {
 }
 
 std::string toString(const bool b) {
-	return b ? std::string("true",4) : std::string("false",5);
+	return b ? std::string("true", 4) : std::string("false", 5);
 }
 
 std::string toString(const char* cs) {
