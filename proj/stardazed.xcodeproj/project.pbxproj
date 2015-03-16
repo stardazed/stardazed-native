@@ -64,7 +64,6 @@
 		8E44B4051A3F41380059C57D /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E44B4041A3F41380059C57D /* AudioUnit.framework */; };
 		8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */; };
 		8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */; };
-		8E4C740A1A0929D4006CF46D /* BufferStorage.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74091A0929D4006CF46D /* BufferStorage.hpp */; };
 		8E54FE591A6F0AD3003D649A /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E54FE581A6F0AD3003D649A /* Texture.hpp */; };
 		8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E54FE5A1A6F0BC7003D649A /* Texture.cpp */; };
 		8E5C926E1A2123C1007E3774 /* VertexArray.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5C926D1A2123C1007E3774 /* VertexArray.hpp */; };
@@ -181,7 +180,6 @@
 		8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Manipulators.cpp; sourceTree = "<group>"; };
 		8E46C1D119DAE44A009A85A1 /* Manipulators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Manipulators.hpp; sourceTree = "<group>"; };
 		8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexDerivedData.hpp; sourceTree = "<group>"; };
-		8E4C74091A0929D4006CF46D /* BufferStorage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferStorage.hpp; sourceTree = "<group>"; };
 		8E54FE581A6F0AD3003D649A /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
 		8E54FE5A1A6F0BC7003D649A /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Texture.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E5C926D1A2123C1007E3774 /* VertexArray.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexArray.hpp; sourceTree = "<group>"; };
@@ -475,7 +473,6 @@
 			isa = PBXGroup;
 			children = (
 				8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */,
-				8E4C74091A0929D4006CF46D /* BufferStorage.hpp */,
 				8E2389C519F5A04400080E15 /* VertexBuffer.hpp */,
 				8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */,
 				8E19F7221A25273200A13CF6 /* IndexBuffer.hpp */,
@@ -541,7 +538,6 @@
 				8E6E53AF1A810F6000844C70 /* Light.hpp in Headers */,
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
 				8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */,
-				8E4C740A1A0929D4006CF46D /* BufferStorage.hpp in Headers */,
 				8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */,
 				8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */,
 				8E90F1271A6D636500AD015B /* Texture.hpp in Headers */,

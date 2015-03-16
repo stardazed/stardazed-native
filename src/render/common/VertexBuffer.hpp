@@ -9,7 +9,6 @@
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
 #include "render/common/BufferFields.hpp"
-#include "render/common/BufferStorage.hpp"
 #include "math/Vector.hpp"
 #include "math/Matrix.hpp"
 
@@ -56,7 +55,7 @@ constexpr Field getField(const PositionedAttribute& posAttr) { return posAttr.at
 
 class VertexBuffer {
 	size32 itemSizeBytes_ = 0, itemCount_ = 0;
-	std::unique_ptr<BufferStorage> storage_;
+	std::unique_ptr<uint8[]> storage_;
 	std::vector<PositionedAttribute> attrs_;
 	
 	const PositionedAttribute* attrByPredicate(std::function<bool(const PositionedAttribute&)>) const;
@@ -80,8 +79,6 @@ public:
 		storage_ = std::make_unique<Storage>(bytesRequired(itemCount_));
 	}
 	
-	BufferStorage* storage() const { return storage_.get(); }
-
 	// -- attribute metadata
 	
 	size32 attributeCount() const { return static_cast<size32>(attrs_.size()); }
@@ -92,7 +89,7 @@ public:
 	
 	// -- raw data pointers
 	
-	void* basePointer() const { return storage_->getAs<void*>(); }
+	void* basePointer() const { return storage_.get(); }
 	
 	void* attrBasePointer(const PositionedAttribute&) const;
 	void* attrBasePointer(AttributeRole) const;

@@ -178,7 +178,7 @@ render::MeshDescriptor basic(Args&&... args) {
 	
 	auto generator = Gen(std::forward<Args>(args)...);
 
-	mesh.vertexBuffer.allocate<OwnedBufferStorage>(generator.vertexCount());
+	mesh.vertexBuffer.allocate(generator.vertexCount());
 	mesh.faces.resize(generator.faceCount());
 
 	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);

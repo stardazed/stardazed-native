@@ -8,80 +8,51 @@
 
 #include "system/Config.hpp"
 #include "math/Vector.hpp"
-#include "render/common/VertexBuffer.hpp"
+#include "render/common/BufferFields.hpp"
 
 #include <memory>
+#include <limits>
 
 namespace stardazed {
 namespace render {
 
 
-using TriangleI16 = math::Vector<3, uint16_t>;
-using TriangleI32 = math::Vector<3, uint32_t>;
+using TriangleI8 = math::Vector<3, uint8>;
+using TriangleI16 = math::Vector<3, uint16>;
+using TriangleI32 = math::Vector<3, uint32>;
 
 
-namespace detail {
-	template <ElementType IndexType>
-	struct TriangleTypeForIndexType;
-	
-	template <>
-	struct TriangleTypeForIndexType<ElementType::UInt16> {
-		using Triangle = TriangleI16;
-	};
+// Given a highest index number to be used in an IndexBuffer, return the
+// ElementType needed for each index value.
+constexpr ElementType elementTypeForIndexCount(size32 maxIndex) {
+	if (maxIndex <= std::numeric_limits<ElementNativeType<ElementType::UInt8>>::max())
+		return ElementType::UInt8;
+	if (maxIndex <= std::numeric_limits<ElementNativeType<ElementType::UInt16>>::max())
+		return ElementType::UInt16;
 
-	template <>
-	struct TriangleTypeForIndexType<ElementType::UInt32> {
-		using Triangle = TriangleI32;
-	};
+	return ElementType::UInt32;
 }
 
 
-template <ElementType IndexType>
 class IndexBuffer {
-	VertexBuffer indexBuffer_;
-	const PositionedAttribute *indexAttr_;
-	
-public:
-	using TriangleType = typename detail::TriangleTypeForIndexType<IndexType>::Triangle;
+	ElementType indexElementType_ = ElementType::UInt8;
+	size32 elementSize_ = 0, triangleSize_ = 0, count_ = 0;
+	std::unique_ptr<uint8[]> storage_;
 
+public:
 	IndexBuffer()
-	: indexBuffer_({
-		{ { { IndexType, 3 }, std::string{"index"} }, AttributeRole::Index }
-	})
-	, indexAttr_(indexBuffer_.attrByIndex(0))
 	{}
 	
 	// --
 	
-	size32 bytesRequired(size32 triangleCount) const {
-		return indexBuffer_.bytesRequired(triangleCount);
-	}
-	
-	void allocate(size32 triangleCount) {
-		indexBuffer_.allocate(triangleCount);
-	}
+	size32 bytesRequired(size32 triangleCount) const;
+	void allocate(size32 triangleCount);
 	
 	// --
 	
-	constexpr ElementType elementType() const { return IndexType; }
-	size32 count() const { return indexBuffer_.itemCount(); }
-
-	// --
-	
-	VertexBuffer::AttrIterator<TriangleType> begin() {
-		return indexBuffer_.attrBegin<TriangleType>(*indexAttr_);
-	}
-	
-	VertexBuffer::AttrIterator<TriangleType> end() {
-		return indexBuffer_.attrEnd<TriangleType>(*indexAttr_);
-	}
+	ElementType elementType() const { return indexElementType_; }
+	size32 count() const { return count_; }
 };
-
-
-// -- Aliases
-
-using Index16Buffer = IndexBuffer<ElementType::UInt16>;
-using Index32Buffer = IndexBuffer<ElementType::UInt32>;
 
 
 } // ns render

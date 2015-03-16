@@ -10,7 +10,6 @@
 #include "util/ConceptTraits.hpp"
 
 #include "math/Vector.hpp"
-#include "render/common/BufferStorage.hpp"
 #include "render/common/Mesh.hpp"
 #include "render/opengl/OpenGL.hpp"
 
