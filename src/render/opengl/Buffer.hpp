@@ -11,6 +11,7 @@
 
 #include "math/Vector.hpp"
 #include "render/common/Mesh.hpp"
+#include "render/common/VertexBuffer.hpp"
 #include "render/opengl/OpenGL.hpp"
 
 
@@ -158,8 +159,8 @@ public:
 		allocate(bytes, nullptr);
 	}
 	
-	void allocate(const BufferStorage& storage) {
-		allocate(static_cast<size32>(storage.byteSize()), storage.getAs<void*>());
+	void allocateFromClientBuffer(const VertexBuffer& vb) {
+		allocate(vb.bufferSizeBytes(), vb.basePointer());
 	}
 
 	// -- direct updates

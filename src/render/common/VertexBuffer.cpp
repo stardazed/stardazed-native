@@ -78,7 +78,7 @@ const PositionedAttribute* VertexBuffer::attrByIndex(size32 index) const {
 
 
 void* VertexBuffer::attrBasePointer(const PositionedAttribute& attr) const {
-	return storage_->getAs<uint8_t>() + attr.offset;
+	return storage_.get() + attr.offset;
 }
 
 

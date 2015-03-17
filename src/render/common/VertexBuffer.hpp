@@ -72,11 +72,10 @@ public:
 	size32 bytesRequired(size32 itemCount) const {
 		return itemCount * itemSizeBytes_;
 	}
-	
-	template <typename Storage>
+
 	void allocate(size32 itemCount) {
 		itemCount_ = itemCount;
-		storage_ = std::make_unique<Storage>(bytesRequired(itemCount_));
+		storage_ = std::make_unique<uint8[]>(bytesRequired(itemCount_));
 	}
 	
 	// -- attribute metadata
@@ -108,7 +107,7 @@ public:
 	public:
 		constexpr AttrIterator() {}
 		constexpr AttrIterator(const VertexBuffer& vb, const PositionedAttribute& attr)
-		: position_{ vb.storage_->getAs<uint8_t>() + attr.offset }
+		: position_{ static_cast<uint8*>(vb.basePointer()) + attr.offset }
 		, rowBytes_{ vb.itemSizeBytes() }
 		{}
 		
