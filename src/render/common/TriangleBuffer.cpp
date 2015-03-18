@@ -3,7 +3,7 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "render/common/IndexBuffer.hpp"
+#include "render/common/TriangleBuffer.hpp"
 
 namespace stardazed {
 namespace render {

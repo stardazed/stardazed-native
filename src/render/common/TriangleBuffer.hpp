@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// render::IndexBuffer - stardazed
+// render::TriangleBuffer - stardazed
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDER_INDEXBUFFER_H
-#define SD_RENDER_INDEXBUFFER_H
+#ifndef SD_RENDER_TRIANGLEBUFFER_H
+#define SD_RENDER_TRIANGLEBUFFER_H
 
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"

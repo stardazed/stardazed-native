@@ -12,7 +12,7 @@
 #include "math/Vector.hpp"
 #include "render/common/Mesh.hpp"
 #include "render/common/VertexBuffer.hpp"
-#include "render/common/IndexBuffer.hpp"
+#include "render/common/TriangleBuffer.hpp"
 #include "render/opengl/OpenGL.hpp"
 
 
