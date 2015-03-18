@@ -7,6 +7,7 @@
 #define SD_RENDER_INDEXBUFFER_H
 
 #include "system/Config.hpp"
+#include "util/ConceptTraits.hpp"
 #include "math/Vector.hpp"
 #include "render/common/BufferFields.hpp"
 
@@ -21,37 +22,164 @@ using TriangleI8 = math::Vector<3, uint8>;
 using TriangleI16 = math::Vector<3, uint16>;
 using TriangleI32 = math::Vector<3, uint32>;
 
-
-// Given a highest index number to be used in an IndexBuffer, return the
-// ElementType needed for each index value.
-constexpr ElementType elementTypeForIndexCount(size32 maxIndex) {
-	if (maxIndex <= std::numeric_limits<ElementNativeType<ElementType::UInt8>>::max())
-		return ElementType::UInt8;
-	if (maxIndex <= std::numeric_limits<ElementNativeType<ElementType::UInt16>>::max())
-		return ElementType::UInt16;
-
-	return ElementType::UInt32;
-}
+using Triangle = TriangleI32;
 
 
-class IndexBuffer {
+class TriangleBuffer {
 	ElementType indexElementType_ = ElementType::UInt8;
-	size32 elementSize_ = 0, triangleSize_ = 0, count_ = 0;
+	size32 triangleSizeBytes_ = 0, triangleCount_ = 0;
 	std::unique_ptr<uint8[]> storage_;
-
+	
 public:
-	IndexBuffer()
-	{}
+	void allocateWithElementType(ElementType, size32 triangleCount);
+	void allocateWithVertexCount(size32 vertexCount, size32 triangleCount);
+
+	// -- observers
 	
-	// --
-	
-	size32 bytesRequired(size32 triangleCount) const;
-	void allocate(size32 triangleCount);
-	
-	// --
+	void* basePointer() const { return storage_.get(); }
 	
 	ElementType elementType() const { return indexElementType_; }
-	size32 count() const { return count_; }
+	
+	size32 itemSizeBytes() const { return triangleSizeBytes_; }
+	size32 itemCount() const { return triangleCount_; }
+	size32 bufferSizeBytes() const { return triangleSizeBytes_ * triangleCount_; }
+
+
+	// -- iterators
+	
+	class TriangleProxy {
+		uint8* data_;
+		size32 elementSize_;
+		
+	public:
+		constexpr TriangleProxy(uint8* data, size32 elementSize)
+		: data_(data)
+		, elementSize_(elementSize)
+		{}
+
+		constexpr uint32 index(size32 index) const {
+			if (elementSize_ == 2) {
+				auto fieldPtr = reinterpret_cast<uint16*>(data_);
+				return fieldPtr[index];
+			}
+			else if (elementSize_ == 4) {
+				auto fieldPtr = reinterpret_cast<uint32*>(data_);
+				return fieldPtr[index];
+			}
+			
+			return data_[index];
+		}
+		
+		void setIndex(size32 index, uint32 value) {
+			if (elementSize_ == 2) {
+				auto fieldPtr = reinterpret_cast<uint16*>(data_);
+				fieldPtr[index] = value;
+			}
+			else if (elementSize_ == 4) {
+				auto fieldPtr = reinterpret_cast<uint32*>(data_);
+				fieldPtr[index] = value;
+			}
+			else {
+				data_[index] = value;
+			}
+		}
+		
+		constexpr uint32 a() const { return index(0); }
+		constexpr uint32 b() const { return index(1); }
+		constexpr uint32 c() const { return index(2); }
+		
+		void setA(uint32 value) { setIndex(0, value); }
+		void setB(uint32 value) { setIndex(1, value); }
+		void setC(uint32 value) { setIndex(2, value); }
+		
+		TriangleProxy& operator =(const Triangle& t) {
+			setA(t.x);
+			setB(t.y);
+			setC(t.z);
+			return *this;
+		}
+
+		TriangleProxy& operator =(const TriangleProxy& tp) {
+			setA(tp.a());
+			setB(tp.b());
+			setC(tp.c());
+			return *this;
+		}
+	};
+
+
+	class TriangleIterator
+	: public std::iterator<std::random_access_iterator_tag, TriangleProxy>
+	, public FullyComparableTrait<TriangleIterator>
+	{
+		uint8* position_ = nullptr;
+		size32 indexSizeBytes_ = 0, triangleSizeBytes_ = 0;
+	
+	public:
+		constexpr TriangleIterator() {}
+		constexpr TriangleIterator(const TriangleBuffer& tb)
+		: position_{ static_cast<uint8*>(tb.basePointer()) }
+		, indexSizeBytes_{ elementSize(tb.elementType()) }
+		, triangleSizeBytes_{ tb.itemSizeBytes() }
+		{}
+		
+		constexpr TriangleProxy operator *() { return { position_, indexSizeBytes_ }; }
+//		constexpr TriangleProxy* operator ->() { return reinterpret_cast<NativeFieldType*>(position_); }
+		
+		constexpr TriangleProxy operator [](size32 index) {
+			auto indexedPos = position_ + (triangleSizeBytes_ * index);
+			return { indexedPos, indexSizeBytes_ };
+		}
+		
+		constexpr const TriangleProxy operator [](size32 index) const {
+			auto indexedPos = position_ + (triangleSizeBytes_ * index);
+			return { indexedPos, indexSizeBytes_ };
+		}
+
+		constexpr const TriangleIterator& operator ++() { position_ += triangleSizeBytes_; return *this; }
+		constexpr TriangleIterator operator ++(int) { auto ret = *this; position_ += triangleSizeBytes_; return ret; }
+		
+		constexpr const TriangleIterator& operator --() { position_ -= triangleSizeBytes_; return *this; }
+		constexpr TriangleIterator operator --(int) { auto ret = *this; position_ -= triangleSizeBytes_; return ret; }
+		
+		constexpr bool operator ==(const TriangleIterator& other) const { return position_ == other.position_; }
+		constexpr bool operator <(const TriangleIterator& other) const { return position_ < other.position_; }
+
+		friend constexpr TriangleIterator operator +(const TriangleIterator& iter, size32 count) {
+			auto ret = iter;
+			ret.position_ += ret.triangleSizeBytes_ * count;
+			return ret;
+		}
+		
+		friend constexpr TriangleIterator operator +(size32 count, const TriangleIterator& iter) {
+			auto ret = iter;
+			ret.position_ += ret.triangleSizeBytes_ * count;
+			return ret;
+		}
+		
+		friend constexpr TriangleIterator operator -(const TriangleIterator& iter, size32 count) {
+			auto ret = iter;
+			ret.position_ -= ret.triangleSizeBytes_ * count;
+			return ret;
+		}
+		
+		friend TriangleIterator& operator +=(TriangleIterator& iter, size32 count) {
+			iter.position_ += iter.triangleSizeBytes_ * count;
+			return iter;
+		}
+		
+		friend TriangleIterator& operator -=(TriangleIterator& iter, size32 count) {
+			iter.position_ -= iter.triangleSizeBytes_ * count;
+			return iter;
+		}
+		
+		constexpr ptrdiff_t operator -(const TriangleIterator& b) {
+			return (position_ - b.position_) / static_cast<ptrdiff_t>(triangleSizeBytes_);
+		}
+	};
+	
+	TriangleIterator begin() const { return { *this }; }
+	TriangleIterator end() const { return begin() + triangleCount_; }
 };
 
 
