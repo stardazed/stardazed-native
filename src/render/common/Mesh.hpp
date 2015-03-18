@@ -10,6 +10,7 @@
 #include "math/Vector.hpp"
 #include "math/AABB.hpp"
 #include "render/common/VertexBuffer.hpp"
+#include "render/common/TriangleBuffer.hpp"
 
 #include <vector>
 #include <array>
@@ -18,15 +19,12 @@ namespace stardazed {
 namespace render {
 
 
-using Tri = std::array<uint16_t, 3>;
-
-
 class MeshDescriptor {
 public:
 	MeshDescriptor(const AttributeList&);
 
 	VertexBuffer vertexBuffer;
-	std::vector<Tri> faces;
+	TriangleBuffer faces;
 
 	// derived data generation
 	math::AABB calcAABB() const;

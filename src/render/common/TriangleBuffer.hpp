@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // render::TriangleBuffer - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #ifndef SD_RENDER_TRIANGLEBUFFER_H
@@ -40,9 +40,11 @@ public:
 	
 	ElementType elementType() const { return indexElementType_; }
 	
-	size32 itemSizeBytes() const { return triangleSizeBytes_; }
-	size32 itemCount() const { return triangleCount_; }
+	size32 triangleSizeBytes() const { return triangleSizeBytes_; }
 	size32 bufferSizeBytes() const { return triangleSizeBytes_ * triangleCount_; }
+
+	size32 triangleCount() const { return triangleCount_; }
+	size32 indexCount() const { return triangleCount_ * 3; }
 
 
 	// -- iterators
@@ -120,7 +122,7 @@ public:
 		constexpr TriangleIterator(const TriangleBuffer& tb)
 		: position_{ static_cast<uint8*>(tb.basePointer()) }
 		, indexSizeBytes_{ elementSize(tb.elementType()) }
-		, triangleSizeBytes_{ tb.itemSizeBytes() }
+		, triangleSizeBytes_{ tb.triangleSizeBytes() }
 		{}
 		
 		constexpr TriangleProxy operator *() { return { position_, indexSizeBytes_ }; }

@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
-// render::IndexBuffer - stardazed
-// (c) 2014 by Arthur Langereis
+// render::TriangleBuffer - stardazed
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #include "render/common/TriangleBuffer.hpp"

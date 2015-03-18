@@ -52,8 +52,6 @@ public:
 
 	template <typename PositionIter, typename FaceIter, typename UVIter>
 	void generate(PositionIter positionBegin, FaceIter faceBegin, UVIter uvBegin) const {
-		using TriangleIndexType = std::remove_reference_t<decltype((*faceBegin)[0])>;
-		
 		// vertex is convertible to a VertexAddFn
 		auto position = [pit = positionBegin](float x, float y, float z) mutable {
 			*pit++ = { x, y, z };
@@ -61,11 +59,7 @@ public:
 		
 		// face is convertible to a FaceAddFn
 		auto face = [fit = faceBegin](uint32 a, uint32 b, uint32 c) mutable {
-			*fit++ = {
-				static_cast<TriangleIndexType>(a),
-				static_cast<TriangleIndexType>(b),
-				static_cast<TriangleIndexType>(c)
-			};
+			*fit++ = render::Triangle{ a, b, c };
 		};
 
 		// uv is convertible to an UVAddFn
@@ -179,7 +173,7 @@ render::MeshDescriptor basic(Args&&... args) {
 	auto generator = Gen(std::forward<Args>(args)...);
 
 	mesh.vertexBuffer.allocate(generator.vertexCount());
-	mesh.faces.resize(generator.faceCount());
+	mesh.faces.allocateWithVertexCount(generator.vertexCount(), generator.faceCount());
 
 	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
 	generator.generate(posIter, mesh.faces.begin());

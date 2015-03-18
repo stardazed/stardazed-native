@@ -27,9 +27,9 @@ void calcVertexNormals(VertIt vertBegin, VertIt vertEnd, NormIt normBegin, NormI
 	std::vector<float> usages(vertexCount);
 	
 	std::for_each(faceBegin, faceEnd,
-		[=, &usages](const render::Tri& face) mutable {
-			auto lineA = vertBegin[face[1]] - vertBegin[face[0]];
-			auto lineB = vertBegin[face[2]] - vertBegin[face[1]];
+		[=, &usages](const TriangleBuffer::TriangleProxy& face) mutable {
+			auto lineA = vertBegin[face.b()] - vertBegin[face.a()];
+			auto lineB = vertBegin[face.c()] - vertBegin[face.b()];
 
 			if (math::nearEqual(length(lineA), 0.f) || math::nearEqual(length(lineB), 0.f))
 				return;
@@ -37,7 +37,7 @@ void calcVertexNormals(VertIt vertBegin, VertIt vertEnd, NormIt normBegin, NormI
 			auto faceNormal = math::normalize(math::cross(lineA, lineB));
 
 			for (int fi = 0; fi < 3; ++fi) {
-				auto fvi = face[fi];
+				auto fvi = face.index(fi);
 				normBegin[fvi] = (normBegin[fvi] * usages[fvi] + faceNormal) / (usages[fvi] + 1.0f);
 				usages[fvi] += 1.0f;
 			}
