@@ -16,7 +16,7 @@ namespace device {
 
 
 // Key names based on ANSI/ISO keyboard layout
-enum class Key : uint16_t {
+enum class Key : uint16 {
 	None,
 	
 	A, B, C, D, E, F, G, H, I,

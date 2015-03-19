@@ -22,7 +22,7 @@ namespace stardazed {
 namespace render {
 
 
-enum class AttributeRole : uint16_t {
+enum class AttributeRole : uint16 {
 	Generic,
 	Position,
 	Normal,
@@ -101,7 +101,7 @@ public:
 	: public std::iterator<std::random_access_iterator_tag, NativeFieldType>
 	, public FullyComparableTrait<AttrIterator<NativeFieldType>>
 	{
-		uint8_t* position_ = nullptr;
+		uint8* position_ = nullptr;
 		size32 rowBytes_ = 0;
 		
 	public:

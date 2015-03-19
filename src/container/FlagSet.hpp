@@ -107,10 +107,10 @@ constexpr FlagSet<EnumType, DataType> operator ^(const FlagSet<EnumType, DataTyp
 
 
 template <typename EnumType>
-using FlagSet32 = detail::FlagSet<EnumType, uint32_t>;
+using FlagSet32 = detail::FlagSet<EnumType, uint32>;
 
 template <typename EnumType>
-using FlagSet64 = detail::FlagSet<EnumType, uint64_t>;
+using FlagSet64 = detail::FlagSet<EnumType, uint64>;
 
 
 } // ns container

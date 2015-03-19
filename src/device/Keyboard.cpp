@@ -9,8 +9,8 @@ namespace stardazed {
 namespace device {
 
 
-constexpr uint16_t keyIndexForKey(Key k) {
-	return static_cast<uint16_t>(k);
+constexpr uint16 keyIndexForKey(Key k) {
+	return static_cast<uint16>(k);
 }
 
 

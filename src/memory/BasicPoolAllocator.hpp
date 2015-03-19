@@ -17,13 +17,13 @@ namespace memory {
 
 class BasicMemoryPool {
 	const size_t blockSize_;
-	mutable std::vector<std::unique_ptr<uint8_t[]>> blocks_;
-	mutable uint8_t *arena_, *pos_;
+	mutable std::vector<std::unique_ptr<uint8[]>> blocks_;
+	mutable uint8 *arena_, *pos_;
 	
 	static constexpr size_t DefaultBlockSize = 48 * 1024;
 	
 	void addBlock(size_t sizeInBytes) const {
-		blocks_.emplace_back(new uint8_t[sizeInBytes]);
+		blocks_.emplace_back(new uint8[sizeInBytes]);
 		pos_ = arena_ = blocks_.back().get();
 	}
 	

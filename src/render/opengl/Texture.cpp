@@ -107,7 +107,7 @@ void uploadSubImage2D(GLenum target, const ImageData& image, uint8 level, int of
 //   | |  __/>  <| |_| |_| | | |  __// __/| |_| |
 //   |_|\___/_/\_\\__|\__,_|_|  \___|_____|____/
 //
-void Texture2D::allocate(size32 width, size32 height, uint8_t levels, ImageDataFormat format) {
+void Texture2D::allocate(size32 width, size32 height, uint8 levels, ImageDataFormat format) {
 	bind();
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

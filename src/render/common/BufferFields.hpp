@@ -38,33 +38,33 @@ template <ElementType>
 struct ElementTraits {};
 
 template <>
-struct ElementTraits<ElementType::UInt8>  { using Type = uint8_t; };
+struct ElementTraits<ElementType::UInt8>  { using Type = uint8; };
 template <>
-struct ElementTraits<ElementType::SInt8>  { using Type = int8_t; };
+struct ElementTraits<ElementType::SInt8>  { using Type = int8; };
 template <>
-struct ElementTraits<ElementType::UInt16> { using Type = uint16_t; };
+struct ElementTraits<ElementType::UInt16> { using Type = uint16; };
 template <>
-struct ElementTraits<ElementType::SInt16> { using Type = int16_t; };
+struct ElementTraits<ElementType::SInt16> { using Type = int16; };
 template <>
-struct ElementTraits<ElementType::UInt32> { using Type = uint32_t; };
+struct ElementTraits<ElementType::UInt32> { using Type = uint32; };
 template <>
-struct ElementTraits<ElementType::SInt32> { using Type = int32_t; };
+struct ElementTraits<ElementType::SInt32> { using Type = int32; };
 template <>
-struct ElementTraits<ElementType::UInt64> { using Type = uint64_t; };
+struct ElementTraits<ElementType::UInt64> { using Type = uint64; };
 template <>
-struct ElementTraits<ElementType::SInt64> { using Type = int64_t; };
+struct ElementTraits<ElementType::SInt64> { using Type = int64; };
 template <>
 struct ElementTraits<ElementType::Float>  { using Type = float; };
 template <>
 struct ElementTraits<ElementType::Double> { using Type = double; };
 template <>
-struct ElementTraits<ElementType::SInt2_10_10_10Rev> { using Type = int32_t; };
+struct ElementTraits<ElementType::SInt2_10_10_10Rev> { using Type = int32; };
 template <>
-struct ElementTraits<ElementType::UInt2_10_10_10Rev> { using Type = uint32_t; };
+struct ElementTraits<ElementType::UInt2_10_10_10Rev> { using Type = uint32; };
 template <>
-struct ElementTraits<ElementType::SNormInt2_10_10_10Rev> { using Type = int32_t; };
+struct ElementTraits<ElementType::SNormInt2_10_10_10Rev> { using Type = int32; };
 template <>
-struct ElementTraits<ElementType::UNormInt2_10_10_10Rev> { using Type = uint32_t; };
+struct ElementTraits<ElementType::UNormInt2_10_10_10Rev> { using Type = uint32; };
 
 template <ElementType ET>
 using ElementNativeType = typename ElementTraits<ET>::Type;

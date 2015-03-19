@@ -38,7 +38,7 @@ constexpr bool isNormalized(ElementType et) {
 }
 
 
-static void bindAttributeImpl(const PositionedAttribute& attr, size32 stride, uint32_t toVAIndex) {
+static void bindAttributeImpl(const PositionedAttribute& attr, size32 stride, uint32 toVAIndex) {
 	glEnableVertexAttribArray(toVAIndex);
 	
 	auto field = getField(attr);
@@ -64,7 +64,7 @@ static void bindAttributeImpl(const PositionedAttribute& attr, size32 stride, ui
 }
 
 
-void GLVertexArray::bindVertexBufferAttributes(const VertexBuffer& vb, uint32_t startBoundIndex) {
+void GLVertexArray::bindVertexBufferAttributes(const VertexBuffer& vb, uint32 startBoundIndex) {
 	size32 attrCount = vb.attributeCount(),
 	         stride = vb.itemSizeBytes();
 	

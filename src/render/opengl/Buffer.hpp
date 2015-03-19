@@ -290,12 +290,12 @@ namespace detail {
 			return maxIndex_;
 		}
 
-		static void bindBufferToGlobalIndex(const GLBuffer& buffer, uint32_t index) {
+		static void bindBufferToGlobalIndex(const GLBuffer& buffer, uint32 index) {
 			assert(static_cast<GLint>(index) < maxIndex());
 			glBindBufferBase(target, index, buffer.name());
 		}
 
-		static void bindBufferRangeToGlobalIndex(const GLBuffer& buffer, size32 offset, size32 bytes, uint32_t index) {
+		static void bindBufferRangeToGlobalIndex(const GLBuffer& buffer, size32 offset, size32 bytes, uint32 index) {
 			assert(static_cast<GLint>(index) < maxIndex());
 			assert(offset + bytes < buffer.byteSize());
 			glBindBufferRange(target, index, buffer.name(), static_cast<GLintptr>(offset), bytes);

@@ -67,8 +67,8 @@ public:
 	}
 	
 	void setUniform(GLint valuePos, float value) { glProgramUniform1f(glProgram_, valuePos, value); }
-	void setUniform(GLint valuePos, int32_t value) { glProgramUniform1i(glProgram_, valuePos, value); }
-	void setUniform(GLint valuePos, uint32_t value) { glProgramUniform1ui(glProgram_, valuePos, value); }
+	void setUniform(GLint valuePos, int32 value) { glProgramUniform1i(glProgram_, valuePos, value); }
+	void setUniform(GLint valuePos, uint32 value) { glProgramUniform1ui(glProgram_, valuePos, value); }
 	
 	void setUniform(GLint valuePos, const math::Vector<2, float>& value) {
 		glProgramUniform2fv(glProgram_, valuePos, 1, value.data);
@@ -80,23 +80,23 @@ public:
 		glProgramUniform4fv(glProgram_, valuePos, 1, value.data);
 	}
 	
-	void setUniform(GLint valuePos, const math::Vector<2, int32_t>& value) {
+	void setUniform(GLint valuePos, const math::Vector<2, int32>& value) {
 		glProgramUniform2iv(glProgram_, valuePos, 1, value.data);
 	}
-	void setUniform(GLint valuePos, const math::Vector<3, int32_t>& value) {
+	void setUniform(GLint valuePos, const math::Vector<3, int32>& value) {
 		glProgramUniform3iv(glProgram_, valuePos, 1, value.data);
 	}
-	void setUniform(GLint valuePos, const math::Vector<4, int32_t>& value) {
+	void setUniform(GLint valuePos, const math::Vector<4, int32>& value) {
 		glProgramUniform4iv(glProgram_, valuePos, 1, value.data);
 	}
 	
-	void setUniform(GLint valuePos, const math::Vector<2, uint32_t>& value) {
+	void setUniform(GLint valuePos, const math::Vector<2, uint32>& value) {
 		glProgramUniform2uiv(glProgram_, valuePos, 1, value.data);
 	}
-	void setUniform(GLint valuePos, const math::Vector<3, uint32_t>& value) {
+	void setUniform(GLint valuePos, const math::Vector<3, uint32>& value) {
 		glProgramUniform3uiv(glProgram_, valuePos, 1, value.data);
 	}
-	void setUniform(GLint valuePos, const math::Vector<4, uint32_t>& value) {
+	void setUniform(GLint valuePos, const math::Vector<4, uint32>& value) {
 		glProgramUniform4uiv(glProgram_, valuePos, 1, value.data);
 	}
 	

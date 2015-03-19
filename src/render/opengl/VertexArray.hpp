@@ -30,7 +30,7 @@ public:
 	SD_DEFAULT_MOVE_OPS(GLVertexArray)
 	
 	// -- attributes
-	void bindVertexBufferAttributes(const VertexBuffer&, uint32_t startBoundIndex = 0);
+	void bindVertexBufferAttributes(const VertexBuffer&, uint32 startBoundIndex = 0);
 
 	// -- observers
 	GLuint name() const { return glVAO_; }

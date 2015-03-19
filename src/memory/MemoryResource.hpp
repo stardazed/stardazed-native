@@ -35,13 +35,13 @@ public:
 
 class LinearMemoryPool {
 	size_t size_, offset_ = 0;
-	uint8_t* pool_ = nullptr;
+	uint8* pool_ = nullptr;
 
 public:
 	LinearMemoryPool(size_t poolSizeBytes)
 	: size_(poolSizeBytes)
 	{
-		pool_ = static_cast<uint8_t*>(SystemAllocator::allocate(size_));
+		pool_ = static_cast<uint8*>(SystemAllocator::allocate(size_));
 	}
 	
 	~LinearMemoryPool() {

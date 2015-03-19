@@ -56,7 +56,7 @@ struct IHDRChunk {
 static_assert(sizeof(IHDRChunk) == 13, "IHDRChunk type must be packed");
 
 
-static int inflateBuffer(const std::vector<uint8_t>& source, std::vector<uint8_t>& dest) {
+static int inflateBuffer(const std::vector<uint8>& source, std::vector<uint8>& dest) {
 	z_stream strm;
 	strm.zalloc = nullptr;
 	strm.zfree = nullptr;

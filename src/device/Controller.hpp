@@ -13,7 +13,7 @@ namespace device {
 	
 
 struct Button { // 2 bytes
-	uint8_t halfTransitionCount;
+	uint8 halfTransitionCount;
 	bool8 endedDown;
 };
 
