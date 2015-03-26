@@ -191,8 +191,8 @@ render::MeshDescriptor basic(Args&&... args) {
 	using namespace render;
 	
 	MeshDescriptor mesh({
-		{ { render::fieldVec3(), "position" }, AttributeRole::Position },
-		{ { render::fieldVec3(), "normal" }, AttributeRole::Normal }
+		{ { fieldVec3(), "position" }, AttributeRole::Position },
+		{ { fieldVec3(), "normal" }, AttributeRole::Normal }
 	});
 
 	into<Gen>(mesh, std::forward<Args>(args)...);
