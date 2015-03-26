@@ -29,6 +29,7 @@ public:
 	// derived data generation
 	math::AABB calcAABB() const;
 	void genVertexNormals();
+	void genVertexTangents();
 };
 
 
