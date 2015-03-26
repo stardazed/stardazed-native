@@ -44,7 +44,10 @@ void Plane::generateImpl(const PositionAddFn& position, const FaceAddFn& face, c
 		for (auto x = 0u; x <= tilesWide_; ++x) {
 			float posX = -halfWidth	+ (x * tileDimX_);
 			position(posX, yGen_(posX, posZ), posZ);
-			uv(math::texCoord(posX * tileUVStep_), math::texCoord(posZ * tileUVStep_));
+			uv(
+			   math::texCoord(((float)x / tilesWide_) * tileUVStep_),
+			   math::texCoord(((float)z / tilesHigh_) * tileUVStep_)
+			);
 		}
 	}
 

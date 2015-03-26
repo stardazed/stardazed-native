@@ -162,6 +162,31 @@ public:
 
 
 template <typename Gen, typename... Args>
+void into(render::MeshDescriptor& mesh, Args&&... args) {
+	using namespace render;
+	
+	auto generator = Gen(std::forward<Args>(args)...);
+	
+	mesh.vertexBuffer.allocate(generator.vertexCount());
+	mesh.faces.allocateWithVertexCount(generator.vertexCount(), generator.faceCount());
+	
+	auto texAttr = mesh.vertexBuffer.attrByRole(AttributeRole::UV);
+	auto tanAttr = mesh.vertexBuffer.attrByRole(AttributeRole::Tangent);
+	
+	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
+	
+	if (texAttr)
+		generator.generate(posIter, mesh.faces.begin(), mesh.vertexBuffer.attrBegin<math::Vec2>(*texAttr));
+	else
+		generator.generate(posIter, mesh.faces.begin());
+	
+	mesh.genVertexNormals();
+	if (tanAttr)
+		mesh.genVertexTangents();
+}
+
+
+template <typename Gen, typename... Args>
 render::MeshDescriptor basic(Args&&... args) {
 	using namespace render;
 	
@@ -169,16 +194,9 @@ render::MeshDescriptor basic(Args&&... args) {
 		{ { render::fieldVec3(), "position" }, AttributeRole::Position },
 		{ { render::fieldVec3(), "normal" }, AttributeRole::Normal }
 	});
-	
-	auto generator = Gen(std::forward<Args>(args)...);
 
-	mesh.vertexBuffer.allocate(generator.vertexCount());
-	mesh.faces.allocateWithVertexCount(generator.vertexCount(), generator.faceCount());
+	into<Gen>(mesh, std::forward<Args>(args)...);
 
-	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
-	generator.generate(posIter, mesh.faces.begin());
-	
-	mesh.genVertexNormals();
 	return mesh;
 }
 
