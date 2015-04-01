@@ -98,6 +98,8 @@
 		8EB49E8319FFEF7D003F687C /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */; };
 		8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EBB0AB519C1022700843A1F /* FrameContext.hpp */; };
 		8EC145F91A869D12004D533A /* OpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC145F81A869D12004D533A /* OpenGL.cpp */; };
+		8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC342AC1ACC90A50020F3EC /* jpgd.cpp */; };
+		8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EC342AD1ACC90A50020F3EC /* jpgd.h */; };
 		8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */; };
 		8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */; };
 		8EF701F91A76F90B00454341 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EA1A76F90B00454341 /* adler32.c */; };
@@ -214,6 +216,8 @@
 		8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexBuffer.cpp; sourceTree = "<group>"; };
 		8EBB0AB519C1022700843A1F /* FrameContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameContext.hpp; sourceTree = "<group>"; };
 		8EC145F81A869D12004D533A /* OpenGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGL.cpp; sourceTree = "<group>"; };
+		8EC342AC1ACC90A50020F3EC /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
+		8EC342AD1ACC90A50020F3EC /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
 		8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferFields.hpp; sourceTree = "<group>"; };
 		8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_X360Controller.cpp; sourceTree = "<group>"; };
 		8EF701EA1A76F90B00454341 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
@@ -492,9 +496,19 @@
 			path = common;
 			sourceTree = "<group>";
 		};
+		8EC342AB1ACC905D0020F3EC /* jpgd */ = {
+			isa = PBXGroup;
+			children = (
+				8EC342AC1ACC90A50020F3EC /* jpgd.cpp */,
+				8EC342AD1ACC90A50020F3EC /* jpgd.h */,
+			);
+			path = jpgd;
+			sourceTree = "<group>";
+		};
 		8EF701E81A76F25900454341 /* ext */ = {
 			isa = PBXGroup;
 			children = (
+				8EC342AB1ACC905D0020F3EC /* jpgd */,
 				8EF701E91A76F8F200454341 /* zlibredux */,
 			);
 			name = ext;
@@ -540,6 +554,7 @@
 				8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */,
 				8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */,
 				8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */,
+				8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */,
 				8E90F1271A6D636500AD015B /* Texture.hpp in Headers */,
 				8E19F7231A25273200A13CF6 /* TriangleBuffer.hpp in Headers */,
 				8E6A0DBA19B39E1E00DF0921 /* DevicesContext.hpp in Headers */,
@@ -671,6 +686,7 @@
 				8EC145F91A869D12004D533A /* OpenGL.cpp in Sources */,
 				8EF701F91A76F90B00454341 /* adler32.c in Sources */,
 				8E112DC0199E5FE20029CD38 /* Shader.cpp in Sources */,
+				8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */,
 				8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */,
 				8E5C92701A212567007E3774 /* VertexArray.cpp in Sources */,
 				8E6E53B11A810FCA00844C70 /* Light.cpp in Sources */,

@@ -174,6 +174,22 @@ public:
 };
 
 
+class JPGDataProvider : public TextureDataProvider {
+	size32 width_, height_;
+	std::unique_ptr<uint8[]> data_;
+
+public:
+	JPGDataProvider(const std::string& resourcePath);
+
+	size32 width() const override { return width_; }
+	size32 height() const override { return height_; }
+	uint8 mipMapCount() const override { return 1; }
+	ImageDataFormat format() const override { return ImageDataFormat::RGBA8; }
+	
+	ImageData imageDataForLevel(uint8 level) const override;
+};
+
+
 enum class CubeMapFace {
 	PosX,
 	NegX,

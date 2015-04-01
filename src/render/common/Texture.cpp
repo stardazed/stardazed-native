@@ -7,6 +7,8 @@
 #include "render/common/PNGFile.hpp"
 #include "filesystem/FileSystem.hpp"
 
+#include "jpgd.h"
+
 #include <algorithm>
 
 namespace stardazed {
@@ -309,6 +311,65 @@ TGADataProvider::TGADataProvider(const std::string& resourcePath) {
 
 
 ImageData TGADataProvider::imageDataForLevel(uint8 level) const {
+	assert(level == 0);
+	
+	ImageData image {};
+	image.width = width();
+	image.height = height();
+	image.format = format();
+	image.size = imageDataFormatBytesPerPixel(format()) * width() * height();
+	image.data = data_.get();
+	return image;
+}
+
+
+//      _ ____   ____   _____ _ _
+//     | |  _ \ / ___| |  ___(_) | ___  ___
+//  _  | | |_) | |  _  | |_  | | |/ _ \/ __|
+// | |_| |  __/| |_| | |  _| | | |  __/\__ \
+//  \___/|_|    \____| |_|   |_|_|\___||___/
+//
+
+class SDJPGDecoderStream : public jpgd::jpeg_decoder_stream {
+	fs::Path path_;
+	fs::FileReadStream file_;
+	int fileSize_;
+
+public:
+	SDJPGDecoderStream(const std::string resourcePath)
+	: path_ { resourcePath }
+	, file_ { path_ }
+	, fileSize_{ (int)path_.fileSize() }
+	{}
+	
+	int read(uint8 *buffer, int maxBytesToRead, bool *outEOFFlag) override {
+		int offset = (int)file_.offset(),
+			remaining = fileSize_ - offset;
+		
+		int toRead = math::min(remaining, maxBytesToRead);
+		file_.readBytes(buffer, toRead);
+		if (toRead == remaining)
+			*outEOFFlag = true;
+		
+		return toRead;
+	}
+};
+
+
+JPGDataProvider::JPGDataProvider(const std::string& resourcePath) {
+	SDJPGDecoderStream stream{ resourcePath };
+	
+	int width, height, components;
+	auto data = jpgd::decompress_jpeg_image_from_stream(&stream, &width, &height, &components, 4);
+
+	// adopt the data pointer for auto-disposal
+	data_.reset(data);
+	width_ = width;
+	height_ = height;
+}
+
+
+ImageData JPGDataProvider::imageDataForLevel(uint8 level) const {
 	assert(level == 0);
 	
 	ImageData image {};
