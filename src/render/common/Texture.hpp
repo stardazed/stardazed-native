@@ -190,6 +190,11 @@ public:
 };
 
 
+// -- utility function to return the proper provider based on
+// -- the file extension of the resource path.
+std::unique_ptr<TextureDataProvider> makeDataProviderForPath(const std::string& resourcePath);
+
+
 enum class CubeMapFace {
 	PosX,
 	NegX,

@@ -13,6 +13,25 @@
 
 namespace stardazed {
 namespace render {
+
+
+std::unique_ptr<TextureDataProvider> makeDataProviderForPath(const std::string& resourcePath) {
+	fs::Path path { resourcePath };
+	auto extension = path.extension(); // guaranteed lowercase
+	
+	if (extension == "dds")
+		return std::make_unique<DDSDataProvider>(resourcePath);
+	else if (extension == "bmp")
+		return std::make_unique<BMPDataProvider>(resourcePath);
+	else if (extension == "png")
+		return std::make_unique<PNGDataProvider>(resourcePath);
+	else if (extension == "tga")
+		return std::make_unique<TGADataProvider>(resourcePath);
+	else if ((extension == "jpg") || (extension == "jpeg"))
+		return std::make_unique<JPGDataProvider>(resourcePath);
+	
+	return { nullptr };
+}
 	
 
 //  ____  ____  ____    _____ _ _

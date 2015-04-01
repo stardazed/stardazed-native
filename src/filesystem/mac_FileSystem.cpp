@@ -4,6 +4,9 @@
 // ------------------------------------------------------------------
 
 #include "filesystem/FileSystem.hpp"
+
+#include <algorithm>
+
 #include <CoreFoundation/CoreFoundation.h>
 
 namespace stardazed {
@@ -44,30 +47,51 @@ int64 Path::fileSize() const {
 }
 
 
+void getCFStringString(CFStringRef cfStr, std::string& intoString) {
+	auto strPtr = CFStringGetCStringPtr(cfStr, kCFStringEncodingUTF8);
+	if (strPtr) {
+		// fast path, we have a direct char*
+		auto byteCount = std::strlen(strPtr);
+		intoString.resize(byteCount);
+		std::copy(strPtr, strPtr + byteCount, intoString.begin());
+	}
+	else {
+		// slow path, copy into oversized buffer
+		auto maxLen = CFStringGetMaximumSizeForEncoding(CFStringGetLength(cfStr), kCFStringEncodingUTF8);
+		intoString.resize(maxLen + 1);
+		CFStringGetCString(cfStr, &intoString.front(), maxLen, kCFStringEncodingUTF8);
+		intoString.resize(strlen(intoString.c_str()));
+	}
+}
+
+
 std::string Path::toString() const {
 	std::string path;
 
 	auto absURL = CFURLCopyAbsoluteURL(url_);
 	auto pathString = CFURLCopyFileSystemPath(absURL, kCFURLPOSIXPathStyle);
 
-	auto pathPtr = CFStringGetCStringPtr(pathString, kCFStringEncodingUTF8);
-	if (pathPtr) {
-		// fast path, we have a direct char*
-		auto byteCount = std::strlen(pathPtr);
-		path.resize(byteCount);
-		std::copy(pathPtr, pathPtr + byteCount, path.begin());
-	}
-	else {
-		// slow path, copy into oversized buffer
-		auto maxLen = CFStringGetMaximumSizeForEncoding(CFStringGetLength(pathString), kCFStringEncodingUTF8);
-		path.reserve(maxLen + 1);
-		CFStringGetCString(pathString, &path.front(), maxLen, kCFStringEncodingUTF8);
-	}
+	getCFStringString(pathString, path);
 
 	CFRelease(pathString);
 	CFRelease(absURL);
 
 	return path;
+}
+
+
+std::string Path::extension() const {
+	std::string ext{};
+	auto cfExt = CFURLCopyPathExtension(url_);
+	if (cfExt) {
+		getCFStringString(cfExt, ext);
+	}
+
+	// force lower-case extension
+	std::transform(ext.begin(), ext.end(), ext.begin(), std::tolower);
+	
+	CFRelease(cfExt);
+	return ext;
 }
 
 

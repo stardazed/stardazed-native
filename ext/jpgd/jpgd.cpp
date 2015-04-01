@@ -124,11 +124,8 @@ namespace jpgd {
 	template <>
 	struct Row<0>
 	{
-		static void idct(int* pTemp, const jpgd_block_t* pSrc)
+		static void idct(int*, const jpgd_block_t*)
 		{
-#ifdef _MSC_VER
-			pTemp; pSrc;
-#endif
 		}
 	};
 
@@ -567,7 +564,7 @@ namespace jpgd {
 	// Tables and macro used to fully decode the DPCM differences.
 	static const int s_extend_test[16] = { 0, 0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020, 0x0040, 0x0080, 0x0100, 0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000 };
 	static const int s_extend_offset[16] = { 0, ((-1)<<1) + 1, ((-1)<<2) + 1, ((-1)<<3) + 1, ((-1)<<4) + 1, ((-1)<<5) + 1, ((-1)<<6) + 1, ((-1)<<7) + 1, ((-1)<<8) + 1, ((-1)<<9) + 1, ((-1)<<10) + 1, ((-1)<<11) + 1, ((-1)<<12) + 1, ((-1)<<13) + 1, ((-1)<<14) + 1, ((-1)<<15) + 1 };
-	static const int s_extend_mask[] = { 0, (1<<0), (1<<1), (1<<2), (1<<3), (1<<4), (1<<5), (1<<6), (1<<7), (1<<8), (1<<9), (1<<10), (1<<11), (1<<12), (1<<13), (1<<14), (1<<15), (1<<16) };
+//	static const int s_extend_mask[] = { 0, (1<<0), (1<<1), (1<<2), (1<<3), (1<<4), (1<<5), (1<<6), (1<<7), (1<<8), (1<<9), (1<<10), (1<<11), (1<<12), (1<<13), (1<<14), (1<<15), (1<<16) };
 #define HUFF_EXTEND(x,s) ((x) < s_extend_test[s] ? (x) + s_extend_offset[s] : (x))
 
 	// Clamps a value between 0-255.
@@ -876,7 +873,7 @@ namespace jpgd {
 		}
 		if (!rv)
 		{
-			int capacity = JPGD_MAX(32768 - 256, (nSize + 2047) & ~2047);
+			int capacity = (int)(JPGD_MAX(32768 - 256, (nSize + 2047) & ~2047));
 			mem_block *b = (mem_block*)jpgd_malloc(sizeof(mem_block) + capacity);
 			if (!b) stop_decoding(JPGD_NOTENOUGHMEM);
 			b->m_pNext = m_pMem_blocks; m_pMem_blocks = b;

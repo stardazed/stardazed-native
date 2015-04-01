@@ -33,7 +33,7 @@ public:
 	CFURLRef nativeHandle() const { return url_; }
 	
 	std::string toString() const;
-	
+	std::string extension() const;
 	int64 fileSize() const;
 };
 
