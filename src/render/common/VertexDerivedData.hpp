@@ -21,7 +21,8 @@ template <typename VertIt, typename NormIt, typename FaceIt>
 // requires RandomAccessIterator{VertIt}, RandomAccessIterator{NormIt}, RandomAccessIterator{FaceIt}
 void calcVertexNormals(VertIt vertBegin, VertIt vertEnd, NormIt normBegin, NormIt normEnd, FaceIt faceBegin, FaceIt faceEnd) {
 	auto vertexCount = std::distance(vertBegin, vertEnd);
-	assert(vertexCount <= std::distance(normBegin, normEnd));
+	auto normalCount = std::distance(normBegin, normEnd);
+	assert(vertexCount <= normalCount);
 	
 	std::fill(normBegin, normEnd, math::Vec3{ 0, 0, 1 });
 	std::vector<float> usages(vertexCount);
