@@ -19,6 +19,7 @@ namespace scene {
 class Transform {
 public:
 	math::Vec3 position;
+	math::Vec3 scale { 1, 1, 1 };
 	math::Quat rotation;
 
 	void lookAt(const math::Vec3& target, const math::Vec3& up = {0,1,0});

@@ -632,6 +632,26 @@ Matrix<3, 3, float> extractSubMatrix<3,3,4,4,float>(const Matrix<4, 4, float>&);
 
 template <>
 Matrix<3, 3, double> extractSubMatrix<3,3,4,4,double>(const Matrix<4, 4, double>&);
+	
+	
+// ---- Scale Matrix
+
+constexpr Mat4 scaleMatrix(float scaleX, float scaleY, float scaleZ) {
+	auto m = Mat4(1);
+	m[0][0] = scaleX;
+	m[1][1] = scaleY;
+	m[2][2] = scaleZ;
+	return m;
+}
+
+constexpr Mat4 scaleMatrix(float uniformScale) {
+	return scaleMatrix(uniformScale, uniformScale, uniformScale);
+}
+
+constexpr Mat4 scaleMatrix(const math::Vec3& scaleXYZ) {
+	return scaleMatrix(scaleXYZ.x, scaleXYZ.y, scaleXYZ.z);
+}
+	
 
 
 // ---- Swappable

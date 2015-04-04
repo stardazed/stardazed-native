@@ -28,7 +28,7 @@ Matrix<3, 3, double> extractSubMatrix<3,3,4,4,double>(const Matrix<4, 4, double>
 		mat[2][0], mat[2][1], mat[2][2]
 	};
 }
-
 	
+
 } // ns math
 } // ns stardazed

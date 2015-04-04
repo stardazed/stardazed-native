@@ -41,6 +41,7 @@ void Transform::lookAt(const math::Vec3& target, const math::Vec3& up) {
 Transform Transform::apply(const Transform& subTr) const {
 	return {
 		position + (rotation * subTr.position),
+		scale * subTr.scale,
 		rotation * subTr.rotation
 	};
 }
@@ -49,8 +50,8 @@ Transform Transform::apply(const Transform& subTr) const {
 math::Mat4 Transform::toMatrix4() const {
 	using namespace math;
 
-	// rotation
-	auto m = rotation.toMatrix4();
+	// rotation and scale
+	auto m = rotation.toMatrix4() * math::scaleMatrix(scale);
 
 	// translation
     m[3].xyz = {
