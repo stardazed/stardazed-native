@@ -180,6 +180,23 @@ static void hidDeviceAdded(void* context, IOReturn, void*, IOHIDDeviceRef device
 }
 
 
+Stick DevicesContext::stickFromKeys(Key up, Key left, Key down, Key right) {
+	Stick stick {};
+	
+	if (keyboard_.isPressed(left))
+		stick.posX = -1;
+	else if (keyboard_.isPressed(right))
+		stick.posX =  1;
+	
+	if (keyboard_.isPressed(up))
+		stick.posY = -1;
+	else if (keyboard_.isPressed(down))
+		stick.posY =  1;
+	
+	return stick;
+}
+
+
 Controller* DevicesContext::controllerAtIndex(size32 index) {
 	if (index >= controllers_.size())
 		return nullptr;

@@ -10,7 +10,7 @@
 
 namespace stardazed {
 namespace device {
-	
+
 
 struct Button { // 2 bytes
 	uint8 halfTransitionCount;
