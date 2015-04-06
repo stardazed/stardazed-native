@@ -60,6 +60,7 @@
 		8E19F7251A25350C00A13CF6 /* TriangleBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E19F7241A25350C00A13CF6 /* TriangleBuffer.cpp */; };
 		8E2389C619F5A04400080E15 /* VertexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E2389C519F5A04400080E15 /* VertexBuffer.hpp */; };
 		8E31873619ED460000D3B189 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E31873519ED460000D3B189 /* OpenGL.framework */; };
+		8E3A702B1AD2ABAD00A9923B /* Mouse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E3A702A1AD2ABAD00A9923B /* Mouse.hpp */; };
 		8E44B4031A3EFD390059C57D /* mac_AudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E44B4021A3EFD390059C57D /* mac_AudioContext.mm */; };
 		8E44B4051A3F41380059C57D /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E44B4041A3F41380059C57D /* AudioUnit.framework */; };
 		8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */; };
@@ -177,6 +178,7 @@
 		8E19F7241A25350C00A13CF6 /* TriangleBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriangleBuffer.cpp; sourceTree = "<group>"; };
 		8E2389C519F5A04400080E15 /* VertexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexBuffer.hpp; sourceTree = "<group>"; };
 		8E31873519ED460000D3B189 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		8E3A702A1AD2ABAD00A9923B /* Mouse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mouse.hpp; sourceTree = "<group>"; };
 		8E44B4021A3EFD390059C57D /* mac_AudioContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_AudioContext.mm; sourceTree = "<group>"; };
 		8E44B4041A3F41380059C57D /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Manipulators.cpp; sourceTree = "<group>"; };
@@ -453,6 +455,7 @@
 			children = (
 				8E6A0DBD19B3A03600DF0921 /* Keyboard.hpp */,
 				8E6A0DC319B3A7D900DF0921 /* Keyboard.cpp */,
+				8E3A702A1AD2ABAD00A9923B /* Mouse.hpp */,
 				8E71E4541A40FB170060DC95 /* Controller.hpp */,
 				8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */,
 				8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */,
@@ -544,6 +547,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E3A702B1AD2ABAD00A9923B /* Mouse.hpp in Headers */,
 				8EF702051A76F90B00454341 /* zlib.h in Headers */,
 				8E6A0DBE19B3A03600DF0921 /* Keyboard.hpp in Headers */,
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
@@ -807,6 +811,7 @@
 					"-Wextra",
 					"-Wno-missing-braces",
 					"-Wglobal-constructors",
+					"-flto",
 				);
 				SDKROOT = macosx;
 			};

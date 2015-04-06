@@ -73,6 +73,8 @@ public:
 	void frame();
 	
 	const Keyboard& keyboard() const { return keyboard_; }
+	Stick stickFromKeys(Key up, Key left, Key down, Key right);
+
 	Controller* controllerAtIndex(size32 index);
 	Controller* keyboardController();
 	ControllerDriverContext& createController();
