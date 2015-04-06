@@ -811,6 +811,7 @@
 					"-Wextra",
 					"-Wno-missing-braces",
 					"-Wglobal-constructors",
+					"-flto",
 				);
 				SDKROOT = macosx;
 			};
