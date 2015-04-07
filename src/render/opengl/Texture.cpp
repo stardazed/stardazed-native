@@ -25,6 +25,7 @@ constexpr GLint glImageFormatForImageDataFormat(ImageDataFormat format) {
 		
 		default:
 			assert(!"unknown texture pixel format");
+			return GL_NONE;
 	}
 }
 
@@ -50,6 +51,7 @@ constexpr GLint glInternalFormatForImageDataFormat(ImageDataFormat format) {
 
 		default:
 			assert(!"unknown texture pixel format");
+			return GL_NONE;
 	}
 }
 
@@ -67,6 +69,7 @@ constexpr GLenum glPixelDataTypeForImageDataFormat(ImageDataFormat format) {
 
 		default:
 			assert(!"unhandled image data format");
+			return GL_NONE;
 	}
 }
 

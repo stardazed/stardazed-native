@@ -98,7 +98,8 @@ std::string Path::extension() const {
 FileReadStream::FileReadStream(const Path& path)
 : stream_(CFReadStreamCreateWithFile(nullptr, path.nativeHandle()))
 {
-	assert(CFReadStreamOpen(stream_));
+	bool open = CFReadStreamOpen(stream_);
+	assert(open);
 }
 
 

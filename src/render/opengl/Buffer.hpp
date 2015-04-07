@@ -92,6 +92,7 @@ namespace detail {
 		}
 		
 		assert(false && "Invalid frequency or access level");
+		return GL_NONE;
 	}
 	
 	
@@ -120,6 +121,7 @@ namespace detail {
 				//		case GL_COPY_WRITE_BUFFER:         return GL_COPY_WRITE_BUFFER_BINDING;
 			default:
 				assert(false && "Unknown buffer target name");
+				return GL_NONE;
 		}
 	}
 }
@@ -271,7 +273,9 @@ namespace detail {
 			return GL_MAX_UNIFORM_BUFFER_BINDINGS;
 		if (target == GL_TRANSFORM_FEEDBACK_BUFFER)
 			return GL_MAX_TRANSFORM_FEEDBACK_BUFFERS;
+
 		assert(false && "Unknown indexed buffer target");
+		return GL_NONE;
 	}
 
 	template <GLenum target>

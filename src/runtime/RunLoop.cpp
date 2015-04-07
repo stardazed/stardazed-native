@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------
 
 #include "runtime/RunLoop.hpp"
+#include "system/Logging.hpp"
 
 #include <cmath>
 #include <thread>
@@ -77,6 +78,7 @@ void RunLoop::resume() {
 void RunLoop::run() {
 	resume();
 	mainLoop();
+	sd::log((int)stats.fps(), "fps");
 }
 
 

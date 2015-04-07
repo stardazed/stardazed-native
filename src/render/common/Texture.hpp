@@ -87,6 +87,7 @@ constexpr size32 imageDataFormatBytesPerPixel(ImageDataFormat format) {
 		
 		default:
 			assert(!"unhandled image data format");
+			return 0;
 	}
 }
 

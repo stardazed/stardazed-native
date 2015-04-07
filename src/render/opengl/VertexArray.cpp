@@ -28,7 +28,9 @@ constexpr GLenum glTypeForElementType(ElementType et) {
 		case ElementType::UNormInt2_10_10_10Rev:
 			return GL_UNSIGNED_INT_2_10_10_10_REV;
 			
-		default: assert(false && "No suitable GL type for ElementType");
+		default:
+			assert(false && "No suitable GL type for ElementType");
+			return GL_NONE;
 	}
 }
 
