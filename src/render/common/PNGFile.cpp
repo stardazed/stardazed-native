@@ -90,6 +90,7 @@ PNGFile::PNGFile(const std::string& resourcePath) {
 	
 	uint8 realSig[8], expectedSig[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
 	png.readBytes(realSig, 8);
+	// FIXME: this should not be an assert
 	assert(std::equal(realSig, realSig + 8, expectedSig, expectedSig + 8));
 	
 	while (png.ok())
@@ -120,6 +121,7 @@ void PNGFile::nextChunk(fs::FileReadStream& png) {
 			sd::log("Height: ", height_);
 			sd::log("Kind  : ", (int)ihdr.ColorType);
 			
+			// FIXME: instead of a bunch of asserts, just return an empty image + logging
 			assert(ihdr.BitDepth == 8);
 			assert((ColorType)ihdr.ColorType != ColorType::Palette);
 			assert(ihdr.Filter == 0);
@@ -167,6 +169,7 @@ void PNGFile::unfilterImage(uint8* imageDataPtr) {
 	
 	for (auto lineIx = 0u; lineIx < height_; ++lineIx) {
 		LineFilter filter = (LineFilter)(*rowPtr++);
+		// FIXME: perhaps just log and treat as unfiltered line?
 		assert(filter <= LFPaeth);
 
 		auto row = rowPtr;

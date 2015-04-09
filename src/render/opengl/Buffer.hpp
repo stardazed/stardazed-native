@@ -91,7 +91,7 @@ namespace detail {
 			}
 		}
 		
-		assert(false && "Invalid frequency or access level");
+		assert(!"Invalid frequency or access level");
 		return GL_NONE;
 	}
 	
@@ -104,7 +104,8 @@ namespace detail {
 				return GL_ELEMENT_ARRAY_BUFFER;
 		}
 		
-		assert(false && "Invalid array type");
+		assert(!"Invalid array type");
+		return GL_NONE;
 	}
 	
 	
@@ -117,10 +118,10 @@ namespace detail {
 			case GL_PIXEL_PACK_BUFFER:         return GL_PIXEL_PACK_BUFFER_BINDING;
 			case GL_PIXEL_UNPACK_BUFFER:       return GL_PIXEL_UNPACK_BUFFER;
 			case GL_TEXTURE_BUFFER:            return GL_TEXTURE_BINDING_BUFFER;
-				//		case GL_COPY_READ_BUFFER:          return GL_COPY_READ_BUFFER_BINDING;   not available in gl3.h?
-				//		case GL_COPY_WRITE_BUFFER:         return GL_COPY_WRITE_BUFFER_BINDING;
+//			case GL_COPY_READ_BUFFER:          return GL_COPY_READ_BUFFER_BINDING;   not available in gl3.h?
+//			case GL_COPY_WRITE_BUFFER:         return GL_COPY_WRITE_BUFFER_BINDING;
 			default:
-				assert(false && "Unknown buffer target name");
+				assert(!"Unknown buffer target name");
 				return GL_NONE;
 		}
 	}
@@ -274,7 +275,7 @@ namespace detail {
 		if (target == GL_TRANSFORM_FEEDBACK_BUFFER)
 			return GL_MAX_TRANSFORM_FEEDBACK_BUFFERS;
 
-		assert(false && "Unknown indexed buffer target");
+		assert(!"Unknown indexed buffer target");
 		return GL_NONE;
 	}
 

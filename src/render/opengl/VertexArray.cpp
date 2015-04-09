@@ -29,7 +29,7 @@ constexpr GLenum glTypeForElementType(ElementType et) {
 			return GL_UNSIGNED_INT_2_10_10_10_REV;
 			
 		default:
-			assert(false && "No suitable GL type for ElementType");
+			assert(!"No suitable GL type for ElementType");
 			return GL_NONE;
 	}
 }

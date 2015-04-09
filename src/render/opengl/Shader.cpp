@@ -33,6 +33,7 @@ void Program::attach(const Shader& shader) {
 
 
 void Program::setSeparable() {
+	// FIXME: this block is a debug-only block i/o an assert
 	GLint status;
 	glGetProgramiv(name(), GL_LINK_STATUS, &status);
 	if (status == GL_TRUE)
@@ -81,6 +82,7 @@ constexpr GLenum glForSDShaderType(ShaderType type) {
 	}
 	
 	assert(!"Unknown ShaderType");
+	return GL_NONE;
 }
 
 

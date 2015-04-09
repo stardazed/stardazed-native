@@ -82,6 +82,7 @@ DDSDataProvider::DDSDataProvider(const std::string& resourcePath) {
 	
 	char cookie[4];
 	file.readBytes(cookie, 4);
+	// FIXME: assert or empty image + logging?
 	assert(strncmp(cookie, "DDS ", 4) == 0);
 	
 	file.readValue(&header);
@@ -97,6 +98,8 @@ DDSDataProvider::DDSDataProvider(const std::string& resourcePath) {
 		case fourCharCode('D','X','T','5'): format_ = ImageDataFormat::DXT5; break;
 		default:
 			assert(!"unknown data format of DDS file");
+			format_ = ImageDataFormat::None;
+			break;
 	}
 	
 	mipMaps_ = header.dwMipMapCount;
@@ -117,6 +120,7 @@ size32 DDSDataProvider::dataSizeForLevel(uint8 level) const {
 ImageData DDSDataProvider::imageDataForLevel(uint8 level) const {
 	assert(level < mipMaps_);
 
+	// FIXME: return empty image if imageformat is none
 	size32 offset = 0;
 	for (size32 lv=0; lv < level; ++lv)
 		offset += dataSizeForLevel(lv);
@@ -170,10 +174,12 @@ BMPDataProvider::BMPDataProvider(const std::string& resourcePath) {
 
 	BITMAPFILEHEADER header;
 	file.readValue(&header);
+	// FIXME: assert or empty image + logging?
 	assert(header.bfType == 0x4D42);
 	
 	BITMAPINFOHEADER info;
 	file.readValue(&info);
+	// FIXME: assert or empty image + logging?
 	assert(info.biCompression == 0);
 	
 	switch (info.biBitCount) {
@@ -181,6 +187,7 @@ BMPDataProvider::BMPDataProvider(const std::string& resourcePath) {
 		case 32: format_ = ImageDataFormat::BGRA8; break;
 		default:
 			assert(!"can only handle 24 or 32 bit BMPs");
+			format_ = ImageDataFormat::None;
 			break;
 	}
 	
@@ -231,6 +238,8 @@ PNGDataProvider::PNGDataProvider(const std::string& resourcePath) {
 		case 4: format_ = ImageDataFormat::RGBA8; break;
 		default:
 			assert(!"bytes per pixel not in range");
+			format_ = ImageDataFormat::None;
+			break;
 	}
 	
 	auto size = png.rowBytes() * png.height();
@@ -290,7 +299,7 @@ struct TGAFileHeader {
 	uint8  flagsUnused;
 } __attribute__((__packed__));
 
-static_assert(sizeof(TGAFileHeader) == 18, "");
+static_assert(sizeof(TGAFileHeader) == 18, "TGA header struct must be packed");
 
 
 TGADataProvider::TGADataProvider(const std::string& resourcePath) {
@@ -299,6 +308,7 @@ TGADataProvider::TGADataProvider(const std::string& resourcePath) {
 	TGAFileHeader header;
 	file.readValue(&header);
 
+	// FIXME: empty image if unsupported?
 	assert(header.identLengthUnused == 0);
 	assert(header.usePalette == 0);
 	assert(! (header.imageType & TGAIT_RLEBit));
@@ -312,8 +322,10 @@ TGADataProvider::TGADataProvider(const std::string& resourcePath) {
 			format_ = ImageDataFormat::BGR8;
 		else if (header.bitDepth == 32)
 			format_ = ImageDataFormat::BGRA8;
-		else
+		else {
 			assert(!"for RGB image types, only 24 and 32 bit depths are supported");
+			format_ = ImageDataFormat::None;
+		}
 	}
 	else if (header.imageType == TGAIT_Grayscale) {
 		format_ = ImageDataFormat::R8;
@@ -321,6 +333,7 @@ TGADataProvider::TGADataProvider(const std::string& resourcePath) {
 	}
 	else {
 		assert(!"unknown or inconsistent image type");
+		format_ = ImageDataFormat::None;
 	}
 	
 	auto dataSize = imageDataFormatBytesPerPixel(format_) * width_ * height_;
