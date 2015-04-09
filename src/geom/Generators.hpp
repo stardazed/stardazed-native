@@ -190,10 +190,7 @@ template <typename Gen, typename... Args>
 render::MeshDescriptor basic(Args&&... args) {
 	using namespace render;
 	
-	MeshDescriptor mesh({
-		{ fieldVec3(), AttributeRole::Position },
-		{ fieldVec3(), AttributeRole::Normal }
-	});
+	MeshDescriptor mesh(render::AttrList::Pos3Norm3());
 
 	into<Gen>(mesh, std::forward<Args>(args)...);
 

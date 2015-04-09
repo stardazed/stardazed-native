@@ -34,13 +34,41 @@ enum class AttributeRole : uint16 {
 };
 
 
+// -- An Attribute is a Field with a certain Role inside a VertexBuffer
+
 struct Attribute {
 	Field field;
 	AttributeRole role;
 };
 
 
+// -- Attribute shortcuts for common types
+
+constexpr Attribute attrPosition3() { return { fieldVec3(), AttributeRole::Position }; }
+constexpr Attribute attrNormal3()   { return { fieldVec3(), AttributeRole::Normal }; }
+constexpr Attribute attrColour3()   { return { fieldVec3(), AttributeRole::Colour }; }
+constexpr Attribute attrUV2()       { return { fieldVec2(), AttributeRole::UV }; }
+constexpr Attribute attrTangent4()  { return { fieldVec4(), AttributeRole::Tangent }; }
+
+
+// -- An AttributeList defines the structure of a VertexBuffer
+
 using AttributeList = std::vector<Attribute>;
+
+
+// -- Common AttributeList shortcuts
+
+namespace AttrList {
+	inline AttributeList Pos3Norm3() {
+		return { attrPosition3(), attrNormal3() };
+	}
+	inline AttributeList Pos3Norm3UV2() {
+		return { attrPosition3(), attrNormal3(), attrUV2() };
+	}
+	inline AttributeList Pos3Norm3UV2Tan4() {
+		return { attrPosition3(), attrNormal3(), attrUV2(), attrTangent4() };
+	}
+}
 
 
 struct PositionedAttribute {
