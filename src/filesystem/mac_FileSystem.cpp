@@ -85,12 +85,12 @@ std::string Path::extension() const {
 	auto cfExt = CFURLCopyPathExtension(url_);
 	if (cfExt) {
 		getCFStringString(cfExt, ext);
-	}
 
-	// force lower-case extension
-	std::transform(ext.begin(), ext.end(), ext.begin(), std::tolower);
-	
-	CFRelease(cfExt);
+		// force lower-case extension
+		std::transform(ext.begin(), ext.end(), ext.begin(), std::tolower);
+		
+		CFRelease(cfExt);
+	}
 	return ext;
 }
 
