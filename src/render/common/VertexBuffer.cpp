@@ -63,13 +63,6 @@ const PositionedAttribute* VertexBuffer::attrByRole(AttributeRole role) const {
 }
 
 
-const PositionedAttribute* VertexBuffer::attrByName(const std::string& name) const {
-	return attrByPredicate([&name](const PositionedAttribute& attr) {
-		return attr.attr.namedField.name == name;
-	});
-}
-
-
 const PositionedAttribute* VertexBuffer::attrByIndex(size32 index) const {
 	if (attrs_.size() > index)
 		return &attrs_[index];
@@ -84,11 +77,6 @@ void* VertexBuffer::attrBasePointer(const PositionedAttribute& attr) const {
 
 void* VertexBuffer::attrBasePointer(AttributeRole role) const {
 	return attrBasePointer(*attrByRole(role));
-}
-
-
-void* VertexBuffer::attrBasePointer(const std::string& name) const {
-	return attrBasePointer(*attrByName(name));
 }
 
 

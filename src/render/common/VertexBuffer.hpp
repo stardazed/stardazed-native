@@ -35,7 +35,7 @@ enum class AttributeRole : uint16 {
 
 
 struct Attribute {
-	NamedField namedField;
+	Field field;
 	AttributeRole role;
 };
 
@@ -49,8 +49,8 @@ struct PositionedAttribute {
 };
 
 
-constexpr Field getField(const Attribute& attr) { return attr.namedField.field; }
-constexpr Field getField(const PositionedAttribute& posAttr) { return posAttr.attr.namedField.field; }
+constexpr Field getField(const Attribute& attr) { return attr.field; }
+constexpr Field getField(const PositionedAttribute& posAttr) { return posAttr.attr.field; }
 
 
 class VertexBuffer {
@@ -83,7 +83,6 @@ public:
 	size32 attributeCount() const { return static_cast<size32>(attrs_.size()); }
 
 	const PositionedAttribute* attrByRole(AttributeRole) const;
-	const PositionedAttribute* attrByName(const std::string&) const;
 	const PositionedAttribute* attrByIndex(size32) const;
 	
 	// -- raw data pointers
@@ -92,7 +91,6 @@ public:
 	
 	void* attrBasePointer(const PositionedAttribute&) const;
 	void* attrBasePointer(AttributeRole) const;
-	void* attrBasePointer(const std::string&) const;
 
 	// -- iteration over attribute data
 
@@ -178,11 +176,6 @@ public:
 	AttrIterator<T> attrBegin(AttributeRole role) const { return attrBegin<T>(*attrByRole(role)); }
 	template <typename T>
 	AttrIterator<T> attrEnd(AttributeRole role) const { return attrEnd<T>(*attrByRole(role)); }
-
-	template <typename T>
-	AttrIterator<T> attrBegin(const std::string& name) const { return attrBegin<T>(*attrByName(name)); }
-	template <typename T>
-	AttrIterator<T> attrEnd(const std::string& name) const { return attrEnd<T>(*attrByName(name)); }
 };
 
 

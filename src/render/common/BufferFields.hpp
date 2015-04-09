@@ -92,16 +92,9 @@ constexpr Field fieldIVec3() { return { ElementType::SInt32, 3 }; }
 constexpr Field fieldIVec4() { return { ElementType::SInt32, 4 }; }
 
 
-struct NamedField {
-	Field field;
-	std::string name;
-};
-
-
 // --- Overloaded getField will get Field data from composite classes
 
 constexpr Field getField(Field field) { return field; }
-constexpr Field getField(const NamedField& namedField) { return namedField.field; }
 
 
 // --- Native sizes for ElementTypes and Fields
