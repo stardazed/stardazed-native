@@ -68,14 +68,13 @@ static void bindAttributeImpl(const PositionedAttribute& attr, size32 stride, ui
 
 void GLVertexArray::bindVertexBufferAttributes(const VertexBuffer& vb, uint32 startBoundIndex) {
 	size32 attrCount = vb.attributeCount(),
-	         stride = vb.itemSizeBytes();
+		   stride = vb.itemSizeBytes();
 	
 	for (size32 attrIndex = 0; attrIndex < attrCount; ++attrIndex) {
 		auto attr = vb.attrByIndex(attrIndex);
 		bindAttributeImpl(*attr, stride, attrIndex + startBoundIndex);
 	}
 }
-
 
 
 } // ns render

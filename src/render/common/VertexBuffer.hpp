@@ -113,6 +113,10 @@ public:
 	const PositionedAttribute* attrByRole(AttributeRole) const;
 	const PositionedAttribute* attrByIndex(size32) const;
 	
+	bool hasAttributeWithRole(AttributeRole role) const {
+		return attrByRole(role) != nullptr;
+	}
+	
 	// -- raw data pointers
 	
 	void* basePointer() const { return storage_.get(); }
