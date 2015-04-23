@@ -18,11 +18,16 @@ namespace scene {
 
 class Camera {
 	Entity& entity_;
+	uint32 pixelWidth_, pixelHeight_;
+
+	math::Angle fov_ = math::Degrees{90};
+	float aspect_ = 1, zNear_ = 0, zFar_ = 1;
+
 	math::Mat4 projection_;
 
 public:
-	Camera(Entity& linkedEntity);
-	
+	Camera(Entity& linkedEntity, uint32 pixelWidth, uint32 pixelHeight);
+
 	// -- observers
 	Entity& entity() { return entity_; }
 	const Entity& entity() const { return entity_; }
@@ -32,11 +37,18 @@ public:
 
 	// -- projection
 	const math::Mat4& projectionMatrix() const { return projection_; }
-	void perspective(math::Angle fovy, float aspect, float zNear, float zFar);
-	void perspective(math::Angle fovy, uint32 pixelWidth, uint32 pixelHeight, float zNear, float zFar);
-	
+	void perspective(math::Angle fov, float aspect, float zNear, float zFar);
+	void perspective(math::Angle fov, float zNear, float zFar);
+
+	void setFieldOfView(math::Angle fov);
+
 	// -- view
 	math::Mat4 viewMatrix() const;
+
+	// -- observers
+	uint32 viewPortWidth() const { return pixelWidth_; }
+	uint32 viewPortHeight() const { return pixelHeight_; }
+	
 };
 
 

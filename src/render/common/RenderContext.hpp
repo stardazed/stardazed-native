@@ -7,13 +7,6 @@
 #define SD_RENDER_RENDERCONTEXT_H
 
 #include "system/Config.hpp"
-#include "util/ConceptTraits.hpp"
-#include "render/common/Mesh.hpp"
-#include "render/common/Shader.hpp"
-#include "render/common/Pipeline.hpp"
-
-#include <string>
-#include <memory>
 
 namespace stardazed {
 namespace render {

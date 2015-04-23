@@ -35,7 +35,7 @@ public:
 	// -- factory methods
 	Entity* makeEntity(EntityType type = EntityType::Generic);
 	Light* makeLight(const render::LightDescriptor&);
-	Camera* makeCamera();
+	Camera* makeCamera(uint32 viewPortWidth, uint32 viewPortHeight);
 	
 	template <typename B, typename... Args> // B : public Behaviour
 	B* makeBehaviour(Args... args) {

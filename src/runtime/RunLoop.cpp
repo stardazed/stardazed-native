@@ -78,7 +78,7 @@ void RunLoop::resume() {
 void RunLoop::run() {
 	resume();
 	mainLoop();
-	sd::log((int)stats.fps(), "fps");
+	sd::log(stats.fps(), "fps");
 }
 
 

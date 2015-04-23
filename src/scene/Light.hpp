@@ -29,7 +29,7 @@ public:
 	Transform& transform() { return entity_.transform; }
 	const Transform& transform() const { return entity_.transform; }
 	
-	const render::LightDescriptor descriptor() const { return descriptor_; }
+	const render::LightDescriptor& descriptor() const { return descriptor_; }
 };
 	
 	

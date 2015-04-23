@@ -11,7 +11,7 @@ namespace scene {
 
 Scene::Scene() {
 	// FIXME: make this settable by client
-	cameraPool_.reserve(32);
+	cameraPool_.reserve(16);
 	lightPool_.reserve(128);
 	entityPool_.reserve(512);
 }
@@ -35,9 +35,9 @@ Light* Scene::makeLight(const render::LightDescriptor& descriptor) {
 }
 
 
-Camera* Scene::makeCamera() {
+Camera* Scene::makeCamera(uint32 viewPortWidth, uint32 viewPortHeight) {
 	auto cameraEntity = makeEntity(EntityType::Camera);
-	cameraPool_.emplace_back(*cameraEntity);
+	cameraPool_.emplace_back(*cameraEntity, viewPortWidth, viewPortHeight);
 	return &cameraPool_.back();
 }
 

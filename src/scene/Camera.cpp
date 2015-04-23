@@ -13,12 +13,12 @@ namespace detail {
 	using namespace math;
 
 	template <typename T>
-	Matrix<4, 4, T> perspective(Angle fovy, T aspect, T zNear, T zFar) {
-		auto tanHalfFovy = std::tan(fovy.rad().val() / T{2} );
+	Matrix<4, 4, T> perspective(Angle fov, T aspect, T zNear, T zFar) {
+		auto tanHalfFov = std::tan(fov.rad().val() / T{2} );
 		
 		Matrix<4, 4, T> result;
-		result[0][0] = T{1} / (aspect * tanHalfFovy);
-		result[1][1] = T{1} / tanHalfFovy;
+		result[0][0] = T{1} / (aspect * tanHalfFov);
+		result[1][1] = T{1} / tanHalfFov;
 		result[2][2] = -(zFar + zNear) / (zFar - zNear);
 		result[2][3] = -1;
 		result[3][2] = -(T{2} * zFar * zNear) / (zFar - zNear);
@@ -27,20 +27,30 @@ namespace detail {
 }
 
 
-Camera::Camera(Entity& linkedEntity)
+Camera::Camera(Entity& linkedEntity, uint32 pixelWidth, uint32 pixelHeight)
 : entity_(linkedEntity)
+, pixelWidth_(pixelWidth)
+, pixelHeight_(pixelHeight)
 {
 }
 
 
-void Camera::perspective(math::Angle fovy, float aspect, float zNear, float zFar) {
-	projection_ = detail::perspective(fovy, aspect, zNear, zFar);
+void Camera::perspective(math::Angle fov, float aspect, float zNear, float zFar) {
+	fov_ = fov;
+	zNear_ = zNear;
+	zFar_ = zFar;
+	projection_ = detail::perspective(fov, aspect, zNear, zFar);
 }
 
 
-void Camera::perspective(math::Angle fovy, uint32 pixelWidth, uint32 pixelHeight, float zNear, float zFar) {
-	float aspect = static_cast<float>(pixelWidth) / static_cast<float>(pixelHeight);
-	perspective(fovy, aspect, zNear, zFar);
+void Camera::perspective(math::Angle fov, float zNear, float zFar) {
+	float aspect = static_cast<float>(pixelWidth_) / static_cast<float>(pixelHeight_);
+	perspective(fov, aspect, zNear, zFar);
+}
+
+
+void Camera::setFieldOfView(math::Angle fov) {
+	perspective(fov, aspect_, zNear_, zFar_);
 }
 
 

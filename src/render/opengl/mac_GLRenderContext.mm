@@ -109,21 +109,8 @@ static SDOpenGLView* createOpenGLView(const NSRect frame, const render::RenderCo
 
 
 static NSWindow* createRenderWindow(const render::RenderContextDescriptor& desc) {
-	NSRect frame;
-	NSUInteger styleOptions;
-//	if (desc.fullscreen) {
-//		// In fullscreen mode, the width and height are used only for
-//		// the backbuffer of the OpenGL context. The window is plain.
-//		frame = [[NSScreen mainScreen] frame];
-//		styleOptions = NSBorderlessWindowMask;
-//	}
-//	else {
-		// In windowed mode the window content is sized equal to
-		// the viewport and looks like a normal window with titlebar
-		// and close control.
-		frame = NSMakeRect(0, 0, (CGFloat)desc.width, (CGFloat)desc.height);
-		styleOptions = NSTitledWindowMask | NSClosableWindowMask;
-//	}
+	NSRect frame = NSMakeRect(0, 0, (CGFloat)desc.width, (CGFloat)desc.height);
+	NSUInteger styleOptions = NSTitledWindowMask | NSClosableWindowMask;
 	
 	SDWindow *window = [[SDWindow alloc]
 		initWithContentRect: frame
@@ -163,6 +150,7 @@ public:
 	NSOpenGLContext* glContext;
 	NSDictionary* fullscreenOptions = nullptr;
 	bool verticalSync;
+	uint32 width, height;
 };
 
 
@@ -178,6 +166,8 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 
 	platformData_->coverWindow = window;
 	platformData_->windowDelegate = delegate;
+	width_ = descriptor.width;
+	height_ = descriptor.height;
 	
 	SDOpenGLView *contentView = [platformData_->coverWindow contentView];
 	platformData_->glContext = [contentView openGLContext];

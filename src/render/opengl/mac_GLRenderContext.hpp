@@ -34,7 +34,12 @@ public:
 	bool isFullscreen() const;
 	bool usesVerticalSync() const;
 
+	uint32 pixelWidth() const { return width_; }
+	uint32 pixelHeight() const { return height_; }
+
 private:
+	uint32 width_, height_;
+
 	// object storage
 	std::vector<Pipeline> pipelinePool_;
 	std::vector<Shader> shaderPool_;
