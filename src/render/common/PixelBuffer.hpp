@@ -58,13 +58,6 @@ enum class PixelFormat {
 };
 
 
-struct PixelBuffer {
-	void* data;
-	PixelFormat format;
-	size32 width, height, size;
-};
-
-
 constexpr bool pixelFormatIsCompressed(PixelFormat format) {
 	return	format == PixelFormat::DXT1 ||
 			format == PixelFormat::DXT3 ||
@@ -77,25 +70,46 @@ constexpr size32 pixelFormatBytesPerPixel(PixelFormat format) {
 	
 	switch (format) {
 		case PixelFormat::R8:
+		case PixelFormat::Stencil8:
 			return 1;
+
 		case PixelFormat::RG8:
 		case PixelFormat::Depth16I:
 			return 2;
+
 		case PixelFormat::RGB8:
 		case PixelFormat::BGR8:
-		case PixelFormat::Depth24I:
 			return 3;
+
 		case PixelFormat::RGBA8:
 		case PixelFormat::BGRA8:
+		case PixelFormat::Depth24I:
 		case PixelFormat::Depth32I:
 		case PixelFormat::Depth32F:
+		case PixelFormat::Depth24_Stencil8:
 			return 4;
-			
+
+		case PixelFormat::RGB32F:
+			return 6;
+		
+		case PixelFormat::RGBA32F:
+		case PixelFormat::Depth32F_Stencil8:
+			return 8;
+
 		default:
 			assert(!"unhandled pixel buffer format");
 			return 0;
 	}
 }
+
+
+struct PixelBuffer {
+	void* data;
+	PixelFormat format;
+	size32 width, height, size;
+};
+
+
 
 
 } // ns render
