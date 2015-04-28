@@ -132,7 +132,7 @@ PixelBuffer DDSDataProvider::pixelBufferForLevel(uint8 level) const {
 	mipData.width = mipWidth;
 	mipData.height = mipHeight;
 	mipData.format = format_;
-	mipData.size = dataSizeForLevel(level);
+	mipData.sizeBytes = dataSizeForLevel(level);
 	mipData.data = data_.get() + offset;
 	return mipData;
 }
@@ -212,7 +212,7 @@ PixelBuffer BMPDataProvider::pixelBufferForLevel(uint8 level) const {
 	image.width = width();
 	image.height = height();
 	image.format = format();
-	image.size = pixelFormatBytesPerPixel(format_) * width() * height();
+	image.sizeBytes = pixelFormatBytesPerPixel(format_) * width() * height();
 	image.data = data_.get();
 	return image;
 }
@@ -261,7 +261,7 @@ PixelBuffer PNGDataProvider::pixelBufferForLevel(uint8 level) const {
 	image.width = width();
 	image.height = height();
 	image.format = format();
-	image.size = pixelFormatBytesPerPixel(format()) * width() * height();
+	image.sizeBytes = pixelFormatBytesPerPixel(format()) * width() * height();
 	image.data = data_.get();
 	return image;
 }
@@ -349,7 +349,7 @@ PixelBuffer TGADataProvider::pixelBufferForLevel(uint8 level) const {
 	image.width = width();
 	image.height = height();
 	image.format = format();
-	image.size = pixelFormatBytesPerPixel(format()) * width() * height();
+	image.sizeBytes = pixelFormatBytesPerPixel(format()) * width() * height();
 	image.data = data_.get();
 	return image;
 }
@@ -408,7 +408,7 @@ PixelBuffer JPGDataProvider::pixelBufferForLevel(uint8 level) const {
 	image.width = width();
 	image.height = height();
 	image.format = format();
-	image.size = pixelFormatBytesPerPixel(format()) * width() * height();
+	image.sizeBytes = pixelFormatBytesPerPixel(format()) * width() * height();
 	image.data = data_.get();
 	return image;
 }

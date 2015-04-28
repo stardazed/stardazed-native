@@ -106,7 +106,7 @@ constexpr size32 pixelFormatBytesPerPixel(PixelFormat format) {
 struct PixelBuffer {
 	void* data;
 	PixelFormat format;
-	size32 width, height, size;
+	size32 width, height, sizeBytes;
 };
 
 

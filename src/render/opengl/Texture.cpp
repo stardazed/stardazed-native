@@ -133,7 +133,7 @@ void uploadSubImage2D(GLenum target, const PixelBuffer& pixelBuffer, uint8 level
 	if (pixelFormatIsCompressed(pixelBuffer.format)) {
 		glCompressedTexSubImage2D(target, level,
 								  offsetX, offsetY, pixelBuffer.width, pixelBuffer.height,
-								  glFormat, pixelBuffer.size, pixelBuffer.data);
+								  glFormat, pixelBuffer.sizeBytes, pixelBuffer.data);
 	}
 	else {
 		auto glPixelType = glPixelDataTypeForPixelFormat(pixelBuffer.format);
