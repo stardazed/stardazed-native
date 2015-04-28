@@ -121,6 +121,8 @@
 		8EF702091A76FA6600454341 /* PNGFile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF702081A76FA6600454341 /* PNGFile.hpp */; };
 		8EF7020B1A77036000454341 /* PNGFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7020A1A77036000454341 /* PNGFile.cpp */; };
 		8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF71ECB19D8600A00AA373B /* RenderContext.hpp */; };
+		8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */; };
+		8EF963051AEFE7C80012ED72 /* PixelBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -240,6 +242,8 @@
 		8EF702081A76FA6600454341 /* PNGFile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PNGFile.hpp; sourceTree = "<group>"; };
 		8EF7020A1A77036000454341 /* PNGFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = PNGFile.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8EF71ECB19D8600A00AA373B /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
+		8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameBuffer.hpp; sourceTree = "<group>"; };
+		8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelBuffer.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -482,15 +486,17 @@
 				8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */,
 				8E2389C519F5A04400080E15 /* VertexBuffer.hpp */,
 				8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */,
+				8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */,
 				8E19F7221A25273200A13CF6 /* TriangleBuffer.hpp */,
 				8E19F7241A25350C00A13CF6 /* TriangleBuffer.cpp */,
-				8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */,
 				8EA7092419D75FC000129E2D /* Mesh.hpp */,
 				8EA7092319D75FC000129E2D /* Mesh.cpp */,
+				8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */,
 				8EF702081A76FA6600454341 /* PNGFile.hpp */,
 				8EF7020A1A77036000454341 /* PNGFile.cpp */,
 				8E54FE581A6F0AD3003D649A /* Texture.hpp */,
 				8E54FE5A1A6F0BC7003D649A /* Texture.cpp */,
+				8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */,
 				8E6E53B21A8113C100844C70 /* Light.hpp */,
 				8EA7092819D75FC000129E2D /* Shader.hpp */,
 				8EA7092519D75FC000129E2D /* Pipeline.hpp */,
@@ -550,6 +556,7 @@
 				8E3A702B1AD2ABAD00A9923B /* Mouse.hpp in Headers */,
 				8EF702051A76F90B00454341 /* zlib.h in Headers */,
 				8E6A0DBE19B3A03600DF0921 /* Keyboard.hpp in Headers */,
+				8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */,
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
 				8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */,
 				8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */,
@@ -605,6 +612,7 @@
 				8E112DB7199E5FE20029CD38 /* OpenGL.hpp in Headers */,
 				8EA7092D19D75FC000129E2D /* Mesh.hpp in Headers */,
 				8E6E53A41A7FC0AF00844C70 /* FrameBuffer.hpp in Headers */,
+				8EF963051AEFE7C80012ED72 /* PixelBuffer.hpp in Headers */,
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
 				8EF701FE1A76F90B00454341 /* inffast.h in Headers */,
 				8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */,

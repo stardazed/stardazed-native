@@ -9,19 +9,19 @@ namespace stardazed {
 namespace render {
 
 
-constexpr GLint glImageFormatForImageDataFormat(ImageDataFormat format) {
+constexpr GLint glImageFormatForPixelFormat(PixelFormat format) {
 	switch (format) {
-		case ImageDataFormat::R8: return GL_RED;
-		case ImageDataFormat::RG8: return GL_RG;
+		case PixelFormat::R8: return GL_RED;
+		case PixelFormat::RG8: return GL_RG;
 
-		case ImageDataFormat::RGB8: return GL_RGB;
-		case ImageDataFormat::BGR8: return GL_BGR;
-		case ImageDataFormat::RGBA8: return GL_RGBA;
-		case ImageDataFormat::BGRA8: return GL_BGRA;
+		case PixelFormat::RGB8: return GL_RGB;
+		case PixelFormat::BGR8: return GL_BGR;
+		case PixelFormat::RGBA8: return GL_RGBA;
+		case PixelFormat::BGRA8: return GL_BGRA;
 			
-		case ImageDataFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-		case ImageDataFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-		case ImageDataFormat::DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case PixelFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+		case PixelFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+		case PixelFormat::DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
 		
 		default:
 			assert(!"unknown texture pixel format");
@@ -30,24 +30,24 @@ constexpr GLint glImageFormatForImageDataFormat(ImageDataFormat format) {
 }
 
 
-constexpr GLint glInternalFormatForImageDataFormat(ImageDataFormat format) {
+constexpr GLint glInternalFormatForPixelFormat(PixelFormat format) {
 	switch (format) {
-		case ImageDataFormat::R8: return GL_R8;
-		case ImageDataFormat::RG8: return GL_RG8;
+		case PixelFormat::R8: return GL_R8;
+		case PixelFormat::RG8: return GL_RG8;
 			
-		case ImageDataFormat::RGB8: return GL_RGB8;
-		case ImageDataFormat::BGR8: return GL_RGB8;   // swizzled
-		case ImageDataFormat::RGBA8: return GL_RGBA8;
-		case ImageDataFormat::BGRA8: return GL_RGBA8; // swizzled
+		case PixelFormat::RGB8: return GL_RGB8;
+		case PixelFormat::BGR8: return GL_RGB8;   // swizzled
+		case PixelFormat::RGBA8: return GL_RGBA8;
+		case PixelFormat::BGRA8: return GL_RGBA8; // swizzled
 			
-		case ImageDataFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-		case ImageDataFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-		case ImageDataFormat::DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case PixelFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+		case PixelFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+		case PixelFormat::DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
 		
-		case ImageDataFormat::Depth16I: return GL_DEPTH_COMPONENT16;
-		case ImageDataFormat::Depth24I: return GL_DEPTH_COMPONENT24;
-		case ImageDataFormat::Depth32I: return GL_DEPTH_COMPONENT32;
-		case ImageDataFormat::Depth32F: return GL_DEPTH_COMPONENT32F;
+		case PixelFormat::Depth16I: return GL_DEPTH_COMPONENT16;
+		case PixelFormat::Depth24I: return GL_DEPTH_COMPONENT24;
+		case PixelFormat::Depth32I: return GL_DEPTH_COMPONENT32;
+		case PixelFormat::Depth32F: return GL_DEPTH_COMPONENT32F;
 
 		default:
 			assert(!"unknown texture pixel format");
@@ -56,16 +56,16 @@ constexpr GLint glInternalFormatForImageDataFormat(ImageDataFormat format) {
 }
 
 
-constexpr GLenum glPixelDataTypeForImageDataFormat(ImageDataFormat format) {
-	assert(! imageDataFormatIsCompressed(format));
+constexpr GLenum glPixelDataTypeForPixelFormat(PixelFormat format) {
+	assert(! pixelFormatIsCompressed(format));
 	
 	switch (format) {
-		case ImageDataFormat::R8: return GL_UNSIGNED_BYTE;
-		case ImageDataFormat::RG8: return GL_UNSIGNED_BYTE;
-		case ImageDataFormat::RGB8: return GL_UNSIGNED_BYTE;
-		case ImageDataFormat::BGR8: return GL_UNSIGNED_BYTE;
-		case ImageDataFormat::RGBA8: return GL_UNSIGNED_BYTE;
-		case ImageDataFormat::BGRA8: return GL_UNSIGNED_BYTE;
+		case PixelFormat::R8: return GL_UNSIGNED_BYTE;
+		case PixelFormat::RG8: return GL_UNSIGNED_BYTE;
+		case PixelFormat::RGB8: return GL_UNSIGNED_BYTE;
+		case PixelFormat::BGR8: return GL_UNSIGNED_BYTE;
+		case PixelFormat::RGBA8: return GL_UNSIGNED_BYTE;
+		case PixelFormat::BGRA8: return GL_UNSIGNED_BYTE;
 
 		default:
 			assert(!"unhandled image data format");
@@ -86,20 +86,20 @@ constexpr GLenum glTargetForCubeMapFace(CubeMapFace face) {
 }
 
 
-void uploadSubImage2D(GLenum target, const ImageData& image, uint8 level, int offsetX, int offsetY) {
-	auto glFormat = glImageFormatForImageDataFormat(image.format);
+void uploadSubImage2D(GLenum target, const PixelBuffer& pixelBuffer, uint8 level, int offsetX, int offsetY) {
+	auto glFormat = glImageFormatForPixelFormat(pixelBuffer.format);
 	
-	if (imageDataFormatIsCompressed(image.format)) {
+	if (pixelFormatIsCompressed(pixelBuffer.format)) {
 		glCompressedTexSubImage2D(target, level,
-								  offsetX, offsetY, image.width, image.height,
-								  glFormat, image.size, image.data);
+								  offsetX, offsetY, pixelBuffer.width, pixelBuffer.height,
+								  glFormat, pixelBuffer.size, pixelBuffer.data);
 	}
 	else {
-		auto glPixelType = glPixelDataTypeForImageDataFormat(image.format);
+		auto glPixelType = glPixelDataTypeForPixelFormat(pixelBuffer.format);
 		
 		glTexSubImage2D(target, level,
-						offsetX, offsetY, image.width, image.height,
-						glFormat, glPixelType, image.data);
+						offsetX, offsetY, pixelBuffer.width, pixelBuffer.height,
+						glFormat, glPixelType, pixelBuffer.data);
 	}
 }
 
@@ -110,23 +110,23 @@ void uploadSubImage2D(GLenum target, const ImageData& image, uint8 level, int of
 //   | |  __/>  <| |_| |_| | | |  __// __/| |_| |
 //   |_|\___/_/\_\\__|\__,_|_|  \___|_____|____/
 //
-void Texture2D::allocate(size32 width, size32 height, uint8 levels, ImageDataFormat format) {
+void Texture2D::allocate(size32 width, size32 height, uint8 levels, PixelFormat format) {
 	bind();
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexStorage2D(GL_TEXTURE_2D, levels, glInternalFormatForImageDataFormat(format), width, height);
+	glTexStorage2D(GL_TEXTURE_2D, levels, glInternalFormatForPixelFormat(format), width, height);
 
 	width_ = width; height_ = height;
 	format_ = format;
 }
 
 
-void Texture2D::uploadImageData(const ImageData& image, uint8 level) {
-	assert(image.width == dimensionAtMipLevel(width_, level));
-	assert(image.height == dimensionAtMipLevel(height_, level));
-	assert(image.format == format_);
+void Texture2D::uploadPixelBuffer(const PixelBuffer& pixelBuffer, uint8 level) {
+	assert(pixelBuffer.width == dimensionAtMipLevel(width_, level));
+	assert(pixelBuffer.height == dimensionAtMipLevel(height_, level));
+	assert(pixelBuffer.format == format_);
 	
-	uploadSubImage2D(GL_TEXTURE_2D, image, level, 0, 0);
+	uploadSubImage2D(GL_TEXTURE_2D, pixelBuffer, level, 0, 0);
 }
 
 
@@ -134,8 +134,8 @@ void Texture2D::load(const TextureDataProvider& provider) {
 	auto mipMaps = provider.mipMapCount();
 
 	for (uint32 level = 0; level < mipMaps; ++level) {
-		auto image = provider.imageDataForLevel(level);
-		uploadImageData(image, level);
+		auto pixelBuffer = provider.pixelBufferForLevel(level);
+		uploadPixelBuffer(pixelBuffer, level);
 	 }
 }
 
@@ -152,7 +152,7 @@ void Texture2D::setupWithDataProvider(const TextureDataProvider& provider) {
 //   | |  __/>  <| |_| |_| | | |  __/ |__| |_| | |_) |  __/ |  | | (_| | |_) |
 //   |_|\___/_/\_\\__|\__,_|_|  \___|\____\__,_|_.__/ \___|_|  |_|\__,_| .__/
 //                                                                     |_|
-void TextureCubeMap::allocate(size32 side, uint8 levels, ImageDataFormat format) {
+void TextureCubeMap::allocate(size32 side, uint8 levels, PixelFormat format) {
 	bind();
 	
 	// FIXME: this needs to move to a Sampler object
@@ -163,9 +163,9 @@ void TextureCubeMap::allocate(size32 side, uint8 levels, ImageDataFormat format)
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexStorage2D(GL_TEXTURE_CUBE_MAP, levels, glInternalFormatForImageDataFormat(format), side, side);
+	glTexStorage2D(GL_TEXTURE_CUBE_MAP, levels, glInternalFormatForPixelFormat(format), side, side);
 	
-	if (format == ImageDataFormat::BGR8 || format == ImageDataFormat::BGRA8)
+	if (format == PixelFormat::BGR8 || format == PixelFormat::BGRA8)
 		setSwizzleMask(ColourComponent::Red, ColourComponent::Green, ColourComponent::Blue, ColourComponent::Alpha);
 	
 	side_ = side;
@@ -173,19 +173,19 @@ void TextureCubeMap::allocate(size32 side, uint8 levels, ImageDataFormat format)
 }
 
 
-void TextureCubeMap::uploadFaceImageData(const ImageData& image, uint8 level, CubeMapFace face) {
-	assert(image.width == dimensionAtMipLevel(side_, level));
-	assert(image.width == image.height);
-	assert(image.format == format_);
+void TextureCubeMap::uploadFacePixelBuffer(const PixelBuffer& pixelBuffer, uint8 level, CubeMapFace face) {
+	assert(pixelBuffer.width == dimensionAtMipLevel(side_, level));
+	assert(pixelBuffer.width == pixelBuffer.height);
+	assert(pixelBuffer.format == format_);
 
-	uploadSubImage2D(glTargetForCubeMapFace(face), image, level, 0, 0);
+	uploadSubImage2D(glTargetForCubeMapFace(face), pixelBuffer, level, 0, 0);
 }
 
 
 void TextureCubeMap::loadFace(const TextureDataProvider& provider, CubeMapFace face) {
 	for (uint32 level = 0; level < provider.mipMapCount(); ++level) {
-		auto image = provider.imageDataForLevel(level);
-		uploadFaceImageData(image, level, face);
+		auto pixelBuffer = provider.pixelBufferForLevel(level);
+		uploadFacePixelBuffer(pixelBuffer, level, face);
 	}
 }
 

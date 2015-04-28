@@ -69,12 +69,12 @@ namespace detail {
 
 class Texture2D : public detail::GLTexture<GL_TEXTURE_2D> {
 	size32 width_ = 0, height_ = 0;
-	ImageDataFormat format_ = ImageDataFormat::None;
+	PixelFormat format_ = PixelFormat::None;
 
 public:
-	void allocate(size32 width, size32 height, uint8 levels, ImageDataFormat format);
+	void allocate(size32 width, size32 height, uint8 levels, PixelFormat format);
 	
-	void uploadImageData(const ImageData& image, uint8 level);
+	void uploadPixelBuffer(const PixelBuffer& image, uint8 level);
 
 	void load(const TextureDataProvider&);
 	
@@ -84,12 +84,12 @@ public:
 
 class TextureCubeMap : public detail::GLTexture<GL_TEXTURE_CUBE_MAP> {
 	size32 side_ = 0;
-	ImageDataFormat format_ = ImageDataFormat::None;
+	PixelFormat format_ = PixelFormat::None;
 
 public:
-	void allocate(size32 side, uint8 levels, ImageDataFormat);
+	void allocate(size32 side, uint8 levels, PixelFormat);
 	
-	void uploadFaceImageData(const ImageData&, uint8 level, CubeMapFace);
+	void uploadFacePixelBuffer(const PixelBuffer&, uint8 level, CubeMapFace);
 	
 	void loadFace(const TextureDataProvider&, CubeMapFace);
 	void loadAllFaces(const TextureDataProvider&, const TextureDataProvider&,

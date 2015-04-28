@@ -93,12 +93,12 @@ DDSDataProvider::DDSDataProvider(const std::string& resourcePath) {
 	file.readBytes(data_.get(), dataSize);
 	
 	switch (header.ddspf.dwFourCC) {
-		case fourCharCode('D','X','T','1'): format_ = ImageDataFormat::DXT1; break;
-		case fourCharCode('D','X','T','3'): format_ = ImageDataFormat::DXT3; break;
-		case fourCharCode('D','X','T','5'): format_ = ImageDataFormat::DXT5; break;
+		case fourCharCode('D','X','T','1'): format_ = PixelFormat::DXT1; break;
+		case fourCharCode('D','X','T','3'): format_ = PixelFormat::DXT3; break;
+		case fourCharCode('D','X','T','5'): format_ = PixelFormat::DXT5; break;
 		default:
 			assert(!"unknown data format of DDS file");
-			format_ = ImageDataFormat::None;
+			format_ = PixelFormat::None;
 			break;
 	}
 	
@@ -109,7 +109,7 @@ DDSDataProvider::DDSDataProvider(const std::string& resourcePath) {
 
 
 size32 DDSDataProvider::dataSizeForLevel(uint8 level) const {
-	size32 blockSize = (format_ == ImageDataFormat::DXT1) ? 8 : 16;
+	size32 blockSize = (format_ == PixelFormat::DXT1) ? 8 : 16;
 	auto mipWidth = dimensionAtMipLevel(width_, level);
 	auto mipHeight = dimensionAtMipLevel(height_, level);
 
@@ -117,7 +117,7 @@ size32 DDSDataProvider::dataSizeForLevel(uint8 level) const {
 }
 
 
-ImageData DDSDataProvider::imageDataForLevel(uint8 level) const {
+PixelBuffer DDSDataProvider::pixelBufferForLevel(uint8 level) const {
 	assert(level < mipMaps_);
 
 	// FIXME: return empty image if imageformat is none
@@ -128,7 +128,7 @@ ImageData DDSDataProvider::imageDataForLevel(uint8 level) const {
 	auto mipWidth = dimensionAtMipLevel(width_, level);
 	auto mipHeight = dimensionAtMipLevel(height_, level);
 	
-	ImageData mipData {};
+	PixelBuffer mipData {};
 	mipData.width = mipWidth;
 	mipData.height = mipHeight;
 	mipData.format = format_;
@@ -183,18 +183,18 @@ BMPDataProvider::BMPDataProvider(const std::string& resourcePath) {
 	assert(info.biCompression == 0);
 	
 	switch (info.biBitCount) {
-		case 24: format_ = ImageDataFormat::BGR8; break;
-		case 32: format_ = ImageDataFormat::BGRA8; break;
+		case 24: format_ = PixelFormat::BGR8; break;
+		case 32: format_ = PixelFormat::BGRA8; break;
 		default:
 			assert(!"can only handle 24 or 32 bit BMPs");
-			format_ = ImageDataFormat::None;
+			format_ = PixelFormat::None;
 			break;
 	}
 	
 	width_ = info.biWidth;
 	height_ = info.biHeight;
 	
-	auto dataSize   = imageDataFormatBytesPerPixel(format_) * width_ * height_;
+	auto dataSize   = pixelFormatBytesPerPixel(format_) * width_ * height_;
 	auto dataOffset = header.bfOffBits;
 	auto headerSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
 	
@@ -205,14 +205,14 @@ BMPDataProvider::BMPDataProvider(const std::string& resourcePath) {
 }
 
 
-ImageData BMPDataProvider::imageDataForLevel(uint8 level) const {
+PixelBuffer BMPDataProvider::pixelBufferForLevel(uint8 level) const {
 	assert(level == 0);
 	
-	ImageData image {};
+	PixelBuffer image {};
 	image.width = width();
 	image.height = height();
 	image.format = format();
-	image.size = imageDataFormatBytesPerPixel(format_) * width() * height();
+	image.size = pixelFormatBytesPerPixel(format_) * width() * height();
 	image.data = data_.get();
 	return image;
 }
@@ -232,13 +232,13 @@ PNGDataProvider::PNGDataProvider(const std::string& resourcePath) {
 	height_ = png.height();
 	
 	switch (png.bytesPerPixel()) {
-		case 1: format_ = ImageDataFormat::R8; break;
-		case 2: format_ = ImageDataFormat::RG8; break;
-		case 3: format_ = ImageDataFormat::RGB8; break;
-		case 4: format_ = ImageDataFormat::RGBA8; break;
+		case 1: format_ = PixelFormat::R8; break;
+		case 2: format_ = PixelFormat::RG8; break;
+		case 3: format_ = PixelFormat::RGB8; break;
+		case 4: format_ = PixelFormat::RGBA8; break;
 		default:
 			assert(!"bytes per pixel not in range");
-			format_ = ImageDataFormat::None;
+			format_ = PixelFormat::None;
 			break;
 	}
 	
@@ -254,14 +254,14 @@ PNGDataProvider::PNGDataProvider(const std::string& resourcePath) {
 }
 
 
-ImageData PNGDataProvider::imageDataForLevel(uint8 level) const {
+PixelBuffer PNGDataProvider::pixelBufferForLevel(uint8 level) const {
 	assert(level == 0);
 	
-	ImageData image {};
+	PixelBuffer image {};
 	image.width = width();
 	image.height = height();
 	image.format = format();
-	image.size = imageDataFormatBytesPerPixel(format()) * width() * height();
+	image.size = pixelFormatBytesPerPixel(format()) * width() * height();
 	image.data = data_.get();
 	return image;
 }
@@ -319,37 +319,37 @@ TGADataProvider::TGADataProvider(const std::string& resourcePath) {
 
 	if (header.imageType == TGAIT_RGB) {
 		if (header.bitDepth == 24)
-			format_ = ImageDataFormat::BGR8;
+			format_ = PixelFormat::BGR8;
 		else if (header.bitDepth == 32)
-			format_ = ImageDataFormat::BGRA8;
+			format_ = PixelFormat::BGRA8;
 		else {
 			assert(!"for RGB image types, only 24 and 32 bit depths are supported");
-			format_ = ImageDataFormat::None;
+			format_ = PixelFormat::None;
 		}
 	}
 	else if (header.imageType == TGAIT_Grayscale) {
-		format_ = ImageDataFormat::R8;
+		format_ = PixelFormat::R8;
 		assert(header.bitDepth == 8);
 	}
 	else {
 		assert(!"unknown or inconsistent image type");
-		format_ = ImageDataFormat::None;
+		format_ = PixelFormat::None;
 	}
 	
-	auto dataSize = imageDataFormatBytesPerPixel(format_) * width_ * height_;
+	auto dataSize = pixelFormatBytesPerPixel(format_) * width_ * height_;
 	data_ = std::make_unique<uint8[]>(dataSize);
 	file.readBytes(data_.get(), dataSize);
 }
 
 
-ImageData TGADataProvider::imageDataForLevel(uint8 level) const {
+PixelBuffer TGADataProvider::pixelBufferForLevel(uint8 level) const {
 	assert(level == 0);
 	
-	ImageData image {};
+	PixelBuffer image {};
 	image.width = width();
 	image.height = height();
 	image.format = format();
-	image.size = imageDataFormatBytesPerPixel(format()) * width() * height();
+	image.size = pixelFormatBytesPerPixel(format()) * width() * height();
 	image.data = data_.get();
 	return image;
 }
@@ -401,14 +401,14 @@ JPGDataProvider::JPGDataProvider(const std::string& resourcePath) {
 }
 
 
-ImageData JPGDataProvider::imageDataForLevel(uint8 level) const {
+PixelBuffer JPGDataProvider::pixelBufferForLevel(uint8 level) const {
 	assert(level == 0);
 	
-	ImageData image {};
+	PixelBuffer image {};
 	image.width = width();
 	image.height = height();
 	image.format = format();
-	image.size = imageDataFormatBytesPerPixel(format()) * width() * height();
+	image.size = pixelFormatBytesPerPixel(format()) * width() * height();
 	image.data = data_.get();
 	return image;
 }
