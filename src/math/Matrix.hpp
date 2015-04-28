@@ -648,8 +648,25 @@ constexpr Mat4 scaleMatrix(float uniformScale) {
 	return scaleMatrix(uniformScale, uniformScale, uniformScale);
 }
 
-constexpr Mat4 scaleMatrix(const math::Vec3& scaleXYZ) {
+constexpr Mat4 scaleMatrix(const Vec3& scaleXYZ) {
 	return scaleMatrix(scaleXYZ.x, scaleXYZ.y, scaleXYZ.z);
+}
+
+
+// ---- Translation Matrix
+
+constexpr Mat4 translationMatrix(float transX, float transY, float transZ) {
+	auto m = Mat4(1);
+	m[3][0] = transX;
+	m[3][1] = transY;
+	m[3][2] = transZ;
+	return m;
+}
+
+constexpr Mat4 translationMatrix(const Vec3& trans) {
+	auto m = Mat4(1);
+	m[3].xyz = trans;
+	return m;
 }
 	
 

@@ -36,7 +36,7 @@ public:
 	virtual void render(const RenderPassInfo&, const Entity& entity) const = 0;
 };
 
-	
+
 } // ns scene
 } // ns stardazed
 
