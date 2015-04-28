@@ -11,7 +11,7 @@ namespace render {
 
 
 void FrameBuffer::addShadowDepthMap(uint32 width, uint32 height) {
-	depthAttachment.allocate(width, height, 1, ImageDataFormat::DepthShadow);
+	depthAttachment.allocate(width, height, 1, PixelFormat::DepthShadow);
 	
 	// FIXME: move this to a sampler
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
