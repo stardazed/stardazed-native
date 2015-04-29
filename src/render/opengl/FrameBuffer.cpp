@@ -10,6 +10,21 @@ namespace stardazed {
 namespace render {
 
 
+RenderBuffer::RenderBuffer(size32 width, size32 height, PixelFormat format, uint8 samples)
+: width_(width)
+, height_(height)
+, format_(format)
+, samples_(samples)
+{
+	glGenRenderbuffers(1, &glRBO_);
+	bind();
+
+	// samples defaults to 0, which is effectively a non-ms buffer
+	auto glFormat = glInternalFormatForPixelFormat(format);
+	glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples_, glFormat, width_, height_);
+}
+
+
 void FrameBuffer::addShadowDepthMap(uint32 width, uint32 height) {
 	depthAttachment.allocate(width, height, 1, PixelFormat::DepthShadow);
 	

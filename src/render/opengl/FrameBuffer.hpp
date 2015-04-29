@@ -16,6 +16,33 @@ namespace stardazed {
 namespace render {
 
 
+class RenderBuffer {
+	size32 width_, height_;
+	PixelFormat format_;
+	uint8 samples_;
+	GLuint glRBO_ = 0;
+	
+public:
+	RenderBuffer(size32 width, size32 height, PixelFormat format, uint8 samples = 0);
+	~RenderBuffer() {
+		if (glRBO_)
+			glDeleteRenderbuffers(1, &glRBO_);
+	}
+	SD_DEFAULT_MOVE_OPS(RenderBuffer)
+	
+	size32 width() const { return width_; }
+	size32 height() const { return height_; }
+	PixelFormat pixelFormat() const { return format_; }
+	uint8 samples() const { return samples_; }
+	
+	GLuint name() const { return glRBO_; }
+	
+	void bind() const {
+		glBindRenderbuffer(GL_RENDERBUFFER, glRBO_);
+	}
+};
+
+
 class FrameBuffer {
 	GLuint glFBO_ = 0;
 	Texture2D depthAttachment;
@@ -25,7 +52,8 @@ public:
 		glGenFramebuffers(1, &glFBO_);
 	}
 	~FrameBuffer() {
-		glDeleteFramebuffers(1, &glFBO_);
+		if (glFBO_)
+			glDeleteFramebuffers(1, &glFBO_);
 	}
 	SD_DEFAULT_MOVE_OPS(FrameBuffer)
 	

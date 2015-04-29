@@ -9,124 +9,6 @@ namespace stardazed {
 namespace render {
 
 
-constexpr GLint glImageFormatForPixelFormat(PixelFormat format) {
-	switch (format) {
-		case PixelFormat::R8: return GL_RED;
-		case PixelFormat::RG8: return GL_RG;
-
-		case PixelFormat::RGB8: return GL_RGB;
-		case PixelFormat::BGR8: return GL_BGR;
-		case PixelFormat::RGBA8: return GL_RGBA;
-		case PixelFormat::BGRA8: return GL_BGRA;
-		
-		case PixelFormat::RGB32F: return GL_RGB;
-		case PixelFormat::RGBA32F: return GL_RGBA;
-			
-		case PixelFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-		case PixelFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-		case PixelFormat::DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-		
-		case PixelFormat::Depth16I:
-		case PixelFormat::Depth24I:
-		case PixelFormat::Depth32I:
-		case PixelFormat::Depth32F:
-			return GL_DEPTH_COMPONENT;
-		
-		case PixelFormat::Stencil8: return GL_STENCIL_INDEX;
-
-		case PixelFormat::Depth24_Stencil8:
-		case PixelFormat::Depth32F_Stencil8:
-			return GL_DEPTH_STENCIL;
-		
-		default:
-			assert(!"unhandled texture pixel format");
-			return GL_NONE;
-	}
-}
-
-
-constexpr GLint glInternalFormatForPixelFormat(PixelFormat format) {
-	switch (format) {
-		case PixelFormat::R8: return GL_R8;
-		case PixelFormat::RG8: return GL_RG8;
-			
-		case PixelFormat::RGB8: return GL_RGB8;
-		case PixelFormat::BGR8: return GL_RGB8;   // swizzled
-		case PixelFormat::RGBA8: return GL_RGBA8;
-		case PixelFormat::BGRA8: return GL_RGBA8; // swizzled
-		
-		case PixelFormat::RGB32F: return GL_RGB32F;
-		case PixelFormat::RGBA32F: return GL_RGBA32F;
-			
-		case PixelFormat::DXT1: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-		case PixelFormat::DXT3: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-		case PixelFormat::DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-		
-		case PixelFormat::Depth16I: return GL_DEPTH_COMPONENT16;
-		case PixelFormat::Depth24I: return GL_DEPTH_COMPONENT24;
-		case PixelFormat::Depth32I: return GL_DEPTH_COMPONENT32;
-		case PixelFormat::Depth32F: return GL_DEPTH_COMPONENT32F;
-		
-		case PixelFormat::Stencil8: return GL_STENCIL_INDEX8;
-
-		case PixelFormat::Depth24_Stencil8: return GL_DEPTH24_STENCIL8;
-		case PixelFormat::Depth32F_Stencil8: return GL_DEPTH32F_STENCIL8;
-
-		default:
-			assert(!"unhandled texture pixel format");
-			return GL_NONE;
-	}
-}
-
-
-constexpr GLenum glPixelDataTypeForPixelFormat(PixelFormat format) {
-	assert(! pixelFormatIsCompressed(format));
-	
-	switch (format) {
-		case PixelFormat::R8:
-		case PixelFormat::RG8:
-		case PixelFormat::RGB8:
-		case PixelFormat::BGR8:
-		case PixelFormat::RGBA8:
-		case PixelFormat::BGRA8:
-		case PixelFormat::Stencil8:
-			return GL_UNSIGNED_BYTE;
-		
-		case PixelFormat::RGB32F:
-		case PixelFormat::RGBA32F:
-		case PixelFormat::Depth32F:
-			return GL_FLOAT;
-		
-		case PixelFormat::Depth16I:
-			return GL_UNSIGNED_SHORT;
-		case PixelFormat::Depth24I:
-		case PixelFormat::Depth32I:
-			return GL_UNSIGNED_INT;
-
-		case PixelFormat::Depth24_Stencil8:
-			return GL_UNSIGNED_INT_24_8;
-		case PixelFormat::Depth32F_Stencil8:
-			return GL_FLOAT_32_UNSIGNED_INT_24_8_REV;
-
-		default:
-			assert(!"unhandled pixel buffer format");
-			return GL_NONE;
-	}
-}
-
-
-constexpr GLenum glTargetForCubeMapFace(CubeMapFace face) {
-	switch (face) {
-		case CubeMapFace::PosX: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
-		case CubeMapFace::NegX: return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
-		case CubeMapFace::PosY: return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
-		case CubeMapFace::NegY: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
-		case CubeMapFace::PosZ: return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
-		case CubeMapFace::NegZ: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
-	}
-}
-
-
 void uploadSubImage2D(GLenum target, const PixelBuffer& pixelBuffer, uint8 level, int offsetX, int offsetY) {
 	auto glFormat = glImageFormatForPixelFormat(pixelBuffer.format);
 	
@@ -155,7 +37,7 @@ void Texture2D::allocate(size32 width, size32 height, uint8 levels, PixelFormat 
 	bind();
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexStorage2D(GL_TEXTURE_2D, levels, glInternalFormatForPixelFormat(format), width, height);
+	glTexStorage2D(target(), levels, glInternalFormatForPixelFormat(format), width, height);
 
 	width_ = width; height_ = height;
 	format_ = format;
@@ -167,7 +49,7 @@ void Texture2D::uploadPixelBuffer(const PixelBuffer& pixelBuffer, uint8 level) {
 	assert(pixelBuffer.height == dimensionAtMipLevel(height_, level));
 	assert(pixelBuffer.format == format_);
 	
-	uploadSubImage2D(GL_TEXTURE_2D, pixelBuffer, level, 0, 0);
+	uploadSubImage2D(target(), pixelBuffer, level, 0, 0);
 }
 
 
@@ -187,6 +69,28 @@ void Texture2D::setupWithDataProvider(const TextureDataProvider& provider) {
 }
 
 
+//  _____         _                  ____  ____  __  __       _ _   _                           _
+// |_   _|____  _| |_ _   _ _ __ ___|___ \|  _ \|  \/  |_   _| | |_(_)___  __ _ _ __ ___  _ __ | | ___
+//   | |/ _ \ \/ / __| | | | '__/ _ \ __) | | | | |\/| | | | | | __| / __|/ _` | '_ ` _ \| '_ \| |/ _ \
+//   | |  __/>  <| |_| |_| | | |  __// __/| |_| | |  | | |_| | | |_| \__ \ (_| | | | | | | |_) | |  __/
+//   |_|\___/_/\_\\__|\__,_|_|  \___|_____|____/|_|  |_|\__,_|_|\__|_|___/\__,_|_| |_| |_| .__/|_|\___|
+//                                                                                       |_|
+
+void Texture2DMultisample::allocate(size32 width, size32 height, uint8 samples, PixelFormat format) {
+	// multisample textures may not be a compressed format
+	assert(! pixelFormatIsCompressed(format));
+
+	bind();
+	
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glTexImage2DMultisample(target(), samples, glInternalFormatForPixelFormat(format), width, height, GL_TRUE);
+	
+	width_ = width; height_ = height;
+	format_ = format;
+	samples_ = samples;
+}
+
+
 //  _____         _                   ____      _          __  __
 // |_   _|____  _| |_ _   _ _ __ ___ / ___|   _| |__   ___|  \/  | __ _ _ __
 //   | |/ _ \ \/ / __| | | | '__/ _ \ |  | | | | '_ \ / _ \ |\/| |/ _` | '_ \
@@ -197,14 +101,14 @@ void TextureCubeMap::allocate(size32 side, uint8 levels, PixelFormat format) {
 	bind();
 	
 	// FIXME: this needs to move to a Sampler object
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(target(), GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(target(), GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(target(), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(target(), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(target(), GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexStorage2D(GL_TEXTURE_CUBE_MAP, levels, glInternalFormatForPixelFormat(format), side, side);
+	glTexStorage2D(target(), levels, glInternalFormatForPixelFormat(format), side, side);
 	
 	if (format == PixelFormat::BGR8 || format == PixelFormat::BGRA8)
 		setSwizzleMask(ColourComponent::Red, ColourComponent::Green, ColourComponent::Blue, ColourComponent::Alpha);
