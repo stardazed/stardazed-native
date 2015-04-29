@@ -22,7 +22,7 @@ enum class ColourComponent {
 };
 
 
-enum class PixelFormat {
+enum class PixelFormat : uint8 {
 	None,
 	
 	// 8-bit component
