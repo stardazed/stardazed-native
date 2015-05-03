@@ -44,11 +44,15 @@ public:
 
 
 class FrameBuffer {
+	size32 width_, height_;
 	GLuint glFBO_ = 0;
 	Texture2D depthAttachment;
 
 public:
-	FrameBuffer() {
+	FrameBuffer(size32 width, size32 height)
+	: width_(width)
+	, height_(height)
+	{
 		glGenFramebuffers(1, &glFBO_);
 	}
 	~FrameBuffer() {
@@ -56,9 +60,6 @@ public:
 			glDeleteFramebuffers(1, &glFBO_);
 	}
 	SD_DEFAULT_MOVE_OPS(FrameBuffer)
-	
-	
-	void addShadowDepthMap(uint32 width, uint32 height);
 	
 	GLuint name() const { return glFBO_; }
 };
