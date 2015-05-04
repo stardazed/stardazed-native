@@ -45,13 +45,14 @@ public:
 
 class FrameBuffer {
 	size32 width_, height_;
+	uint8 samples_;
 	GLuint glFBO_ = 0;
-	Texture2D depthAttachment;
 
 public:
-	FrameBuffer(size32 width, size32 height)
+	FrameBuffer(size32 width, size32 height, uint8 samples = 0)
 	: width_(width)
 	, height_(height)
+	, samples_(samples)
 	{
 		glGenFramebuffers(1, &glFBO_);
 	}
@@ -62,6 +63,8 @@ public:
 	SD_DEFAULT_MOVE_OPS(FrameBuffer)
 	
 	GLuint name() const { return glFBO_; }
+	
+	
 };
 	
 		
