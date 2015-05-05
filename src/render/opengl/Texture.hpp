@@ -12,10 +12,44 @@
 #include "render/common/Texture.hpp"
 #include "render/opengl/PixelFormat.hpp"
 
-#include <string>
-
 namespace stardazed {
 namespace render {
+
+
+class Texture {
+	size32 width_, height_, depth_;
+	size32 layers_, mipmaps_, samples_;
+	PixelFormat pixelFormat_;
+	GLuint glTex_ = 0;
+	GLenum glTarget_;
+
+public:
+	Texture(const TextureDescriptor&);
+	~Texture();
+	
+	// -- pixel access
+	void writePixels(const PixelBuffer&, uint32 x, uint32 y, uint32 mipmapLevel, uint32 layer = 1);
+	PixelBuffer readPixels(uint32 x, uint32 y, uint32 width, uint32 height, uint32 mipmapLevel, uint32 layer = 1);
+
+	// -- observers
+	size32 width() const { return width_; }
+	size32 height() const { return height_; }
+	size32 depth() const { return depth_; }
+
+	size32 layers() const { return layers_; }
+	size32 mipmaps() const { return mipmaps_; }
+	size32 samples() const { return samples_; }
+
+	bool isArray() const { return layers_ > 1; }
+	bool isMultiSample() const { return samples_ > 1; }
+	bool usesMipMaps() const { return mipmaps_ > 1; }
+
+	PixelFormat pixelFormat() const { return pixelFormat_; }
+	
+	TextureClass textureClass() const;
+	bool frameBufferOnly() const;
+	bool renderTargetOnly() const;
+};
 
 
 namespace detail {

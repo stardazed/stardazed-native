@@ -9,6 +9,135 @@ namespace stardazed {
 namespace render {
 
 
+Texture::Texture(const TextureDescriptor& td)
+: width_(td.width)
+, height_(td.height)
+, depth_(td.height)
+, layers_(td.layers)
+, mipmaps_(td.mipmaps)
+, samples_(td.samples)
+, pixelFormat_(td.pixelFormat)
+{
+	auto sizedFormat = glInternalFormatForPixelFormat(pixelFormat_);
+
+	// -- special case for RenderBuffer, all other paths gen a texture
+	if (td.textureClass == TextureClass::Tex2D) {
+		if (td.layers == 1) {
+			if (td.usageHint == TextureUsageHint::RenderTargetOnly) {
+				// use a RenderBuffer
+				glTarget_ = GL_RENDERBUFFER;
+				glGenRenderbuffers(1, &glTex_);
+				glBindRenderbuffer(glTarget_, glTex_);
+				glRenderbufferStorageMultisample(glTarget_, td.samples, sizedFormat, td.width, td.height);
+				glBindRenderbuffer(glTarget_, 0);
+				
+				return;
+			}
+		}
+	}
+
+	// -- normal texture
+	glGenTextures(1, &glTex_);
+	
+	if (td.textureClass == TextureClass::Tex2D) {
+		if (td.layers == 1) {
+			if (td.samples == 1) {
+				glTarget_ = GL_TEXTURE_2D;
+				glBindTexture(glTarget_, glTex_);
+				glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, td.width, td.height);
+			}
+			else {
+				glTarget_ = GL_TEXTURE_2D_MULTISAMPLE;
+				glBindTexture(glTarget_, glTex_);
+				glTexImage2DMultisample(glTarget_, td.samples, sizedFormat, td.width, td.height, GL_TRUE);
+			}
+		}
+		else {
+			glTarget_ = GL_TEXTURE_2D_ARRAY;
+			glBindTexture(glTarget_, glTex_);
+			glTexStorage3D(glTarget_, td.mipmaps, sizedFormat, td.width, td.height, td.layers);
+		}
+	}
+	else if (td.textureClass == TextureClass::TexCube) {
+		glTarget_ = GL_TEXTURE_CUBE_MAP;
+		glBindTexture(glTarget_, glTex_);
+		glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, td.width, td.height);
+	}
+	else if (td.textureClass == TextureClass::Tex1D) {
+		if (td.layers == 1) {
+			glTarget_ = GL_TEXTURE_1D;
+			glBindTexture(glTarget_, glTex_);
+			glTexStorage1D(glTarget_, td.mipmaps, sizedFormat, td.width);
+		}
+		else {
+			glTarget_ = GL_TEXTURE_1D_ARRAY;
+			glBindTexture(glTarget_, glTex_);
+			glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, td.width, td.layers);
+		}
+	}
+	else if (td.textureClass == TextureClass::Tex3D) {
+		glTarget_ = GL_TEXTURE_3D;
+		glBindTexture(glTarget_, glTex_);
+		glTexStorage3D(glTarget_, td.mipmaps, sizedFormat, td.width, td.height, td.depth);
+	}
+	
+	glBindTexture(glTarget_, 0);
+}
+
+
+Texture::~Texture() {
+	if (glTex_ > 0) {
+		if (glTarget_ == GL_RENDERBUFFER)
+			glDeleteRenderbuffers(1, &glTex_);
+		else
+			glDeleteTextures(1, &glTex_);
+	}
+}
+
+
+void Texture::writePixels(const PixelBuffer&, uint32 x, uint32 y, uint32 mipmapLevel, uint32 layer) {
+	
+}
+
+
+PixelBuffer Texture::readPixels(uint32 x, uint32 y, uint32 width, uint32 height, uint32 mipmapLevel, uint32 layer) {
+	return {};
+}
+
+
+TextureClass Texture::textureClass() const {
+	if (glTarget_ == GL_TEXTURE_CUBE_MAP)
+		return TextureClass::TexCube;
+	if (glTarget_ == GL_TEXTURE_3D)
+		return TextureClass::Tex3D;
+	if (glTarget_ == GL_TEXTURE_1D || glTarget_ == GL_TEXTURE_1D_ARRAY)
+		return TextureClass::Tex1D;
+	return TextureClass::Tex2D;
+}
+
+
+bool Texture::frameBufferOnly() const {
+	return glTarget_ == GL_TEXTURE_2D_MULTISAMPLE || glTarget_ == GL_RENDERBUFFER;
+}
+
+
+bool Texture::renderTargetOnly() const {
+	return glTarget_ == GL_RENDERBUFFER;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void uploadSubImage2D(GLenum target, const PixelBuffer& pixelBuffer, uint8 level, int offsetX, int offsetY) {
 	auto glFormat = glImageFormatForPixelFormat(pixelBuffer.format);
 	
