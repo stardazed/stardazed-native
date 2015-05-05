@@ -16,11 +16,11 @@ namespace stardazed {
 namespace geom {
 
 
-render::MeshDescriptor& translate(render::MeshDescriptor& mesh, const math::Vec3& globalDelta);
+render::Mesh& translate(render::Mesh& mesh, const math::Vec3& globalDelta);
 
-render::MeshDescriptor& rotate(render::MeshDescriptor& mesh, const math::Quat& rotation);
+render::Mesh& rotate(render::Mesh& mesh, const math::Quat& rotation);
 
-render::MeshDescriptor combine(const render::MeshDescriptor& m1, const render::MeshDescriptor& m2);
+render::Mesh combine(const render::Mesh& m1, const render::Mesh& m2);
 
 
 } // ns geom

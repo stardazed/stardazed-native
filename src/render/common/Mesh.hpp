@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // render::Mesh - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #ifndef SD_RENDER_MESH_H
@@ -19,9 +19,9 @@ namespace stardazed {
 namespace render {
 
 
-class MeshDescriptor {
+class Mesh {
 public:
-	MeshDescriptor(const AttributeList&);
+	Mesh(const AttributeList&);
 
 	VertexBuffer vertexBuffer;
 	TriangleBuffer faces;

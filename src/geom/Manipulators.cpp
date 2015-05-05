@@ -15,7 +15,7 @@ using namespace render;
 using namespace math;
 
 /*
-MeshDescriptor& translate(MeshDescriptor& mesh, const Vec3& globalDelta) {
+Mesh& translate(Mesh& mesh, const Vec3& globalDelta) {
 	std::transform(mesh.vertexes.begin(), mesh.vertexes.end(), mesh.vertexes.begin(), [&](const Vec3& vtx){
 		return vtx + globalDelta;
 	});
@@ -24,7 +24,7 @@ MeshDescriptor& translate(MeshDescriptor& mesh, const Vec3& globalDelta) {
 }
 
 
-MeshDescriptor& rotate(MeshDescriptor& mesh, const Quat& rotation) {
+Mesh& rotate(Mesh& mesh, const Quat& rotation) {
 	auto vertexCount = mesh.vertexes.size();
 	
 	auto rotMat = rotation.toMatrix4();
@@ -39,8 +39,8 @@ MeshDescriptor& rotate(MeshDescriptor& mesh, const Quat& rotation) {
 }
 
 
-MeshDescriptor combine(const MeshDescriptor& m1, const MeshDescriptor& m2) {
-	MeshDescriptor mm;
+Mesh combine(const Mesh& m1, const Mesh& m2) {
+	Mesh mm;
 
 	auto stitch = [](const auto& v1, const auto& v2, auto& vOut) {
 		vOut.resize(v1.size() + v2.size());

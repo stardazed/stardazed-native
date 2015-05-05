@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // render::Mesh.cpp - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #include "math/Constants.hpp"
@@ -13,12 +13,12 @@ namespace stardazed {
 namespace render {
 
 
-MeshDescriptor::MeshDescriptor(const AttributeList& attrs)
+Mesh::Mesh(const AttributeList& attrs)
 : vertexBuffer(attrs)
 {}
 
 
-math::AABB MeshDescriptor::calcAABB() const {
+math::AABB Mesh::calcAABB() const {
 	auto posAttr = vertexBuffer.attrByRole(AttributeRole::Position);
 	assert(posAttr);
 
@@ -33,7 +33,7 @@ math::AABB MeshDescriptor::calcAABB() const {
 }
 
 
-void MeshDescriptor::genVertexNormals() {
+void Mesh::genVertexNormals() {
 	auto posAttr = vertexBuffer.attrByRole(AttributeRole::Position),
 		 normAttr = vertexBuffer.attrByRole(AttributeRole::Normal);
 
@@ -50,7 +50,7 @@ void MeshDescriptor::genVertexNormals() {
 }
 
 
-void MeshDescriptor::genVertexTangents() {
+void Mesh::genVertexTangents() {
 	auto posAttr  = vertexBuffer.attrByRole(AttributeRole::Position),
 		 normAttr = vertexBuffer.attrByRole(AttributeRole::Normal),
 		 texAttr  = vertexBuffer.attrByRole(AttributeRole::UV),

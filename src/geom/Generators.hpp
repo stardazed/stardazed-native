@@ -162,7 +162,7 @@ public:
 
 
 template <typename Gen, typename... Args>
-void into(render::MeshDescriptor& mesh, Args&&... args) {
+void into(render::Mesh& mesh, Args&&... args) {
 	using namespace render;
 	
 	auto generator = Gen(std::forward<Args>(args)...);
@@ -187,10 +187,10 @@ void into(render::MeshDescriptor& mesh, Args&&... args) {
 
 
 template <typename Gen, typename... Args>
-render::MeshDescriptor basic(Args&&... args) {
+render::Mesh basic(Args&&... args) {
 	using namespace render;
 	
-	MeshDescriptor mesh(render::AttrList::Pos3Norm3());
+	Mesh mesh(render::AttrList::Pos3Norm3());
 
 	into<Gen>(mesh, std::forward<Args>(args)...);
 
@@ -198,19 +198,19 @@ render::MeshDescriptor basic(Args&&... args) {
 }
 
 
-// ---- Convenience methods to create a basic MeshDescriptor for each of the primitves
+// ---- Convenience methods to create a basic Mesh for each of the primitves
 
 template <typename... Args>
-render::MeshDescriptor plane(Args&&... args) { return basic<Plane>(std::forward<Args>(args)...); }
+render::Mesh plane(Args&&... args) { return basic<Plane>(std::forward<Args>(args)...); }
 
 template <typename... Args>
-render::MeshDescriptor cube(Args&&... args) { return basic<Cube>(std::forward<Args>(args)...); }
+render::Mesh cube(Args&&... args) { return basic<Cube>(std::forward<Args>(args)...); }
 
 template <typename... Args>
-render::MeshDescriptor arc(Args&&... args) { return basic<Arc>(std::forward<Args>(args)...); }
+render::Mesh arc(Args&&... args) { return basic<Arc>(std::forward<Args>(args)...); }
 
 template <typename... Args>
-render::MeshDescriptor sphere(Args&&... args) { return basic<Sphere>(std::forward<Args>(args)...); }
+render::Mesh sphere(Args&&... args) { return basic<Sphere>(std::forward<Args>(args)...); }
 
 
 } // ns gen
