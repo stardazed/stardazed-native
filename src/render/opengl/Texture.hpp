@@ -76,8 +76,8 @@ public:
 	void allocate(size32 width, size32 height, uint8 levels, PixelFormat format);
 	
 	void uploadPixelBuffer(const PixelBuffer& image, uint8 level);
-	void load(const TextureDataProvider&);
-	void setupWithDataProvider(const TextureDataProvider&);
+	void load(const PixelDataProvider&);
+	void setupWithDataProvider(const PixelDataProvider&);
 	
 	size32 width() const { return width_; }
 	size32 height() const { return height_; }
@@ -109,14 +109,14 @@ public:
 	
 	void uploadFacePixelBuffer(const PixelBuffer&, uint8 level, CubeMapFace);
 	
-	void loadFace(const TextureDataProvider&, CubeMapFace);
-	void loadAllFaces(const TextureDataProvider&, const TextureDataProvider&,
-					  const TextureDataProvider&, const TextureDataProvider&,
-					  const TextureDataProvider&, const TextureDataProvider&);
+	void loadFace(const PixelDataProvider&, CubeMapFace);
+	void loadAllFaces(const PixelDataProvider&, const PixelDataProvider&,
+					  const PixelDataProvider&, const PixelDataProvider&,
+					  const PixelDataProvider&, const PixelDataProvider&);
 
-	void setupWithDataProviders(const TextureDataProvider&, const TextureDataProvider&,
-					  const TextureDataProvider&, const TextureDataProvider&,
-					  const TextureDataProvider&, const TextureDataProvider&);
+	void setupWithDataProviders(const PixelDataProvider&, const PixelDataProvider&,
+					  const PixelDataProvider&, const PixelDataProvider&,
+					  const PixelDataProvider&, const PixelDataProvider&);
 
 	size32 side() const { return side_; }
 	PixelFormat pixelFormat() const { return format_; }

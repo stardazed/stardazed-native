@@ -15,7 +15,7 @@ namespace stardazed {
 namespace render {
 
 
-std::unique_ptr<TextureDataProvider> makeDataProviderForPath(const std::string& resourcePath) {
+std::unique_ptr<PixelDataProvider> makePixelDataProviderForPath(const std::string& resourcePath) {
 	fs::Path path { resourcePath };
 	auto extension = path.extension(); // guaranteed lowercase
 	

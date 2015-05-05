@@ -53,7 +53,7 @@ void Texture2D::uploadPixelBuffer(const PixelBuffer& pixelBuffer, uint8 level) {
 }
 
 
-void Texture2D::load(const TextureDataProvider& provider) {
+void Texture2D::load(const PixelDataProvider& provider) {
 	auto mipMaps = provider.mipMapCount();
 
 	for (uint32 level = 0; level < mipMaps; ++level) {
@@ -63,7 +63,7 @@ void Texture2D::load(const TextureDataProvider& provider) {
 }
 
 
-void Texture2D::setupWithDataProvider(const TextureDataProvider& provider) {
+void Texture2D::setupWithDataProvider(const PixelDataProvider& provider) {
 	allocate(provider.width(), provider.height(), provider.mipMapCount(), provider.format());
 	load(provider);
 }
@@ -127,7 +127,7 @@ void TextureCubeMap::uploadFacePixelBuffer(const PixelBuffer& pixelBuffer, uint8
 }
 
 
-void TextureCubeMap::loadFace(const TextureDataProvider& provider, CubeMapFace face) {
+void TextureCubeMap::loadFace(const PixelDataProvider& provider, CubeMapFace face) {
 	for (uint32 level = 0; level < provider.mipMapCount(); ++level) {
 		auto pixelBuffer = provider.pixelBufferForLevel(level);
 		uploadFacePixelBuffer(pixelBuffer, level, face);
@@ -135,9 +135,9 @@ void TextureCubeMap::loadFace(const TextureDataProvider& provider, CubeMapFace f
 }
 
 
-void TextureCubeMap::loadAllFaces(const TextureDataProvider& posX, const TextureDataProvider& negX,
-								  const TextureDataProvider& posY, const TextureDataProvider& negY,
-								  const TextureDataProvider& posZ, const TextureDataProvider& negZ)
+void TextureCubeMap::loadAllFaces(const PixelDataProvider& posX, const PixelDataProvider& negX,
+								  const PixelDataProvider& posY, const PixelDataProvider& negY,
+								  const PixelDataProvider& posZ, const PixelDataProvider& negZ)
 {
 	loadFace(posX, CubeMapFace::PosX);
 	loadFace(negX, CubeMapFace::NegX);
@@ -148,9 +148,9 @@ void TextureCubeMap::loadAllFaces(const TextureDataProvider& posX, const Texture
 }
 
 
-void TextureCubeMap::setupWithDataProviders(const TextureDataProvider& posX, const TextureDataProvider& negX,
-											const TextureDataProvider& posY, const TextureDataProvider& negY,
-											const TextureDataProvider& posZ, const TextureDataProvider& negZ)
+void TextureCubeMap::setupWithDataProviders(const PixelDataProvider& posX, const PixelDataProvider& negX,
+											const PixelDataProvider& posY, const PixelDataProvider& negY,
+											const PixelDataProvider& posZ, const PixelDataProvider& negZ)
 {
 	allocate(posX.width(), posX.mipMapCount(), posX.format());
 	loadAllFaces(posX, negX, posY, negY, posZ, negZ);

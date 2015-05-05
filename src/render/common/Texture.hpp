@@ -17,9 +17,9 @@ namespace stardazed {
 namespace render {
 
 
-class TextureDataProvider {
+class PixelDataProvider {
 public:
-	virtual ~TextureDataProvider() {}
+	virtual ~PixelDataProvider() {}
 	
 	virtual size32 width() const = 0;
 	virtual size32 height() const = 0;
@@ -30,7 +30,7 @@ public:
 };
 
 
-class DDSDataProvider : public TextureDataProvider {
+class DDSDataProvider : public PixelDataProvider {
 	size32 width_, height_, mipMaps_;
 	PixelFormat format_;
 	std::unique_ptr<uint8[]> data_;
@@ -49,7 +49,7 @@ public:
 };
 	
 	
-class BMPDataProvider : public TextureDataProvider {
+class BMPDataProvider : public PixelDataProvider {
 	size32 width_, height_;
 	PixelFormat format_;
 	std::unique_ptr<uint8[]> data_;
@@ -66,7 +66,7 @@ public:
 };
 
 
-class PNGDataProvider : public TextureDataProvider {
+class PNGDataProvider : public PixelDataProvider {
 	size32 width_, height_;
 	PixelFormat format_;
 	std::unique_ptr<uint8[]> data_;
@@ -83,7 +83,7 @@ public:
 };
 
 
-class TGADataProvider : public TextureDataProvider {
+class TGADataProvider : public PixelDataProvider {
 	size32 width_, height_;
 	PixelFormat format_;
 	std::unique_ptr<uint8[]> data_;
@@ -100,7 +100,7 @@ public:
 };
 
 
-class JPGDataProvider : public TextureDataProvider {
+class JPGDataProvider : public PixelDataProvider {
 	size32 width_, height_;
 	std::unique_ptr<uint8[]> data_;
 
@@ -118,7 +118,7 @@ public:
 
 // -- utility function to return the proper provider based on
 // -- the file extension of the resource path.
-std::unique_ptr<TextureDataProvider> makeDataProviderForPath(const std::string& resourcePath);
+std::unique_ptr<PixelDataProvider> makePixelDataProviderForPath(const std::string& resourcePath);
 
 
 enum class CubeMapFace {

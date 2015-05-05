@@ -36,10 +36,10 @@ void FrameBuffer::addShadowDepthMap(uint32 width, uint32 height) {
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, glFBO_);
 	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthAttachment.name(), 0);
-	
+
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
-	
+
 	auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (status != GL_FRAMEBUFFER_COMPLETE) {
 		sd::log("fbo not complete: ", status);
