@@ -54,6 +54,8 @@
 		8E147FAD19BB7644002836CA /* RunLoop.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E147FAC19BB7644002836CA /* RunLoop.hpp */; };
 		8E147FAF19BB9944002836CA /* RunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E147FAE19BB9944002836CA /* RunLoop.cpp */; };
 		8E1599271AF9012C00A62CE1 /* PixelFormat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E1599261AF9012C00A62CE1 /* PixelFormat.hpp */; };
+		8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1599291AF9034700A62CE1 /* PixelBuffer.cpp */; };
+		8E15992C1AF9054200A62CE1 /* PixelFormat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E15992B1AF9054200A62CE1 /* PixelFormat.hpp */; };
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
 		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
@@ -175,6 +177,8 @@
 		8E147FAC19BB7644002836CA /* RunLoop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RunLoop.hpp; sourceTree = "<group>"; };
 		8E147FAE19BB9944002836CA /* RunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RunLoop.cpp; sourceTree = "<group>"; };
 		8E1599261AF9012C00A62CE1 /* PixelFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
+		8E1599291AF9034700A62CE1 /* PixelBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelBuffer.cpp; sourceTree = "<group>"; };
+		8E15992B1AF9054200A62CE1 /* PixelFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
 		8E19672519ACD69F009CB5E6 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
@@ -384,6 +388,7 @@
 				8EC145F81A869D12004D533A /* OpenGL.cpp */,
 				8E112DA4199E5FE20029CD38 /* Buffer.hpp */,
 				8E112DA3199E5FE20029CD38 /* Buffer.cpp */,
+				8E15992B1AF9054200A62CE1 /* PixelFormat.hpp */,
 				8E90F1261A6D636500AD015B /* Texture.hpp */,
 				8E90F1241A6D51B700AD015B /* Texture.cpp */,
 				8E6E53A31A7FC0AF00844C70 /* FrameBuffer.hpp */,
@@ -497,6 +502,7 @@
 				8EF7020A1A77036000454341 /* PNGFile.cpp */,
 				8E1599261AF9012C00A62CE1 /* PixelFormat.hpp */,
 				8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */,
+				8E1599291AF9034700A62CE1 /* PixelBuffer.cpp */,
 				8E54FE581A6F0AD3003D649A /* Texture.hpp */,
 				8E54FE5A1A6F0BC7003D649A /* Texture.cpp */,
 				8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */,
@@ -592,6 +598,7 @@
 				8E112D83199E5F540029CD38 /* MemoryResource.hpp in Headers */,
 				8EA7093019D75FC000129E2D /* RenderContext.hpp in Headers */,
 				8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */,
+				8E15992C1AF9054200A62CE1 /* PixelFormat.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
 				8EF701FC1A76F90B00454341 /* gzguts.h in Headers */,
 				8EF702011A76F90B00454341 /* inflate.h in Headers */,
@@ -697,6 +704,7 @@
 				8E112DE1199E60A50029CD38 /* Scene.cpp in Sources */,
 				8EB49E8319FFEF7D003F687C /* VertexBuffer.cpp in Sources */,
 				8EF702001A76F90B00454341 /* inflate.c in Sources */,
+				8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */,
 				8EF702061A76F90B00454341 /* zutil.c in Sources */,
 				8E147FAF19BB9944002836CA /* RunLoop.cpp in Sources */,
 				8EC145F91A869D12004D533A /* OpenGL.cpp in Sources */,
