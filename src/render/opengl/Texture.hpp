@@ -29,8 +29,8 @@ public:
 	~Texture();
 	
 	// -- pixel access
-	void writePixels(const PixelBuffer&, uint32 x, uint32 y, uint32 mipmapLevel, uint32 layer = 1);
-	PixelBuffer readPixels(uint32 x, uint32 y, uint32 width, uint32 height, uint32 mipmapLevel, uint32 layer = 1);
+	void writePixels(const PixelBuffer&, PixelCoordinate origin, uint32 mipmapLevel, uint32 layer = 1);
+	PixelBuffer readPixels(PixelCoordinate origin, PixelDimensions size, uint32 mipmapLevel, uint32 layer = 1);
 
 	// -- observers
 	size32 width() const { return width_; }

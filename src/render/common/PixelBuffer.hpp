@@ -16,7 +16,7 @@ namespace stardazed {
 namespace render {
 
 
-struct PixelOrigin {
+struct PixelCoordinate {
 	uint32 x = 0, y = 0, z = 0;
 };
 

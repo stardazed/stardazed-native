@@ -96,7 +96,7 @@ Texture::~Texture() {
 }
 
 
-void Texture::writePixels(const PixelBuffer& pixels, uint32 x, uint32 y, uint32 mipmapLevel, uint32 layer) {
+void Texture::writePixels(const PixelBuffer& pixels, PixelCoordinate origin, uint32 mipmapLevel, uint32 layer) {
 	if (frameBufferOnly()) {
 		assert(!"Tried to write pixel data to an attachment-only texture");
 		return;
@@ -105,29 +105,29 @@ void Texture::writePixels(const PixelBuffer& pixels, uint32 x, uint32 y, uint32 
 	auto glFormat = glImageFormatForPixelFormat(pixels.format);
 	
 	if (glTarget_ == GL_TEXTURE_2D || glTarget_ == GL_TEXTURE_CUBE_MAP || glTarget_ == GL_TEXTURE_1D_ARRAY) {
-		// use 2D methods
-		uint32 offX = x, offY;
+		uint32 offX = origin.x,
+			   offY = origin.y;
+
 		if (glTarget_ == GL_TEXTURE_1D_ARRAY)
 			offY = layer;
-	}
 
-
-	if (pixelFormatIsCompressed(pixels.format)) {
-		glCompressedTexSubImage2D(glTarget_, mipmapLevel,
-								  x, y, pixels.size.width, pixels.size.height,
-								  glFormat, pixels.sizeBytes(), pixels.data);
-	}
-	else {
-		auto glPixelType = glPixelDataTypeForPixelFormat(pixels.format);
-		
-		glTexSubImage2D(glTarget_, mipmapLevel,
-						x, y, pixels.size.width, pixels.size.height,
-						glFormat, glPixelType, pixels.data);
+		if (pixelFormatIsCompressed(pixels.format)) {
+			glCompressedTexSubImage2D(glTarget_, mipmapLevel,
+									  offX, offY, pixels.size.width, pixels.size.height,
+									  glFormat, pixels.sizeBytes(), pixels.data);
+		}
+		else {
+			auto glPixelType = glPixelDataTypeForPixelFormat(pixels.format);
+			
+			glTexSubImage2D(glTarget_, mipmapLevel,
+							offX, offY, pixels.size.width, pixels.size.height,
+							glFormat, glPixelType, pixels.data);
+		}
 	}
 }
 
 
-PixelBuffer Texture::readPixels(uint32 x, uint32 y, uint32 width, uint32 height, uint32 mipmapLevel, uint32 layer) {
+PixelBuffer Texture::readPixels(PixelCoordinate origin, PixelDimensions size, uint32 mipmapLevel, uint32 layer) {
 	if (frameBufferOnly()) {
 		assert(!"Tried to read pixel data from an attachment-only texture");
 		return {};
