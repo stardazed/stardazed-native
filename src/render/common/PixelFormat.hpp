@@ -65,8 +65,9 @@ constexpr bool pixelFormatIsCompressed(PixelFormat format) {
 }
 
 
-constexpr size32 pixelFormatBytesPerPixel(PixelFormat format) {
-	assert(! pixelFormatIsCompressed(format));
+constexpr size32 pixelFormatBytesPerElement(PixelFormat format) {
+	// Element means a pixel for non-compressed formats
+	// and a block for compressed formats
 	
 	switch (format) {
 		case PixelFormat::R8:
@@ -90,11 +91,20 @@ constexpr size32 pixelFormatBytesPerPixel(PixelFormat format) {
 			return 4;
 
 		case PixelFormat::RGB32F:
-			return 6;
+			return 12;
 		
 		case PixelFormat::RGBA32F:
 		case PixelFormat::Depth32F_Stencil8:
+			return 16;
+
+		// -- compressed formats
+
+		case PixelFormat::DXT1:
 			return 8;
+		
+		case PixelFormat::DXT3:
+		case PixelFormat::DXT5:
+			return 16;
 
 		default:
 			assert(!"unhandled pixel buffer format");

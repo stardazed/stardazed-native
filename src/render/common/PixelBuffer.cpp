@@ -79,19 +79,19 @@ constexpr uint32 fourCharCode(char a, char b, char c, char d) {
 DDSDataProvider::DDSDataProvider(const std::string& resourcePath) {
 	DDS_HEADER header;
 	fs::FileReadStream file{ resourcePath };
-	
+
 	char cookie[4];
 	file.readBytes(cookie, 4);
 	// FIXME: assert or empty image + logging?
 	assert(strncmp(cookie, "DDS ", 4) == 0);
-	
+
 	file.readValue(&header);
 	size32 dataSize = header.dwPitchOrLinearSize;
 	if (header.dwMipMapCount > 1)
 		dataSize *= 2;
 	data_ = std::make_unique<uint8[]>(dataSize);
 	file.readBytes(data_.get(), dataSize);
-	
+
 	switch (header.ddspf.dwFourCC) {
 		case fourCharCode('D','X','T','1'): format_ = PixelFormat::DXT1; break;
 		case fourCharCode('D','X','T','3'): format_ = PixelFormat::DXT3; break;
@@ -101,23 +101,22 @@ DDSDataProvider::DDSDataProvider(const std::string& resourcePath) {
 			format_ = PixelFormat::None;
 			break;
 	}
-	
+
 	mipMaps_ = header.dwMipMapCount;
 	width_ = header.dwWidth;
 	height_ = header.dwHeight;
 }
 
 
-size32 DDSDataProvider::dataSizeForLevel(uint8 level) const {
-	size32 blockSize = (format_ == PixelFormat::DXT1) ? 8 : 16;
+size32 DDSDataProvider::dataSizeForLevel(uint32 level) const {
 	auto mipWidth = dimensionAtMipLevel(width_, level);
 	auto mipHeight = dimensionAtMipLevel(height_, level);
 
-	return ((mipWidth + 3) / 4) * ((mipHeight + 3) / 4) * blockSize;
+	return dataSizeBytesForPixelFormatAndDimensions(format_, { mipWidth, mipHeight });
 }
 
 
-PixelBuffer DDSDataProvider::pixelBufferForLevel(uint8 level) const {
+PixelBuffer DDSDataProvider::pixelBufferForLevel(uint32 level) const {
 	assert(level < mipMaps_);
 
 	// FIXME: return empty image if imageformat is none
@@ -129,10 +128,8 @@ PixelBuffer DDSDataProvider::pixelBufferForLevel(uint8 level) const {
 	auto mipHeight = dimensionAtMipLevel(height_, level);
 	
 	PixelBuffer mipData {};
-	mipData.width = mipWidth;
-	mipData.height = mipHeight;
-	mipData.format = format_;
-	mipData.sizeBytes = dataSizeForLevel(level);
+	mipData.format = format();
+	mipData.size = { mipWidth, mipHeight };
 	mipData.data = data_.get() + offset;
 	return mipData;
 }
@@ -194,7 +191,7 @@ BMPDataProvider::BMPDataProvider(const std::string& resourcePath) {
 	width_ = info.biWidth;
 	height_ = info.biHeight;
 	
-	auto dataSize   = pixelFormatBytesPerPixel(format_) * width_ * height_;
+	auto dataSize   = dataSizeBytesForPixelFormatAndDimensions(format_, { width_, height_ });
 	auto dataOffset = header.bfOffBits;
 	auto headerSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
 	
@@ -205,14 +202,12 @@ BMPDataProvider::BMPDataProvider(const std::string& resourcePath) {
 }
 
 
-PixelBuffer BMPDataProvider::pixelBufferForLevel(uint8 level) const {
+PixelBuffer BMPDataProvider::pixelBufferForLevel(uint32 level) const {
 	assert(level == 0);
 	
 	PixelBuffer image {};
-	image.width = width();
-	image.height = height();
 	image.format = format();
-	image.sizeBytes = pixelFormatBytesPerPixel(format_) * width() * height();
+	image.size = size();
 	image.data = data_.get();
 	return image;
 }
@@ -254,14 +249,12 @@ PNGDataProvider::PNGDataProvider(const std::string& resourcePath) {
 }
 
 
-PixelBuffer PNGDataProvider::pixelBufferForLevel(uint8 level) const {
+PixelBuffer PNGDataProvider::pixelBufferForLevel(uint32 level) const {
 	assert(level == 0);
 	
 	PixelBuffer image {};
-	image.width = width();
-	image.height = height();
 	image.format = format();
-	image.sizeBytes = pixelFormatBytesPerPixel(format()) * width() * height();
+	image.size = size();
 	image.data = data_.get();
 	return image;
 }
@@ -336,20 +329,18 @@ TGADataProvider::TGADataProvider(const std::string& resourcePath) {
 		format_ = PixelFormat::None;
 	}
 	
-	auto dataSize = pixelFormatBytesPerPixel(format_) * width_ * height_;
+	auto dataSize = dataSizeBytesForPixelFormatAndDimensions(format_, { width_, height_ });
 	data_ = std::make_unique<uint8[]>(dataSize);
 	file.readBytes(data_.get(), dataSize);
 }
 
 
-PixelBuffer TGADataProvider::pixelBufferForLevel(uint8 level) const {
+PixelBuffer TGADataProvider::pixelBufferForLevel(uint32 level) const {
 	assert(level == 0);
 	
 	PixelBuffer image {};
-	image.width = width();
-	image.height = height();
 	image.format = format();
-	image.sizeBytes = pixelFormatBytesPerPixel(format()) * width() * height();
+	image.size = size();
 	image.data = data_.get();
 	return image;
 }
@@ -401,14 +392,12 @@ JPGDataProvider::JPGDataProvider(const std::string& resourcePath) {
 }
 
 
-PixelBuffer JPGDataProvider::pixelBufferForLevel(uint8 level) const {
+PixelBuffer JPGDataProvider::pixelBufferForLevel(uint32 level) const {
 	assert(level == 0);
 	
 	PixelBuffer image {};
-	image.width = width();
-	image.height = height();
 	image.format = format();
-	image.sizeBytes = pixelFormatBytesPerPixel(format()) * width() * height();
+	image.size = size();
 	image.data = data_.get();
 	return image;
 }

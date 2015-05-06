@@ -10,7 +10,8 @@ namespace render {
 
 
 Texture::Texture(const TextureDescriptor& td)
-: width_(td.width)
+: textureClass_(td.textureClass)
+, width_(td.width)
 , height_(td.height)
 , depth_(td.height)
 , layers_(td.layers)
@@ -95,24 +96,45 @@ Texture::~Texture() {
 }
 
 
-void Texture::writePixels(const PixelBuffer&, uint32 x, uint32 y, uint32 mipmapLevel, uint32 layer) {
+void Texture::writePixels(const PixelBuffer& pixels, uint32 x, uint32 y, uint32 mipmapLevel, uint32 layer) {
+	if (frameBufferOnly()) {
+		assert(!"Tried to write pixel data to an attachment-only texture");
+		return;
+	}
+
+	auto glFormat = glImageFormatForPixelFormat(pixels.format);
 	
+	if (glTarget_ == GL_TEXTURE_2D || glTarget_ == GL_TEXTURE_CUBE_MAP || glTarget_ == GL_TEXTURE_1D_ARRAY) {
+		// use 2D methods
+		uint32 offX = x, offY;
+		if (glTarget_ == GL_TEXTURE_1D_ARRAY)
+			offY = layer;
+	}
+
+
+	if (pixelFormatIsCompressed(pixels.format)) {
+		glCompressedTexSubImage2D(glTarget_, mipmapLevel,
+								  x, y, pixels.size.width, pixels.size.height,
+								  glFormat, pixels.sizeBytes(), pixels.data);
+	}
+	else {
+		auto glPixelType = glPixelDataTypeForPixelFormat(pixels.format);
+		
+		glTexSubImage2D(glTarget_, mipmapLevel,
+						x, y, pixels.size.width, pixels.size.height,
+						glFormat, glPixelType, pixels.data);
+	}
 }
 
 
 PixelBuffer Texture::readPixels(uint32 x, uint32 y, uint32 width, uint32 height, uint32 mipmapLevel, uint32 layer) {
+	if (frameBufferOnly()) {
+		assert(!"Tried to read pixel data from an attachment-only texture");
+		return {};
+	}
+
+	// FIXME: NYI
 	return {};
-}
-
-
-TextureClass Texture::textureClass() const {
-	if (glTarget_ == GL_TEXTURE_CUBE_MAP)
-		return TextureClass::TexCube;
-	if (glTarget_ == GL_TEXTURE_3D)
-		return TextureClass::Tex3D;
-	if (glTarget_ == GL_TEXTURE_1D || glTarget_ == GL_TEXTURE_1D_ARRAY)
-		return TextureClass::Tex1D;
-	return TextureClass::Tex2D;
 }
 
 
@@ -138,19 +160,19 @@ bool Texture::renderTargetOnly() const {
 
 
 
-void uploadSubImage2D(GLenum target, const PixelBuffer& pixelBuffer, uint8 level, int offsetX, int offsetY) {
+void uploadSubImage2D(GLenum target, const PixelBuffer& pixelBuffer, uint32 level, int offsetX, int offsetY) {
 	auto glFormat = glImageFormatForPixelFormat(pixelBuffer.format);
 	
 	if (pixelFormatIsCompressed(pixelBuffer.format)) {
 		glCompressedTexSubImage2D(target, level,
-								  offsetX, offsetY, pixelBuffer.width, pixelBuffer.height,
-								  glFormat, pixelBuffer.sizeBytes, pixelBuffer.data);
+								  offsetX, offsetY, pixelBuffer.size.width, pixelBuffer.size.height,
+								  glFormat, pixelBuffer.sizeBytes(), pixelBuffer.data);
 	}
 	else {
 		auto glPixelType = glPixelDataTypeForPixelFormat(pixelBuffer.format);
 		
 		glTexSubImage2D(target, level,
-						offsetX, offsetY, pixelBuffer.width, pixelBuffer.height,
+						offsetX, offsetY, pixelBuffer.size.width, pixelBuffer.size.height,
 						glFormat, glPixelType, pixelBuffer.data);
 	}
 }
@@ -162,7 +184,7 @@ void uploadSubImage2D(GLenum target, const PixelBuffer& pixelBuffer, uint8 level
 //   | |  __/>  <| |_| |_| | | |  __// __/| |_| |
 //   |_|\___/_/\_\\__|\__,_|_|  \___|_____|____/
 //
-void Texture2D::allocate(size32 width, size32 height, uint8 levels, PixelFormat format) {
+void Texture2D::allocate(size32 width, size32 height, uint32 levels, PixelFormat format) {
 	bind();
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -173,9 +195,9 @@ void Texture2D::allocate(size32 width, size32 height, uint8 levels, PixelFormat 
 }
 
 
-void Texture2D::uploadPixelBuffer(const PixelBuffer& pixelBuffer, uint8 level) {
-	assert(pixelBuffer.width == dimensionAtMipLevel(width_, level));
-	assert(pixelBuffer.height == dimensionAtMipLevel(height_, level));
+void Texture2D::uploadPixelBuffer(const PixelBuffer& pixelBuffer, uint32 level) {
+	assert(pixelBuffer.size.width == dimensionAtMipLevel(width_, level));
+	assert(pixelBuffer.size.height == dimensionAtMipLevel(height_, level));
 	assert(pixelBuffer.format == format_);
 	
 	uploadSubImage2D(target(), pixelBuffer, level, 0, 0);
@@ -193,7 +215,7 @@ void Texture2D::load(const PixelDataProvider& provider) {
 
 
 void Texture2D::setupWithDataProvider(const PixelDataProvider& provider) {
-	allocate(provider.width(), provider.height(), provider.mipMapCount(), provider.format());
+	allocate(provider.size().width, provider.size().height, provider.mipMapCount(), provider.format());
 	load(provider);
 }
 
@@ -205,7 +227,7 @@ void Texture2D::setupWithDataProvider(const PixelDataProvider& provider) {
 //   |_|\___/_/\_\\__|\__,_|_|  \___|_____|____/|_|  |_|\__,_|_|\__|_|___/\__,_|_| |_| |_| .__/|_|\___|
 //                                                                                       |_|
 
-void Texture2DMultisample::allocate(size32 width, size32 height, uint8 samples, PixelFormat format) {
+void Texture2DMultisample::allocate(size32 width, size32 height, uint32 samples, PixelFormat format) {
 	// multisample textures may not be a compressed format
 	assert(! pixelFormatIsCompressed(format));
 
@@ -226,7 +248,7 @@ void Texture2DMultisample::allocate(size32 width, size32 height, uint8 samples, 
 //   | |  __/>  <| |_| |_| | | |  __/ |__| |_| | |_) |  __/ |  | | (_| | |_) |
 //   |_|\___/_/\_\\__|\__,_|_|  \___|\____\__,_|_.__/ \___|_|  |_|\__,_| .__/
 //                                                                     |_|
-void TextureCubeMap::allocate(size32 side, uint8 levels, PixelFormat format) {
+void TextureCubeMap::allocate(size32 side, uint32 levels, PixelFormat format) {
 	bind();
 	
 	// FIXME: this needs to move to a Sampler object
@@ -247,9 +269,9 @@ void TextureCubeMap::allocate(size32 side, uint8 levels, PixelFormat format) {
 }
 
 
-void TextureCubeMap::uploadFacePixelBuffer(const PixelBuffer& pixelBuffer, uint8 level, CubeMapFace face) {
-	assert(pixelBuffer.width == dimensionAtMipLevel(side_, level));
-	assert(pixelBuffer.width == pixelBuffer.height);
+void TextureCubeMap::uploadFacePixelBuffer(const PixelBuffer& pixelBuffer, uint32 level, CubeMapFace face) {
+	assert(pixelBuffer.size.width == dimensionAtMipLevel(side_, level));
+	assert(pixelBuffer.size.width == pixelBuffer.size.height);
 	assert(pixelBuffer.format == format_);
 
 	uploadSubImage2D(glTargetForCubeMapFace(face), pixelBuffer, level, 0, 0);
@@ -281,7 +303,7 @@ void TextureCubeMap::setupWithDataProviders(const PixelDataProvider& posX, const
 											const PixelDataProvider& posY, const PixelDataProvider& negY,
 											const PixelDataProvider& posZ, const PixelDataProvider& negZ)
 {
-	allocate(posX.width(), posX.mipMapCount(), posX.format());
+	allocate(posX.size().width, posX.mipMapCount(), posX.format());
 	loadAllFaces(posX, negX, posY, negY, posZ, negZ);
 }
 

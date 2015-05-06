@@ -17,11 +17,12 @@ namespace render {
 
 
 class Texture {
+	TextureClass textureClass_;
 	size32 width_, height_, depth_;
 	size32 layers_, mipmaps_, samples_;
 	PixelFormat pixelFormat_;
 	GLuint glTex_ = 0;
-	GLenum glTarget_;
+	GLenum glTarget_ = GL_NONE;
 
 public:
 	Texture(const TextureDescriptor&);
@@ -42,11 +43,11 @@ public:
 
 	bool isArray() const { return layers_ > 1; }
 	bool isMultiSample() const { return samples_ > 1; }
-	bool usesMipMaps() const { return mipmaps_ > 1; }
+	bool isMipMapped() const { return mipmaps_ > 1; }
 
 	PixelFormat pixelFormat() const { return pixelFormat_; }
 	
-	TextureClass textureClass() const;
+	TextureClass textureClass() const { return textureClass_; };
 	bool frameBufferOnly() const;
 	bool renderTargetOnly() const;
 };
@@ -97,9 +98,9 @@ class Texture2D : public detail::GLTexture<GL_TEXTURE_2D> {
 	PixelFormat format_ = PixelFormat::None;
 
 public:
-	void allocate(size32 width, size32 height, uint8 levels, PixelFormat format);
+	void allocate(size32 width, size32 height, uint32 levels, PixelFormat format);
 	
-	void uploadPixelBuffer(const PixelBuffer& image, uint8 level);
+	void uploadPixelBuffer(const PixelBuffer& image, uint32 level);
 	void load(const PixelDataProvider&);
 	void setupWithDataProvider(const PixelDataProvider&);
 	
@@ -111,15 +112,15 @@ public:
 
 class Texture2DMultisample : public detail::GLTexture<GL_TEXTURE_2D_MULTISAMPLE> {
 	size32 width_ = 0, height_ = 0;
-	uint8 samples_ = 0;
+	uint32 samples_ = 0;
 	PixelFormat format_ = PixelFormat::None;
 	
 public:
-	void allocate(size32 width, size32 height, uint8 numSamples, PixelFormat format);
+	void allocate(size32 width, size32 height, uint32 numSamples, PixelFormat format);
 
 	size32 width() const { return width_; }
 	size32 height() const { return height_; }
-	uint8 samples() const { return samples_; }
+	uint32 samples() const { return samples_; }
 	PixelFormat pixelFormat() const { return format_; }
 };
 
@@ -129,9 +130,9 @@ class TextureCubeMap : public detail::GLTexture<GL_TEXTURE_CUBE_MAP> {
 	PixelFormat format_ = PixelFormat::None;
 
 public:
-	void allocate(size32 side, uint8 levels, PixelFormat);
+	void allocate(size32 side, uint32 levels, PixelFormat);
 	
-	void uploadFacePixelBuffer(const PixelBuffer&, uint8 level, CubeMapFace);
+	void uploadFacePixelBuffer(const PixelBuffer&, uint32 level, CubeMapFace);
 	
 	void loadFace(const PixelDataProvider&, CubeMapFace);
 	void loadAllFaces(const PixelDataProvider&, const PixelDataProvider&,

@@ -48,7 +48,8 @@ constexpr GLint glImageFormatForPixelFormat(PixelFormat format) {
 		case PixelFormat::Depth32F:
 			return GL_DEPTH_COMPONENT;
 			
-		case PixelFormat::Stencil8: return GL_STENCIL_INDEX;
+		case PixelFormat::Stencil8:
+			return GL_STENCIL_INDEX;
 			
 		case PixelFormat::Depth24_Stencil8:
 		case PixelFormat::Depth32F_Stencil8:
