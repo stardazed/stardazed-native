@@ -41,6 +41,8 @@ Texture::Texture(const TextureDescriptor& td)
 	glGenTextures(1, &glTex_);
 	
 	if (td.textureClass == TextureClass::Tex2D) {
+		// -- 2D textures
+
 		if (td.layers == 1) {
 			if (td.samples == 1) {
 				glTarget_ = GL_TEXTURE_2D;
@@ -60,11 +62,15 @@ Texture::Texture(const TextureDescriptor& td)
 		}
 	}
 	else if (td.textureClass == TextureClass::TexCube) {
+		// -- Cube-map textures
+		
 		glTarget_ = GL_TEXTURE_CUBE_MAP;
 		glBindTexture(glTarget_, glTex_);
 		glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, td.width, td.height);
 	}
 	else if (td.textureClass == TextureClass::Tex1D) {
+		// -- 1D textures
+		
 		if (td.layers == 1) {
 			glTarget_ = GL_TEXTURE_1D;
 			glBindTexture(glTarget_, glTex_);
@@ -77,6 +83,8 @@ Texture::Texture(const TextureDescriptor& td)
 		}
 	}
 	else if (td.textureClass == TextureClass::Tex3D) {
+		// -- 3D textures
+		
 		glTarget_ = GL_TEXTURE_3D;
 		glBindTexture(glTarget_, glTex_);
 		glTexStorage3D(glTarget_, td.mipmaps, sizedFormat, td.width, td.height, td.depth);
@@ -96,34 +104,120 @@ Texture::~Texture() {
 }
 
 
+
+void Texture::write1DPixels(const PixelBuffer& pixels, uint32 offX, uint32 mipmapLevel) {
+	glBindTexture(glTarget_, glTex_);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, pixels.requiredRowAlignment());
+
+	auto glFormat = glImageFormatForPixelFormat(pixels.format);
+	
+	if (pixelFormatIsCompressed(pixels.format)) {
+		glCompressedTexSubImage1D(glTarget_, mipmapLevel,
+								  offX, pixels.size.width,
+								  glFormat, pixels.sizeBytes(), pixels.data);
+	}
+	else {
+		auto glPixelType = glPixelDataTypeForPixelFormat(pixels.format);
+		
+		glTexSubImage1D(glTarget_, mipmapLevel,
+						offX, pixels.size.width,
+						glFormat, glPixelType, pixels.data);
+	}
+	
+	glBindTexture(glTarget_, 0);
+}
+
+
+void Texture::write2DPixels(GLenum pixelTarget, const PixelBuffer& pixels, uint32 offX, uint32 offY, uint32 mipmapLevel) {
+	glBindTexture(glTarget_, glTex_);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, pixels.requiredRowAlignment());
+
+	auto glFormat = glImageFormatForPixelFormat(pixels.format);
+	
+	if (pixelFormatIsCompressed(pixels.format)) {
+		glCompressedTexSubImage2D(pixelTarget, mipmapLevel,
+								  offX, offY, pixels.size.width, pixels.size.height,
+								  glFormat, pixels.sizeBytes(), pixels.data);
+	}
+	else {
+		auto glPixelType = glPixelDataTypeForPixelFormat(pixels.format);
+		
+		glTexSubImage2D(pixelTarget, mipmapLevel,
+						offX, offY, pixels.size.width, pixels.size.height,
+						glFormat, glPixelType, pixels.data);
+	}
+
+	glBindTexture(glTarget_, 0);
+}
+
+
+void Texture::write3DPixels(const PixelBuffer& pixels, PixelCoordinate origin, uint32 mipmapLevel) {
+	glBindTexture(glTarget_, glTex_);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, pixels.requiredRowAlignment());
+
+	auto glFormat = glImageFormatForPixelFormat(pixels.format);
+	
+	if (pixelFormatIsCompressed(pixels.format)) {
+		glCompressedTexSubImage3D(glTarget_, mipmapLevel,
+								  origin.x, origin.y, origin.z,
+								  pixels.size.width, pixels.size.height, pixels.size.depth,
+								  glFormat, pixels.sizeBytes(), pixels.data);
+	}
+	else {
+		auto glPixelType = glPixelDataTypeForPixelFormat(pixels.format);
+		
+		glTexSubImage3D(glTarget_, mipmapLevel,
+						origin.x, origin.y, origin.z,
+						pixels.size.width, pixels.size.height, pixels.size.depth,
+						glFormat, glPixelType, pixels.data);
+	}
+	
+	glBindTexture(glTarget_, 0);
+}
+
+
 void Texture::writePixels(const PixelBuffer& pixels, PixelCoordinate origin, uint32 mipmapLevel, uint32 layer) {
 	if (frameBufferOnly()) {
 		assert(!"Tried to write pixel data to an attachment-only texture");
 		return;
 	}
-
-	auto glFormat = glImageFormatForPixelFormat(pixels.format);
 	
-	if (glTarget_ == GL_TEXTURE_2D || glTarget_ == GL_TEXTURE_CUBE_MAP || glTarget_ == GL_TEXTURE_1D_ARRAY) {
+	assert(mipmapLevel < mipmaps_);
+	
+	if (glTarget_ == GL_TEXTURE_2D || glTarget_ == GL_TEXTURE_1D_ARRAY) {
+		assert(origin.z == 1);
+
 		uint32 offX = origin.x,
 			   offY = origin.y;
 
 		if (glTarget_ == GL_TEXTURE_1D_ARRAY)
 			offY = layer;
 
-		if (pixelFormatIsCompressed(pixels.format)) {
-			glCompressedTexSubImage2D(glTarget_, mipmapLevel,
-									  offX, offY, pixels.size.width, pixels.size.height,
-									  glFormat, pixels.sizeBytes(), pixels.data);
-		}
-		else {
-			auto glPixelType = glPixelDataTypeForPixelFormat(pixels.format);
-			
-			glTexSubImage2D(glTarget_, mipmapLevel,
-							offX, offY, pixels.size.width, pixels.size.height,
-							glFormat, glPixelType, pixels.data);
-		}
+		write2DPixels(glTarget_, pixels, offX, offY, mipmapLevel);
 	}
+	else if (glTarget_ == GL_TEXTURE_CUBE_MAP) {
+		assert(layer < 6);
+
+		writePixels(pixels, origin, mipmapLevel, (CubeMapFace)layer);
+	}
+	else if (glTarget_ == GL_TEXTURE_1D) {
+		assert(origin.y == 1);
+		assert(origin.z == 1);
+
+		write1DPixels(pixels, origin.x, mipmapLevel);
+	}
+	else /* glTarget_ in [GL_TEXTURE_2D_ARRAY, GL_TEXTURE_3D] */ {
+		
+	}
+}
+
+
+void Texture::writePixels(const PixelBuffer& pixels, PixelCoordinate origin, uint32 mipmapLevel, CubeMapFace face) {
+	assert(textureClass_ == TextureClass::TexCube);
+	assert(origin.z == 1);
+
+	auto faceTarget = glTargetForCubeMapFace(face);
+	write2DPixels(faceTarget, pixels, origin.x, origin.y, mipmapLevel);
 }
 
 

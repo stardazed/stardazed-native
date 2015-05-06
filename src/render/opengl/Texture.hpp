@@ -24,12 +24,17 @@ class Texture {
 	GLuint glTex_ = 0;
 	GLenum glTarget_ = GL_NONE;
 
+	void write1DPixels(const PixelBuffer& pixels, uint32 offX, uint32 mipmapLevel);
+	void write2DPixels(GLenum pixelTarget, const PixelBuffer& pixels, uint32 offX, uint32 offY, uint32 mipmapLevel);
+	void write3DPixels(const PixelBuffer& pixels, PixelCoordinate origin, uint32 mipmapLevel);
+
 public:
 	Texture(const TextureDescriptor&);
 	~Texture();
 	
 	// -- pixel access
 	void writePixels(const PixelBuffer&, PixelCoordinate origin, uint32 mipmapLevel, uint32 layer = 1);
+	void writePixels(const PixelBuffer&, PixelCoordinate origin, uint32 mipmapLevel, CubeMapFace face);
 	PixelBuffer readPixels(PixelCoordinate origin, PixelDimensions size, uint32 mipmapLevel, uint32 layer = 1);
 
 	// -- observers

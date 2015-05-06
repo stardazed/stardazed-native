@@ -52,6 +52,11 @@ struct PixelBuffer {
 		return dataSizeBytesForPixelFormatAndDimensions(format, { size.width });
 	}
 
+	constexpr size32 requiredRowAlignment() const {
+		auto rowBytes = bytesPerRow();
+		return math::min(8u, rowBytes & -rowBytes);
+	}
+	
 	constexpr size32 bytesPerLayer() const {
 		return dataSizeBytesForPixelFormatAndDimensions(format, { size.width, size.height });
 	}

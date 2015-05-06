@@ -36,7 +36,7 @@ enum class UseMipMaps : bool32 {
 
 
 // the numerical constant for each face is also the layer index in the cubemap
-enum class CubeMapFace : size32 {
+enum class CubeMapFace : uint32 {
 	PosX,
 	NegX,
 	PosY,
