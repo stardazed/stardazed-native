@@ -31,6 +31,7 @@ class Texture {
 public:
 	Texture(const TextureDescriptor&);
 	~Texture();
+	SD_DEFAULT_MOVE_OPS(Texture)
 	
 	// -- pixel access
 	void writePixels(const PixelBuffer&, PixelCoordinate origin, uint32 mipmapLevel, uint32 layer = 1);
