@@ -46,11 +46,18 @@ enum class CubeMapFace : uint32 {
 };
 
 
+struct MipMapRange {
+	// default values guarantee full mip range for any imaginable texture
+	uint32 baseLevel = 0;
+	uint32 numLevels = 128;
+};
+
+
 struct TextureDescriptor {
 	TextureClass textureClass = TextureClass::Tex2D;
 	PixelFormat pixelFormat = PixelFormat::None;
 	TextureUsageHint usageHint = TextureUsageHint::Normal;
-	size32 width = 1, height = 1, depth = 1;
+	PixelDimensions size;
 	size32 layers = 1, mipmaps = 1, samples = 1;
 };
 
@@ -72,6 +79,8 @@ TextureDescriptor makeTexDesc2DMultisample(PixelFormat pixelFormat, size32 width
 TextureDescriptor makeTexDesc3D(PixelFormat pixelFormat, size32 width, size32 height, size32 depth, UseMipMaps mipmapped);
 
 TextureDescriptor makeTexDescCube(PixelFormat pixelFormat, size32 dimension, UseMipMaps mipmapped);
+
+TextureDescriptor makeTexDescFromPixelBuffer(const PixelBuffer&, TextureClass textureClass);
 
 
 } // ns render

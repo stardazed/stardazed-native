@@ -13,7 +13,7 @@ TextureDescriptor makeTexDesc1D(PixelFormat pixelFormat, size32 width, UseMipMap
 	TextureDescriptor td {};
 	td.textureClass = TextureClass::Tex1D;
 	td.pixelFormat  = pixelFormat;
-	td.width = width;
+	td.size.width = width;
 	if (mipmapped == UseMipMaps::Yes)
 		td.mipmaps = maxMipLevelsForDimension(width);
 
@@ -33,8 +33,8 @@ TextureDescriptor makeTexDesc2D(PixelFormat pixelFormat, size32 width, size32 he
 	TextureDescriptor td {};
 	td.textureClass = TextureClass::Tex2D;
 	td.pixelFormat  = pixelFormat;
-	td.width = width;
-	td.height = height;
+	td.size.width = width;
+	td.size.height = height;
 	if (mipmapped == UseMipMaps::Yes)
 		td.mipmaps = maxMipLevelsForDimension(math::max(width, height));
 
@@ -62,9 +62,9 @@ TextureDescriptor makeTexDesc3D(PixelFormat pixelFormat, size32 width, size32 he
 	TextureDescriptor td {};
 	td.textureClass = TextureClass::Tex3D;
 	td.pixelFormat  = pixelFormat;
-	td.width = width;
-	td.height = height;
-	td.depth = depth;
+	td.size.width = width;
+	td.size.height = height;
+	td.size.depth = depth;
 	if (mipmapped == UseMipMaps::Yes)
 		td.mipmaps = maxMipLevelsForDimension(math::max(math::max(width, height), depth));
 
@@ -76,11 +76,50 @@ TextureDescriptor makeTexDescCube(PixelFormat pixelFormat, size32 dimension, Use
 	TextureDescriptor td {};
 	td.textureClass = TextureClass::TexCube;
 	td.pixelFormat  = pixelFormat;
-	td.width = dimension;
-	td.height = dimension;
+	td.size.width = dimension;
+	td.size.height = dimension;
 	if (mipmapped == UseMipMaps::Yes)
 		td.mipmaps = maxMipLevelsForDimension(dimension);
 
+	return td;
+}
+
+
+TextureDescriptor makeTexDescFromPixelBuffer(const PixelBuffer& pixelBuffer, TextureClass textureClass) {
+	TextureDescriptor td {};
+	td.textureClass = textureClass;
+	td.pixelFormat = pixelBuffer.format;
+	td.size = pixelBuffer.size;
+	
+	switch (textureClass) {
+		case TextureClass::Tex1D:
+			assert(td.size.depth == 1);
+
+			// 2D pixelbuffer -> 1D array
+			if (td.size.height > 1) {
+				td.layers = td.size.height;
+				td.size.height = 1;
+			}
+			break;
+		
+		case TextureClass::Tex2D:
+			// 3D pixelbuffer -> 2D array
+			if (td.size.depth > 1) {
+				td.layers = td.size.depth;
+				td.size.depth = 1;
+			}
+			break;
+		
+		case TextureClass::Tex3D:
+			// no special dimension handling
+			break;
+		
+		case TextureClass::TexCube:
+			assert(td.size.width == td.size.height);
+			assert(td.size.depth == 1);
+			break;
+	}
+	
 	return td;
 }
 
