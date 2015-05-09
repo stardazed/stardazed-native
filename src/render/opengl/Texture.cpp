@@ -31,6 +31,10 @@ Texture::Texture(const TextureDescriptor& td)
 			if (td.usageHint == TextureUsageHint::RenderTargetOnly) {
 				// use a RenderBuffer
 				glTarget_ = GL_RENDERBUFFER;
+
+				// renderbuffer textures may not be a compressed format
+				assert(! pixelFormatIsCompressed(pixelFormat_));
+
 				glGenRenderbuffers(1, &glTex_);
 				glBindRenderbuffer(glTarget_, glTex_);
 				glRenderbufferStorageMultisample(glTarget_, td.samples, sizedFormat, width(), height());
@@ -54,6 +58,9 @@ Texture::Texture(const TextureDescriptor& td)
 				glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, width(), height());
 			}
 			else {
+				// multisample textures may not be a compressed format
+				assert(! pixelFormatIsCompressed(pixelFormat_));
+
 				glTarget_ = GL_TEXTURE_2D_MULTISAMPLE;
 				glBindTexture(glTarget_, glTex_);
 				glTexImage2DMultisample(glTarget_, td.samples, sizedFormat, width(), height(), GL_TRUE);
