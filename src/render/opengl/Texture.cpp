@@ -32,7 +32,7 @@ Texture::Texture(const TextureDescriptor& td)
 				// use a RenderBuffer
 				glTarget_ = GL_RENDERBUFFER;
 
-				// renderbuffer textures may not be a compressed format
+				// renderbuffer textures may not use a compressed pixel format
 				assert(! pixelFormatIsCompressed(pixelFormat_));
 				assert(mipmaps() == 1);
 
@@ -59,7 +59,7 @@ Texture::Texture(const TextureDescriptor& td)
 				glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, width(), height());
 			}
 			else {
-				// multisample textures may not be a compressed format
+				// multisample textures may not use a compressed pixel format
 				assert(! pixelFormatIsCompressed(pixelFormat_));
 				assert(mipmaps() == 1);
 
