@@ -17,6 +17,12 @@ Texture::Texture(const TextureDescriptor& td)
 , samples_(td.samples)
 , pixelFormat_(td.pixelFormat)
 {
+	// these are invariant across all texture types
+	assert(layers_ > 0);
+	assert(mipmaps_ > 0);
+	assert(samples_ > 0);
+	assert(width() > 0);
+
 	auto sizedFormat = glInternalFormatForPixelFormat(pixelFormat_);
 
 	// -- special case for RenderBuffer, all other paths gen a texture
@@ -195,6 +201,7 @@ void Texture::writePixels(const PixelBuffer& pixels, PixelCoordinate origin, uin
 	}
 	else if (glTarget_ == GL_TEXTURE_CUBE_MAP) {
 		assert(baseLayer < 6);
+		// FIXME: is this kind-of-mimicking of Metal setup wise?
 
 		writePixels(pixels, origin, mipmapLevel, (CubeMapFace)baseLayer);
 	}
@@ -222,9 +229,12 @@ void Texture::writePixels(const PixelBuffer& pixels, PixelCoordinate origin, uin
 }
 
 
+// FIXME: the current setup does not deal with layers at all
+// fine for now where Providers are all 2D textures, but to be fixed in the future.
 void Texture::writeProviderPixels(const PixelDataProvider& provider, PixelCoordinate origin,
 								  MipMapRange readRange, MipMapRange writeRange)
 {
+	assert(textureClass_ != TextureClass::TexCube);
 	assert(readRange.baseLevel < provider.mipMapCount());
 	assert(writeRange.baseLevel < mipmaps());
 
@@ -239,17 +249,24 @@ void Texture::writeProviderPixels(const PixelDataProvider& provider, PixelCoordi
 }
 
 
-// FIXME: the current setup does not deal with layers at all
-// fine for now where Providers are all 2D textures, but to be fixed in the future.
-Texture* textureFromProvider(const PixelDataProvider& provider, TextureClass textureClass, UseMipMaps useMipMaps) {
-	auto texDesc = makeTexDescFromPixelBuffer(provider.pixelBufferForLevel(0), textureClass);
-	if (useMipMaps == UseMipMaps::No)
-		texDesc.mipmaps = 1;
+// FIXME: copied source from base writeProviderPixels
+void Texture::writeProviderPixels(const PixelDataProvider& provider, CubeMapFace face, PixelCoordinate origin,
+						 MipMapRange readRange, MipMapRange writeRange)
+{
+	assert(textureClass_ == TextureClass::TexCube);
+	assert(readRange.baseLevel < provider.mipMapCount());
+	assert(writeRange.baseLevel < mipmaps());
+	
+	auto sourceMipMaps = math::min(provider.mipMapCount() - readRange.baseLevel, readRange.numLevels),
+		 destMipMaps   = math::min(mipmaps() - writeRange.baseLevel, writeRange.numLevels),
+		 mipMapsToCopy = math::min(sourceMipMaps, destMipMaps);
+	
+	auto faceTarget = glTargetForCubeMapFace(face);
 
-	auto texture = new Texture(texDesc);
-	texture->writeProviderPixels(provider);
-
-	return texture;
+	for (uint32 level = 0; level < mipMapsToCopy; ++level) {
+		auto pixelBuffer = provider.pixelBufferForLevel(readRange.baseLevel + level);
+		write2DPixels(faceTarget, pixelBuffer, origin.x, origin.y, writeRange.baseLevel + level);
+	}
 }
 
 
@@ -274,11 +291,44 @@ bool Texture::renderTargetOnly() const {
 }
 
 
+// FIXME: the UseMipMaps params here only _restrict_ the use of mipmaps,
+// needs to be extended that it will allocate and, if necessary, generate them
+// if it is set to Yes regardless of Provider data.
+
+	
+Texture* textureFromProvider(const PixelDataProvider& provider, TextureClass textureClass, UseMipMaps useMipMaps) {
+	assert(textureClass != TextureClass::TexCube);
+
+	auto texDesc = makeTexDescFromPixelDataProvider(provider, textureClass);
+	if (useMipMaps == UseMipMaps::No)
+		texDesc.mipmaps = 1;
+	
+	auto texture = new Texture(texDesc);
+	texture->writeProviderPixels(provider);
+	
+	return texture;
+}
 
 
+Texture* textureCubeMapFromProviders(const PixelDataProvider& posX, const PixelDataProvider& negX,
+									 const PixelDataProvider& posY, const PixelDataProvider& negY,
+									 const PixelDataProvider& posZ, const PixelDataProvider& negZ,
+									 UseMipMaps useMipMaps)
+{
+	auto texDesc = makeTexDescFromPixelDataProvider(posX, TextureClass::TexCube);
+	if (useMipMaps == UseMipMaps::No)
+		texDesc.mipmaps = 1;
 
+	auto texture = new Texture(texDesc);
+	texture->writeProviderPixels(posX, CubeMapFace::PosX);
+	texture->writeProviderPixels(negX, CubeMapFace::NegX);
+	texture->writeProviderPixels(posY, CubeMapFace::PosY);
+	texture->writeProviderPixels(negY, CubeMapFace::NegY);
+	texture->writeProviderPixels(posZ, CubeMapFace::PosZ);
+	texture->writeProviderPixels(negZ, CubeMapFace::NegZ);
 
-
+	return texture;
+}
 
 
 

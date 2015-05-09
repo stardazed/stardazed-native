@@ -39,6 +39,8 @@ public:
 
 	void writeProviderPixels(const PixelDataProvider& provider, PixelCoordinate origin = {},
 							 MipMapRange readRange = {}, MipMapRange writeRange = {});
+	void writeProviderPixels(const PixelDataProvider& provider, CubeMapFace face, PixelCoordinate origin = {},
+							 MipMapRange readRange = {}, MipMapRange writeRange = {});
 
 
 //	PixelBuffer readPixels(PixelCoordinate origin, PixelDimensions size, uint32 mipmapLevel, uint32 layer = 1);
@@ -71,6 +73,11 @@ public:
 
 // -- convenience functions to quickly deal with Textures and texture data using PixelDataProviders
 Texture* textureFromProvider(const PixelDataProvider&, TextureClass, UseMipMaps);
+
+Texture* textureCubeMapFromProviders(const PixelDataProvider& posX, const PixelDataProvider& negX,
+									 const PixelDataProvider& posY, const PixelDataProvider& negY,
+									 const PixelDataProvider& posZ, const PixelDataProvider& negZ,
+									 UseMipMaps useMipMaps);
 
 
 template <>
