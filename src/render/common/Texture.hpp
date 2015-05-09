@@ -81,7 +81,7 @@ TextureDescriptor makeTexDesc3D(PixelFormat pixelFormat, size32 width, size32 he
 TextureDescriptor makeTexDescCube(PixelFormat pixelFormat, size32 dimension, UseMipMaps mipmapped);
 
 TextureDescriptor makeTexDescFromPixelBuffer(const PixelBuffer&, TextureClass textureClass);
-
+TextureDescriptor makeTexDescFromPixelDataProvider(const PixelDataProvider& provider, TextureClass textureClass);
 
 } // ns render
 } // ns stardazed

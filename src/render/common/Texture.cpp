@@ -124,5 +124,13 @@ TextureDescriptor makeTexDescFromPixelBuffer(const PixelBuffer& pixelBuffer, Tex
 }
 
 
+TextureDescriptor makeTexDescFromPixelDataProvider(const PixelDataProvider& provider, TextureClass textureClass) {
+	auto pixelBuffer = provider.pixelBufferForLevel(0);
+	auto td = makeTexDescFromPixelBuffer(pixelBuffer, textureClass);
+	td.mipmaps = provider.mipMapCount();
+	return td;
+}
+
+
 } // ns render
 } // ns stardazed
