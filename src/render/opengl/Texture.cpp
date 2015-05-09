@@ -34,6 +34,7 @@ Texture::Texture(const TextureDescriptor& td)
 
 				// renderbuffer textures may not be a compressed format
 				assert(! pixelFormatIsCompressed(pixelFormat_));
+				assert(mipmaps() == 1);
 
 				glGenRenderbuffers(1, &glTex_);
 				glBindRenderbuffer(glTarget_, glTex_);
@@ -60,6 +61,7 @@ Texture::Texture(const TextureDescriptor& td)
 			else {
 				// multisample textures may not be a compressed format
 				assert(! pixelFormatIsCompressed(pixelFormat_));
+				assert(mipmaps() == 1);
 
 				glTarget_ = GL_TEXTURE_2D_MULTISAMPLE;
 				glBindTexture(glTarget_, glTex_);
