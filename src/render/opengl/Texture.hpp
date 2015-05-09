@@ -37,6 +37,10 @@ public:
 	void writePixels(const PixelBuffer&, PixelCoordinate origin, uint32 mipmapLevel, uint32 baseLayer = 0);
 	void writePixels(const PixelBuffer&, PixelCoordinate origin, uint32 mipmapLevel, CubeMapFace face);
 
+	void writeProviderPixels(const PixelDataProvider& provider, PixelCoordinate origin = {},
+							 MipMapRange readRange = {}, MipMapRange writeRange = {});
+
+
 //	PixelBuffer readPixels(PixelCoordinate origin, PixelDimensions size, uint32 mipmapLevel, uint32 layer = 1);
 
 	// -- observers
@@ -66,9 +70,6 @@ public:
 
 
 // -- convenience functions to quickly deal with Textures and texture data using PixelDataProviders
-void writeProviderPixels(const PixelDataProvider& provider, Texture& texture,
-						 PixelCoordinate origin = {}, MipMapRange readRange = {}, MipMapRange writeRange = {});
-
 Texture* textureFromProvider(const PixelDataProvider&, TextureClass, UseMipMaps);
 
 

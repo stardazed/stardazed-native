@@ -222,17 +222,19 @@ void Texture::writePixels(const PixelBuffer& pixels, PixelCoordinate origin, uin
 }
 
 
-void writeProviderPixels(const PixelDataProvider& provider, Texture& texture, PixelCoordinate origin, MipMapRange readRange, MipMapRange writeRange) {
+void Texture::writeProviderPixels(const PixelDataProvider& provider, PixelCoordinate origin,
+								  MipMapRange readRange, MipMapRange writeRange)
+{
 	assert(readRange.baseLevel < provider.mipMapCount());
-	assert(writeRange.baseLevel < texture.mipmaps());
+	assert(writeRange.baseLevel < mipmaps());
 
 	auto sourceMipMaps = math::min(provider.mipMapCount() - readRange.baseLevel, readRange.numLevels),
-		 destMipMaps   = math::min(texture.mipmaps() - writeRange.baseLevel, writeRange.numLevels),
+		 destMipMaps   = math::min(mipmaps() - writeRange.baseLevel, writeRange.numLevels),
 		 mipMapsToCopy = math::min(sourceMipMaps, destMipMaps);
 	
 	for (uint32 level = 0; level < mipMapsToCopy; ++level) {
 		auto pixelBuffer = provider.pixelBufferForLevel(readRange.baseLevel + level);
-		texture.writePixels(pixelBuffer, origin, writeRange.baseLevel + level);
+		writePixels(pixelBuffer, origin, writeRange.baseLevel + level);
 	}
 }
 
@@ -245,7 +247,7 @@ Texture* textureFromProvider(const PixelDataProvider& provider, TextureClass tex
 		texDesc.mipmaps = 1;
 
 	auto texture = new Texture(texDesc);
-	writeProviderPixels(provider, *texture);
+	texture->writeProviderPixels(provider);
 
 	return texture;
 }
