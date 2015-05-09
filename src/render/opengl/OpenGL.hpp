@@ -23,6 +23,17 @@ namespace stardazed {
 namespace render {
 
 
+// -- bind single object
+
+template <typename GLObj>
+void bind(const GLObj&);
+
+template <typename GLObj>
+inline void bind(GLObj* obj) {
+	bind(*obj);
+}
+
+
 // -- bind multiple objects
 
 template <typename GLObj>
