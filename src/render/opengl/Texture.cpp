@@ -11,9 +11,7 @@ namespace render {
 
 Texture::Texture(const TextureDescriptor& td)
 : textureClass_(td.textureClass)
-, width_(td.width)
-, height_(td.height)
-, depth_(td.height)
+, size_(td.size)
 , layers_(td.layers)
 , mipmaps_(td.mipmaps)
 , samples_(td.samples)
@@ -29,7 +27,7 @@ Texture::Texture(const TextureDescriptor& td)
 				glTarget_ = GL_RENDERBUFFER;
 				glGenRenderbuffers(1, &glTex_);
 				glBindRenderbuffer(glTarget_, glTex_);
-				glRenderbufferStorageMultisample(glTarget_, td.samples, sizedFormat, td.width, td.height);
+				glRenderbufferStorageMultisample(glTarget_, td.samples, sizedFormat, width(), height());
 				glBindRenderbuffer(glTarget_, 0);
 				
 				return;
@@ -47,18 +45,18 @@ Texture::Texture(const TextureDescriptor& td)
 			if (td.samples == 1) {
 				glTarget_ = GL_TEXTURE_2D;
 				glBindTexture(glTarget_, glTex_);
-				glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, td.width, td.height);
+				glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, width(), height());
 			}
 			else {
 				glTarget_ = GL_TEXTURE_2D_MULTISAMPLE;
 				glBindTexture(glTarget_, glTex_);
-				glTexImage2DMultisample(glTarget_, td.samples, sizedFormat, td.width, td.height, GL_TRUE);
+				glTexImage2DMultisample(glTarget_, td.samples, sizedFormat, width(), height(), GL_TRUE);
 			}
 		}
 		else {
 			glTarget_ = GL_TEXTURE_2D_ARRAY;
 			glBindTexture(glTarget_, glTex_);
-			glTexStorage3D(glTarget_, td.mipmaps, sizedFormat, td.width, td.height, td.layers);
+			glTexStorage3D(glTarget_, td.mipmaps, sizedFormat, width(), height(), td.layers);
 		}
 	}
 	else if (td.textureClass == TextureClass::TexCube) {
@@ -66,7 +64,7 @@ Texture::Texture(const TextureDescriptor& td)
 		
 		glTarget_ = GL_TEXTURE_CUBE_MAP;
 		glBindTexture(glTarget_, glTex_);
-		glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, td.width, td.height);
+		glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, width(), height());
 	}
 	else if (td.textureClass == TextureClass::Tex1D) {
 		// -- 1D textures
@@ -74,12 +72,12 @@ Texture::Texture(const TextureDescriptor& td)
 		if (td.layers == 1) {
 			glTarget_ = GL_TEXTURE_1D;
 			glBindTexture(glTarget_, glTex_);
-			glTexStorage1D(glTarget_, td.mipmaps, sizedFormat, td.width);
+			glTexStorage1D(glTarget_, td.mipmaps, sizedFormat, width());
 		}
 		else {
 			glTarget_ = GL_TEXTURE_1D_ARRAY;
 			glBindTexture(glTarget_, glTex_);
-			glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, td.width, td.layers);
+			glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, width(), td.layers);
 		}
 	}
 	else if (td.textureClass == TextureClass::Tex3D) {
@@ -87,7 +85,7 @@ Texture::Texture(const TextureDescriptor& td)
 		
 		glTarget_ = GL_TEXTURE_3D;
 		glBindTexture(glTarget_, glTex_);
-		glTexStorage3D(glTarget_, td.mipmaps, sizedFormat, td.width, td.height, td.depth);
+		glTexStorage3D(glTarget_, td.mipmaps, sizedFormat, width(), height(), depth());
 	}
 	
 	glBindTexture(glTarget_, 0);
@@ -176,7 +174,7 @@ void Texture::write3DPixels(const PixelBuffer& pixels, PixelCoordinate origin, u
 }
 
 
-void Texture::writePixels(const PixelBuffer& pixels, PixelCoordinate origin, uint32 mipmapLevel, uint32 layer) {
+void Texture::writePixels(const PixelBuffer& pixels, PixelCoordinate origin, uint32 mipmapLevel, uint32 baseLayer) {
 	if (frameBufferOnly()) {
 		assert(!"Tried to write pixel data to an attachment-only texture");
 		return;
@@ -185,29 +183,32 @@ void Texture::writePixels(const PixelBuffer& pixels, PixelCoordinate origin, uin
 	assert(mipmapLevel < mipmaps_);
 	
 	if (glTarget_ == GL_TEXTURE_2D || glTarget_ == GL_TEXTURE_1D_ARRAY) {
-		assert(origin.z == 1);
+		assert(origin.z == 0);
 
 		uint32 offX = origin.x,
 			   offY = origin.y;
 
 		if (glTarget_ == GL_TEXTURE_1D_ARRAY)
-			offY = layer;
+			offY = baseLayer;
 
 		write2DPixels(glTarget_, pixels, offX, offY, mipmapLevel);
 	}
 	else if (glTarget_ == GL_TEXTURE_CUBE_MAP) {
-		assert(layer < 6);
+		assert(baseLayer < 6);
 
-		writePixels(pixels, origin, mipmapLevel, (CubeMapFace)layer);
+		writePixels(pixels, origin, mipmapLevel, (CubeMapFace)baseLayer);
 	}
 	else if (glTarget_ == GL_TEXTURE_1D) {
-		assert(origin.y == 1);
-		assert(origin.z == 1);
+		assert(origin.y == 0);
+		assert(origin.z == 0);
 
 		write1DPixels(pixels, origin.x, mipmapLevel);
 	}
 	else /* glTarget_ in [GL_TEXTURE_2D_ARRAY, GL_TEXTURE_3D] */ {
-		
+		if (glTarget_ == GL_TEXTURE_2D_ARRAY)
+			origin.z = baseLayer;
+
+		write3DPixels(pixels, origin, mipmapLevel);
 	}
 }
 
@@ -221,15 +222,44 @@ void Texture::writePixels(const PixelBuffer& pixels, PixelCoordinate origin, uin
 }
 
 
-PixelBuffer Texture::readPixels(PixelCoordinate origin, PixelDimensions size, uint32 mipmapLevel, uint32 layer) {
-	if (frameBufferOnly()) {
-		assert(!"Tried to read pixel data from an attachment-only texture");
-		return {};
-	}
+void writeProviderPixels(const PixelDataProvider& provider, Texture& texture, PixelCoordinate origin, MipMapRange readRange, MipMapRange writeRange) {
+	assert(readRange.baseLevel < provider.mipMapCount());
+	assert(writeRange.baseLevel < texture.mipmaps());
 
-	// FIXME: NYI
-	return {};
+	auto sourceMipMaps = math::min(provider.mipMapCount() - readRange.baseLevel, readRange.numLevels),
+		 destMipMaps   = math::min(texture.mipmaps() - writeRange.baseLevel, writeRange.numLevels),
+		 mipMapsToCopy = math::min(sourceMipMaps, destMipMaps);
+	
+	for (uint32 level = 0; level < mipMapsToCopy; ++level) {
+		auto pixelBuffer = provider.pixelBufferForLevel(readRange.baseLevel + level);
+		texture.writePixels(pixelBuffer, origin, writeRange.baseLevel + level);
+	}
 }
+
+
+// FIXME: the current setup does not deal with layers at all
+// fine for now where Providers are all 2D textures, but to be fixed in the future.
+Texture* textureFromProvider(const PixelDataProvider& provider, TextureClass textureClass, UseMipMaps useMipMaps) {
+	auto texDesc = makeTexDescFromPixelBuffer(provider.pixelBufferForLevel(0), textureClass);
+	if (useMipMaps == UseMipMaps::No)
+		texDesc.mipmaps = 1;
+
+	auto texture = new Texture(texDesc);
+	writeProviderPixels(provider, *texture);
+
+	return texture;
+}
+
+
+//PixelBuffer Texture::readPixels(PixelCoordinate origin, PixelDimensions size, uint32 mipmapLevel, uint32 layer) {
+//	if (frameBufferOnly()) {
+//		assert(!"Tried to read pixel data from an attachment-only texture");
+//		return {};
+//	}
+//
+//	// FIXME: NYI
+//	return {};
+//}
 
 
 bool Texture::frameBufferOnly() const {

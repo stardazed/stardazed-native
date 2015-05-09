@@ -18,7 +18,7 @@ namespace render {
 
 class Texture {
 	TextureClass textureClass_;
-	size32 width_, height_, depth_;
+	PixelDimensions size_;
 	size32 layers_, mipmaps_, samples_;
 	PixelFormat pixelFormat_;
 	GLuint glTex_ = 0;
@@ -34,14 +34,16 @@ public:
 	SD_DEFAULT_MOVE_OPS(Texture)
 	
 	// -- pixel access
-	void writePixels(const PixelBuffer&, PixelCoordinate origin, uint32 mipmapLevel, uint32 layer = 1);
+	void writePixels(const PixelBuffer&, PixelCoordinate origin, uint32 mipmapLevel, uint32 baseLayer = 0);
 	void writePixels(const PixelBuffer&, PixelCoordinate origin, uint32 mipmapLevel, CubeMapFace face);
-	PixelBuffer readPixels(PixelCoordinate origin, PixelDimensions size, uint32 mipmapLevel, uint32 layer = 1);
+
+//	PixelBuffer readPixels(PixelCoordinate origin, PixelDimensions size, uint32 mipmapLevel, uint32 layer = 1);
 
 	// -- observers
-	size32 width() const { return width_; }
-	size32 height() const { return height_; }
-	size32 depth() const { return depth_; }
+	PixelDimensions size() const { return size_; }
+	size32 width() const { return size_.width; }
+	size32 height() const { return size_.height; }
+	size32 depth() const { return size_.depth; }
 
 	size32 layers() const { return layers_; }
 	size32 mipmaps() const { return mipmaps_; }
@@ -56,7 +58,29 @@ public:
 	TextureClass textureClass() const { return textureClass_; };
 	bool frameBufferOnly() const;
 	bool renderTargetOnly() const;
+	
+	// -- gl-specific observers
+	GLuint name() const { return glTex_; }
+	GLenum target() const { return glTarget_; }
 };
+
+
+// -- convenience functions to quickly deal with Textures and texture data using PixelDataProviders
+void writeProviderPixels(const PixelDataProvider& provider, Texture& texture,
+						 PixelCoordinate origin = {}, MipMapRange readRange = {}, MipMapRange writeRange = {});
+
+Texture* textureFromProvider(const PixelDataProvider&, TextureClass, UseMipMaps);
+
+
+template <>
+inline void bind(const Texture& texture) {
+	auto target = texture.target();
+	if (target != GL_RENDERBUFFER)
+		glBindTexture(target, texture.name());
+	else
+		glBindRenderbuffer(target, texture.name());
+}
+
 
 
 namespace detail {
