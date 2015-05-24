@@ -83,6 +83,7 @@ TextureDescriptor makeTexDescCube(PixelFormat pixelFormat, size32 dimension, Use
 TextureDescriptor makeTexDescFromPixelBuffer(const PixelBuffer&, TextureClass textureClass);
 TextureDescriptor makeTexDescFromPixelDataProvider(const PixelDataProvider& provider, TextureClass textureClass);
 
+
 } // ns render
 } // ns stardazed
 
