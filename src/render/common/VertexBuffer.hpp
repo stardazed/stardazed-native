@@ -77,6 +77,9 @@ struct PositionedAttribute {
 };
 
 
+using PositionedAttributeList = std::vector<PositionedAttribute>;
+
+
 constexpr Field getField(const Attribute& attr) { return attr.field; }
 constexpr Field getField(const PositionedAttribute& posAttr) { return posAttr.attr.field; }
 
@@ -84,7 +87,7 @@ constexpr Field getField(const PositionedAttribute& posAttr) { return posAttr.at
 class VertexBuffer {
 	size32 itemSizeBytes_ = 0, itemCount_ = 0;
 	std::unique_ptr<uint8[]> storage_;
-	std::vector<PositionedAttribute> attrs_;
+	PositionedAttributeList attrs_;
 	
 	const PositionedAttribute* attrByPredicate(std::function<bool(const PositionedAttribute&)>) const;
 
