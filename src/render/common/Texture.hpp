@@ -57,7 +57,7 @@ struct TextureDescriptor {
 	TextureClass textureClass = TextureClass::Tex2D;
 	PixelFormat pixelFormat = PixelFormat::None;
 	TextureUsageHint usageHint = TextureUsageHint::Normal;
-	PixelDimensions size;
+	PixelDimensions dim;
 	size32 layers = 1, mipmaps = 1, samples = 1;
 };
 

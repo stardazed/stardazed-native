@@ -18,7 +18,7 @@ namespace render {
 
 class Texture {
 	TextureClass textureClass_;
-	PixelDimensions size_;
+	PixelDimensions dim_;
 	size32 layers_, mipmaps_, samples_;
 	PixelFormat pixelFormat_;
 	GLuint glTex_ = 0;
@@ -46,10 +46,10 @@ public:
 //	PixelBuffer readPixels(PixelCoordinate origin, PixelDimensions size, uint32 mipmapLevel, uint32 layer = 1);
 
 	// -- observers
-	PixelDimensions size() const { return size_; }
-	size32 width() const { return size_.width; }
-	size32 height() const { return size_.height; }
-	size32 depth() const { return size_.depth; }
+	PixelDimensions dim() const { return dim_; }
+	size32 width() const { return dim_.width; }
+	size32 height() const { return dim_.height; }
+	size32 depth() const { return dim_.depth; }
 
 	size32 layers() const { return layers_; }
 	size32 mipmaps() const { return mipmaps_; }

@@ -28,28 +28,28 @@ struct PixelDimensions {
 };
 
 
-constexpr size32 dataSizeBytesForPixelFormatAndDimensions(PixelFormat format, PixelDimensions size) {
+constexpr size32 dataSizeBytesForPixelFormatAndDimensions(PixelFormat format, PixelDimensions dim) {
 	size32 elementSize = pixelFormatBytesPerElement(format);
-	uint32 columns = size.width;
-	uint32 rows = size.height;
+	uint32 columns = dim.width;
+	uint32 rows = dim.height;
 	
 	if (pixelFormatIsCompressed(format)) {
 		// DXT 1, 3, 5
-		columns = ((size.width + 3) / 4);
-		rows    = ((size.height + 3) / 4);
+		columns = ((dim.width + 3) / 4);
+		rows    = ((dim.height + 3) / 4);
 	}
 	
-	return size.depth * rows * columns * elementSize;
+	return dim.depth * rows * columns * elementSize;
 }
 
 
 struct PixelBuffer {
 	void* data = nullptr;
 	PixelFormat format = PixelFormat::None;
-	PixelDimensions size;
+	PixelDimensions dim;
 
 	constexpr size32 bytesPerRow() const {
-		return dataSizeBytesForPixelFormatAndDimensions(format, { size.width });
+		return dataSizeBytesForPixelFormatAndDimensions(format, { dim.width });
 	}
 
 	constexpr size32 requiredRowAlignment() const {
@@ -58,11 +58,11 @@ struct PixelBuffer {
 	}
 	
 	constexpr size32 bytesPerLayer() const {
-		return dataSizeBytesForPixelFormatAndDimensions(format, { size.width, size.height });
+		return dataSizeBytesForPixelFormatAndDimensions(format, { dim.width, dim.height });
 	}
 
 	constexpr size32 sizeBytes() const {
-		return dataSizeBytesForPixelFormatAndDimensions(format, size);
+		return dataSizeBytesForPixelFormatAndDimensions(format, dim);
 	}
 };
 
@@ -72,7 +72,7 @@ public:
 	virtual ~PixelDataProvider() = default;
 	
 	virtual PixelFormat format() const = 0;
-	virtual PixelDimensions size() const = 0;
+	virtual PixelDimensions dim() const = 0;
 	virtual uint32 mipMapCount() const = 0;
 	
 	virtual PixelBuffer pixelBufferForLevel(uint32 level) const = 0;
@@ -90,7 +90,7 @@ public:
 	DDSDataProvider(const std::string& resourcePath);
 
 	PixelFormat format() const override { return format_; }
-	PixelDimensions size() const override { return { width_, height_ }; }
+	PixelDimensions dim() const override { return { width_, height_ }; }
 	uint32 mipMapCount() const override { return mipMaps_; }
 	
 	PixelBuffer pixelBufferForLevel(uint32 level) const override;
@@ -106,7 +106,7 @@ public:
 	BMPDataProvider(const std::string& resourcePath);
 	
 	PixelFormat format() const override { return format_; }
-	PixelDimensions size() const override { return { width_, height_ }; }
+	PixelDimensions dim() const override { return { width_, height_ }; }
 	uint32 mipMapCount() const override { return 1; }
 	
 	PixelBuffer pixelBufferForLevel(uint32 level) const override;
@@ -122,7 +122,7 @@ public:
 	PNGDataProvider(const std::string& resourcePath);
 	
 	PixelFormat format() const override { return format_; }
-	PixelDimensions size() const override { return { width_, height_ }; }
+	PixelDimensions dim() const override { return { width_, height_ }; }
 	uint32 mipMapCount() const override { return 1; }
 	
 	PixelBuffer pixelBufferForLevel(uint32 level) const override;
@@ -138,7 +138,7 @@ public:
 	TGADataProvider(const std::string& resourcePath);
 	
 	PixelFormat format() const override { return format_; }
-	PixelDimensions size() const override { return { width_, height_ }; }
+	PixelDimensions dim() const override { return { width_, height_ }; }
 	uint32 mipMapCount() const override { return 1; }
 	
 	PixelBuffer pixelBufferForLevel(uint32 level) const override;
@@ -153,7 +153,7 @@ public:
 	JPGDataProvider(const std::string& resourcePath);
 
 	PixelFormat format() const override { return PixelFormat::RGBA8; }
-	PixelDimensions size() const override { return { width_, height_ }; }
+	PixelDimensions dim() const override { return { width_, height_ }; }
 	uint32 mipMapCount() const override { return 1; }
 	
 	PixelBuffer pixelBufferForLevel(uint32 level) const override;

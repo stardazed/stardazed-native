@@ -11,7 +11,7 @@ namespace render {
 
 Texture::Texture(const TextureDescriptor& td)
 : textureClass_(td.textureClass)
-, size_(td.size)
+, dim_(td.dim)
 , layers_(td.layers)
 , mipmaps_(td.mipmaps)
 , samples_(td.samples)
@@ -126,14 +126,14 @@ void Texture::write1DPixels(const PixelBuffer& pixels, uint32 offX, uint32 mipma
 	
 	if (pixelFormatIsCompressed(pixels.format)) {
 		glCompressedTexSubImage1D(glTarget_, mipmapLevel,
-								  offX, pixels.size.width,
+								  offX, pixels.dim.width,
 								  glFormat, pixels.sizeBytes(), pixels.data);
 	}
 	else {
 		auto glPixelType = glPixelDataTypeForPixelFormat(pixels.format);
 		
 		glTexSubImage1D(glTarget_, mipmapLevel,
-						offX, pixels.size.width,
+						offX, pixels.dim.width,
 						glFormat, glPixelType, pixels.data);
 	}
 	
@@ -149,14 +149,14 @@ void Texture::write2DPixels(GLenum pixelTarget, const PixelBuffer& pixels, uint3
 	
 	if (pixelFormatIsCompressed(pixels.format)) {
 		glCompressedTexSubImage2D(pixelTarget, mipmapLevel,
-								  offX, offY, pixels.size.width, pixels.size.height,
+								  offX, offY, pixels.dim.width, pixels.dim.height,
 								  glFormat, pixels.sizeBytes(), pixels.data);
 	}
 	else {
 		auto glPixelType = glPixelDataTypeForPixelFormat(pixels.format);
 		
 		glTexSubImage2D(pixelTarget, mipmapLevel,
-						offX, offY, pixels.size.width, pixels.size.height,
+						offX, offY, pixels.dim.width, pixels.dim.height,
 						glFormat, glPixelType, pixels.data);
 	}
 
@@ -173,7 +173,7 @@ void Texture::write3DPixels(const PixelBuffer& pixels, PixelCoordinate origin, u
 	if (pixelFormatIsCompressed(pixels.format)) {
 		glCompressedTexSubImage3D(glTarget_, mipmapLevel,
 								  origin.x, origin.y, origin.z,
-								  pixels.size.width, pixels.size.height, pixels.size.depth,
+								  pixels.dim.width, pixels.dim.height, pixels.dim.depth,
 								  glFormat, pixels.sizeBytes(), pixels.data);
 	}
 	else {
@@ -181,7 +181,7 @@ void Texture::write3DPixels(const PixelBuffer& pixels, PixelCoordinate origin, u
 		
 		glTexSubImage3D(glTarget_, mipmapLevel,
 						origin.x, origin.y, origin.z,
-						pixels.size.width, pixels.size.height, pixels.size.depth,
+						pixels.dim.width, pixels.dim.height, pixels.dim.depth,
 						glFormat, glPixelType, pixels.data);
 	}
 	
