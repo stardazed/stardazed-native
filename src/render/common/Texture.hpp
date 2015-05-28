@@ -122,7 +122,7 @@ struct SamplerDescriptor {
 	float lodMinClamp = -1000;
 	float lodMaxClamp = 1000;
 	
-	int maxAnisotropy = 1;
+	int maxAnisotropy = 1; // gl uses a float, Metal an int, Metal wins
 };
 
 
