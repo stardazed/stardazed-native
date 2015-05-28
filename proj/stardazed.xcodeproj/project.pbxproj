@@ -510,8 +510,8 @@
 				8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */,
 				8E6E53B21A8113C100844C70 /* Light.hpp */,
 				8EA7092819D75FC000129E2D /* Shader.hpp */,
-				8E9214481B15FBE7006CBE05 /* RenderPass.hpp */,
 				8EA7092519D75FC000129E2D /* Pipeline.hpp */,
+				8E9214481B15FBE7006CBE05 /* RenderPass.hpp */,
 				8EA7092719D75FC000129E2D /* RenderContext.hpp */,
 			);
 			path = common;
