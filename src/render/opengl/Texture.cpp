@@ -340,5 +340,86 @@ Texture* textureCubeMapFromProviders(const PixelDataProvider& posX, const PixelD
 }
 
 
+//  ____                        _
+// / ___|  __ _ _ __ ___  _ __ | | ___ _ __
+// \___ \ / _` | '_ ` _ \| '_ \| |/ _ \ '__|
+//  ___) | (_| | | | | | | |_) | |  __/ |
+// |____/ \__,_|_| |_| |_| .__/|_|\___|_|
+//                       |_|
+
+constexpr GLint glTextureRepeatMode(TextureRepeatMode repeat) {
+	switch (repeat) {
+		case TextureRepeatMode::Repeat: return GL_REPEAT;
+		case TextureRepeatMode::MirroredRepeat: return GL_MIRRORED_REPEAT;
+		case TextureRepeatMode::ClampToEdge: return GL_CLAMP_TO_EDGE;
+		case TextureRepeatMode::ClampToConstColour: return GL_CLAMP_TO_BORDER;
+	}
+}
+
+
+static float maxAllowedAnisotropy() {
+	static float maxAnisotropy = 0;
+	if (maxAnisotropy == 0) {
+		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnisotropy);
+	}
+	
+	return maxAnisotropy;
+}
+
+
+Sampler::Sampler(const SamplerDescriptor& desc) {
+	glGenSamplers(1, &glSampler_);
+	
+	// -- wrapping
+	glSamplerParameteri(glSampler_, GL_TEXTURE_WRAP_S, glTextureRepeatMode(desc.repeatS));
+	glSamplerParameteri(glSampler_, GL_TEXTURE_WRAP_T, glTextureRepeatMode(desc.repeatT));
+	glSamplerParameteri(glSampler_, GL_TEXTURE_WRAP_R, glTextureRepeatMode(desc.repeatR));
+	glSamplerParameterfv(glSampler_, GL_TEXTURE_BORDER_COLOR, desc.constColour.data);
+
+	// -- minification
+	GLint glSizingFilter;
+	if (desc.mipFilter == TextureMipFilter::None) {
+		if (desc.minFilter == TextureSizingFilter::Nearest)
+			glSizingFilter = GL_NEAREST;
+		else
+			glSizingFilter = GL_LINEAR;
+	}
+	else if (desc.mipFilter == TextureMipFilter::Nearest) {
+		if (desc.minFilter == TextureSizingFilter::Nearest)
+			glSizingFilter = GL_NEAREST_MIPMAP_NEAREST;
+		else
+			glSizingFilter = GL_LINEAR_MIPMAP_NEAREST;
+	}
+	else {
+		if (desc.minFilter == TextureSizingFilter::Nearest)
+			glSizingFilter = GL_NEAREST_MIPMAP_LINEAR;
+		else
+			glSizingFilter = GL_LINEAR_MIPMAP_LINEAR;
+	}
+	glSamplerParameteri(glSampler_, GL_TEXTURE_MIN_FILTER, glSizingFilter);
+
+	// -- magnification
+	if (desc.magFilter == TextureSizingFilter::Nearest)
+		glSizingFilter = GL_NEAREST;
+	else
+		glSizingFilter = GL_LINEAR;
+	glSamplerParameteri(glSampler_, GL_TEXTURE_MAG_FILTER, glSizingFilter);
+	
+	// -- lod clamp
+	glSamplerParameterf(glSampler_, GL_TEXTURE_MIN_LOD, desc.lodMinClamp);
+	glSamplerParameterf(glSampler_, GL_TEXTURE_MAX_LOD, desc.lodMaxClamp);
+	
+	// -- anisotropy
+	float anisotropy = math::clamp((float)desc.maxAnisotropy, 1.0f, maxAllowedAnisotropy());
+	glSamplerParameterf(glSampler_, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropy);
+}
+
+
+Sampler::~Sampler() {
+	if (glSampler_ > 0)
+		glDeleteSamplers(1, &glSampler_);
+}
+
+
 } // ns render
 } // ns stardazed

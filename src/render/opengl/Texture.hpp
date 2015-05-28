@@ -109,8 +109,6 @@ inline void bind(const Texture& texture) {
 //}
 
 
-// ---------
-
 constexpr GLenum glTargetForCubeMapFace(CubeMapFace face) {
 	switch (face) {
 		case CubeMapFace::PosX: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
@@ -121,6 +119,25 @@ constexpr GLenum glTargetForCubeMapFace(CubeMapFace face) {
 		case CubeMapFace::NegZ: return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
 	}
 }
+
+
+// ---- Sampler
+
+class Sampler {
+	GLuint glSampler_ = 0;
+
+public:
+	Sampler(const SamplerDescriptor&);
+	~Sampler();
+	
+	void bindToTextureUnit(uint32 textureUnit) const {
+		glBindSampler(textureUnit, glSampler_);
+	}
+	
+	GLuint name() const {
+		return glSampler_;
+	}
+};
 
 
 } // ns render

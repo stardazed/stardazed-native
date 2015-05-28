@@ -8,6 +8,8 @@
 
 #include "system/Config.hpp"
 #include "math/Algorithm.hpp"
+#include "math/Vector.hpp"
+
 #include "render/common/PixelFormat.hpp"
 #include "render/common/PixelBuffer.hpp"
 
@@ -82,6 +84,46 @@ TextureDescriptor makeTexDescCube(PixelFormat pixelFormat, size32 dimension, Use
 
 TextureDescriptor makeTexDescFromPixelBuffer(const PixelBuffer&, TextureClass textureClass);
 TextureDescriptor makeTexDescFromPixelDataProvider(const PixelDataProvider& provider, TextureClass textureClass);
+
+
+// ---- Sampler
+
+enum class TextureRepeatMode : uint32 {
+	Repeat,
+	MirroredRepeat,
+	ClampToEdge,
+	ClampToConstColour
+};
+
+
+enum class TextureSizingFilter : uint32 {
+	Nearest,
+	Linear
+};
+
+
+enum class TextureMipFilter : uint32 {
+	None,
+	Nearest,
+	Linear
+};
+
+
+struct SamplerDescriptor {
+	TextureRepeatMode repeatS = TextureRepeatMode::Repeat;
+	TextureRepeatMode repeatT = TextureRepeatMode::Repeat;
+	TextureRepeatMode repeatR = TextureRepeatMode::Repeat;
+	math::Vec4 constColour = { 0, 0, 0, 0 }; // ignored on Metal, uses fixed zero value
+
+	TextureSizingFilter minFilter = TextureSizingFilter::Linear;
+	TextureSizingFilter magFilter = TextureSizingFilter::Linear;
+	TextureMipFilter mipFilter = TextureMipFilter::Nearest;
+	
+	float lodMinClamp = -1000;
+	float lodMaxClamp = 1000;
+	
+	int maxAnisotropy = 1;
+};
 
 
 } // ns render
