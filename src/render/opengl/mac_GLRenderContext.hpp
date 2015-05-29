@@ -10,6 +10,9 @@
 #include "render/common/RenderContext.hpp"
 #include "render/opengl/Shader.hpp"
 #include "render/opengl/Pipeline.hpp"
+#include "render/opengl/Texture.hpp"
+#include "render/opengl/FrameBuffer.hpp"
+#include "render/opengl/RenderPass.hpp"
 
 #include <vector>
 #include <string>
@@ -26,8 +29,14 @@ public:
 	
 	Shader* loadShaderFromPath(ShaderType type, const std::string& path);
 	Program* makeShaderProgram(Shader&);
-	Pipeline* makePipeline(const PipelineDescriptor& descriptor);
-	Pipeline* makePipeline(const SSOPipelineDescriptor& descriptor);
+
+	Pipeline* makePipeline(const PipelineDescriptor&);
+	Pipeline* makePipeline(const SSOPipelineDescriptor&);
+
+	Texture* makeTexture(const TextureDescriptor&);
+
+	FrameBuffer* makeFrameBuffer(const FrameBufferDescriptor&);
+	FrameBuffer* makeFrameBufferAllocatingTextures(const FrameBufferAllocationDescriptor&);
 	
 	void swap();
 	
@@ -44,6 +53,11 @@ private:
 	std::vector<Pipeline> pipelinePool_;
 	std::vector<Shader> shaderPool_;
 	std::vector<Program> programPool_;
+	std::vector<Texture> texturePool_;
+	std::vector<FrameBuffer> frameBufferPool_;
+
+	// internal methods
+	FrameBufferDescriptor allocateTexturesForFrameBuffer(const FrameBufferAllocationDescriptor&);
 
 	// place obj-c stuff in implementation file only
 	class PlatformData;

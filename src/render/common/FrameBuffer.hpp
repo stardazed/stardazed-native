@@ -41,13 +41,11 @@ struct FrameBufferDescriptor {
 };
 
 
-// This structure and function facility easy creation of all required
+// This structure facilitates easy creation of all required
 // textures for a FrameBuffer in case they need to be allocated anyway
 // The implementation is free to allocate the textures as fit for the
 // platform (2D array, multiple 2D textures, etc.) so no assumptions should
 // be made about the type or organization of the textures.
-
-// FIXME: this should likely move to the RenderContext
 
 struct FrameBufferAllocationDescriptor {
 	// properties shared by all textures for the FrameBuffer
@@ -63,9 +61,6 @@ struct FrameBufferAllocationDescriptor {
 	PixelFormat depthFormat = PixelFormat::None;
 	PixelFormat stencilFormat = PixelFormat::None;
 };
-
-
-FrameBufferDescriptor allocateTexturesForFrameBuffer(const FrameBufferAllocationDescriptor&);
 
 
 } // ns render

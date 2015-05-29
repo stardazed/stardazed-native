@@ -14,6 +14,13 @@
 #include <vector>
 
 
+//  ____  _       _    __
+// |  _ \| | __ _| |_ / _| ___  _ __ _ __ ___
+// | |_) | |/ _` | __| |_ / _ \| '__| '_ ` _ \
+// |  __/| | (_| | |_|  _| (_) | |  | | | | | |
+// |_|   |_|\__,_|\__|_|  \___/|_|  |_| |_| |_|
+//
+
 @interface SDWindow : NSWindow {}
 @end
 @implementation SDWindow
@@ -184,6 +191,8 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 	pipelinePool_.reserve(128);
 	shaderPool_.reserve(128);
 	programPool_.reserve(128);
+	texturePool_.reserve(128);
+	frameBufferPool_.reserve(16);
 
 	// -- some sensible global defaults
 	// FIXME: these may/should likely go somewhere else?
@@ -202,6 +211,35 @@ RenderContext::~RenderContext() {
 	}
 }
 
+
+void RenderContext::swap() {
+	[platformData_->glContext flushBuffer];
+}
+
+
+//   ___  _                                      
+//  / _ \| |__  ___  ___ _ ____   _____ _ __ ___ 
+// | | | | '_ \/ __|/ _ \ '__\ \ / / _ \ '__/ __|
+// | |_| | |_) \__ \  __/ |   \ V /  __/ |  \__ \
+//  \___/|_.__/|___/\___|_|    \_/ \___|_|  |___/
+//                                               
+
+bool RenderContext::isFullscreen() const {
+	return platformData_->fullscreenOptions != nullptr;
+}
+
+
+bool RenderContext::usesVerticalSync() const {
+	return platformData_->verticalSync;
+}
+
+
+//  ____
+// |  _ \ ___  ___  ___  _   _ _ __ ___ ___  ___
+// | |_) / _ \/ __|/ _ \| | | | '__/ __/ _ \/ __|
+// |  _ <  __/\__ \ (_) | |_| | | | (_|  __/\__ \
+// |_| \_\___||___/\___/ \__,_|_|  \___\___||___/
+//
 
 Shader* RenderContext::loadShaderFromPath(ShaderType type, const std::string& path) {
 	shaderPool_.emplace_back(type);
@@ -233,18 +271,95 @@ Pipeline* RenderContext::makePipeline(const SSOPipelineDescriptor& descriptor) {
 }
 
 
-void RenderContext::swap() {
-	[platformData_->glContext flushBuffer];
+Texture* RenderContext::makeTexture(const TextureDescriptor& descriptor) {
+	texturePool_.emplace_back(descriptor);
+	return &texturePool_.back();
 }
 
 
-bool RenderContext::isFullscreen() const {
-	return platformData_->fullscreenOptions != nullptr;
+FrameBuffer* RenderContext::makeFrameBuffer(const FrameBufferDescriptor& descriptor) {
+	frameBufferPool_.emplace_back(descriptor);
+	return &frameBufferPool_.back();
 }
 
 
-bool RenderContext::usesVerticalSync() const {
-	return platformData_->verticalSync;
+FrameBuffer* RenderContext::makeFrameBufferAllocatingTextures(const FrameBufferAllocationDescriptor& fbaDesc) {
+	auto descriptor = allocateTexturesForFrameBuffer(fbaDesc);
+	return makeFrameBuffer(descriptor);
+}
+
+
+FrameBufferDescriptor RenderContext::allocateTexturesForFrameBuffer(const FrameBufferAllocationDescriptor& desc) {
+	FrameBufferDescriptor fbDesc {};
+	
+	// -- colour
+	for (auto colourAttIndex = 0u; colourAttIndex < desc.colourFormats.size(); ++colourAttIndex) {
+		if (desc.colourFormats[colourAttIndex] != PixelFormat::None) {
+			TextureDescriptor texDesc {};
+			texDesc.textureClass = TextureClass::Tex2D;
+			texDesc.dim.width = desc.width;
+			texDesc.dim.height = desc.height;
+			texDesc.samples = desc.samples;
+			texDesc.pixelFormat = desc.colourFormats[colourAttIndex];
+			texDesc.usageHint = desc.colourUsageHints[colourAttIndex];
+
+			auto& attachment = fbDesc.colourAttachments[colourAttIndex];
+			attachment.texture = makeTexture(texDesc);
+		}
+	}
+
+	// -- depth & stencil
+	PixelFormat combinedFormat = PixelFormat::None;
+	
+	assert(desc.depthFormat == PixelFormat::None ||
+		   pixelFormatIsDepthFormat(desc.depthFormat) ||
+		   pixelFormatIsDepthStencilFormat(desc.depthFormat));
+	assert(desc.stencilFormat == PixelFormat::None ||
+		   pixelFormatIsStencilFormat(desc.stencilFormat) ||
+		   pixelFormatIsDepthStencilFormat(desc.stencilFormat));
+
+	// -- check if we can use a combined depth/stencil format
+	if (pixelFormatIsDepthStencilFormat(desc.depthFormat)) {
+		// explicit combined format
+		assert(desc.depthFormat == desc.stencilFormat);
+		combinedFormat = desc.depthFormat;
+	}
+	else {
+		// if depth is not a DS format, then stencil cannot be a DS format either
+		assert(! pixelFormatIsDepthStencilFormat(desc.stencilFormat));
+
+		if (desc.stencilFormat == PixelFormat::Stencil8) {
+			if (desc.depthFormat == PixelFormat::Depth24I)
+				combinedFormat = PixelFormat::Depth24_Stencil8;
+			else if (desc.depthFormat == PixelFormat::Depth32F)
+				combinedFormat = PixelFormat::Depth32F_Stencil8;
+		}
+	}
+
+	// -- create the texture(s)
+	TextureDescriptor dsTex {};
+	dsTex.textureClass = TextureClass::Tex2D;
+	dsTex.dim.width = desc.width;
+	dsTex.dim.height = desc.height;
+
+	if (combinedFormat != PixelFormat::None) {
+		dsTex.pixelFormat = combinedFormat;
+		auto depthStencil = makeTexture(dsTex);
+		fbDesc.depthAttachment.texture = depthStencil;
+		fbDesc.stencilAttachment.texture = depthStencil;
+	}
+	else {
+		if (desc.depthFormat != PixelFormat::None) {
+			dsTex.pixelFormat = desc.depthFormat;
+			fbDesc.depthAttachment.texture = makeTexture(dsTex);
+		}
+		if (desc.stencilFormat != PixelFormat::None) {
+			dsTex.pixelFormat = desc.stencilFormat;
+			fbDesc.stencilAttachment.texture = makeTexture(dsTex);
+		}
+	}
+	
+	return fbDesc;
 }
 
 
