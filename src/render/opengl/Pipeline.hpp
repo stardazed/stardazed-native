@@ -79,8 +79,8 @@ class Pipeline {
 	};
 	
 public:
-	Pipeline(const PipelineDescriptor&);
-	Pipeline(const SSOPipelineDescriptor&);
+	explicit Pipeline(const PipelineDescriptor&);
+	explicit Pipeline(const SSOPipelineDescriptor&);
 	~Pipeline();
 	SD_DEFAULT_MOVE_OPS(Pipeline)
 	

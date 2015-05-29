@@ -17,10 +17,18 @@ class FrameBuffer {
 	GLuint glFBO_ = 0;
 
 public:
-	FrameBuffer(const FrameBufferDescriptor&);
+	explicit FrameBuffer(const FrameBufferDescriptor&);
 	~FrameBuffer();
 
 	SD_DEFAULT_MOVE_OPS(FrameBuffer)
+	
+	void bindForDrawing() const {
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, glFBO_);
+	}
+
+	void bindForReading() const {
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, glFBO_);
+	}
 	
 	GLuint name() const { return glFBO_; }
 };

@@ -117,7 +117,7 @@ class Shader {
 	ShaderType type_;
 	
 public:
-	Shader(ShaderType type);
+	explicit Shader(ShaderType type);
 	~Shader();
 	SD_DEFAULT_MOVE_OPS(Shader)
 

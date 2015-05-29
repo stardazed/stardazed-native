@@ -15,7 +15,7 @@ namespace render {
 
 class RenderPass {
 public:
-	RenderPass(const RenderPassDescriptor&);
+	explicit RenderPass(const RenderPassDescriptor&);
 	~RenderPass();
 
 	
