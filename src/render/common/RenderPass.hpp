@@ -14,9 +14,6 @@ namespace stardazed {
 namespace render {
 
 
-class Texture;
-
-
 enum class AttachmentLoadAction {
 	None,
 	Load,
@@ -30,31 +27,33 @@ enum class AttachmentStoreAction {
 };
 
 
-struct AttachmentDescriptor {
-	Texture* texture = nullptr;
-	uint32 level = 0;	// mipmap
-	uint32 layer = 0;	// array textures only
-	uint32 depth = 0;	// 3D textures only
-	
-	AttachmentLoadAction loadAction = AttachmentLoadAction::None;
-	AttachmentStoreAction storeAction = AttachmentStoreAction::None;
+namespace detail {
+	struct AttachmentActions {
+		AttachmentLoadAction loadAction = AttachmentLoadAction::None;
+		AttachmentStoreAction storeAction = AttachmentStoreAction::None;
+	};
+}
+
+
+struct ColourAttachmentActions : detail::AttachmentActions {
+	math::Vec4 clearColour { 0, 0, 0, 1 };
+};
+
+
+struct DepthAttachmentActions : detail::AttachmentActions {
+	float clearDepth = 1.0f;
+};
+
+
+struct StencilAttachmentActions : detail::AttachmentActions {
+	uint32 clearStencil = 0;
 };
 
 
 struct RenderPassDescriptor {
-	std::array<AttachmentDescriptor, 8> colourAttachments;
-	std::array<math::Vec4, 8> clearColours;
-
-	AttachmentDescriptor depthAttachment;
-	float clearDepth = 1.0f;
-
-	AttachmentDescriptor stencilAttachment;
-	uint32 clearStencil = 0;
-
-	RenderPassDescriptor() {
-		for (auto& colour : clearColours)
-			colour = { 0, 0, 0, 1 };
-	}
+	std::array<ColourAttachmentActions, 8> colourActions;
+	DepthAttachmentActions depthActions;
+	StencilAttachmentActions stencilActions;
 };
 
 
