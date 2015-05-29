@@ -71,15 +71,6 @@ public:
 };
 
 
-// -- convenience functions to quickly deal with Textures and texture data using PixelDataProviders
-Texture* textureFromProvider(const PixelDataProvider&, TextureClass, UseMipMaps);
-
-Texture* textureCubeMapFromProviders(const PixelDataProvider& posX, const PixelDataProvider& negX,
-									 const PixelDataProvider& posY, const PixelDataProvider& negY,
-									 const PixelDataProvider& posZ, const PixelDataProvider& negZ,
-									 UseMipMaps useMipMaps);
-
-
 // ---- Texture Binding Specializations
 
 template <>

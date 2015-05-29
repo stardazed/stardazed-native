@@ -277,6 +277,45 @@ Texture* RenderContext::makeTexture(const TextureDescriptor& descriptor) {
 }
 
 
+// FIXME: the UseMipMaps params here only _restrict_ the use of mipmaps,
+// needs to be extended that it will allocate and, if necessary, generate them
+// if it is set to Yes regardless of Provider data.
+
+Texture* RenderContext::makeTextureFromProvider(const PixelDataProvider& provider, TextureClass textureClass, UseMipMaps useMipMaps) {
+	assert(textureClass != TextureClass::TexCube);
+
+	auto texDesc = makeTexDescFromPixelDataProvider(provider, textureClass);
+	if (useMipMaps == UseMipMaps::No)
+		texDesc.mipmaps = 1;
+	
+	auto texture = makeTexture(texDesc);
+	texture->writeProviderPixels(provider);
+	
+	return texture;
+}
+
+
+Texture* RenderContext::makeCubeMapTextureFromProviders(const PixelDataProvider& posX, const PixelDataProvider& negX,
+									 const PixelDataProvider& posY, const PixelDataProvider& negY,
+									 const PixelDataProvider& posZ, const PixelDataProvider& negZ,
+									 UseMipMaps useMipMaps)
+{
+	auto texDesc = makeTexDescFromPixelDataProvider(posX, TextureClass::TexCube);
+	if (useMipMaps == UseMipMaps::No)
+		texDesc.mipmaps = 1;
+
+	auto texture = makeTexture(texDesc);
+	texture->writeProviderPixels(posX, CubeMapFace::PosX);
+	texture->writeProviderPixels(negX, CubeMapFace::NegX);
+	texture->writeProviderPixels(posY, CubeMapFace::PosY);
+	texture->writeProviderPixels(negY, CubeMapFace::NegY);
+	texture->writeProviderPixels(posZ, CubeMapFace::PosZ);
+	texture->writeProviderPixels(negZ, CubeMapFace::NegZ);
+
+	return texture;
+}
+
+
 FrameBuffer* RenderContext::makeFrameBuffer(const FrameBufferDescriptor& descriptor) {
 	frameBufferPool_.emplace_back(descriptor);
 	return &frameBufferPool_.back();

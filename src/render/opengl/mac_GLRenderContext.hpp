@@ -34,6 +34,12 @@ public:
 	Pipeline* makePipeline(const SSOPipelineDescriptor&);
 
 	Texture* makeTexture(const TextureDescriptor&);
+	Texture* makeTextureFromProvider(const PixelDataProvider&, TextureClass, UseMipMaps);
+	Texture* makeCubeMapTextureFromProviders(const PixelDataProvider& posX, const PixelDataProvider& negX,
+											 const PixelDataProvider& posY, const PixelDataProvider& negY,
+											 const PixelDataProvider& posZ, const PixelDataProvider& negZ,
+											 UseMipMaps useMipMaps);
+
 
 	FrameBuffer* makeFrameBuffer(const FrameBufferDescriptor&);
 	FrameBuffer* makeFrameBufferAllocatingTextures(const FrameBufferAllocationDescriptor&);
