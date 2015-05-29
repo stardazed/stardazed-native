@@ -9,6 +9,42 @@ namespace stardazed {
 namespace render {
 
 
+static float maxAllowedSamples() {
+	static int maxSamples = 0;
+	if (maxSamples == 0) {
+		glGetIntegerv(GL_MAX_SAMPLES, &maxSamples);
+	}
+	
+	return maxSamples;
+}
+
+
+static float maxAllowedLayers() {
+	static int maxLayers = 0;
+	if (maxLayers == 0) {
+		glGetIntegerv(GL_MAX_ARRAY_TEXTURE_LAYERS, &maxLayers);
+	}
+	
+	return maxLayers;
+}
+
+
+static float maxTextureDimension(TextureClass texClass) {
+	static int maxDimension = 0, maxDimensionCube = 0, maxDimension3D = 0;
+	if (maxDimension == 0) {
+		glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxDimension);
+		glGetIntegerv(GL_MAX_CUBE_MAP_TEXTURE_SIZE, &maxDimensionCube);
+		glGetIntegerv(GL_MAX_3D_TEXTURE_SIZE, &maxDimension3D);
+	}
+	
+	if (texClass == TextureClass::Tex3D)
+		return maxDimension3D;
+	if (texClass == TextureClass::TexCube)
+		return maxDimensionCube;
+	return maxDimension;
+}
+
+
 Texture::Texture(const TextureDescriptor& td)
 : textureClass_(td.textureClass)
 , dim_(td.dim)
@@ -18,10 +54,19 @@ Texture::Texture(const TextureDescriptor& td)
 , pixelFormat_(td.pixelFormat)
 {
 	// these are invariant across all texture types
-	assert(layers_ > 0);
-	assert(mipmaps_ > 0);
-	assert(samples_ > 0);
+	assert(layers() > 0);
+	assert(mipmaps() > 0);
+	assert(samples() > 0);
 	assert(width() > 0);
+	assert(height() > 0); // at least 1, even for 1D textures
+	assert(depth() > 0); // at least 1, even for 1D and 2D textures
+	
+	// GL-implementation-defined limits
+	assert(width() <= maxTextureDimension(textureClass_));
+	assert(height() <= maxTextureDimension(textureClass_));
+	assert(depth() <= maxTextureDimension(textureClass_));
+	assert(layers() <= maxAllowedLayers());
+	assert(samples() <= maxAllowedSamples());
 
 	auto sizedFormat = glInternalFormatForPixelFormat(pixelFormat_);
 
