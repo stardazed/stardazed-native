@@ -20,6 +20,23 @@ static GLint layerForTextureType(const AttachmentDescriptor& attachment) {
 }
 
 
+static void attachTexture(GLenum glAttachment, const AttachmentDescriptor& attachment) {
+	// -- normal texture (3D has depth, others can have layers)
+	GLint layer = layerForTextureType(attachment);
+
+	if (attachment.texture->layers() > 1 || attachment.texture->textureClass() == TextureClass::TexCube) {
+		glFramebufferTextureLayer(GL_DRAW_FRAMEBUFFER, glAttachment,
+								  attachment.texture->name(), attachment.level, layer);
+	}
+	else {
+		glFramebufferTexture(GL_DRAW_FRAMEBUFFER, glAttachment, attachment.texture->name(), attachment.level);
+	}
+
+	auto status = glGetError();
+	assert(status == GL_NO_ERROR);
+}
+
+
 static void attachColourTexture(GLenum glAttachment, const AttachmentDescriptor& attachment) {
 	assert(attachment.level < attachment.texture->mipmaps());
 	assert(attachment.depth < attachment.texture->depth());
@@ -30,12 +47,7 @@ static void attachColourTexture(GLenum glAttachment, const AttachmentDescriptor&
 		glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, glAttachment, GL_RENDERBUFFER, attachment.texture->name());
 	}
 	else {
-		// -- normal texture (3D has depth, others can have layers)
-		GLint layer = layerForTextureType(attachment);
-		
-		// -- bind texture layer
-		glFramebufferTextureLayer(GL_DRAW_FRAMEBUFFER, glAttachment,
-								  attachment.texture->name(), attachment.level, layer);
+		attachTexture(glAttachment, attachment);
 	}
 }
 
@@ -46,12 +58,12 @@ FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc) {
 	
 	// -- colour
 	uint32 colourAttachmentIndex = 0;
-	std::array<GLenum, sizeof(desc.colourAttachments)> drawBuffers;
+	std::array<GLenum, maxColourAttachments()> drawBuffers;
 
 	for (const auto& attachment : desc.colourAttachments) {
 		if (attachment.texture) {
 			GLenum glAttachment = GL_COLOR_ATTACHMENT0 + colourAttachmentIndex;
-			attachColourTexture(colourAttachmentIndex, attachment);
+			attachColourTexture(glAttachment, attachment);
 			drawBuffers[colourAttachmentIndex] = glAttachment;
 		}
 		else {
@@ -64,17 +76,17 @@ FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc) {
 	// -- setup the draw buffers to mimic the colour attachments
 	// -- as this is the wished behaviour in almost all cases
 	glDrawBuffers(drawBuffers.size(), drawBuffers.data());
-	
+
 	// -- depth and/or stencil
 	auto depthTex = desc.depthAttachment.texture;
 	auto stencilTex = desc.stencilAttachment.texture;
-	
+
 	if (depthTex) {
 		assert(desc.depthAttachment.level == 0);
 		assert(desc.depthAttachment.depth == 0);
 		assert(desc.depthAttachment.layer < depthTex->layers());
 	}
-	
+
 	if (stencilTex) {
 		assert(desc.stencilAttachment.level == 0);
 		assert(desc.stencilAttachment.depth == 0);
@@ -86,29 +98,26 @@ FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc) {
 		assert(desc.depthAttachment.layer == desc.stencilAttachment.layer);
 		assert(pixelFormatIsDepthStencilFormat(depthTex->pixelFormat()));
 
-		glFramebufferTextureLayer(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
-								  depthTex->name(), 0, desc.depthAttachment.layer);
+		attachTexture(GL_DEPTH_STENCIL_ATTACHMENT, desc.depthAttachment);
 	}
 	else {
 		if (depthTex) {
 			assert(pixelFormatIsDepthFormat(depthTex->pixelFormat()));
-			glFramebufferTextureLayer(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-									  depthTex->name(), 0, desc.depthAttachment.layer);
+			attachTexture(GL_DEPTH_ATTACHMENT, desc.depthAttachment);
 		}
 
 		if (stencilTex) {
 			assert(pixelFormatIsStencilFormat(stencilTex->pixelFormat()));
-			glFramebufferTextureLayer(GL_DRAW_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
-									  stencilTex->name(), 0, desc.stencilAttachment.layer);
+			attachTexture(GL_STENCIL_ATTACHMENT, desc.depthAttachment);
 		}
 	}
-	
+
 	// -- beg for approval to the GL gods
 	auto status = glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER);
 	if (status != GL_FRAMEBUFFER_COMPLETE) {
 		assert(!"FrameBuffer not complete");
 	}
-	
+
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 }
 
@@ -124,16 +133,18 @@ FrameBufferDescriptor allocateTexturesForFrameBuffer(const FrameBufferAllocation
 	
 	// -- colour
 	for (auto colourAttIndex = 0u; colourAttIndex < desc.colourFormats.size(); ++colourAttIndex) {
-		TextureDescriptor texDesc {};
-		texDesc.textureClass = TextureClass::Tex2D;
-		texDesc.dim.width = desc.width;
-		texDesc.dim.height = desc.height;
-		texDesc.samples = desc.samples;
-		texDesc.pixelFormat = desc.colourFormats[colourAttIndex];
-		texDesc.usageHint = desc.colourUsageHints[colourAttIndex];
+		if (desc.colourFormats[colourAttIndex] != PixelFormat::None) {
+			TextureDescriptor texDesc {};
+			texDesc.textureClass = TextureClass::Tex2D;
+			texDesc.dim.width = desc.width;
+			texDesc.dim.height = desc.height;
+			texDesc.samples = desc.samples;
+			texDesc.pixelFormat = desc.colourFormats[colourAttIndex];
+			texDesc.usageHint = desc.colourUsageHints[colourAttIndex];
 
-		auto& attachment = fbDesc.colourAttachments[colourAttIndex];
-		attachment.texture = new Texture(texDesc);
+			auto& attachment = fbDesc.colourAttachments[colourAttIndex];
+			attachment.texture = new Texture(texDesc);
+		}
 	}
 
 	// -- depth & stencil
