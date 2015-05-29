@@ -8,6 +8,7 @@
 
 #include "system/Config.hpp"
 #include "math/Vector.hpp"
+#include "render/common/FrameBuffer.hpp"
 #include <array>
 
 namespace stardazed {
@@ -51,7 +52,7 @@ struct StencilAttachmentActions : detail::AttachmentActions {
 
 
 struct RenderPassDescriptor {
-	std::array<ColourAttachmentActions, 8> colourActions;
+	std::array<ColourAttachmentActions, maxColourAttachments()> colourActions;
 	DepthAttachmentActions depthActions;
 	StencilAttachmentActions stencilActions;
 };
