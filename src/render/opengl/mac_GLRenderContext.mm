@@ -292,13 +292,22 @@ FrameBuffer* RenderContext::makeFrameBufferAllocatingTextures(const FrameBufferA
 FrameBufferDescriptor RenderContext::allocateTexturesForFrameBuffer(const FrameBufferAllocationDescriptor& desc) {
 	FrameBufferDescriptor fbDesc {};
 	
+	auto width = desc.width;
+	auto height = desc.height;
+	
+	// -- default to viewport size if not explicitly specified
+	if (width == 0 && height == 0) {
+		width = pixelWidth();
+		height = pixelHeight();
+	}
+	
 	// -- colour
 	for (auto colourAttIndex = 0u; colourAttIndex < desc.colourFormats.size(); ++colourAttIndex) {
 		if (desc.colourFormats[colourAttIndex] != PixelFormat::None) {
 			TextureDescriptor texDesc {};
 			texDesc.textureClass = TextureClass::Tex2D;
-			texDesc.dim.width = desc.width;
-			texDesc.dim.height = desc.height;
+			texDesc.dim.width = width;
+			texDesc.dim.height = height;
 			texDesc.samples = desc.samples;
 			texDesc.pixelFormat = desc.colourFormats[colourAttIndex];
 			texDesc.usageHint = desc.colourUsageHints[colourAttIndex];
@@ -339,8 +348,8 @@ FrameBufferDescriptor RenderContext::allocateTexturesForFrameBuffer(const FrameB
 	// -- create the texture(s)
 	TextureDescriptor dsTex {};
 	dsTex.textureClass = TextureClass::Tex2D;
-	dsTex.dim.width = desc.width;
-	dsTex.dim.height = desc.height;
+	dsTex.dim.width = width;
+	dsTex.dim.height = height;
 
 	if (combinedFormat != PixelFormat::None) {
 		dsTex.pixelFormat = combinedFormat;
