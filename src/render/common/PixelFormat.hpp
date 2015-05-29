@@ -59,9 +59,28 @@ enum class PixelFormat : uint32 {
 
 
 constexpr bool pixelFormatIsCompressed(PixelFormat format) {
-	return	format == PixelFormat::DXT1 ||
-			format == PixelFormat::DXT3 ||
-			format == PixelFormat::DXT5;
+	return format == PixelFormat::DXT1 ||
+		   format == PixelFormat::DXT3 ||
+		   format == PixelFormat::DXT5;
+}
+
+
+constexpr bool pixelFormatIsDepthFormat(PixelFormat format) {
+	return format == PixelFormat::Depth16I ||
+		   format == PixelFormat::Depth24I ||
+		   format == PixelFormat::Depth32I ||
+		   format == PixelFormat::Depth32F;
+}
+
+
+constexpr bool pixelFormatIsStencilFormat(PixelFormat format) {
+	return format == PixelFormat::Stencil8;
+}
+
+
+constexpr bool pixelFormatIsDepthStencilFormat(PixelFormat format) {
+	return format == PixelFormat::Depth24_Stencil8 ||
+		   format == PixelFormat::Depth32F_Stencil8;
 }
 
 

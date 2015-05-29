@@ -14,23 +14,21 @@ namespace stardazed {
 namespace render {
 
 
-enum class ColourAttachmentBinding {
-	Texture2D,
-	TextureCube
-};
+class Texture;
 
 
-struct FrameBufferColourAttachmentDescriptor {
-	PixelFormat pixelFormat;
-	
+struct AttachmentDescriptor {
+	Texture* texture = nullptr;
+	uint32 level = 0;	// mipmap
+	uint32 layer = 0;	// array textures only
+	uint32 depth = 0;	// 3D textures only
 };
 
 
 struct FrameBufferDescriptor {
-	int width, height;
-	
-	std::array<PixelFormat, 8> colourAttachments;
-	PixelFormat depthStencilAttachment;
+	std::array<AttachmentDescriptor, 8> colourAttachments;
+	AttachmentDescriptor depthAttachment;
+	AttachmentDescriptor stencilAttachment;
 };
 
 

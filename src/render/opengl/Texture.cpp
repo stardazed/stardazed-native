@@ -35,6 +35,7 @@ Texture::Texture(const TextureDescriptor& td)
 				// renderbuffer textures may not use a compressed pixel format
 				assert(! pixelFormatIsCompressed(pixelFormat_));
 				assert(mipmaps() == 1);
+				assert(layers() == 1);
 
 				glGenRenderbuffers(1, &glTex_);
 				glBindRenderbuffer(glTarget_, glTex_);
