@@ -80,7 +80,7 @@ constexpr GLenum glForSDShaderType(ShaderType type) {
 		case ShaderType::Geometry: return GL_GEOMETRY_SHADER;
 		case ShaderType::Fragment: return GL_FRAGMENT_SHADER;
 	}
-	
+
 	assert(!"Unknown ShaderType");
 	return GL_NONE;
 }

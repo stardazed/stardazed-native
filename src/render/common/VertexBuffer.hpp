@@ -25,7 +25,7 @@ class VertexBuffer {
 	VertexLayout layout_;
 	size32 itemCount_ = 0;
 	std::unique_ptr<uint8[]> storage_;
-	
+
 public:
 	VertexBuffer(const VertexAttributeList&);
 	VertexBuffer(const VertexLayout&);
