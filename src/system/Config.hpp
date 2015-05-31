@@ -59,8 +59,20 @@ using uint32 = uint32_t;
 using int64  = int64_t;
 using uint64 = uint64_t;
 
+using size16 = uint16_t;
 using size32 = uint32_t; // 64-bit sizes are often overkill, use size32 for those cases
 using size64 = uint64_t;
+
+// helpers for size32 usage with STL
+template <typename Value>
+constexpr size32 size32_cast(const Value v) {
+	return static_cast<size32>(v);
+}
+
+template <typename T>
+constexpr size32 sizeof32() {
+	return size32_cast(sizeof(T));
+}
 
 using bool8  = uint8_t;
 using bool16 = uint16_t; // wide boolean types
