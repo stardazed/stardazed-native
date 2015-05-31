@@ -9,7 +9,6 @@
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
 #include "math/Vector.hpp"
-#include "render/common/BufferFields.hpp"
 
 #include <memory>
 #include <limits>
@@ -25,20 +24,36 @@ using TriangleI32 = math::Vector<3, uint32>;
 using Triangle = TriangleI32;
 
 
+enum class IndexElementType {
+	UInt8,
+	UInt16,
+	UInt32
+};
+
+
+constexpr size32 indexElementSize(IndexElementType iet) {
+	switch (iet) {
+		case IndexElementType::UInt8: return sizeof(uint8);
+		case IndexElementType::UInt16: return sizeof(uint16);
+		case IndexElementType::UInt32: return sizeof(uint32);
+	}
+}
+
+
 class TriangleBuffer {
-	ElementType indexElementType_ = ElementType::UInt8;
+	IndexElementType indexElementType_ = IndexElementType::UInt16;
 	size32 triangleSizeBytes_ = 0, triangleCount_ = 0;
 	std::unique_ptr<uint8[]> storage_;
 	
 public:
-	void allocateWithElementType(ElementType, size32 triangleCount);
+	void allocateWithIndexElementType(IndexElementType, size32 triangleCount);
 	void allocateWithVertexCount(size32 vertexCount, size32 triangleCount);
 
 	// -- observers
 	
 	void* basePointer() const { return storage_.get(); }
 	
-	ElementType elementType() const { return indexElementType_; }
+	IndexElementType indexElementType() const { return indexElementType_; }
 	
 	size32 triangleSizeBytes() const { return triangleSizeBytes_; }
 	size32 bufferSizeBytes() const { return triangleSizeBytes_ * triangleCount_; }
@@ -121,7 +136,7 @@ public:
 		constexpr TriangleIterator() {}
 		constexpr TriangleIterator(const TriangleBuffer& tb)
 		: position_{ static_cast<uint8*>(tb.basePointer()) }
-		, indexSizeBytes_{ elementSize(tb.elementType()) }
+		, indexSizeBytes_{ indexElementSize(tb.indexElementType()) }
 		, triangleSizeBytes_{ tb.triangleSizeBytes() }
 		{}
 		

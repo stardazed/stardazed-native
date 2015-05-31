@@ -10,20 +10,20 @@ namespace render {
 
 
 // Given a highest index number to be used in an IndexBuffer (usually the vertex
-// count of a mesh), return the ElementType needed for each index value.
-constexpr ElementType indexTypeForVertexCount(size32 vertexCount) {
-	if (vertexCount <= std::numeric_limits<ElementNativeType<ElementType::UInt8>>::max())
-		return ElementType::UInt8;
-	if (vertexCount <= std::numeric_limits<ElementNativeType<ElementType::UInt16>>::max())
-		return ElementType::UInt16;
+// count of a mesh), return the mininum IndexElementType needed for each index value.
+constexpr IndexElementType indexTypeForVertexCount(size32 vertexCount) {
+	if (vertexCount <= std::numeric_limits<uint8>::max())
+		return IndexElementType::UInt8;
+	if (vertexCount <= std::numeric_limits<uint16>::max())
+		return IndexElementType::UInt16;
 	
-	return ElementType::UInt32;
+	return IndexElementType::UInt32;
 }
 
 
-void TriangleBuffer::allocateWithElementType(ElementType et, size32 triangleCount) {
+void TriangleBuffer::allocateWithIndexElementType(IndexElementType et, size32 triangleCount) {
 	indexElementType_ = et;
-	triangleSizeBytes_ = 3 * elementSize(indexElementType_);
+	triangleSizeBytes_ = 3 * indexElementSize(indexElementType_);
 	triangleCount_ = triangleCount;
 
 	storage_ = std::make_unique<uint8[]>(bufferSizeBytes());
@@ -31,7 +31,7 @@ void TriangleBuffer::allocateWithElementType(ElementType et, size32 triangleCoun
 
 
 void TriangleBuffer::allocateWithVertexCount(size32 vertexCount, size32 triangleCount) {
-	allocateWithElementType(indexTypeForVertexCount(vertexCount), triangleCount);
+	allocateWithIndexElementType(indexTypeForVertexCount(vertexCount), triangleCount);
 }
 
 
