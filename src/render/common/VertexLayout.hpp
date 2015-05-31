@@ -290,8 +290,8 @@ class VertexLayout {
 public:
 	VertexLayout(const VertexAttributeList&);
 	
-	size32 attributeCount() const { return size32_cast(attrs_.size()); }
-	size32 vertexSizeBytes() const { return vertexSizeBytes(); }
+	size32 attributeCount() const { return attributeCount_; }
+	size32 vertexSizeBytes() const { return vertexSizeBytes_; }
 	
 	size32 bytesRequiredForVertexCount(size32 vertexCount) const {
 		return vertexCount * vertexSizeBytes();

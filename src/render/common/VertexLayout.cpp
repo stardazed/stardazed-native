@@ -33,7 +33,7 @@ VertexLayout::VertexLayout(const VertexAttributeList& attrList)
 	size32 offset = 0, maxElemSize = 0;
 
 	// calculate positioning of successive attributes in linear item
-	std::transform(begin(attrList), end(attrList), std::back_inserter(attrs_),
+	std::transform(begin(attrList), end(attrList), begin(attrs_),
 		[&offset, &maxElemSize](const VertexAttribute& attr) -> PositionedAttribute {
 			auto size = vertexFieldSizeBytes(attr.field);
 			maxElemSize = math::max(maxElemSize, vertexFieldElementSizeBytes(attr.field));
