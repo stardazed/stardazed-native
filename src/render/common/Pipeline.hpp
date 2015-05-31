@@ -83,7 +83,6 @@ struct PipelineDescriptor {
 	Shader* geometryShader = nullptr;
 	Shader* fragmentShader = nullptr;
 	
-	bool32 usesTransformFeedback = false;
 	bool32 rasterizerEnabled = true;
 };
 

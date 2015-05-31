@@ -28,10 +28,8 @@ public:
 	~RenderContext();
 	
 	Shader* loadShaderFromPath(ShaderType type, const std::string& path);
-	Program* makeShaderProgram(Shader&);
 
 	Pipeline* makePipeline(const PipelineDescriptor&);
-	Pipeline* makePipeline(const SSOPipelineDescriptor&);
 
 	Texture* makeTexture(const TextureDescriptor&);
 	Texture* makeTextureFromProvider(const PixelDataProvider&, TextureClass, UseMipMaps);
@@ -58,7 +56,6 @@ private:
 	// object storage
 	std::vector<Pipeline> pipelinePool_;
 	std::vector<Shader> shaderPool_;
-	std::vector<Program> programPool_;
 	std::vector<Texture> texturePool_;
 	std::vector<FrameBuffer> frameBufferPool_;
 

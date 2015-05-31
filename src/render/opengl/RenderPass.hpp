@@ -13,6 +13,30 @@ namespace stardazed {
 namespace render {
 
 
+namespace detail {
+
+class OpenGLFaceCulling {
+	bool enabled_;
+	GLenum mode_;
+
+public:
+	OpenGLFaceCulling(FaceCulling);
+	inline void apply() const;
+};
+
+
+class OpenGLDepthTest {
+	bool enabled_;
+	GLenum mode_;
+	
+public:
+	OpenGLDepthTest(DepthTestPredicate);
+	inline void apply() const;
+};
+
+} // ns detail
+
+
 class RenderPass {
 public:
 	explicit RenderPass(const RenderPassDescriptor&);

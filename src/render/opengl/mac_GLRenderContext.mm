@@ -190,7 +190,6 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 	// FIXME: allow for outside specification of these numbers
 	pipelinePool_.reserve(128);
 	shaderPool_.reserve(128);
-	programPool_.reserve(128);
 	texturePool_.reserve(128);
 	frameBufferPool_.reserve(16);
 
@@ -242,30 +241,12 @@ bool RenderContext::usesVerticalSync() const {
 //
 
 Shader* RenderContext::loadShaderFromPath(ShaderType type, const std::string& path) {
-	shaderPool_.emplace_back(type);
-	auto shader = &shaderPool_.back();
-	shader->compileSource(readTextFile(path));
-	return shader;
-}
-
-
-Program* RenderContext::makeShaderProgram(Shader& shader) {
-	programPool_.emplace_back();
-	auto shaderProgram = &programPool_.back();
-	shaderProgram->setSeparable();
-	shaderProgram->attach(shader);
-	shaderProgram->link();
-	return shaderProgram;
+	shaderPool_.emplace_back(type, readTextFile(path));
+	return &shaderPool_.back();
 }
 
 
 Pipeline* RenderContext::makePipeline(const PipelineDescriptor& descriptor) {
-	pipelinePool_.emplace_back(descriptor);
-	return &pipelinePool_.back();
-}
-
-
-Pipeline* RenderContext::makePipeline(const SSOPipelineDescriptor& descriptor) {
 	pipelinePool_.emplace_back(descriptor);
 	return &pipelinePool_.back();
 }

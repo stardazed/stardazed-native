@@ -1,76 +1,16 @@
 // ------------------------------------------------------------------
 // render::opengl::Shader.cpp - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #include "render/opengl/Shader.hpp"
 #include "system/Logging.hpp"
 
+#include <vector>
+
 namespace stardazed {
 namespace render {
 
-
-//  ____
-// |  _ \ _ __ ___   __ _ _ __ __ _ _ __ ___
-// | |_) | '__/ _ \ / _` | '__/ _` | '_ ` _ \
-// |  __/| | | (_) | (_| | | | (_| | | | | | |
-// |_|   |_|  \___/ \__, |_|  \__,_|_| |_| |_|
-//                  |___/
-
-Program::Program()
-: glProgram_(glCreateProgram())
-{}
-
-
-Program::~Program() {
-	glDeleteProgram(glProgram_);
-}
-
-
-void Program::attach(const Shader& shader) {
-	glAttachShader(name(), shader.name());
-}
-
-
-void Program::setSeparable() {
-	// FIXME: this block is a debug-only block i/o an assert
-	GLint status;
-	glGetProgramiv(name(), GL_LINK_STATUS, &status);
-	if (status == GL_TRUE)
-		assert(!"setSeparable() must be called before link()");
-
-	glProgramParameteri(name(), GL_PROGRAM_SEPARABLE, GL_TRUE);
-}
-
-
-void Program::link() {
-	glLinkProgram(name());
-	
-	GLint status;
-	glGetProgramiv(name(), GL_LINK_STATUS, &status);
-	if (! status) {
-		GLint logLength;
-		glGetProgramiv(name(), GL_INFO_LOG_LENGTH, &logLength);
-		if (logLength > 0) {
-			std::vector<char> errors(logLength + 1);
-			glGetProgramInfoLog(name(), logLength, NULL, &errors[0]);
-			log("Link Errors:\n", errors.data());
-		}
-	}
-}
-
-
-void Program::bind() {
-	glUseProgram(name());
-}
-
-
-//  ____  _               _
-// / ___|| |__   __ _  __| | ___ _ __
-// \___ \| '_ \ / _` |/ _` |/ _ \ '__|
-//  ___) | | | | (_| | (_| |  __/ |
-// |____/|_| |_|\__,_|\__,_|\___|_|
-//
 
 constexpr GLenum glForSDShaderType(ShaderType type) {
 	switch (type) {
@@ -86,34 +26,63 @@ constexpr GLenum glForSDShaderType(ShaderType type) {
 }
 
 
-Shader::Shader(ShaderType type)
-: glShader_(glCreateShader(glForSDShaderType(type)))
-, type_(type)
-{}
+Shader::Shader(ShaderType type, const std::string& source, TransformFeedbackDescriptor* xfbDesc)
+: type_(type)
+, glProgram_(glCreateProgram())
+{
+	const GLuint shader = glCreateShader(glForSDShaderType(type_));
 
+	assert(name());
+	assert(shader);
 
-Shader::~Shader() {
-	glDeleteShader(glShader_);
+	const auto sourcePtr = source.c_str();
+	glShaderSource(shader, 1, &sourcePtr, NULL);
+	glCompileShader(shader);
+
+	GLint success = GL_FALSE;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+	if (! success) {
+		GLint logLength;
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
+		if (logLength > 0) {
+			std::vector<char> errors(logLength + 1);
+			glGetShaderInfoLog(shader, logLength, NULL, &errors[0]);
+			log("GLSL Errors:\n", errors.data());
+			assert(!"Shader failed to compile");
+		}
+	}
+
+	glProgramParameteri(name(), GL_PROGRAM_SEPARABLE, GL_TRUE);
+
+	if (xfbDesc) {
+		// FIXME: do the transform feedback varying thing
+		usesXFB_ = true;
+	}
+
+	glAttachShader(name(), shader);
+	glLinkProgram(name());
+	glDetachShader(name(), shader);
+
+	GLint status;
+	glGetProgramiv(name(), GL_LINK_STATUS, &status);
+	if (! status) {
+		GLint logLength;
+		glGetProgramiv(name(), GL_INFO_LOG_LENGTH, &logLength);
+		if (logLength > 0) {
+			std::vector<char> errors(logLength + 1);
+			glGetProgramInfoLog(name(), logLength, NULL, &errors[0]);
+			log("Link Errors:\n", errors.data());
+			assert(!"ShaderProgram failed to link");
+		}
+	}
+
+	glDeleteShader(shader);
 }
 
 
-void Shader::compileSource(const std::string& source) {
-	const auto sourcePtr = source.c_str();
-	glShaderSource(name(), 1, &sourcePtr, nullptr);
-	
-	//	glCompileShaderIncludeARB(glShader_, 1, paths, nullptr);
-	glCompileShader(name());
-	GLint success;
-	glGetShaderiv(name(), GL_COMPILE_STATUS, &success);
-	if (! success) {
-		GLint logLength;
-		glGetShaderiv(name(), GL_INFO_LOG_LENGTH, &logLength);
-		if (logLength > 0) {
-			std::vector<char> errors(logLength + 1);
-			glGetShaderInfoLog(name(), logLength, NULL, &errors[0]);
-			log("GLSL Errors:\n", errors.data());
-		}
-	}
+Shader::~Shader() {
+	if (glProgram_ > 0)
+		glDeleteProgram(glProgram_);
 }
 
 
