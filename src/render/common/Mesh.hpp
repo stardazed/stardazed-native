@@ -21,7 +21,7 @@ namespace render {
 
 class Mesh {
 public:
-	Mesh(const AttributeList&);
+	Mesh(const VertexAttributeList&);
 
 	VertexBuffer vertexBuffer;
 	TriangleBuffer faces;

@@ -12,7 +12,7 @@ namespace stardazed {
 namespace render {
 
 
-VertexBuffer::VertexBuffer(const AttributeList& attrList)
+VertexBuffer::VertexBuffer(const VertexAttributeList& attrList)
 : layout_(attrList)
 {}
 
@@ -33,7 +33,7 @@ void* VertexBuffer::attrBasePointer(const PositionedAttribute& attr) const {
 }
 
 
-void* VertexBuffer::attrBasePointer(AttributeRole role) const {
+void* VertexBuffer::attrBasePointer(VertexAttributeRole role) const {
 	return attrBasePointer(*layout_.attrByRole(role));
 }
 

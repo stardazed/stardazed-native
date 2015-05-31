@@ -207,7 +207,7 @@ constexpr bool vertexFieldIsNormalized(VertexField vf) {
 }
 
 
-enum class AttributeRole : uint8 {
+enum class VertexAttributeRole : uint8 {
 	Generic,
 	Position,
 	Normal,
@@ -219,11 +219,11 @@ enum class AttributeRole : uint8 {
 };
 
 
-// -- An Attribute is a Field with a certain Role inside a VertexBuffer
+// -- An VertexAttribute is a Field with a certain Role inside a VertexBuffer
 
-struct Attribute {
+struct VertexAttribute {
 	VertexField field = VertexField::Undefined;
-	AttributeRole role = AttributeRole::Generic;
+	VertexAttributeRole role = VertexAttributeRole::Generic;
 };
 
 
@@ -235,47 +235,47 @@ constexpr size32 maxVertexAttributes() {
 }
 
 
-// -- Attribute shortcuts for common types
+// -- VertexAttribute shortcuts for common types
 
-constexpr Attribute attrPosition3() { return { VertexField::Floatx3, AttributeRole::Position }; }
-constexpr Attribute attrNormal3()   { return { VertexField::Floatx3, AttributeRole::Normal }; }
-constexpr Attribute attrColour3()   { return { VertexField::Floatx3, AttributeRole::Colour }; }
-constexpr Attribute attrUV2()       { return { VertexField::Floatx2, AttributeRole::UV }; }
-constexpr Attribute attrTangent4()  { return { VertexField::Floatx4, AttributeRole::Tangent }; }
+constexpr VertexAttribute attrPosition3() { return { VertexField::Floatx3, VertexAttributeRole::Position }; }
+constexpr VertexAttribute attrNormal3()   { return { VertexField::Floatx3, VertexAttributeRole::Normal }; }
+constexpr VertexAttribute attrColour3()   { return { VertexField::Floatx3, VertexAttributeRole::Colour }; }
+constexpr VertexAttribute attrUV2()       { return { VertexField::Floatx2, VertexAttributeRole::UV }; }
+constexpr VertexAttribute attrTangent4()  { return { VertexField::Floatx4, VertexAttributeRole::Tangent }; }
 
 
-// -- An AttributeList defines the structure of a VertexBuffer
+// -- A VertexAttributeList defines the structure of a VertexBuffer
 
-using AttributeList = std::vector<Attribute>;
+using VertexAttributeList = std::vector<VertexAttribute>;
 
 
 // -- Common AttributeList shortcuts
 
 namespace AttrList {
-	inline AttributeList Pos3Norm3() {
+	inline VertexAttributeList Pos3Norm3() {
 		return { attrPosition3(), attrNormal3() };
 	}
-	inline AttributeList Pos3Norm3UV2() {
+	inline VertexAttributeList Pos3Norm3UV2() {
 		return { attrPosition3(), attrNormal3(), attrUV2() };
 	}
-	inline AttributeList Pos3Norm3UV2Tan4() {
+	inline VertexAttributeList Pos3Norm3UV2Tan4() {
 		return { attrPosition3(), attrNormal3(), attrUV2(), attrTangent4() };
 	}
 }
 
 
-struct PositionedAttribute : Attribute {
+struct PositionedAttribute : VertexAttribute {
 	size16 offset = 0;
 
 	PositionedAttribute() = default;
 
-	constexpr PositionedAttribute(VertexField vf, AttributeRole ar, size32 offset)
-	: Attribute{ vf, ar}
+	constexpr PositionedAttribute(VertexField vf, VertexAttributeRole ar, size32 offset)
+	: VertexAttribute{ vf, ar}
 	, offset { static_cast<size16>(offset) }
 	{}
 
-	constexpr PositionedAttribute(Attribute attr, size32 offset)
-	: Attribute(attr)
+	constexpr PositionedAttribute(VertexAttribute attr, size32 offset)
+	: VertexAttribute(attr)
 	, offset { static_cast<size16>(offset) }
 	{}
 };
@@ -288,15 +288,15 @@ class VertexLayout {
 	const PositionedAttribute* attrByPredicate(std::function<bool(const PositionedAttribute&)>) const;
 
 public:
-	VertexLayout(const AttributeList&);
+	VertexLayout(const VertexAttributeList&);
 	
 	size32 attributeCount() const { return size32_cast(attrs_.size()); }
 	size32 vertexSizeBytes() const { return vertexSizeBytes(); }
 	
-	const PositionedAttribute* attrByRole(AttributeRole) const;
+	const PositionedAttribute* attrByRole(VertexAttributeRole) const;
 	const PositionedAttribute* attrByIndex(size32) const;
 	
-	bool hasAttributeWithRole(AttributeRole role) const {
+	bool hasAttributeWithRole(VertexAttributeRole role) const {
 		return attrByRole(role) != nullptr;
 	}
 };

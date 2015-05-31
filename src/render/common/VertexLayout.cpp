@@ -25,7 +25,7 @@ constexpr size32 alignVertexField(VertexField field, size32 offset) {
 }
 
 
-VertexLayout::VertexLayout(const AttributeList& attrList)
+VertexLayout::VertexLayout(const VertexAttributeList& attrList)
 : attributeCount_(size32_cast(attrList.size()))
 {
 	assert(attributeCount() <= maxVertexAttributes());
@@ -34,7 +34,7 @@ VertexLayout::VertexLayout(const AttributeList& attrList)
 
 	// calculate positioning of successive attributes in linear item
 	std::transform(begin(attrList), end(attrList), std::back_inserter(attrs_),
-		[&offset, &maxElemSize](const Attribute& attr) -> PositionedAttribute {
+		[&offset, &maxElemSize](const VertexAttribute& attr) -> PositionedAttribute {
 			auto size = vertexFieldSizeBytes(attr.field);
 			maxElemSize = math::max(maxElemSize, vertexFieldElementSizeBytes(attr.field));
 
@@ -60,7 +60,7 @@ const PositionedAttribute* VertexLayout::attrByPredicate(std::function<bool(cons
 }
 
 
-const PositionedAttribute* VertexLayout::attrByRole(AttributeRole role) const {
+const PositionedAttribute* VertexLayout::attrByRole(VertexAttributeRole role) const {
 	return attrByPredicate([role](const PositionedAttribute& attr) {
 		return attr.role == role;
 	});

@@ -13,13 +13,13 @@ namespace stardazed {
 namespace render {
 
 
-Mesh::Mesh(const AttributeList& attrs)
+Mesh::Mesh(const VertexAttributeList& attrs)
 : vertexBuffer(attrs)
 {}
 
 
 math::AABB Mesh::calcAABB() const {
-	auto posAttr = vertexBuffer.attrByRole(AttributeRole::Position);
+	auto posAttr = vertexBuffer.attrByRole(VertexAttributeRole::Position);
 	assert(posAttr);
 
 	math::AABB aabb;
@@ -34,8 +34,8 @@ math::AABB Mesh::calcAABB() const {
 
 
 void Mesh::genVertexNormals() {
-	auto posAttr = vertexBuffer.attrByRole(AttributeRole::Position),
-		 normAttr = vertexBuffer.attrByRole(AttributeRole::Normal);
+	auto posAttr = vertexBuffer.attrByRole(VertexAttributeRole::Position),
+		 normAttr = vertexBuffer.attrByRole(VertexAttributeRole::Normal);
 
 	assert(posAttr && normAttr);
 
@@ -51,10 +51,10 @@ void Mesh::genVertexNormals() {
 
 
 void Mesh::genVertexTangents() {
-	auto posAttr  = vertexBuffer.attrByRole(AttributeRole::Position),
-		 normAttr = vertexBuffer.attrByRole(AttributeRole::Normal),
-		 texAttr  = vertexBuffer.attrByRole(AttributeRole::UV),
-		 tanAttr  = vertexBuffer.attrByRole(AttributeRole::Tangent);
+	auto posAttr  = vertexBuffer.attrByRole(VertexAttributeRole::Position),
+		 normAttr = vertexBuffer.attrByRole(VertexAttributeRole::Normal),
+		 texAttr  = vertexBuffer.attrByRole(VertexAttributeRole::UV),
+		 tanAttr  = vertexBuffer.attrByRole(VertexAttributeRole::Tangent);
 	
 	assert(posAttr && normAttr && texAttr && tanAttr);
 	

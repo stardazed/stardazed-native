@@ -170,10 +170,10 @@ void into(render::Mesh& mesh, Args&&... args) {
 	mesh.vertexBuffer.allocate(generator.vertexCount());
 	mesh.faces.allocateWithVertexCount(generator.vertexCount(), generator.faceCount());
 	
-	auto texAttr = mesh.vertexBuffer.attrByRole(AttributeRole::UV);
-	auto tanAttr = mesh.vertexBuffer.attrByRole(AttributeRole::Tangent);
+	auto texAttr = mesh.vertexBuffer.attrByRole(VertexAttributeRole::UV);
+	auto tanAttr = mesh.vertexBuffer.attrByRole(VertexAttributeRole::Tangent);
 	
-	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(AttributeRole::Position);
+	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(VertexAttributeRole::Position);
 	
 	if (texAttr)
 		generator.generate(posIter, mesh.faces.begin(), mesh.vertexBuffer.attrBegin<math::Vec2>(*texAttr));

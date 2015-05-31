@@ -28,7 +28,7 @@ class VertexBuffer {
 	std::unique_ptr<uint8[]> storage_;
 	
 public:
-	VertexBuffer(const AttributeList&);
+	VertexBuffer(const VertexAttributeList&);
 	VertexBuffer(const VertexLayout&);
 
 	// -- buffer data management
@@ -46,10 +46,10 @@ public:
 
 	// -- attribute access pass-through
 	
-	bool hasAttributeWithRole(AttributeRole role) const {
+	bool hasAttributeWithRole(VertexAttributeRole role) const {
 		return layout_.hasAttributeWithRole(role);
 	}
-	const PositionedAttribute* attrByRole(AttributeRole role) const {
+	const PositionedAttribute* attrByRole(VertexAttributeRole role) const {
 		return layout_.attrByRole(role);
 	}
 	const PositionedAttribute* attrByIndex(size32 index) const {
@@ -62,7 +62,7 @@ public:
 	void* basePointer() const { return storage_.get(); }
 	
 	void* attrBasePointer(const PositionedAttribute&) const;
-	void* attrBasePointer(AttributeRole) const;
+	void* attrBasePointer(VertexAttributeRole) const;
 
 	// -- iteration over attribute data
 
@@ -145,9 +145,9 @@ public:
 	AttrIterator<T> attrEnd(const PositionedAttribute& attr) const { return attrBegin<T>(attr) + itemCount_; }
 	
 	template <typename T>
-	AttrIterator<T> attrBegin(AttributeRole role) const { return attrBegin<T>(*layout_.attrByRole(role)); }
+	AttrIterator<T> attrBegin(VertexAttributeRole role) const { return attrBegin<T>(*layout_.attrByRole(role)); }
 	template <typename T>
-	AttrIterator<T> attrEnd(AttributeRole role) const { return attrEnd<T>(*layout_.attrByRole(role)); }
+	AttrIterator<T> attrEnd(VertexAttributeRole role) const { return attrEnd<T>(*layout_.attrByRole(role)); }
 };
 
 
