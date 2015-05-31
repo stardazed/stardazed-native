@@ -15,6 +15,30 @@ namespace stardazed {
 namespace render {
 
 
+enum class FaceCulling {
+	Disabled,
+
+	Front,
+	Back,
+	FrontAndBack
+};
+
+
+enum class DepthTestPredicate {
+	Disabled,
+
+	AllowAll,
+	DenyAll,
+	
+	Less,
+	LessOrEqual,
+	Equal,
+	NotEqual,
+	GreaterOrEqual,
+	Greater
+};
+
+
 enum class AttachmentLoadAction {
 	None,
 	Load,
