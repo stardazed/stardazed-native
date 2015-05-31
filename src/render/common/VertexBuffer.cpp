@@ -24,7 +24,7 @@ VertexBuffer::VertexBuffer(const VertexLayout& layout)
 
 void VertexBuffer::allocate(size32 itemCount) {
 	itemCount_ = itemCount;
-	storage_ = std::make_unique<uint8[]>(bytesRequiredForItemCount(itemCount_));
+	storage_ = std::make_unique<uint8[]>(layout_.bytesRequiredForVertexCount(itemCount_));
 }
 
 

@@ -16,7 +16,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <functional>
 
 namespace stardazed {
 namespace render {
@@ -37,10 +36,6 @@ public:
 	size32 attributeCount() const { return layout_.attributeCount(); }
 	size32 itemCount() const { return itemCount_; }
 	size32 bufferSizeBytes() const { return strideBytes() * itemCount_; }
-	
-	size32 bytesRequiredForItemCount(size32 itemCount) const {
-		return itemCount * strideBytes();
-	}
 
 	void allocate(size32 itemCount);
 
@@ -55,7 +50,6 @@ public:
 	const PositionedAttribute* attrByIndex(size32 index) const {
 		return layout_.attrByIndex(index);
 	}
-
 	
 	// -- raw data pointers
 	

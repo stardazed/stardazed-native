@@ -293,6 +293,10 @@ public:
 	size32 attributeCount() const { return size32_cast(attrs_.size()); }
 	size32 vertexSizeBytes() const { return vertexSizeBytes(); }
 	
+	size32 bytesRequiredForVertexCount(size32 vertexCount) const {
+		return vertexCount * vertexSizeBytes();
+	}
+	
 	const PositionedAttribute* attrByRole(VertexAttributeRole) const;
 	const PositionedAttribute* attrByIndex(size32) const;
 	
