@@ -136,7 +136,7 @@ constexpr size32 vertexFieldElementCount(VertexField vf) {
 		case VertexField::SInt32x4:
 		case VertexField::Halfx4:
 		case VertexField::Floatx4:
-			return 3;
+			return 4;
 	}
 }
 
