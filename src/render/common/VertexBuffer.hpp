@@ -8,7 +8,7 @@
 
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
-#include "render/common/BufferFields.hpp"
+#include "render/common/VertexLayout.hpp"
 #include "math/Vector.hpp"
 #include "math/Matrix.hpp"
 
@@ -22,105 +22,32 @@ namespace stardazed {
 namespace render {
 
 
-enum class AttributeRole : uint16 {
-	Generic,
-	Position,
-	Normal,
-	Tangent,
-	Colour,
-	UV,
-	UVW,
-	Index
-};
-
-
-// -- An Attribute is a Field with a certain Role inside a VertexBuffer
-
-struct Attribute {
-	Field field;
-	AttributeRole role;
-};
-
-
-// -- Attribute shortcuts for common types
-
-constexpr Attribute attrPosition3() { return { fieldVec3(), AttributeRole::Position }; }
-constexpr Attribute attrNormal3()   { return { fieldVec3(), AttributeRole::Normal }; }
-constexpr Attribute attrColour3()   { return { fieldVec3(), AttributeRole::Colour }; }
-constexpr Attribute attrUV2()       { return { fieldVec2(), AttributeRole::UV }; }
-constexpr Attribute attrTangent4()  { return { fieldVec4(), AttributeRole::Tangent }; }
-
-
-// -- An AttributeList defines the structure of a VertexBuffer
-
-using AttributeList = std::vector<Attribute>;
-
-
-// -- Common AttributeList shortcuts
-
-namespace AttrList {
-	inline AttributeList Pos3Norm3() {
-		return { attrPosition3(), attrNormal3() };
-	}
-	inline AttributeList Pos3Norm3UV2() {
-		return { attrPosition3(), attrNormal3(), attrUV2() };
-	}
-	inline AttributeList Pos3Norm3UV2Tan4() {
-		return { attrPosition3(), attrNormal3(), attrUV2(), attrTangent4() };
-	}
-}
-
-
-struct PositionedAttribute {
-	Attribute attr;
-	size32 offset;
-};
-
-
-using PositionedAttributeList = std::vector<PositionedAttribute>;
-
-
-constexpr Field getField(const Attribute& attr) { return attr.field; }
-constexpr Field getField(const PositionedAttribute& posAttr) { return posAttr.attr.field; }
-
-
 class VertexBuffer {
-	size32 itemSizeBytes_ = 0, itemCount_ = 0;
+	VertexLayout layout_;
+	size32 itemCount_ = 0;
 	std::unique_ptr<uint8[]> storage_;
-	PositionedAttributeList attrs_;
 	
-	const PositionedAttribute* attrByPredicate(std::function<bool(const PositionedAttribute&)>) const;
-
 public:
 	VertexBuffer(const AttributeList&);
+	VertexBuffer(const VertexLayout&);
 
 	// -- buffer data management
 
-	size32 itemSizeBytes() const { return itemSizeBytes_; }
+	size32 strideBytes() const { return layout_.vertexSizeBytes(); }
 	size32 itemCount() const { return itemCount_; }
-	size32 bufferSizeBytes() const { return itemSizeBytes_ * itemCount_; }
+	size32 bufferSizeBytes() const { return strideBytes() * itemCount_; }
 	
-	size32 bytesRequired(size32 itemCount) const {
-		return itemCount * itemSizeBytes_;
+	size32 bytesRequiredForItemCount(size32 itemCount) const {
+		return itemCount * strideBytes();
 	}
 
-	void allocate(size32 itemCount) {
-		itemCount_ = itemCount;
-		storage_ = std::make_unique<uint8[]>(bytesRequired(itemCount_));
-	}
-	
-	// -- attribute metadata
-	
-	size32 attributeCount() const { return static_cast<size32>(attrs_.size()); }
-
-	const PositionedAttribute* attrByRole(AttributeRole) const;
-	const PositionedAttribute* attrByIndex(size32) const;
-	
-	bool hasAttributeWithRole(AttributeRole role) const {
-		return attrByRole(role) != nullptr;
-	}
+	void allocate(size32 itemCount);
 	
 	// -- raw data pointers
+	
+	bool hasAttributeWithRole(AttributeRole role) const {
+		return layout_.hasAttributeWithRole(role);
+	}
 	
 	void* basePointer() const { return storage_.get(); }
 	
@@ -141,7 +68,7 @@ public:
 		constexpr AttrIterator() {}
 		constexpr AttrIterator(const VertexBuffer& vb, const PositionedAttribute& attr)
 		: position_{ static_cast<uint8*>(vb.basePointer()) + attr.offset }
-		, rowBytes_{ vb.itemSizeBytes() }
+		, rowBytes_{ vb.strideBytes() }
 		{}
 		
 		constexpr NativeFieldType& operator *() { return *reinterpret_cast<NativeFieldType*>(position_); }
@@ -208,9 +135,9 @@ public:
 	AttrIterator<T> attrEnd(const PositionedAttribute& attr) const { return attrBegin<T>(attr) + itemCount_; }
 	
 	template <typename T>
-	AttrIterator<T> attrBegin(AttributeRole role) const { return attrBegin<T>(*attrByRole(role)); }
+	AttrIterator<T> attrBegin(AttributeRole role) const { return attrBegin<T>(*layout_.attrByRole(role)); }
 	template <typename T>
-	AttrIterator<T> attrEnd(AttributeRole role) const { return attrEnd<T>(*attrByRole(role)); }
+	AttrIterator<T> attrEnd(AttributeRole role) const { return attrEnd<T>(*layout_.attrByRole(role)); }
 };
 
 
