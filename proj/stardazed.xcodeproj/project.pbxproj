@@ -94,6 +94,9 @@
 		8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBDE1A9650BD001BCBCE /* Plane.hpp */; };
 		8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */; };
 		8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */; };
+		8E8D22B51B1A0A6500A876E5 /* ShaderLibrary.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */; };
+		8E8D22B71B1A1E4D00A876E5 /* VertexLayout.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E8D22B61B1A1E4D00A876E5 /* VertexLayout.hpp */; };
+		8E8D22B91B1B264F00A876E5 /* VertexLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E8D22B81B1B264F00A876E5 /* VertexLayout.cpp */; };
 		8E90F1251A6D51B700AD015B /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E90F1241A6D51B700AD015B /* Texture.cpp */; };
 		8E90F1271A6D636500AD015B /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E90F1261A6D636500AD015B /* Texture.hpp */; };
 		8E9214491B15FBE7006CBE05 /* RenderPass.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E9214481B15FBE7006CBE05 /* RenderPass.hpp */; };
@@ -107,7 +110,6 @@
 		8EC145F91A869D12004D533A /* OpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC145F81A869D12004D533A /* OpenGL.cpp */; };
 		8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC342AC1ACC90A50020F3EC /* jpgd.cpp */; };
 		8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EC342AD1ACC90A50020F3EC /* jpgd.h */; };
-		8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */; };
 		8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */; };
 		8EF701F91A76F90B00454341 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EA1A76F90B00454341 /* adler32.c */; };
 		8EF701FA1A76F90B00454341 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EB1A76F90B00454341 /* crc32.c */; };
@@ -221,6 +223,9 @@
 		8E86FBDE1A9650BD001BCBCE /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
 		8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_GLRenderContext.hpp; sourceTree = "<group>"; };
 		8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_GLRenderContext.mm; sourceTree = "<group>"; };
+		8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderLibrary.hpp; sourceTree = "<group>"; };
+		8E8D22B61B1A1E4D00A876E5 /* VertexLayout.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexLayout.hpp; sourceTree = "<group>"; };
+		8E8D22B81B1B264F00A876E5 /* VertexLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexLayout.cpp; sourceTree = "<group>"; };
 		8E90F1241A6D51B700AD015B /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Texture.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E90F1261A6D636500AD015B /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Texture.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E9214481B15FBE7006CBE05 /* RenderPass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderPass.hpp; sourceTree = "<group>"; };
@@ -234,7 +239,6 @@
 		8EC145F81A869D12004D533A /* OpenGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGL.cpp; sourceTree = "<group>"; };
 		8EC342AC1ACC90A50020F3EC /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
 		8EC342AD1ACC90A50020F3EC /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
-		8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferFields.hpp; sourceTree = "<group>"; };
 		8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_X360Controller.cpp; sourceTree = "<group>"; };
 		8EF701EA1A76F90B00454341 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
 		8EF701EB1A76F90B00454341 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
@@ -401,6 +405,7 @@
 				8E6E53A51A7FC10700844C70 /* FrameBuffer.cpp */,
 				8E5C926D1A2123C1007E3774 /* VertexArray.hpp */,
 				8E5C926F1A212567007E3774 /* VertexArray.cpp */,
+				8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */,
 				8E112DAC199E5FE20029CD38 /* Shader.hpp */,
 				8E112DAB199E5FE20029CD38 /* Shader.cpp */,
 				8E112DAA199E5FE20029CD38 /* Pipeline.hpp */,
@@ -498,7 +503,8 @@
 		8EA7092019D75FA800129E2D /* common */ = {
 			isa = PBXGroup;
 			children = (
-				8ECBA3961A01AC2900EE0151 /* BufferFields.hpp */,
+				8E8D22B61B1A1E4D00A876E5 /* VertexLayout.hpp */,
+				8E8D22B81B1B264F00A876E5 /* VertexLayout.cpp */,
 				8E2389C519F5A04400080E15 /* VertexBuffer.hpp */,
 				8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */,
 				8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */,
@@ -580,7 +586,6 @@
 				8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */,
 				8E6E53AF1A810F6000844C70 /* Light.hpp in Headers */,
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
-				8ECBA3971A01AC2900EE0151 /* BufferFields.hpp in Headers */,
 				8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */,
 				8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */,
 				8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */,
@@ -638,9 +643,11 @@
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
 				8EF701FE1A76F90B00454341 /* inffast.h in Headers */,
 				8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */,
+				8E8D22B51B1A0A6500A876E5 /* ShaderLibrary.hpp in Headers */,
 				8E112DC1199E5FE20029CD38 /* Shader.hpp in Headers */,
 				8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */,
 				8E86FBDA1A923BE5001BCBCE /* FileSystem.hpp in Headers */,
+				8E8D22B71B1A1E4D00A876E5 /* VertexLayout.hpp in Headers */,
 				8EF701FB1A76F90B00454341 /* crc32.h in Headers */,
 				8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */,
 				8E112D49199E55100029CD38 /* Matrix.hpp in Headers */,
@@ -733,6 +740,7 @@
 				8E112D48199E55100029CD38 /* Matrix.cpp in Sources */,
 				8E112DDA199E60A50029CD38 /* Behaviour.cpp in Sources */,
 				8E112DE3199E60A50029CD38 /* Transform.cpp in Sources */,
+				8E8D22B91B1B264F00A876E5 /* VertexLayout.cpp in Sources */,
 				8E112D98199E5FC70029CD38 /* TextFile.cpp in Sources */,
 				8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */,
 				8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */,
