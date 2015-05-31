@@ -34,6 +34,7 @@ public:
 	// -- buffer data management
 
 	size32 strideBytes() const { return layout_.vertexSizeBytes(); }
+	size32 attributeCount() const { return layout_.attributeCount(); }
 	size32 itemCount() const { return itemCount_; }
 	size32 bufferSizeBytes() const { return strideBytes() * itemCount_; }
 	
@@ -42,12 +43,21 @@ public:
 	}
 
 	void allocate(size32 itemCount);
-	
-	// -- raw data pointers
+
+	// -- attribute access pass-through
 	
 	bool hasAttributeWithRole(AttributeRole role) const {
 		return layout_.hasAttributeWithRole(role);
 	}
+	const PositionedAttribute* attrByRole(AttributeRole role) const {
+		return layout_.attrByRole(role);
+	}
+	const PositionedAttribute* attrByIndex(size32 index) const {
+		return layout_.attrByIndex(index);
+	}
+
+	
+	// -- raw data pointers
 	
 	void* basePointer() const { return storage_.get(); }
 	
