@@ -56,12 +56,15 @@ FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc) {
 	glGenFramebuffers(1, &glFBO_);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, glFBO_);
 	
+	Texture* anyTexture = nullptr;
+	
 	// -- colour
 	uint32 colourAttachmentIndex = 0;
 	std::array<GLenum, maxColourAttachments()> drawBuffers;
 
 	for (const auto& attachment : desc.colourAttachments) {
 		if (attachment.texture) {
+			anyTexture = attachment.texture;
 			GLenum glAttachment = GL_COLOR_ATTACHMENT0 + colourAttachmentIndex;
 			attachColourTexture(glAttachment, attachment);
 			drawBuffers[colourAttachmentIndex] = glAttachment;
@@ -82,12 +85,14 @@ FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc) {
 	auto stencilTex = desc.stencilAttachment.texture;
 
 	if (depthTex) {
+		anyTexture = depthTex;
 		assert(desc.depthAttachment.level == 0);
 		assert(desc.depthAttachment.depth == 0);
 		assert(desc.depthAttachment.layer < depthTex->layers());
 	}
 
 	if (stencilTex) {
+		anyTexture = stencilTex;
 		assert(desc.stencilAttachment.level == 0);
 		assert(desc.stencilAttachment.depth == 0);
 		assert(desc.stencilAttachment.layer < stencilTex->layers());
@@ -116,6 +121,13 @@ FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc) {
 	auto status = glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER);
 	if (status != GL_FRAMEBUFFER_COMPLETE) {
 		assert(!"FrameBuffer not complete");
+	}
+	
+	// -- get width and height from one of the textures
+	// -- they should all be the same
+	if (anyTexture) {
+		width_ = anyTexture->width();
+		height_ = anyTexture->height();
 	}
 
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
