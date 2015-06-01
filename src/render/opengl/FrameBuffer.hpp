@@ -26,8 +26,9 @@ public:
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, glFBO_);
 	}
 
-	void bindForReading() const {
+	void bindForReading(uint32 colourAttachmentIndex) const {
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, glFBO_);
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + colourAttachmentIndex);
 	}
 	
 	GLuint name() const { return glFBO_; }

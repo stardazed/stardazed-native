@@ -12,13 +12,6 @@ namespace stardazed {
 namespace render {
 
 
-enum class FullscreenAntiAliasMethod {
-	None,
-	SSAA,
-	MSAA
-};
-
-
 enum class BufferingMethod {
 	DoubleBuffer,
 	TripleBuffer
@@ -26,16 +19,11 @@ enum class BufferingMethod {
 
 
 struct RenderContextDescriptor {
-	int	width = 1280, height = 720; // 16:9
+	int	width = 1280, height = 720;
 	bool fullscreen = false;
 	bool verticalSync = false;
 	BufferingMethod bufferMethod = BufferingMethod::DoubleBuffer;
-	
-	FullscreenAntiAliasMethod fsaa = FullscreenAntiAliasMethod::MSAA;
-	int antiAliasSamples = 4;
-	
-	int depthBits = 0;   // default depth buffer size in bits/sample (0, 16, 24, 32 - AMD only)
-	int stencilBits = 0; // default stencil buffer size (0, 8) good to combine with depth == 24
+	// colour buffers have a fixed 24-8 pixel format
 };
 
 

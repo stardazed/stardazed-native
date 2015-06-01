@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // mac_GLRenderContext.mm - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #include "render/opengl/mac_GLRenderContext.hpp"
@@ -58,7 +58,7 @@ static NSOpenGLPixelFormat* pixelFormatForContextDescriptor(const render::Render
 	std::vector<NSOpenGLPixelFormatAttribute> attrs = {
 		NSOpenGLPFAAccelerated,
 		NSOpenGLPFANoRecovery,
-		NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
+		NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion4_1Core,
 	};
 
 	auto boolAttr = [&attrs](NSOpenGLPixelFormatAttribute name) {
@@ -75,29 +75,9 @@ static NSOpenGLPixelFormat* pixelFormatForContextDescriptor(const render::Render
 	else
 		boolAttr(NSOpenGLPFATripleBuffer);
 
-	// FSAA method
-	if (desc.fsaa != render::FullscreenAntiAliasMethod::None) {
-		if (desc.fsaa == render::FullscreenAntiAliasMethod::SSAA)
-			boolAttr(NSOpenGLPFASupersample);
-		else
-			boolAttr(NSOpenGLPFAMultisample);
-		valueAttr(NSOpenGLPFASampleBuffers, 1);
-		valueAttr(NSOpenGLPFASamples, desc.antiAliasSamples);
-	}
-
-	// frame buffer colour size (fixed)
+	// drawable colour pixel format (fixed)
 	valueAttr(NSOpenGLPFAColorSize, 24);
 	valueAttr(NSOpenGLPFAAlphaSize, 8);
-	
-	// depth and stencil buffer size
-	if (desc.depthBits != 0) {
-		assert(desc.depthBits == 16 || desc.depthBits == 24 || desc.depthBits == 32);
-		valueAttr(NSOpenGLPFADepthSize, desc.depthBits);
-	}
-	if (desc.stencilBits != 0) {
-		assert(desc.stencilBits == 8);
-		valueAttr(NSOpenGLPFAStencilSize, desc.stencilBits);
-	}
 
 	attrs.push_back(0);
 	return [[NSOpenGLPixelFormat alloc] initWithAttributes: attrs.data()];
@@ -195,7 +175,6 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 
 	// -- some sensible global defaults
 	// FIXME: these may/should likely go somewhere else?
-	glClearColor(0, 0, 0, 0);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 }
 

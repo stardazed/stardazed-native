@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // render::mac_GLRenderContext - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #ifndef SD_RENDER_MAC_GLRENDERCONTEXT_H
