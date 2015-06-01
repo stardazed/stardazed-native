@@ -40,22 +40,22 @@ enum class DepthTestPredicate {
 
 
 enum class AttachmentLoadAction {
-	None,
+	DontCare,
 	Load,
 	Clear
 };
 
 
 enum class AttachmentStoreAction {
-	None,
+	DontCare,
 	Store
 };
 
 
 namespace detail {
 	struct AttachmentActions {
-		AttachmentLoadAction loadAction = AttachmentLoadAction::None;
-		AttachmentStoreAction storeAction = AttachmentStoreAction::None;
+		AttachmentLoadAction loadAction = AttachmentLoadAction::DontCare;
+		AttachmentStoreAction storeAction = AttachmentStoreAction::DontCare;
 	};
 }
 
