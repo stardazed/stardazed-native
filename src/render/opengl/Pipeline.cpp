@@ -11,6 +11,7 @@ namespace render {
 
 Pipeline::Pipeline(const PipelineDescriptor& descriptor)
 : descriptor_(descriptor)
+, vertexLayout_(descriptor.vertexAttributes)
 {
 	glGenProgramPipelines(1, &glPipeline_);
 	
@@ -36,6 +37,16 @@ Pipeline::~Pipeline() {
 
 void Pipeline::bind() {
 	glBindProgramPipeline(glPipeline_);
+	if (! descriptor_.rasterizerEnabled)
+		glEnable(GL_RASTERIZER_DISCARD);
+	
+	// FIXME: set all the blending modes, etc
+}
+
+
+void Pipeline::unbind() {
+	glBindProgramPipeline(0);
+	glDisable(GL_RASTERIZER_DISCARD);
 }
 
 
