@@ -15,16 +15,27 @@ namespace stardazed {
 namespace render {
 
 
+enum class FrontFaceWinding {
+	Clockwise,
+	CounterClockwise
+};
+
+
+enum class TriangleFillMode {
+	Fill,
+	Line
+};
+
+
 enum class FaceCulling {
 	Disabled,
 
 	Front,
-	Back,
-	FrontAndBack
+	Back
 };
 
 
-enum class DepthTestPredicate {
+enum class DepthTest {
 	Disabled,
 
 	AllowAll,
@@ -36,6 +47,26 @@ enum class DepthTestPredicate {
 	NotEqual,
 	GreaterOrEqual,
 	Greater
+};
+
+
+struct ScissorRect {
+	uint32 originX = 0, originY = 0;
+	uint32 width = 32768, height = 32768;
+};
+
+
+struct Viewport {
+	uint32 originX = 0, originY = 0;
+	uint32 width = 0, height = 0;
+	float nearZ = 0, farZ = 1;
+};
+
+
+struct DepthStencilDescriptor {
+	DepthTest depthTest = DepthTest::AllowAll;
+	
+	// FIXME: add Stencil setup
 };
 
 
