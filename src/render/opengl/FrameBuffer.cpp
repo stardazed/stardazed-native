@@ -52,7 +52,9 @@ static void attachColourTexture(GLenum glAttachment, const AttachmentDescriptor&
 }
 
 
-FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc) {
+FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc)
+: attachmentDesc_(desc)
+{
 	glGenFramebuffers(1, &glFBO_);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, glFBO_);
 	
@@ -137,6 +139,22 @@ FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc) {
 FrameBuffer::~FrameBuffer() {
 	if (glFBO_)
 		glDeleteFramebuffers(1, &glFBO_);
+}
+
+
+bool FrameBuffer::hasColourAttachment(uint32 atIndex) const {
+	assert(atIndex < maxColourAttachments());
+	return attachmentDesc_.colourAttachments[atIndex].texture != nullptr;
+}
+
+
+bool FrameBuffer::hasDepthAttachment() const {
+	return attachmentDesc_.depthAttachment.texture != nullptr;
+}
+
+
+bool FrameBuffer::hasStencilAttachment() const {
+	return attachmentDesc_.stencilAttachment.texture != nullptr;
 }
 
 	

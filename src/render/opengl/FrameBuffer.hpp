@@ -14,6 +14,7 @@ namespace render {
 
 
 class FrameBuffer {
+	FrameBufferDescriptor attachmentDesc_;
 	GLuint glFBO_ = 0;
 	uint32 width_ = 0, height_ = 0;
 
@@ -36,6 +37,10 @@ public:
 	uint32 width() const { return width_; }
 	uint32 height() const { return height_; }
 	GLuint name() const { return glFBO_; }
+	
+	bool hasColourAttachment(uint32 atIndex) const;
+	bool hasDepthAttachment() const;
+	bool hasStencilAttachment() const;
 };
 	
 		
