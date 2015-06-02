@@ -288,6 +288,12 @@ FrameBuffer* RenderContext::makeFrameBufferAllocatingTextures(const FrameBufferA
 }
 
 
+DepthStencilTest* RenderContext::makeDepthStencilTest(const DepthStencilTestDescriptor& dstDesc) {
+	depthStencilTestPool_.emplace_back(dstDesc);
+	return &depthStencilTestPool_.back();
+}
+
+
 FrameBufferDescriptor RenderContext::allocateTexturesForFrameBuffer(const FrameBufferAllocationDescriptor& desc) {
 	FrameBufferDescriptor fbDesc {};
 	

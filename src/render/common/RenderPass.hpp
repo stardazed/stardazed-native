@@ -63,7 +63,7 @@ struct Viewport {
 };
 
 
-struct DepthStencilDescriptor {
+struct DepthStencilTestDescriptor {
 	DepthTest depthTest = DepthTest::AllowAll;
 	
 	// FIXME: add Stencil setup

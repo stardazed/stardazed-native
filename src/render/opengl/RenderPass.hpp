@@ -20,7 +20,7 @@ class DepthStencilTest {
 	GLenum depthFunc_;
 
 public:
-	explicit DepthStencilTest(const DepthStencilDescriptor&);
+	explicit DepthStencilTest(const DepthStencilTestDescriptor&);
 	void apply() const;
 };
 

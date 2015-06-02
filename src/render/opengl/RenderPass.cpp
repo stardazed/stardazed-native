@@ -9,7 +9,7 @@ namespace stardazed {
 namespace render {
 
 
-DepthStencilTest::DepthStencilTest(const DepthStencilDescriptor& dsd) {
+DepthStencilTest::DepthStencilTest(const DepthStencilTestDescriptor& dsd) {
 	depthTestEnabled_ = dsd.depthTest != DepthTest::Disabled;
 	
 	switch (dsd.depthTest) {

@@ -42,6 +42,8 @@ public:
 	FrameBuffer* makeFrameBuffer(const FrameBufferDescriptor&);
 	FrameBuffer* makeFrameBufferAllocatingTextures(const FrameBufferAllocationDescriptor&);
 	
+	DepthStencilTest* makeDepthStencilTest(const DepthStencilTestDescriptor&);
+	
 	void swap();
 	
 	bool isFullscreen() const;
@@ -58,6 +60,7 @@ private:
 	std::vector<Shader> shaderPool_;
 	std::vector<Texture> texturePool_;
 	std::vector<FrameBuffer> frameBufferPool_;
+	std::vector<DepthStencilTest> depthStencilTestPool_;
 
 	// internal methods
 	FrameBufferDescriptor allocateTexturesForFrameBuffer(const FrameBufferAllocationDescriptor&);
