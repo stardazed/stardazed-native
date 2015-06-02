@@ -50,13 +50,53 @@ RenderPass::RenderPass(const RenderPassDescriptor& descriptor, const FrameBuffer
 : fbo_(fb)
 , descriptor_(descriptor)
 {
-	// FIXME: run load actions on all attachments
+	frameBuffer().bindForDrawing();
+	
+	// -- run load actions on the attachments
+	// In this case (GL 4.1) we will clear the buffers unless they explicitly state Load
+	// as the LoadAction. DontCare is interpreted for this engine as Clear.
+
+	// -- colour
+	uint32 colourIndex = 0;
+	for (auto& colourAction : descriptor.colourActions) {
+		if (frameBuffer().hasColourAttachment(colourIndex)) {
+			if (colourAction.loadAction != AttachmentLoadAction::Load) {
+				glClearBufferfv(GL_COLOR, colourIndex, colourAction.clearColour.data);
+			}
+		}
+		
+		++colourIndex;
+	}
+	
+	// -- depth & stencil
+	if (frameBuffer().hasDepthAttachment() || frameBuffer().hasStencilAttachment()) {
+		if (descriptor.depthActions.loadAction != AttachmentLoadAction::Load &&
+			descriptor.stencilActions.loadAction != AttachmentLoadAction::Load)
+		{
+			// if either buffer doesn't exist, that clear part will just be ignored
+			glClearBufferfi(GL_DEPTH_STENCIL, 0, descriptor.depthActions.clearDepth, descriptor.stencilActions.clearStencil);
+		}
+		else {
+			if (frameBuffer().hasDepthAttachment() && descriptor_.depthActions.loadAction == AttachmentLoadAction::Clear) {
+				glClearBufferfv(GL_DEPTH, 0, &descriptor.depthActions.clearDepth);
+			}
+			if (frameBuffer().hasStencilAttachment() && descriptor_.stencilActions.loadAction == AttachmentLoadAction::Clear) {
+				GLint stencilVal = static_cast<GLint>(descriptor.stencilActions.clearStencil);
+				glClearBufferiv(GL_STENCIL, 0, &stencilVal);
+			}
+		}
+	}
 }
 
 
 RenderPass::~RenderPass() {
-	// FIXME: run store actions on all attachments
+	// -- run store actions on the attachments
+	// In this particular case (GL 4.1) that means doing nothing
+	// in 4.3+ or GL ES we could use glInvalidateFrameBuffer(…) for potential gains
+
 	// FIXME: restore all render state to defaults?
+
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 }
 
 
