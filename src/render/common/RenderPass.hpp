@@ -83,25 +83,23 @@ enum class AttachmentStoreAction {
 };
 
 
-namespace detail {
-	struct AttachmentActions {
-		AttachmentLoadAction loadAction = AttachmentLoadAction::DontCare;
-		AttachmentStoreAction storeAction = AttachmentStoreAction::DontCare;
-	};
-}
-
-
-struct ColourAttachmentActions : detail::AttachmentActions {
+struct ColourAttachmentActions {
+	AttachmentLoadAction loadAction = AttachmentLoadAction::DontCare;
+	AttachmentStoreAction storeAction = AttachmentStoreAction::Store;
 	math::Vec4 clearColour { 0, 0, 0, 1 };
 };
 
 
-struct DepthAttachmentActions : detail::AttachmentActions {
+struct DepthAttachmentActions {
+	AttachmentLoadAction loadAction = AttachmentLoadAction::Clear;
+	AttachmentStoreAction storeAction = AttachmentStoreAction::DontCare;
 	float clearDepth = 1.0f;
 };
 
 
-struct StencilAttachmentActions : detail::AttachmentActions {
+struct StencilAttachmentActions {
+	AttachmentLoadAction loadAction = AttachmentLoadAction::Clear;
+	AttachmentStoreAction storeAction = AttachmentStoreAction::DontCare;
 	uint32 clearStencil = 0;
 };
 
