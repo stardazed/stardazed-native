@@ -50,7 +50,7 @@ struct FrameBufferDescriptor {
 struct FrameBufferAllocationDescriptor {
 	// properties shared by all textures for the FrameBuffer
 	uint32 width = 0, height = 0;
-	uint32 samples = 1;
+	uint32 samples = 0;
 	
 	std::array<PixelFormat, maxColourAttachments()> colourFormats {};
 	std::array<TextureUsageHint, maxColourAttachments()> colourUsageHints {};
@@ -60,6 +60,11 @@ struct FrameBufferAllocationDescriptor {
 	// explicit by setting both to the same DepthStencil PixelFormat.
 	PixelFormat depthFormat = PixelFormat::None;
 	PixelFormat stencilFormat = PixelFormat::None;
+	
+	// As depth and stencil buffers are almost exclusively used in FBO environment
+	// their default hint is set accordingly.
+	TextureUsageHint depthUsageHint = TextureUsageHint::RenderTargetOnly;
+	TextureUsageHint stencilUsageHint = TextureUsageHint::RenderTargetOnly;
 };
 
 

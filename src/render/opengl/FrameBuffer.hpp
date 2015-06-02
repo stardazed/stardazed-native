@@ -42,8 +42,8 @@ public:
 	bool hasDepthAttachment() const;
 	bool hasStencilAttachment() const;
 };
-	
-		
+
+
 } // ns render
 } // ns stardazed
 

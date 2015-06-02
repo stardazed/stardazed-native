@@ -56,7 +56,6 @@ Texture::Texture(const TextureDescriptor& td)
 	// these are invariant across all texture types
 	assert(layers() > 0);
 	assert(mipmaps() > 0);
-	assert(samples() > 0);
 	assert(width() > 0);
 	assert(height() > 0); // at least 1, even for 1D textures
 	assert(depth() > 0); // at least 1, even for 1D and 2D textures
@@ -99,7 +98,7 @@ Texture::Texture(const TextureDescriptor& td)
 		// -- 2D textures
 
 		if (td.layers == 1) {
-			if (td.samples == 1) {
+			if (td.samples == 0) {
 				glTarget_ = GL_TEXTURE_2D;
 				glBindTexture(glTarget_, glTex_);
 				glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, width(), height());

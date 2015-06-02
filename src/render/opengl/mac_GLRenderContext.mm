@@ -330,17 +330,22 @@ FrameBufferDescriptor RenderContext::allocateTexturesForFrameBuffer(const FrameB
 	if (pixelFormatIsDepthStencilFormat(desc.depthFormat)) {
 		// explicit combined format
 		assert(desc.depthFormat == desc.stencilFormat);
+		assert(desc.depthUsageHint == desc.stencilUsageHint);
 		combinedFormat = desc.depthFormat;
 	}
 	else {
 		// if depth is not a DS format, then stencil cannot be a DS format either
 		assert(! pixelFormatIsDepthStencilFormat(desc.stencilFormat));
 
-		if (desc.stencilFormat == PixelFormat::Stencil8) {
-			if (desc.depthFormat == PixelFormat::Depth24I)
-				combinedFormat = PixelFormat::Depth24_Stencil8;
-			else if (desc.depthFormat == PixelFormat::Depth32F)
-				combinedFormat = PixelFormat::Depth32F_Stencil8;
+		// in order to be combined, the usage hints must be the same
+		if (desc.depthUsageHint == desc.stencilUsageHint) {
+			// check for the available depth/stencil format combinations
+			if (desc.stencilFormat == PixelFormat::Stencil8) {
+				if (desc.depthFormat == PixelFormat::Depth24I)
+					combinedFormat = PixelFormat::Depth24_Stencil8;
+				else if (desc.depthFormat == PixelFormat::Depth32F)
+					combinedFormat = PixelFormat::Depth32F_Stencil8;
+			}
 		}
 	}
 
@@ -349,20 +354,25 @@ FrameBufferDescriptor RenderContext::allocateTexturesForFrameBuffer(const FrameB
 	dsTex.textureClass = TextureClass::Tex2D;
 	dsTex.dim.width = width;
 	dsTex.dim.height = height;
+	dsTex.samples = desc.samples;
 
 	if (combinedFormat != PixelFormat::None) {
 		dsTex.pixelFormat = combinedFormat;
+		dsTex.usageHint = desc.depthUsageHint;
 		auto depthStencil = makeTexture(dsTex);
+
 		fbDesc.depthAttachment.texture = depthStencil;
 		fbDesc.stencilAttachment.texture = depthStencil;
 	}
 	else {
 		if (desc.depthFormat != PixelFormat::None) {
 			dsTex.pixelFormat = desc.depthFormat;
+			dsTex.usageHint = desc.depthUsageHint;
 			fbDesc.depthAttachment.texture = makeTexture(dsTex);
 		}
 		if (desc.stencilFormat != PixelFormat::None) {
 			dsTex.pixelFormat = desc.stencilFormat;
+			dsTex.usageHint = desc.stencilUsageHint;
 			fbDesc.stencilAttachment.texture = makeTexture(dsTex);
 		}
 	}

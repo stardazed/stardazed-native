@@ -60,7 +60,7 @@ struct TextureDescriptor {
 	PixelFormat pixelFormat = PixelFormat::None;
 	TextureUsageHint usageHint = TextureUsageHint::Normal;
 	PixelDimensions dim;
-	size32 layers = 1, mipmaps = 1, samples = 1;
+	size32 layers = 1, mipmaps = 1, samples = 0;
 };
 
 
