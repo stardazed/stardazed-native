@@ -108,6 +108,8 @@
 		8EB49E8319FFEF7D003F687C /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */; };
 		8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EBB0AB519C1022700843A1F /* FrameContext.hpp */; };
 		8EC145F91A869D12004D533A /* OpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC145F81A869D12004D533A /* OpenGL.cpp */; };
+		8EC31E9E1B1E08D800AF9582 /* IndexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EC31E9D1B1E08D800AF9582 /* IndexBuffer.hpp */; };
+		8EC31EA01B1E0ABF00AF9582 /* IndexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC31E9F1B1E0ABF00AF9582 /* IndexBuffer.cpp */; };
 		8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC342AC1ACC90A50020F3EC /* jpgd.cpp */; };
 		8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EC342AD1ACC90A50020F3EC /* jpgd.h */; };
 		8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */; };
@@ -237,6 +239,8 @@
 		8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = VertexBuffer.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8EBB0AB519C1022700843A1F /* FrameContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameContext.hpp; sourceTree = "<group>"; };
 		8EC145F81A869D12004D533A /* OpenGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGL.cpp; sourceTree = "<group>"; };
+		8EC31E9D1B1E08D800AF9582 /* IndexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IndexBuffer.hpp; sourceTree = "<group>"; };
+		8EC31E9F1B1E0ABF00AF9582 /* IndexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexBuffer.cpp; sourceTree = "<group>"; };
 		8EC342AC1ACC90A50020F3EC /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
 		8EC342AD1ACC90A50020F3EC /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
 		8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_X360Controller.cpp; sourceTree = "<group>"; };
@@ -508,6 +512,8 @@
 				8E2389C519F5A04400080E15 /* VertexBuffer.hpp */,
 				8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */,
 				8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */,
+				8EC31E9D1B1E08D800AF9582 /* IndexBuffer.hpp */,
+				8EC31E9F1B1E0ABF00AF9582 /* IndexBuffer.cpp */,
 				8E19F7221A25273200A13CF6 /* TriangleBuffer.hpp */,
 				8E19F7241A25350C00A13CF6 /* TriangleBuffer.cpp */,
 				8EA7092419D75FC000129E2D /* Mesh.hpp */,
@@ -632,6 +638,7 @@
 				8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */,
 				8E019A5519C602BF009318C5 /* Config.hpp in Headers */,
 				8EF702031A76F90B00454341 /* inftrees.h in Headers */,
+				8EC31E9E1B1E08D800AF9582 /* IndexBuffer.hpp in Headers */,
 				8E6A0DBC19B39E7400DF0921 /* mac_DevicesContext.hpp in Headers */,
 				8E6E53B31A8113C100844C70 /* Light.hpp in Headers */,
 				8E1599271AF9012C00A62CE1 /* PixelFormat.hpp in Headers */,
@@ -723,6 +730,7 @@
 				8EB49E8319FFEF7D003F687C /* VertexBuffer.cpp in Sources */,
 				8EF702001A76F90B00454341 /* inflate.c in Sources */,
 				8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */,
+				8EC31EA01B1E0ABF00AF9582 /* IndexBuffer.cpp in Sources */,
 				8EF702061A76F90B00454341 /* zutil.c in Sources */,
 				8E147FAF19BB9944002836CA /* RunLoop.cpp in Sources */,
 				8E5C53AD1B186B6900F74804 /* RenderPass.cpp in Sources */,

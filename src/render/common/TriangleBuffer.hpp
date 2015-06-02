@@ -9,9 +9,9 @@
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
 #include "math/Vector.hpp"
+#include "render/common/IndexBuffer.hpp"
 
 #include <memory>
-#include <limits>
 
 namespace stardazed {
 namespace render {
@@ -22,22 +22,6 @@ using TriangleI16 = math::Vector<3, uint16>;
 using TriangleI32 = math::Vector<3, uint32>;
 
 using Triangle = TriangleI32;
-
-
-enum class IndexElementType {
-	UInt8,
-	UInt16,
-	UInt32
-};
-
-
-constexpr size32 indexElementSize(IndexElementType iet) {
-	switch (iet) {
-		case IndexElementType::UInt8: return sizeof(uint8);
-		case IndexElementType::UInt16: return sizeof(uint16);
-		case IndexElementType::UInt32: return sizeof(uint32);
-	}
-}
 
 
 class TriangleBuffer {
@@ -136,7 +120,7 @@ public:
 		constexpr TriangleIterator() {}
 		constexpr TriangleIterator(const TriangleBuffer& tb)
 		: position_{ static_cast<uint8*>(tb.basePointer()) }
-		, indexSizeBytes_{ indexElementSize(tb.indexElementType()) }
+		, indexSizeBytes_{ indexElementTypeSizeBytes(tb.indexElementType()) }
 		, triangleSizeBytes_{ tb.triangleSizeBytes() }
 		{}
 		

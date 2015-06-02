@@ -19,6 +19,18 @@ namespace stardazed {
 namespace render {
 
 
+struct VertexBufferBinding {
+	VertexBuffer* vertexBuffer = nullptr;
+	uint32 attributeOffset = 0;
+};
+
+
+struct MeshDescriptor {
+	std::vector<VertexBufferBinding> vertexBuffers;
+	IndexBuffer* indices;
+};
+
+
 class Mesh {
 public:
 	Mesh(const VertexAttributeList&);

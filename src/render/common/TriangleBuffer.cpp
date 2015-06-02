@@ -23,7 +23,7 @@ constexpr IndexElementType indexTypeForVertexCount(size32 vertexCount) {
 
 void TriangleBuffer::allocateWithIndexElementType(IndexElementType et, size32 triangleCount) {
 	indexElementType_ = et;
-	triangleSizeBytes_ = 3 * indexElementSize(indexElementType_);
+	triangleSizeBytes_ = 3 * indexElementTypeSizeBytes(indexElementType_);
 	triangleCount_ = triangleCount;
 
 	storage_ = std::make_unique<uint8[]>(bufferSizeBytes());

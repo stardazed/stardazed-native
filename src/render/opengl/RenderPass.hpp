@@ -50,6 +50,9 @@ public:
 	void setScissorRect(const ScissorRect&);
 	
 	void setConstantBlendColour(const math::Vec4&);
+
+	// -- drawing primitives
+//	void drawPrimitives(PrimitiveType);
 };
 
 
