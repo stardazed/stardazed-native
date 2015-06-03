@@ -168,17 +168,19 @@ void into(render::Mesh& mesh, Args&&... args) {
 	auto generator = Gen(std::forward<Args>(args)...);
 	
 	mesh.vertexBuffer.allocate(generator.vertexCount());
-	mesh.faces.allocateWithVertexCount(generator.vertexCount(), generator.faceCount());
+	auto indexElementType = minimumIndexElementTypeForVertexCount(generator.vertexCount());
+	mesh.indexBuffer.allocate(PrimitiveType::Triangle, indexElementType, generator.faceCount());
 	
 	auto texAttr = mesh.vertexBuffer.attrByRole(VertexAttributeRole::UV);
 	auto tanAttr = mesh.vertexBuffer.attrByRole(VertexAttributeRole::Tangent);
 	
 	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(VertexAttributeRole::Position);
-	
+
+	IndexBufferTriangleView triView{ mesh.indexBuffer };
 	if (texAttr)
-		generator.generate(posIter, mesh.faces.begin(), mesh.vertexBuffer.attrBegin<math::Vec2>(*texAttr));
+		generator.generate(posIter, triView.begin(), mesh.vertexBuffer.attrBegin<math::Vec2>(*texAttr));
 	else
-		generator.generate(posIter, mesh.faces.begin());
+		generator.generate(posIter, triView.begin());
 	
 	mesh.genVertexNormals();
 	if (tanAttr)

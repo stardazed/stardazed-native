@@ -28,7 +28,7 @@ void calcVertexNormals(VertIt vertBegin, VertIt vertEnd, NormIt normBegin, NormI
 	std::vector<float> usages(vertexCount);
 	
 	std::for_each(faceBegin, faceEnd,
-		[=, &usages](const TriangleBuffer::TriangleProxy& face) mutable {
+		[=, &usages](const IndexBufferTriangleView::TriangleProxy& face) mutable {
 			auto lineA = vertBegin[face.b()] - vertBegin[face.a()];
 			auto lineB = vertBegin[face.c()] - vertBegin[face.b()];
 
@@ -74,7 +74,7 @@ void calcVertexTangents(
 	auto tan2 = tan1 + vertexCount;
 	
 	std::for_each(faceBegin, faceEnd,
-		[=](const TriangleBuffer::TriangleProxy& face) {
+		[=](const IndexBufferTriangleView::TriangleProxy& face) {
 			auto a = face.a(),
 				 b = face.b(),
 				 c = face.c();

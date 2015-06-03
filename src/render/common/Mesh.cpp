@@ -38,13 +38,15 @@ void Mesh::genVertexNormals() {
 		 normAttr = vertexBuffer.attrByRole(VertexAttributeRole::Normal);
 
 	assert(posAttr && normAttr);
+	
+	IndexBufferTriangleView triView{ indexBuffer };
 
 	auto vertBegin = vertexBuffer.attrBegin<math::Vec3>(*posAttr),
 		 vertEnd   = vertexBuffer.attrEnd<math::Vec3>(*posAttr);
 	auto normBegin = vertexBuffer.attrBegin<math::Vec3>(*normAttr),
 		 normEnd   = vertexBuffer.attrEnd<math::Vec3>(*normAttr);
-	auto faceBegin = faces.begin(),
-		 faceEnd   = faces.end();
+	auto faceBegin = triView.begin(),
+		 faceEnd   = triView.end();
 
 	calcVertexNormals(vertBegin, vertEnd, normBegin, normEnd, faceBegin, faceEnd);
 }
@@ -56,6 +58,8 @@ void Mesh::genVertexTangents() {
 		 texAttr  = vertexBuffer.attrByRole(VertexAttributeRole::UV),
 		 tanAttr  = vertexBuffer.attrByRole(VertexAttributeRole::Tangent);
 	
+	IndexBufferTriangleView triView{ indexBuffer };
+
 	assert(posAttr && normAttr && texAttr && tanAttr);
 	
 	auto vertBegin = vertexBuffer.attrBegin<math::Vec3>(*posAttr),
@@ -66,8 +70,8 @@ void Mesh::genVertexTangents() {
 		 texEnd    = vertexBuffer.attrEnd<math::Vec3>(*texAttr);
 	auto tanBegin  = vertexBuffer.attrBegin<math::Vec4>(*tanAttr),
 		 tanEnd    = vertexBuffer.attrEnd<math::Vec4>(*tanAttr);
-	auto faceBegin = faces.begin(),
-		 faceEnd   = faces.end();
+	auto faceBegin = triView.begin(),
+		 faceEnd   = triView.end();
 	
 	calcVertexTangents(vertBegin, vertEnd, normBegin, normEnd,
 					   texBegin, texEnd, tanBegin, tanEnd,

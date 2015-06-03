@@ -30,8 +30,9 @@ namespace container {
 template <typename Value>
 struct STLBasicProxyGen {
 	using ValueType = Value;
+	using ValueRef = Value&;
 	
-	ValueType& valueRef(void* position) {
+	ValueRef valueRef(void* position) {
 		return *(static_cast<ValueType*>(position));
 	}
 };
@@ -49,6 +50,7 @@ protected:
 
 public:
 	using ValueType = typename ProxyGen::ValueType;
+	using ValueRef = typename ProxyGen::ValueRef;
 	
 	constexpr STLBufferIterator() = default;
 	
@@ -59,7 +61,7 @@ public:
 	, proxyGen_(std::forward<ProxyArgs>(args)...)
 	{}
 
-	constexpr ValueType& operator *() { return proxyGen_.valueRef(position_); }
+	constexpr ValueRef operator *() { return proxyGen_.valueRef(position_); }
 	constexpr ValueType* operator ->() { return &proxyGen_.valueRef(position_); };
 	
 	const STLBufferIterator& operator ++() { position_ += strideBytes_; return *this; }

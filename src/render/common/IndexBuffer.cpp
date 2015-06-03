@@ -75,7 +75,7 @@ void IndexBuffer::indexes(uint32 baseIndexNr, uint32 outputCount, uint32* output
 
 void IndexBuffer::setIndexes(uint32 baseIndexNr, size32 sourceCount, const uint32* sourcePtr) {
 	assert(baseIndexNr < indexCount());
-	assert(baseIndexNr + sourceCount < indexCount());
+	assert(baseIndexNr + sourceCount <= indexCount());
 	
 	uint8* base = static_cast<uint8*>(basePointer());
 	uint32 offsetBytes = indexElementSize() * baseIndexNr;
