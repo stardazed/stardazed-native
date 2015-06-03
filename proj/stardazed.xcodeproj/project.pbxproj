@@ -110,6 +110,7 @@
 		8EC145F91A869D12004D533A /* OpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC145F81A869D12004D533A /* OpenGL.cpp */; };
 		8EC31E9E1B1E08D800AF9582 /* IndexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EC31E9D1B1E08D800AF9582 /* IndexBuffer.hpp */; };
 		8EC31EA01B1E0ABF00AF9582 /* IndexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC31E9F1B1E0ABF00AF9582 /* IndexBuffer.cpp */; };
+		8EC31EA21B1F2C5A00AF9582 /* STLBufferIterator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EC31EA11B1F2C5A00AF9582 /* STLBufferIterator.hpp */; };
 		8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC342AC1ACC90A50020F3EC /* jpgd.cpp */; };
 		8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EC342AD1ACC90A50020F3EC /* jpgd.h */; };
 		8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */; };
@@ -241,6 +242,7 @@
 		8EC145F81A869D12004D533A /* OpenGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGL.cpp; sourceTree = "<group>"; };
 		8EC31E9D1B1E08D800AF9582 /* IndexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IndexBuffer.hpp; sourceTree = "<group>"; };
 		8EC31E9F1B1E0ABF00AF9582 /* IndexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexBuffer.cpp; sourceTree = "<group>"; };
+		8EC31EA11B1F2C5A00AF9582 /* STLBufferIterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = STLBufferIterator.hpp; sourceTree = "<group>"; };
 		8EC342AC1ACC90A50020F3EC /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
 		8EC342AD1ACC90A50020F3EC /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
 		8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_X360Controller.cpp; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 			children = (
 				8E112D87199E5F870029CD38 /* FlagSet.hpp */,
 				8E112D89199E5F870029CD38 /* RefTree.hpp */,
+				8EC31EA11B1F2C5A00AF9582 /* STLBufferIterator.hpp */,
 			);
 			path = container;
 			sourceTree = "<group>";
@@ -638,6 +641,7 @@
 				8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */,
 				8E019A5519C602BF009318C5 /* Config.hpp in Headers */,
 				8EF702031A76F90B00454341 /* inftrees.h in Headers */,
+				8EC31EA21B1F2C5A00AF9582 /* STLBufferIterator.hpp in Headers */,
 				8EC31E9E1B1E08D800AF9582 /* IndexBuffer.hpp in Headers */,
 				8E6A0DBC19B39E7400DF0921 /* mac_DevicesContext.hpp in Headers */,
 				8E6E53B31A8113C100844C70 /* Light.hpp in Headers */,
