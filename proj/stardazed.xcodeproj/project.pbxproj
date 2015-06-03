@@ -59,8 +59,6 @@
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
 		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
-		8E19F7231A25273200A13CF6 /* TriangleBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19F7221A25273200A13CF6 /* TriangleBuffer.hpp */; };
-		8E19F7251A25350C00A13CF6 /* TriangleBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E19F7241A25350C00A13CF6 /* TriangleBuffer.cpp */; };
 		8E2389C619F5A04400080E15 /* VertexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E2389C519F5A04400080E15 /* VertexBuffer.hpp */; };
 		8E31873619ED460000D3B189 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E31873519ED460000D3B189 /* OpenGL.framework */; };
 		8E3A702B1AD2ABAD00A9923B /* Mouse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E3A702A1AD2ABAD00A9923B /* Mouse.hpp */; };
@@ -190,8 +188,6 @@
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
 		8E19672519ACD69F009CB5E6 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
-		8E19F7221A25273200A13CF6 /* TriangleBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TriangleBuffer.hpp; sourceTree = "<group>"; };
-		8E19F7241A25350C00A13CF6 /* TriangleBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriangleBuffer.cpp; sourceTree = "<group>"; };
 		8E2389C519F5A04400080E15 /* VertexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = VertexBuffer.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E31873519ED460000D3B189 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		8E3A702A1AD2ABAD00A9923B /* Mouse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mouse.hpp; sourceTree = "<group>"; };
@@ -517,8 +513,6 @@
 				8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */,
 				8EC31E9D1B1E08D800AF9582 /* IndexBuffer.hpp */,
 				8EC31E9F1B1E0ABF00AF9582 /* IndexBuffer.cpp */,
-				8E19F7221A25273200A13CF6 /* TriangleBuffer.hpp */,
-				8E19F7241A25350C00A13CF6 /* TriangleBuffer.cpp */,
 				8EA7092419D75FC000129E2D /* Mesh.hpp */,
 				8EA7092319D75FC000129E2D /* Mesh.cpp */,
 				8EF702081A76FA6600454341 /* PNGFile.hpp */,
@@ -599,7 +593,6 @@
 				8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */,
 				8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */,
 				8E90F1271A6D636500AD015B /* Texture.hpp in Headers */,
-				8E19F7231A25273200A13CF6 /* TriangleBuffer.hpp in Headers */,
 				8E6A0DBA19B39E1E00DF0921 /* DevicesContext.hpp in Headers */,
 				8E112DEA199E60B70029CD38 /* Application.hpp in Headers */,
 				8EA7093119D75FC000129E2D /* Shader.hpp in Headers */,
@@ -761,7 +754,6 @@
 				8E86FBDC1A923DD5001BCBCE /* mac_FileSystem.cpp in Sources */,
 				8E6E53A61A7FC10700844C70 /* FrameBuffer.cpp in Sources */,
 				8E112DB8199E5FE20029CD38 /* Buffer.cpp in Sources */,
-				8E19F7251A25350C00A13CF6 /* TriangleBuffer.cpp in Sources */,
 				8E112DDE199E60A50029CD38 /* SceneController.cpp in Sources */,
 				8E6A0DC419B3A7D900DF0921 /* Keyboard.cpp in Sources */,
 			);
