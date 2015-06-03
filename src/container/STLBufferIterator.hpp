@@ -17,8 +17,8 @@ namespace container {
 // A generic STL iterator that can be used to iterate over values in any
 // data buffer with a custom stride.
 
-// By abstracting out currentValue() this iterator can support proxy objects
-// as ValueType. currentValue() must be implemented using CRTP because templates.
+// The ProxyGen type is a helper type that defines the value type, the
+// reference type and the accessor of the data based on the current address.
 
 // You can have stateful ProxyGen instances by passing the initializer parameters
 // at the end of the STLBufferIterator constructor. They will be forwarded to
