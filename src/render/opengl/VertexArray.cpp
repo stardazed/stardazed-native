@@ -79,13 +79,12 @@ constexpr GLenum glTypeForVertexField(VertexField vf) {
 
 
 static void bindAttributeImpl(const PositionedAttribute& attr, size32 stride, uint32 toVAIndex) {
-	glEnableVertexAttribArray(toVAIndex);
-	
 	auto elementCount = vertexFieldElementCount(attr.field);
 	auto normalized = vertexFieldIsNormalized(attr.field) ? GL_TRUE : GL_FALSE;
 	auto glElementType = glTypeForVertexField(attr.field);
 	auto offsetPtr = reinterpret_cast<void*>(attr.offset);
 
+	glEnableVertexAttribArray(toVAIndex);
 	glVertexAttribPointer(toVAIndex, elementCount, glElementType, normalized, stride, offsetPtr);
 }
 

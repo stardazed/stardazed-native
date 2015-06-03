@@ -8,6 +8,7 @@
 
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
+#include "math/Vector.hpp"
 
 #include <memory>
 #include <limits>
@@ -72,9 +73,40 @@ public:
 	size32 bufferSizeBytes() const { return indexCount() * indexElementSize(); }
 	void* basePointer() const { return storage_.get(); }
 
-	// -- read/write index values
-	uint32 index(uint32 indexNr) const;
-	void setIndex(uint32 indexNr, uint32 newValue);
+	// -- read/write indexes
+	void indexes(uint32 baseIndexNr, uint32 outputCount, uint32* outputPtr) const;
+	uint32 index(uint32 indexNr) const {
+		uint32 result = 0;
+		indexes(indexNr, 1, &result);
+		return result;
+	}
+
+	void setIndexes(uint32 baseIndexNr, size32 sourceCount, const uint32* sourcePtr);
+	void setIndex(uint32 indexNr, uint32 newValue) {
+		setIndexes(indexNr, 1, &newValue);
+	}
+};
+
+
+using Triangle = math::Vector<3, uint32>;
+
+
+class IndexBufferTriangleView {
+	IndexBuffer& indexBuffer_;
+
+public:
+	IndexBufferTriangleView(IndexBuffer&);
+	
+	uint32 triangleCount() const {
+		return indexBuffer_.primitiveCount();
+	}
+	
+	void setTriangle(uint32 triangleIndex, const Triangle& tri);
+	void setTriangle(uint32 triangleIndex, uint32 a, uint32 b, uint32 c) {
+		setTriangle(triangleIndex, { a, b, c });
+	}
+
+	Triangle triangleAtIndex(uint32) const;
 };
 
 

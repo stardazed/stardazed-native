@@ -17,13 +17,6 @@ namespace stardazed {
 namespace render {
 
 
-using TriangleI8 = math::Vector<3, uint8>;
-using TriangleI16 = math::Vector<3, uint16>;
-using TriangleI32 = math::Vector<3, uint32>;
-
-using Triangle = TriangleI32;
-
-
 class TriangleBuffer {
 	IndexElementType indexElementType_ = IndexElementType::UInt16;
 	size32 triangleSizeBytes_ = 0, triangleCount_ = 0;
