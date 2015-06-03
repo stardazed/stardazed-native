@@ -63,7 +63,17 @@ public:
 
 	constexpr ValueRef operator *() { return proxyGen_.valueRef(position_); }
 	constexpr ValueType* operator ->() { return &proxyGen_.valueRef(position_); };
+
+	constexpr ValueRef operator [](size32 index) {
+		auto indexedPos = position_ + (strideBytes_	* index);
+		return *reinterpret_cast<ValueType*>(indexedPos);
+	}
 	
+	constexpr const ValueRef operator [](size32 index) const {
+		auto indexedPos = position_ + (strideBytes_ * index);
+		return const_cast<const ValueRef>(*reinterpret_cast<const ValueType*>(indexedPos));
+	}
+
 	const STLBufferIterator& operator ++() { position_ += strideBytes_; return *this; }
 	STLBufferIterator operator ++(int) { auto ret = *this; position_ += strideBytes_; return ret; }
 	

@@ -8,6 +8,7 @@
 
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
+#include "container/STLBufferIterator.hpp"
 #include "render/common/VertexLayout.hpp"
 #include "math/Vector.hpp"
 #include "math/Matrix.hpp"
@@ -61,87 +62,25 @@ public:
 	// -- iteration over attribute data
 
 	template <typename NativeFieldType>
-	class AttrIterator
-	: public std::iterator<std::random_access_iterator_tag, NativeFieldType>
-	, public FullyComparableTrait<AttrIterator<NativeFieldType>>
-	{
-		uint8* position_ = nullptr;
-		size32 rowBytes_ = 0;
-		
-	public:
-		constexpr AttrIterator() {}
-		constexpr AttrIterator(const VertexBuffer& vb, const PositionedAttribute& attr)
-		: position_{ static_cast<uint8*>(vb.basePointer()) + attr.offset }
-		, rowBytes_{ vb.strideBytes() }
-		{}
-		
-		constexpr NativeFieldType& operator *() { return *reinterpret_cast<NativeFieldType*>(position_); }
-		constexpr NativeFieldType* operator ->() { return reinterpret_cast<NativeFieldType*>(position_); }
-		
-		constexpr NativeFieldType& operator [](size32 index) {
-			auto indexedPos = position_ + (rowBytes_ * index);
-			return *reinterpret_cast<NativeFieldType*>(indexedPos);
-		}
-		
-		constexpr const NativeFieldType& operator [](size32 index) const {
-			auto indexedPos = position_ + (rowBytes_ * index);
-			return *reinterpret_cast<const NativeFieldType*>(indexedPos);
-		}
-		
-		constexpr const AttrIterator& operator ++() { position_ += rowBytes_; return *this; }
-		constexpr AttrIterator operator ++(int) { auto ret = *this; position_ += rowBytes_; return ret; }
-		
-		constexpr const AttrIterator& operator --() { position_ -= rowBytes_; return *this; }
-		constexpr AttrIterator operator --(int) { auto ret = *this; position_ -= rowBytes_; return ret; }
-		
-		constexpr bool operator ==(const AttrIterator& other) const { return position_ == other.position_; }
-		constexpr bool operator <(const AttrIterator& other) const { return position_ < other.position_; }
-		
-		friend constexpr AttrIterator operator +(const AttrIterator& iter, size32 count) {
-			auto ret = iter;
-			ret.position_ += ret.rowBytes_ * count;
-			return ret;
-		}
-
-		friend constexpr AttrIterator operator +(size32 count, const AttrIterator& iter) {
-			auto ret = iter;
-			ret.position_ += ret.rowBytes_ * count;
-			return ret;
-		}
-
-		friend constexpr AttrIterator operator -(const AttrIterator& iter, size32 count) {
-			auto ret = iter;
-			ret.position_ -= ret.rowBytes_ * count;
-			return ret;
-		}
-
-		friend AttrIterator& operator +=(AttrIterator& iter, size32 count) {
-			iter.position_ += iter.rowBytes_ * count;
-			return iter;
-		}
-
-		friend AttrIterator& operator -=(AttrIterator& iter, size32 count) {
-			iter.position_ -= iter.rowBytes_ * count;
-			return iter;
-		}
-		
-		constexpr ptrdiff_t operator -(const AttrIterator& b) {
-			return (position_ - b.position_) / static_cast<ptrdiff_t>(rowBytes_);
-		}
-	};
+	using AttrIterator = container::STLBasicBufferIterator<NativeFieldType>;
 	
 	template <typename T>
-	friend class AttrIterator;
+	container::STLBasicBufferIterator<T> attrBegin(const PositionedAttribute& attr) const {
+		return { static_cast<uint8*>(basePointer()) + attr.offset, strideBytes() };
+	}
+	template <typename T>
+	container::STLBasicBufferIterator<T> attrEnd(const PositionedAttribute& attr) const {
+		return attrBegin<T>(attr) + itemCount_;
+	}
 	
 	template <typename T>
-	AttrIterator<T> attrBegin(const PositionedAttribute& attr) const { return { *this, attr }; }
+	container::STLBasicBufferIterator<T> attrBegin(VertexAttributeRole role) const {
+		return attrBegin<T>(*layout_.attrByRole(role));
+	}
 	template <typename T>
-	AttrIterator<T> attrEnd(const PositionedAttribute& attr) const { return attrBegin<T>(attr) + itemCount_; }
-	
-	template <typename T>
-	AttrIterator<T> attrBegin(VertexAttributeRole role) const { return attrBegin<T>(*layout_.attrByRole(role)); }
-	template <typename T>
-	AttrIterator<T> attrEnd(VertexAttributeRole role) const { return attrEnd<T>(*layout_.attrByRole(role)); }
+	container::STLBasicBufferIterator<T> attrEnd(VertexAttributeRole role) const {
+		return attrEnd<T>(*layout_.attrByRole(role));
+	}
 };
 
 
