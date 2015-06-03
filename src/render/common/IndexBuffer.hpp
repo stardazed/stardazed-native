@@ -196,11 +196,13 @@ public:
 		}
 	};
 	
-	container::STLBufferIterator<TriangleProxyGen> begin() const {
+	using TriangleIterator = container::STLBufferIterator<TriangleProxyGen>;
+	
+	TriangleIterator begin() const {
 		return { indexBuffer_.basePointer(), indexBuffer_.indexElementSize() * 3, indexBuffer_.indexElementSize() };
 	}
 
-	container::STLBufferIterator<TriangleProxyGen> end() const {
+	TriangleIterator end() const {
 		return begin() + triangleCount();
 	}
 };
