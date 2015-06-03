@@ -10,7 +10,7 @@
 #include "math/Vector.hpp"
 #include "math/AABB.hpp"
 #include "render/common/VertexBuffer.hpp"
-#include "render/common/TriangleBuffer.hpp"
+#include "render/common/IndexBuffer.hpp"
 
 #include <vector>
 #include <array>
@@ -36,7 +36,7 @@ public:
 	Mesh(const VertexAttributeList&);
 
 	VertexBuffer vertexBuffer;
-	TriangleBuffer faces;
+	IndexBuffer indexBuffer;
 
 	// derived data generation
 	math::AABB calcAABB() const;

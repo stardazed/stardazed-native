@@ -12,7 +12,7 @@
 #include "math/Vector.hpp"
 #include "render/common/Mesh.hpp"
 #include "render/common/VertexBuffer.hpp"
-#include "render/common/TriangleBuffer.hpp"
+#include "render/common/IndexBuffer.hpp"
 #include "render/opengl/OpenGL.hpp"
 
 
@@ -167,8 +167,8 @@ public:
 		allocate(vb.bufferSizeBytes(), vb.basePointer());
 	}
 	
-	void allocateFromClientBuffer(const TriangleBuffer& tb) {
-		allocate(tb.bufferSizeBytes(), tb.basePointer());
+	void allocateFromClientBuffer(const IndexBuffer& ib) {
+		allocate(ib.bufferSizeBytes(), ib.basePointer());
 	}
 
 	// -- direct updates
