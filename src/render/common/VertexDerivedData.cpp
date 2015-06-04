@@ -1,39 +1,15 @@
 // ------------------------------------------------------------------
-// render::Mesh.cpp - stardazed
+// render::VertexDerivedData.cpp - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "math/Constants.hpp"
-#include "render/common/Mesh.hpp"
 #include "render/common/VertexDerivedData.hpp"
-
-#include <algorithm>
 
 namespace stardazed {
 namespace render {
 
 
-Mesh::Mesh(const VertexAttributeList& attrs)
-: vertexBuffer(attrs)
-{}
-
-
-math::AABB Mesh::calcAABB() const {
-	auto posAttr = vertexBuffer.attrByRole(VertexAttributeRole::Position);
-	assert(posAttr);
-
-	math::AABB aabb;
-	
-	std::for_each(vertexBuffer.attrBegin<math::Vec3>(*posAttr), vertexBuffer.attrEnd<math::Vec3>(*posAttr),
-		[&aabb](const math::Vec3& vec) {
-			aabb.includeVector3(vec);
-		});
-	
-	return aabb;
-}
-
-
-void Mesh::genVertexNormals() {
+void calcVertexNormals(VertexBuffer& vertexBuffer, IndexBuffer& indexBuffer) {
 	auto posAttr = vertexBuffer.attrByRole(VertexAttributeRole::Position),
 		 normAttr = vertexBuffer.attrByRole(VertexAttributeRole::Normal);
 
@@ -52,7 +28,7 @@ void Mesh::genVertexNormals() {
 }
 
 
-void Mesh::genVertexTangents() {
+void calcVertexTangents(VertexBuffer& vertexBuffer, IndexBuffer& indexBuffer) {
 	auto posAttr  = vertexBuffer.attrByRole(VertexAttributeRole::Position),
 		 normAttr = vertexBuffer.attrByRole(VertexAttributeRole::Normal),
 		 texAttr  = vertexBuffer.attrByRole(VertexAttributeRole::UV),

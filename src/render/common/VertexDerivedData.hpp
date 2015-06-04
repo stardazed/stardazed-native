@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // render::VertexDerivedData - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #ifndef SD_RENDER_VERTEXDERIVEDDATA_H
@@ -9,12 +9,18 @@
 #include "system/Config.hpp"
 #include "math/Constants.hpp"
 #include "math/Vector.hpp"
+#include "render/common/VertexBuffer.hpp"
+#include "render/common/IndexBuffer.hpp"
 
 #include <vector>
 #include <algorithm>
 
 namespace stardazed {
 namespace render {
+
+
+void calcVertexNormals(VertexBuffer&, IndexBuffer&);
+void calcVertexTangents(VertexBuffer&, IndexBuffer&);
 
 
 template <typename VertIt, typename NormIt, typename FaceIt>
