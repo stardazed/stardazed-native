@@ -162,23 +162,24 @@ public:
 
 
 template <typename Gen, typename... Args>
-void into(render::Mesh& mesh, Args&&... args) {
+void into(render::MeshData& mesh, Args&&... args) {
 	using namespace render;
 	
 	auto generator = Gen(std::forward<Args>(args)...);
+	auto& vertexBuffer = mesh.primaryVertexBuffer();
 	
-	mesh.vertexBuffer.allocate(generator.vertexCount());
+	vertexBuffer.allocate(generator.vertexCount());
 	auto indexElementType = minimumIndexElementTypeForVertexCount(generator.vertexCount());
 	mesh.indexBuffer.allocate(PrimitiveType::Triangle, indexElementType, generator.faceCount());
 	
-	auto texAttr = mesh.vertexBuffer.attrByRole(VertexAttributeRole::UV);
-	auto tanAttr = mesh.vertexBuffer.attrByRole(VertexAttributeRole::Tangent);
+	auto texAttr = vertexBuffer.attrByRole(VertexAttributeRole::UV);
+	auto tanAttr = vertexBuffer.attrByRole(VertexAttributeRole::Tangent);
 	
-	auto posIter = mesh.vertexBuffer.attrBegin<math::Vec3>(VertexAttributeRole::Position);
+	auto posIter = vertexBuffer.attrBegin<math::Vec3>(VertexAttributeRole::Position);
 
 	IndexBufferTriangleView triView{ mesh.indexBuffer };
 	if (texAttr)
-		generator.generate(posIter, triView.begin(), mesh.vertexBuffer.attrBegin<math::Vec2>(*texAttr));
+		generator.generate(posIter, triView.begin(), vertexBuffer.attrBegin<math::Vec2>(*texAttr));
 	else
 		generator.generate(posIter, triView.begin());
 	
@@ -189,10 +190,10 @@ void into(render::Mesh& mesh, Args&&... args) {
 
 
 template <typename Gen, typename... Args>
-render::Mesh basic(Args&&... args) {
+render::MeshData basic(Args&&... args) {
 	using namespace render;
 	
-	Mesh mesh(render::AttrList::Pos3Norm3());
+	MeshData mesh(render::AttrList::Pos3Norm3());
 
 	into<Gen>(mesh, std::forward<Args>(args)...);
 
@@ -200,19 +201,19 @@ render::Mesh basic(Args&&... args) {
 }
 
 
-// ---- Convenience methods to create a basic Mesh for each of the primitves
+// ---- Convenience methods to create a basic MeshData for each of the primitves
 
 template <typename... Args>
-render::Mesh plane(Args&&... args) { return basic<Plane>(std::forward<Args>(args)...); }
+render::MeshData plane(Args&&... args) { return basic<Plane>(std::forward<Args>(args)...); }
 
 template <typename... Args>
-render::Mesh cube(Args&&... args) { return basic<Cube>(std::forward<Args>(args)...); }
+render::MeshData cube(Args&&... args) { return basic<Cube>(std::forward<Args>(args)...); }
 
 template <typename... Args>
-render::Mesh arc(Args&&... args) { return basic<Arc>(std::forward<Args>(args)...); }
+render::MeshData arc(Args&&... args) { return basic<Arc>(std::forward<Args>(args)...); }
 
 template <typename... Args>
-render::Mesh sphere(Args&&... args) { return basic<Sphere>(std::forward<Args>(args)...); }
+render::MeshData sphere(Args&&... args) { return basic<Sphere>(std::forward<Args>(args)...); }
 
 
 } // ns gen
