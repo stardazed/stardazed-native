@@ -1,12 +1,21 @@
 // ------------------------------------------------------------------
-// render::opengl::VertexArray.cpp - stardazed
-// (c) 2014 by Arthur Langereis
+// render::opengl::Mesh.cpp - stardazed
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "render/opengl/VertexArray.hpp"
+#include "render/opengl/Mesh.hpp"
 
 namespace stardazed {
 namespace render {
+
+
+constexpr GLenum glTypeForIndexElementType(IndexElementType iet) {
+	switch (iet) {
+		case IndexElementType::UInt32: return GL_UNSIGNED_INT;
+		case IndexElementType::UInt16: return GL_UNSIGNED_SHORT;
+		case IndexElementType::UInt8:  return GL_UNSIGNED_BYTE;
+	}
+}
 
 
 constexpr GLenum glTypeForVertexField(VertexField vf) {
@@ -78,6 +87,29 @@ constexpr GLenum glTypeForVertexField(VertexField vf) {
 }
 
 
+Mesh::Mesh() {
+	glGenVertexArrays(1, &glVAO_);
+}
+
+
+Mesh::Mesh(const MeshDescriptor& descriptor)
+: Mesh()
+{
+	initWithDescriptor(descriptor);
+}
+
+
+Mesh::~Mesh() {
+	if (glVAO_ > 0)
+		glDeleteVertexArrays(1, &glVAO_);
+}
+
+
+void Mesh::initWithDescriptor(const MeshDescriptor& descriptor) {
+	
+}
+
+
 static void bindAttributeImpl(const PositionedAttribute& attr, size32 stride, uint32 toVAIndex) {
 	auto elementCount = vertexFieldElementCount(attr.field);
 	auto normalized = vertexFieldIsNormalized(attr.field) ? GL_TRUE : GL_FALSE;
@@ -89,7 +121,7 @@ static void bindAttributeImpl(const PositionedAttribute& attr, size32 stride, ui
 }
 
 
-void GLVertexArray::bindVertexBufferAttributes(const VertexBuffer& vb, uint32 startBoundIndex) {
+void Mesh::bindVertexBufferAttributes(const VertexBuffer& vb, uint32 startBoundIndex) {
 	size32 attrCount = vb.attributeCount(),
 		   stride = vb.strideBytes();
 	

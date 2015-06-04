@@ -1,33 +1,30 @@
 // ------------------------------------------------------------------
-// render::opengl::VertexArray - stardazed
-// (c) 2014 by Arthur Langereis
+// render::opengl::Mesh - stardazed
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDER_OPENGLVERTEXARRAY_H
-#define SD_RENDER_OPENGLVERTEXARRAY_H
+#ifndef SD_RENDER_OPENGL_MESH_H
+#define SD_RENDER_OPENGL_MESH_H
 
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
-#include "render/common/VertexBuffer.hpp"
+#include "render/common/Mesh.hpp"
 #include "render/opengl/OpenGL.hpp"
 
 namespace stardazed {
 namespace render {
 
 
-class GLVertexArray {
+class Mesh {
 	GLuint glVAO_ = 0;
 
 public:
-	GLVertexArray() {
-		glGenVertexArrays(1, &glVAO_);
-	}
+	Mesh();
+	Mesh(const MeshDescriptor&);
+	~Mesh();
+	SD_DEFAULT_MOVE_OPS(Mesh)
 	
-	~GLVertexArray() {
-		glDeleteVertexArrays(1, &glVAO_);
-	}
-
-	SD_DEFAULT_MOVE_OPS(GLVertexArray)
+	void initWithDescriptor(const MeshDescriptor&);
 	
 	// -- attributes
 	void bindVertexBufferAttributes(const VertexBuffer&, uint32 startBoundIndex = 0);
@@ -42,21 +39,21 @@ public:
 };
 
 
-// ---- VAO Binding Specializations
+// ---- Mesh binding specializations
 
 template <>
-inline GLuint saveAndBind(const GLVertexArray& va) {
+inline GLuint saveAndBind(const Mesh& mesh) {
 	GLuint currentlyBound;
 	glGetIntegerv(GL_VERTEX_ARRAY_BINDING, reinterpret_cast<GLint*>(&currentlyBound));
-	if (currentlyBound != va.name())
-		va.bind();
+	if (currentlyBound != mesh.name())
+		mesh.bind();
 	
 	return currentlyBound;
 }
 
 template <>
-inline void unbindAndRestore(const GLVertexArray& vao, GLuint savedVAOName) {
-	if (savedVAOName != vao.name()) {
+inline void unbindAndRestore(const Mesh& mesh, GLuint savedVAOName) {
+	if (savedVAOName != mesh.name()) {
 		glBindVertexArray(savedVAOName);
 	}
 }
