@@ -1,18 +1,16 @@
 // ------------------------------------------------------------------
 // render::opengl::Buffer - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDER_OPENGLBUFFER_H
-#define SD_RENDER_OPENGLBUFFER_H
+#ifndef SD_RENDER_OPENGL_BUFFER_H
+#define SD_RENDER_OPENGL_BUFFER_H
 
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
 
 #include "math/Vector.hpp"
 #include "render/common/Mesh.hpp"
-#include "render/common/VertexBuffer.hpp"
-#include "render/common/IndexBuffer.hpp"
 #include "render/opengl/OpenGL.hpp"
 
 
@@ -20,24 +18,12 @@ namespace stardazed {
 namespace render {
 
 
-enum class BufferClientAccess {
-	None,
-	ReadOnly,
-	WriteOnly,
-	ReadWrite
-};
-
-
-enum class BufferUpdateFrequency {
-	Never,
-	Occassionally,
-	Frequently
-};
-
-
-enum class GLArrayType {
-	Attribute,
-	Index
+enum class BufferRole {
+	VertexAttribute,
+	VertexIndex,
+	TextureBuffer,
+	TransformFeedback,
+	UniformBlock
 };
 
 
@@ -96,16 +82,19 @@ namespace detail {
 	}
 	
 	
-	constexpr GLenum glTargetForArrayType(GLArrayType type) {
-		switch (type) {
-			case GLArrayType::Attribute:
+	constexpr GLenum glTargetForBufferRole(BufferRole role) {
+		switch (role) {
+			case BufferRole::VertexAttribute:
 				return GL_ARRAY_BUFFER;
-			case GLArrayType::Index:
+			case BufferRole::VertexIndex:
 				return GL_ELEMENT_ARRAY_BUFFER;
+			case BufferRole::TextureBuffer:
+				return GL_TEXTURE_BUFFER;
+			case BufferRole::TransformFeedback:
+				return GL_TRANSFORM_FEEDBACK_BUFFER;
+			case BufferRole::UniformBlock:
+				return GL_UNIFORM_BUFFER;
 		}
-		
-		assert(!"Invalid array type");
-		return GL_NONE;
 	}
 	
 	
@@ -113,67 +102,68 @@ namespace detail {
 		switch (target) {
 			case GL_ARRAY_BUFFER:              return GL_ARRAY_BUFFER_BINDING;
 			case GL_ELEMENT_ARRAY_BUFFER:      return GL_ELEMENT_ARRAY_BUFFER_BINDING;
-			case GL_UNIFORM_BUFFER:            return GL_UNIFORM_BUFFER_BINDING;
-			case GL_TRANSFORM_FEEDBACK_BUFFER: return GL_TRANSFORM_FEEDBACK_BUFFER_BINDING;
-			case GL_PIXEL_PACK_BUFFER:         return GL_PIXEL_PACK_BUFFER_BINDING;
-			case GL_PIXEL_UNPACK_BUFFER:       return GL_PIXEL_UNPACK_BUFFER;
 			case GL_TEXTURE_BUFFER:            return GL_TEXTURE_BINDING_BUFFER;
-//			case GL_COPY_READ_BUFFER:          return GL_COPY_READ_BUFFER_BINDING;   not available in gl3.h?
-//			case GL_COPY_WRITE_BUFFER:         return GL_COPY_WRITE_BUFFER_BINDING;
+			case GL_TRANSFORM_FEEDBACK_BUFFER: return GL_TRANSFORM_FEEDBACK_BUFFER_BINDING;
+			case GL_UNIFORM_BUFFER:            return GL_UNIFORM_BUFFER_BINDING;
 			default:
-				assert(!"Unknown buffer target name");
+				assert(!"Unhandled buffer target name");
 				return GL_NONE;
 		}
 	}
 }
 
 
-class GLBuffer {
+class Buffer {
+	BufferRole role_;
+	BufferUpdateFrequency updateFrequency_;
+	BufferClientAccess clientAccess_;
+	GLenum target_ {0};
 	GLuint name_ {0};
-	GLenum target_ {0}, usage_ {0};
 	size32 byteSize_ {0};
 
 public:
-	GLBuffer(GLenum target, BufferUpdateFrequency frequency, BufferClientAccess access)
-	: target_{ target }
-	, usage_{ detail::glUsageHint(frequency, access) }
+	Buffer(BufferRole role, BufferUpdateFrequency frequency, BufferClientAccess access)
+	: role_(role)
+	, updateFrequency_(frequency)
+	, clientAccess_(access)
+	, target_{ detail::glTargetForBufferRole(role) }
 	{
 		glGenBuffers(1, &name_);
 	}
-
-	GLBuffer(GLArrayType type, BufferUpdateFrequency frequency, BufferClientAccess access)
-	: GLBuffer(detail::glTargetForArrayType(type), frequency, access)
-	{}
 	
-	~GLBuffer() {
+	~Buffer() {
 		if (name_)
 			glDeleteBuffers(1, &name_);
 	}
 	
-	SD_DEFAULT_MOVE_OPS(GLBuffer)
+	SD_DEFAULT_MOVE_OPS(Buffer)
 
 	// -- initialization
 
 	void allocate(size32 bytes, void* data) {
 		byteSize_ = bytes;
-		glBufferData(target_, bytes, data, usage_);
+		bind();
+		glBufferData(target_, bytes, data, detail::glUsageHint(updateFrequency(), clientAccess()));
 	}
 	
 	void allocate(size32 bytes) {
 		allocate(bytes, nullptr);
 	}
 	
-	void allocateFromClientBuffer(const VertexBuffer& vb) {
+	void allocateFromVertexBuffer(const VertexBuffer& vb) {
+		assert(role() == BufferRole::VertexAttribute);
 		allocate(vb.bufferSizeBytes(), vb.basePointer());
 	}
 	
-	void allocateFromClientBuffer(const IndexBuffer& ib) {
+	void allocateFromIndexBuffer(const IndexBuffer& ib) {
+		assert(role() == BufferRole::VertexIndex);
 		allocate(ib.bufferSizeBytes(), ib.basePointer());
 	}
 
 	// -- direct updates
 	
 	void write(size32 bytes, void* data, size32 offset) {
+		bind();
 		glBufferSubData(target_, offset, bytes, data);
 	}
 
@@ -183,6 +173,7 @@ private:
 	template <typename T>
 	T* mapForUpdates(size32 offset, size32 bytes, GLbitfield flags) {
 		assert(offset + bytes < byteSize_);
+		bind();
 		return static_cast<T*>(glMapBufferRange(target_, offset, bytes, flags));
 	}
 
@@ -190,6 +181,7 @@ public:
 	template <typename T>
 	const T* mapRangeForReading(size32 offset, size32 bytes) {
 		assert(offset + bytes < byteSize_);
+		bind();
 		return static_cast<const T*>(glMapBufferRange(target_, offset, bytes, GL_MAP_READ_BIT));
 	}
 	
@@ -229,10 +221,13 @@ public:
 	}
 	
 	// -- observers
+	BufferRole role() const { return role_; }
+	BufferUpdateFrequency updateFrequency() const { return updateFrequency_; }
+	BufferClientAccess clientAccess() const { return clientAccess_; }
+	size32 byteSize() const { return byteSize_; }
 
 	GLuint name() const { return name_; }
 	GLenum target() const { return target_; }
-	size32 byteSize() const { return byteSize_; }
 	
 	// -- binding
 	
@@ -249,8 +244,8 @@ public:
 // ---- Buffer Binding Specializations
 
 template <>
-inline GLuint saveAndBind(const GLBuffer& buffer) {
-	auto currentlyBound = GLBuffer::boundAtTarget(buffer.target());
+inline GLuint saveAndBind(const Buffer& buffer) {
+	auto currentlyBound = Buffer::boundAtTarget(buffer.target());
 	if (currentlyBound != buffer.name())
 		buffer.bind();
 	
@@ -258,7 +253,7 @@ inline GLuint saveAndBind(const GLBuffer& buffer) {
 }
 
 template <>
-inline void unbindAndRestore(const GLBuffer& buffer, GLuint savedBufferName) {
+inline void unbindAndRestore(const Buffer& buffer, GLuint savedBufferName) {
 	if (savedBufferName != buffer.name()) {
 		glBindBuffer(buffer.target(), savedBufferName);
 	}
@@ -295,12 +290,12 @@ namespace detail {
 			return maxIndex_;
 		}
 
-		static void bindBufferToGlobalIndex(const GLBuffer& buffer, uint32 index) {
+		static void bindBufferToGlobalIndex(const Buffer& buffer, uint32 index) {
 			assert(static_cast<GLint>(index) < maxIndex());
 			glBindBufferBase(target, index, buffer.name());
 		}
 
-		static void bindBufferRangeToGlobalIndex(const GLBuffer& buffer, size32 offset, size32 bytes, uint32 index) {
+		static void bindBufferRangeToGlobalIndex(const Buffer& buffer, size32 offset, size32 bytes, uint32 index) {
 			assert(static_cast<GLint>(index) < maxIndex());
 			assert(offset + bytes < buffer.byteSize());
 			glBindBufferRange(target, index, buffer.name(), static_cast<GLintptr>(offset), bytes);
