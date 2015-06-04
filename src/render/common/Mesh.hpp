@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// render::Mesh - stardazed
+// render::MeshData - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
@@ -13,33 +13,61 @@
 #include "render/common/IndexBuffer.hpp"
 
 #include <vector>
-#include <array>
 
 namespace stardazed {
 namespace render {
 
 
+enum class BufferClientAccess {
+	None,
+	ReadOnly,
+	WriteOnly,
+	ReadWrite
+};
+
+
+enum class BufferUpdateFrequency {
+	Never,
+	Occassionally,
+	Frequently
+};
+
+
 struct VertexBufferBinding {
-	VertexBuffer* vertexBuffer = nullptr;
+	const VertexBuffer* vertexBuffer = nullptr;
 	uint32 baseAttributeIndex = 0;
+
+	BufferClientAccess clientAccess = BufferClientAccess::None;
+	BufferUpdateFrequency updateFrequency = BufferUpdateFrequency::Never;
+};
+
+
+struct IndexBufferBinding {
+	const IndexBuffer* indexBuffer = nullptr;
+	
+	BufferClientAccess clientAccess = BufferClientAccess::None;
+	BufferUpdateFrequency updateFrequency = BufferUpdateFrequency::Never;
 };
 
 
 struct MeshDescriptor {
-	std::vector<VertexBufferBinding> vertexBuffers;
-	IndexBuffer* indices = nullptr;
+	std::vector<VertexBufferBinding> vertexBindings;
+	IndexBufferBinding indexBinding;
 };
 
 
-class Mesh {
+class MeshData {
 public:
-	Mesh(const VertexAttributeList&);
+	MeshData() = default;
+	MeshData(const VertexAttributeList&);
 
-	VertexBuffer vertexBuffer;
+	std::vector<VertexBuffer> vertexBuffers;
 	IndexBuffer indexBuffer;
 
-	// derived data generation
-	math::AABB calcAABB() const;
+	VertexBuffer& primaryVertexBuffer();
+	MeshDescriptor defaultDescriptor() const;
+
+	// derived vertex data generation
 	void genVertexNormals();
 	void genVertexTangents();
 };

@@ -70,8 +70,8 @@
 		8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E54FE5A1A6F0BC7003D649A /* Texture.cpp */; };
 		8E5C53AB1B1869B100F74804 /* RenderPass.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5C53AA1B1869B100F74804 /* RenderPass.hpp */; };
 		8E5C53AD1B186B6900F74804 /* RenderPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C53AC1B186B6900F74804 /* RenderPass.cpp */; };
-		8E5C926E1A2123C1007E3774 /* VertexArray.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5C926D1A2123C1007E3774 /* VertexArray.hpp */; };
-		8E5C92701A212567007E3774 /* VertexArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C926F1A212567007E3774 /* VertexArray.cpp */; };
+		8E5C926E1A2123C1007E3774 /* Mesh.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5C926D1A2123C1007E3774 /* Mesh.hpp */; };
+		8E5C92701A212567007E3774 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C926F1A212567007E3774 /* Mesh.cpp */; };
 		8E6A0DBA19B39E1E00DF0921 /* DevicesContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */; };
 		8E6A0DBC19B39E7400DF0921 /* mac_DevicesContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DBB19B39E7400DF0921 /* mac_DevicesContext.hpp */; };
 		8E6A0DBE19B3A03600DF0921 /* Keyboard.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E6A0DBD19B3A03600DF0921 /* Keyboard.hpp */; };
@@ -109,6 +109,7 @@
 		8EC31E9E1B1E08D800AF9582 /* IndexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EC31E9D1B1E08D800AF9582 /* IndexBuffer.hpp */; };
 		8EC31EA01B1E0ABF00AF9582 /* IndexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC31E9F1B1E0ABF00AF9582 /* IndexBuffer.cpp */; };
 		8EC31EA21B1F2C5A00AF9582 /* STLBufferIterator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EC31EA11B1F2C5A00AF9582 /* STLBufferIterator.hpp */; };
+		8EC31EA41B209AC700AF9582 /* VertexDerivedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC31EA31B209AC700AF9582 /* VertexDerivedData.cpp */; };
 		8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC342AC1ACC90A50020F3EC /* jpgd.cpp */; };
 		8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EC342AD1ACC90A50020F3EC /* jpgd.h */; };
 		8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */; };
@@ -200,8 +201,8 @@
 		8E54FE5A1A6F0BC7003D649A /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Texture.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E5C53AA1B1869B100F74804 /* RenderPass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderPass.hpp; sourceTree = "<group>"; };
 		8E5C53AC1B186B6900F74804 /* RenderPass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderPass.cpp; sourceTree = "<group>"; };
-		8E5C926D1A2123C1007E3774 /* VertexArray.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexArray.hpp; sourceTree = "<group>"; };
-		8E5C926F1A212567007E3774 /* VertexArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexArray.cpp; sourceTree = "<group>"; };
+		8E5C926D1A2123C1007E3774 /* Mesh.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mesh.hpp; sourceTree = "<group>"; };
+		8E5C926F1A212567007E3774 /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
 		8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DevicesContext.hpp; sourceTree = "<group>"; };
 		8E6A0DBB19B39E7400DF0921 /* mac_DevicesContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_DevicesContext.hpp; sourceTree = "<group>"; };
 		8E6A0DBD19B3A03600DF0921 /* Keyboard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
@@ -239,6 +240,7 @@
 		8EC31E9D1B1E08D800AF9582 /* IndexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IndexBuffer.hpp; sourceTree = "<group>"; };
 		8EC31E9F1B1E0ABF00AF9582 /* IndexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexBuffer.cpp; sourceTree = "<group>"; };
 		8EC31EA11B1F2C5A00AF9582 /* STLBufferIterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = STLBufferIterator.hpp; sourceTree = "<group>"; };
+		8EC31EA31B209AC700AF9582 /* VertexDerivedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexDerivedData.cpp; sourceTree = "<group>"; };
 		8EC342AC1ACC90A50020F3EC /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
 		8EC342AD1ACC90A50020F3EC /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
 		8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_X360Controller.cpp; sourceTree = "<group>"; };
@@ -401,13 +403,13 @@
 				8EC145F81A869D12004D533A /* OpenGL.cpp */,
 				8E112DA4199E5FE20029CD38 /* Buffer.hpp */,
 				8E112DA3199E5FE20029CD38 /* Buffer.cpp */,
+				8E5C926D1A2123C1007E3774 /* Mesh.hpp */,
+				8E5C926F1A212567007E3774 /* Mesh.cpp */,
 				8E15992B1AF9054200A62CE1 /* PixelFormat.hpp */,
 				8E90F1261A6D636500AD015B /* Texture.hpp */,
 				8E90F1241A6D51B700AD015B /* Texture.cpp */,
 				8E6E53A31A7FC0AF00844C70 /* FrameBuffer.hpp */,
 				8E6E53A51A7FC10700844C70 /* FrameBuffer.cpp */,
-				8E5C926D1A2123C1007E3774 /* VertexArray.hpp */,
-				8E5C926F1A212567007E3774 /* VertexArray.cpp */,
 				8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */,
 				8E112DAC199E5FE20029CD38 /* Shader.hpp */,
 				8E112DAB199E5FE20029CD38 /* Shader.cpp */,
@@ -510,9 +512,10 @@
 				8E8D22B81B1B264F00A876E5 /* VertexLayout.cpp */,
 				8E2389C519F5A04400080E15 /* VertexBuffer.hpp */,
 				8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */,
-				8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */,
 				8EC31E9D1B1E08D800AF9582 /* IndexBuffer.hpp */,
 				8EC31E9F1B1E0ABF00AF9582 /* IndexBuffer.cpp */,
+				8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */,
+				8EC31EA31B209AC700AF9582 /* VertexDerivedData.cpp */,
 				8EA7092419D75FC000129E2D /* Mesh.hpp */,
 				8EA7092319D75FC000129E2D /* Mesh.cpp */,
 				8EF702081A76FA6600454341 /* PNGFile.hpp */,
@@ -629,7 +632,7 @@
 				8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */,
 				8E5C53AB1B1869B100F74804 /* RenderPass.hpp in Headers */,
 				8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */,
-				8E5C926E1A2123C1007E3774 /* VertexArray.hpp in Headers */,
+				8E5C926E1A2123C1007E3774 /* Mesh.hpp in Headers */,
 				8E112DED199E60B70029CD38 /* Time.hpp in Headers */,
 				8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */,
 				8E019A5519C602BF009318C5 /* Config.hpp in Headers */,
@@ -736,7 +739,7 @@
 				8E112DC0199E5FE20029CD38 /* Shader.cpp in Sources */,
 				8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */,
 				8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */,
-				8E5C92701A212567007E3774 /* VertexArray.cpp in Sources */,
+				8E5C92701A212567007E3774 /* Mesh.cpp in Sources */,
 				8E6E53B11A810FCA00844C70 /* Light.cpp in Sources */,
 				8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */,
 				8EF7020B1A77036000454341 /* PNGFile.cpp in Sources */,
@@ -756,6 +759,7 @@
 				8E112DB8199E5FE20029CD38 /* Buffer.cpp in Sources */,
 				8E112DDE199E60A50029CD38 /* SceneController.cpp in Sources */,
 				8E6A0DC419B3A7D900DF0921 /* Keyboard.cpp in Sources */,
+				8EC31EA41B209AC700AF9582 /* VertexDerivedData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
