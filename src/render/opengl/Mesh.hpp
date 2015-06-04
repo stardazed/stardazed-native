@@ -9,7 +9,7 @@
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
 #include "render/common/Mesh.hpp"
-#include "render/opengl/OpenGL.hpp"
+#include "render/opengl/Buffer.hpp"
 
 namespace stardazed {
 namespace render {
@@ -17,6 +17,7 @@ namespace render {
 
 class Mesh {
 	GLuint glVAO_ = 0;
+	std::vector<Buffer> buffers_;
 
 public:
 	Mesh();
@@ -26,13 +27,9 @@ public:
 	
 	void initWithDescriptor(const MeshDescriptor&);
 	
-	// -- attributes
-	void bindVertexBufferAttributes(const VertexBuffer&, uint32 startBoundIndex = 0);
-
 	// -- observers
 	GLuint name() const { return glVAO_; }
 
-	// -- binding
 	void bind() const {
 		glBindVertexArray(glVAO_);
 	}

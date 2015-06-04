@@ -33,6 +33,7 @@ public:
 
 	// -- buffer data management
 
+	const VertexLayout& layout() const { return layout_; }
 	size32 strideBytes() const { return layout_.vertexSizeBytes(); }
 	size32 attributeCount() const { return layout_.attributeCount(); }
 	size32 itemCount() const { return itemCount_; }

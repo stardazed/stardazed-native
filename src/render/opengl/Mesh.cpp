@@ -105,12 +105,7 @@ Mesh::~Mesh() {
 }
 
 
-void Mesh::initWithDescriptor(const MeshDescriptor& descriptor) {
-	
-}
-
-
-static void bindAttributeImpl(const PositionedAttribute& attr, size32 stride, uint32 toVAIndex) {
+static void bindSingleAttribute(const PositionedAttribute& attr, size32 stride, uint32 toVAIndex) {
 	auto elementCount = vertexFieldElementCount(attr.field);
 	auto normalized = vertexFieldIsNormalized(attr.field) ? GL_TRUE : GL_FALSE;
 	auto glElementType = glTypeForVertexField(attr.field);
@@ -121,7 +116,7 @@ static void bindAttributeImpl(const PositionedAttribute& attr, size32 stride, ui
 }
 
 
-void Mesh::bindVertexBufferAttributes(const VertexBuffer& vb, uint32 startBoundIndex) {
+static void bindVertexBufferAttributes(const VertexBuffer& vb, uint32 startBoundIndex) {
 	size32 attrCount = vb.attributeCount(),
 		   stride = vb.strideBytes();
 	
@@ -130,8 +125,43 @@ void Mesh::bindVertexBufferAttributes(const VertexBuffer& vb, uint32 startBoundI
 	for (size32 attrIndex = 0; attrIndex < attrCount; ++attrIndex) {
 		auto attr = vb.attrByIndex(attrIndex);
 		assert(attr);
-		bindAttributeImpl(*attr, stride, attrIndex + startBoundIndex);
+		bindSingleAttribute(*attr, stride, attrIndex + startBoundIndex);
 	}
+}
+
+
+void Mesh::initWithDescriptor(const MeshDescriptor& desc) {
+	glBindVertexArray(glVAO_);
+	
+	// -- reserve space in the buffers vector for all buffer objects
+	uint32 bufferCount = size32_cast(desc.vertexBindings.size());
+	if (desc.indexBinding.indexBuffer) ++bufferCount;
+	buffers_.reserve(bufferCount);
+
+	for (const auto& vertexBinding : desc.vertexBindings) {
+		assert(vertexBinding.vertexBuffer);
+
+		// -- allocate sized attribute buffer
+		buffers_.emplace_back(BufferRole::VertexAttribute, vertexBinding.updateFrequency, vertexBinding.clientAccess);
+		auto& buffer = buffers_.back();
+		buffer.allocateFromVertexBuffer(*vertexBinding.vertexBuffer);
+
+		// -- configure our VAO attributes with the attrs found in the current vertex buffer
+		buffer.bind();
+		bindVertexBufferAttributes(*vertexBinding.vertexBuffer, vertexBinding.baseAttributeIndex);
+	}
+	
+	if (desc.indexBinding.indexBuffer) {
+		// -- allocate sized index buffer
+		buffers_.emplace_back(BufferRole::VertexIndex, desc.indexBinding.updateFrequency, desc.indexBinding.clientAccess);
+		auto& indexBuffer = buffers_.back();
+		indexBuffer.allocateFromIndexBuffer(*desc.indexBinding.indexBuffer);
+		
+		// -- bind index buffer to VAO
+		indexBuffer.bind();
+	}
+	
+	glBindVertexArray(0);
 }
 
 
