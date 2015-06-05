@@ -35,7 +35,7 @@ Pipeline::~Pipeline() {
 }
 
 
-void Pipeline::bind() {
+void Pipeline::bind() const {
 	glBindProgramPipeline(glPipeline_);
 	if (! descriptor_.rasterizerEnabled)
 		glEnable(GL_RASTERIZER_DISCARD);
@@ -44,9 +44,10 @@ void Pipeline::bind() {
 }
 
 
-void Pipeline::unbind() {
+void Pipeline::unbind() const {
 	glBindProgramPipeline(0);
-	glDisable(GL_RASTERIZER_DISCARD);
+	if (! descriptor_.rasterizerEnabled)
+		glDisable(GL_RASTERIZER_DISCARD);
 }
 
 

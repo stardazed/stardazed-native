@@ -27,8 +27,8 @@ public:
 	SD_DEFAULT_MOVE_OPS(Pipeline)
 
 	// FIXME: make most of these methods private and make RenderPass a friend
-	void bind();
-	void unbind();
+	void bind() const;
+	void unbind() const;
 	
 	Shader* vertexShader() const { return descriptor_.vertexShader; }
 	Shader* geometryShader() const { return descriptor_.geometryShader; }
