@@ -94,6 +94,7 @@ void Shader::setTexture(const Texture* texture, uint32 bindPoint, GLint samplerU
 		bind(texture);
 	}
 	else {
+		// bind a null texture to an aribitrary texture target
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	
@@ -108,7 +109,6 @@ void Shader::setSampler(const Sampler* sampler, uint32 bindPoint) {
 
 	glBindSampler(bindPoint, samplerName);
 }
-
 
 
 } // ns render

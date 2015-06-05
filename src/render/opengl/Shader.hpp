@@ -39,26 +39,25 @@ public:
 	GLuint name() const { return glProgram_; }
 	bool32 usesTransformFeedback() const { return usesXFB_; }
 
+
 	// -- Uniform Blocks
 	GLuint uniformBlockIndexForName(const char* blockName) const {
 		return glGetUniformBlockIndex(glProgram_, blockName);
 	}
 	
-	GLuint uniformBlockIndexForName(const std::string& blockName) const {
-		return uniformBlockIndexForName(blockName.c_str());
+	void bindUniformBlockToBindPoint(GLuint programBlockIndex, uint32 bindPoint) {
+		glUniformBlockBinding(glProgram_, programBlockIndex, bindPoint);
 	}
 	
-	void bindUniformBlockToGlobalIndex(GLuint programBlockIndex, GLuint globalIndex) {
-		glUniformBlockBinding(glProgram_, programBlockIndex, globalIndex);
+	void bindNamedUniformBlockToBindPoint(const char* uniformBlockName, uint32 bindPoint) {
+		GLuint blockIndex = uniformBlockIndexForName(uniformBlockName);
+		bindUniformBlockToBindPoint(blockIndex, bindPoint);
 	}
-	
+
+
 	// -- Uniforms
 	GLint uniformPositionForName(const char* valueName) const {
 		return glGetUniformLocation(glProgram_, valueName);
-	}
-	
-	GLint uniformPositionForName(const std::string& valueName) const {
-		return uniformPositionForName(valueName.c_str());
 	}
 	
 	void setUniform(GLint valuePos, float value) { glProgramUniform1f(glProgram_, valuePos, value); }

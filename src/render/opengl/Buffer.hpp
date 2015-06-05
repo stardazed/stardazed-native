@@ -272,32 +272,31 @@ namespace detail {
 			if (maxIndex_ < 0) {
 				glGetIntegerv(maxBufferBindingsNameForTarget(target), &maxIndex_);
 			}
-			
 			return maxIndex_;
 		}
 
-		static void bindBufferToGlobalIndex(const Buffer& buffer, uint32 index) {
-			assert(static_cast<GLint>(index) < maxIndex());
-			glBindBufferBase(target, index, buffer.name());
+		static void bindBufferToBindPoint(const Buffer& buffer, uint32 bindPoint) {
+			assert(static_cast<GLint>(bindPoint) < maxIndex());
+			glBindBufferBase(target, bindPoint, buffer.name());
 		}
 
-		static void bindBufferRangeToGlobalIndex(const Buffer& buffer, size32 offset, size32 bytes, uint32 index) {
-			assert(static_cast<GLint>(index) < maxIndex());
+		static void bindBufferRangeToBindPoint(const Buffer& buffer, size32 offset, size32 bytes, uint32 bindPoint) {
+			assert(static_cast<GLint>(bindPoint) < maxIndex());
 			assert(offset + bytes < buffer.byteSize());
-			glBindBufferRange(target, index, buffer.name(), static_cast<GLintptr>(offset), bytes);
+			glBindBufferRange(target, bindPoint, buffer.name(), static_cast<GLintptr>(offset), bytes);
 		}
 	};
 
 } // ns detail
 
 
-// -- global GL array of indexed uniform blocks
+// -- GL indexed uniform blocks
 template class detail::IndexedBufferOps<GL_UNIFORM_BUFFER>;
-using UniformBlockArray = detail::IndexedBufferOps<GL_UNIFORM_BUFFER>;
+using IndexedUniformBlocks = detail::IndexedBufferOps<GL_UNIFORM_BUFFER>;
 
-// -- global GL array of indexed transform feedback blocks
+// -- GL indexed transform feedback blocks
 template class detail::IndexedBufferOps<GL_TRANSFORM_FEEDBACK_BUFFER>;
-using TransformFeedbackBlockArray = detail::IndexedBufferOps<GL_TRANSFORM_FEEDBACK_BUFFER>;
+using IndexedTransformFeedbackBlocks = detail::IndexedBufferOps<GL_TRANSFORM_FEEDBACK_BUFFER>;
 
 
 } // ns render
