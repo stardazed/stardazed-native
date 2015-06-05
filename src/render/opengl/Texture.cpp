@@ -235,8 +235,8 @@ void Texture::write3DPixels(const PixelBuffer& pixels, PixelCoordinate origin, u
 
 
 void Texture::writePixels(const PixelBuffer& pixels, PixelCoordinate origin, uint32 mipmapLevel, uint32 baseLayer) {
-	if (frameBufferOnly()) {
-		assert(!"Tried to write pixel data to an attachment-only texture");
+	if (! clientWritable()) {
+		assert(!"Cannot write pixels to this texture type");
 		return;
 	}
 	
@@ -325,8 +325,8 @@ void Texture::writeProviderPixels(const PixelDataProvider& provider, CubeMapFace
 
 
 //PixelBuffer Texture::readPixels(PixelCoordinate origin, PixelDimensions size, uint32 mipmapLevel, uint32 layer) {
-//	if (frameBufferOnly()) {
-//		assert(!"Tried to read pixel data from an attachment-only texture");
+//	if (! clientWritable()) { ???
+//		assert(! "Cannot read ");
 //		return {};
 //	}
 //
@@ -335,8 +335,8 @@ void Texture::writeProviderPixels(const PixelDataProvider& provider, CubeMapFace
 //}
 
 
-bool Texture::frameBufferOnly() const {
-	return glTarget_ == GL_TEXTURE_2D_MULTISAMPLE || glTarget_ == GL_RENDERBUFFER;
+bool Texture::clientWritable() const {
+	return glTarget_ != GL_RENDERBUFFER && glTarget_ != GL_TEXTURE_2D_MULTISAMPLE;
 }
 
 

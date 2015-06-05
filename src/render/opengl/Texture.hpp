@@ -62,7 +62,7 @@ public:
 	PixelFormat pixelFormat() const { return pixelFormat_; }
 	
 	TextureClass textureClass() const { return textureClass_; };
-	bool frameBufferOnly() const;
+	bool clientWritable() const;
 	bool renderTargetOnly() const;
 	
 	// -- gl-specific observers
