@@ -18,6 +18,17 @@ constexpr GLenum glTypeForIndexElementType(IndexElementType iet) {
 }
 
 
+constexpr GLenum glTypeForPrimitiveType(PrimitiveType pt) {
+	switch (pt) {
+		case PrimitiveType::Point:         return GL_POINTS;
+		case PrimitiveType::Line:          return GL_LINES;
+		case PrimitiveType::LineStrip:     return GL_LINE_STRIP;
+		case PrimitiveType::Triangle:      return GL_TRIANGLES;
+		case PrimitiveType::TriangleStrip: return GL_TRIANGLE_STRIP;
+	}
+}
+
+
 constexpr GLenum glTypeForVertexField(VertexField vf) {
 	switch (vf) {
 		case VertexField::Undefined:
@@ -157,11 +168,35 @@ void Mesh::initWithDescriptor(const MeshDescriptor& desc) {
 		auto& indexBuffer = buffers_.back();
 		indexBuffer.allocateFromIndexBuffer(*desc.indexBinding.indexBuffer);
 		
+		// -- precompute some info required for draw calls
+		glPrimitiveType_ = glTypeForPrimitiveType(desc.indexBinding.indexBuffer->primitiveType());
+		glIndexElementType_ = glTypeForIndexElementType(desc.indexBinding.indexBuffer->indexElementType());
+		indexElementSizeBytes_ = desc.indexBinding.indexBuffer->indexElementSizeBytes();
+		
 		// -- bind index buffer to VAO
 		indexBuffer.bind();
 	}
 	
 	glBindVertexArray(0);
+}
+
+
+Buffer* Mesh::vertexBufferAtIndex(uint32 vertexBufferIndex) {
+	size32 vertexBufferCount = size32_cast(buffers_.size());
+	if (hasIndexBuffer())
+		--vertexBufferCount;
+	
+	assert(vertexBufferIndex < vertexBufferCount);
+	
+	return &buffers_[vertexBufferIndex];
+}
+
+
+Buffer* Mesh::indexBuffer() {
+	assert(hasIndexBuffer());
+
+	// the index buffer, when present, is always the last one
+	return &buffers_[buffers_.size() - 1];
 }
 
 
