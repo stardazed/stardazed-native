@@ -20,7 +20,7 @@ namespace render {
 void IndexBuffer::allocate(PrimitiveType primitiveType, IndexElementType elementType, uint32 primitiveCount) {
 	primitiveType_ = primitiveType;
 	indexElementType_ = elementType;
-	indexElementSize_ = indexElementTypeSizeBytes(indexElementType_);
+	indexElementSizeBytes_ = indexElementTypeSizeBytes(indexElementType_);
 	primitiveCount_ = primitiveCount;
 
 	switch (primitiveType) {
@@ -50,7 +50,7 @@ void IndexBuffer::indexes(uint32 baseIndexNr, uint32 outputCount, uint32* output
 	assert(baseIndexNr + outputCount < indexCount());
 	
 	uint8* basePtr = static_cast<uint8*>(basePointer());
-	uint32 offsetBytes = indexElementSize() * baseIndexNr;
+	uint32 offsetBytes = indexElementSizeBytes() * baseIndexNr;
 	basePtr += offsetBytes;
 
 	if (indexElementType() == IndexElementType::UInt32) {
@@ -78,7 +78,7 @@ void IndexBuffer::setIndexes(uint32 baseIndexNr, size32 sourceCount, const uint3
 	assert(baseIndexNr + sourceCount <= indexCount());
 	
 	uint8* base = static_cast<uint8*>(basePointer());
-	uint32 offsetBytes = indexElementSize() * baseIndexNr;
+	uint32 offsetBytes = indexElementSizeBytes() * baseIndexNr;
 	base += offsetBytes;
 	
 	if (indexElementType() == IndexElementType::UInt32) {

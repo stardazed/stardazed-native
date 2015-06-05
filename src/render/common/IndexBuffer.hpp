@@ -57,7 +57,7 @@ constexpr IndexElementType minimumIndexElementTypeForVertexCount(uint32 vertexCo
 class IndexBuffer {
 	PrimitiveType primitiveType_ = PrimitiveType::Point;
 	IndexElementType indexElementType_ = IndexElementType::UInt8;
-	uint32 indexCount_ = 0, primitiveCount_ = 0, indexElementSize_ = 0;
+	uint32 indexCount_ = 0, primitiveCount_ = 0, indexElementSizeBytes_ = 0;
 	std::unique_ptr<uint8[]> storage_;
 
 public:
@@ -69,9 +69,9 @@ public:
 
 	uint32 primitiveCount() const { return primitiveCount_; }
 	uint32 indexCount() const { return indexCount_; }
-	uint32 indexElementSize() const { return indexElementSize_; }
+	uint32 indexElementSizeBytes() const { return indexElementSizeBytes_; }
 
-	size32 bufferSizeBytes() const { return indexCount() * indexElementSize(); }
+	size32 bufferSizeBytes() const { return indexCount() * indexElementSizeBytes(); }
 	void* basePointer() const { return storage_.get(); }
 
 	// -- read/write indexes
@@ -90,7 +90,7 @@ public:
 	// -- STL interop
 	template <typename IndexNativeType>
 	container::STLBasicBufferIterator<IndexNativeType> begin() const {
-		return { basePointer(), indexElementSize() };
+		return { basePointer(), indexElementSizeBytes() };
 	}
 
 	template <typename IndexNativeType>
@@ -181,25 +181,25 @@ public:
 	};
 
 	class TriangleProxyGen {
-		size32 indexElementSize_;
+		size32 indexElementSizeBytes_;
 
 	public:
 		using ValueType = TriangleProxy;
 		using ValueRef = TriangleProxy; // proxy, not a reference type
 
-		TriangleProxyGen(size32 indexElementSize)
-		: indexElementSize_(indexElementSize)
+		TriangleProxyGen(size32 indexElementSizeBytes)
+		: indexElementSizeBytes_(indexElementSizeBytes)
 		{}
 		
 		TriangleProxy valueRef(void* position) {
-			return { position, indexElementSize_ };
+			return { position, indexElementSizeBytes_ };
 		}
 	};
 	
 	using TriangleIterator = container::STLBufferIterator<TriangleProxyGen>;
 	
 	TriangleIterator begin() const {
-		return { indexBuffer_.basePointer(), indexBuffer_.indexElementSize() * 3, indexBuffer_.indexElementSize() };
+		return { indexBuffer_.basePointer(), indexBuffer_.indexElementSizeBytes() * 3, indexBuffer_.indexElementSizeBytes() };
 	}
 
 	TriangleIterator end() const {
