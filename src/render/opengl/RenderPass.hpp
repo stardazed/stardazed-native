@@ -10,6 +10,7 @@
 #include "render/common/RenderPass.hpp"
 #include "render/opengl/FrameBuffer.hpp"
 #include "render/opengl/Pipeline.hpp"
+#include "render/opengl/Mesh.hpp"
 
 namespace stardazed {
 namespace render {
@@ -29,6 +30,7 @@ class RenderPass {
 	const FrameBuffer& fbo_;
 	const RenderPassDescriptor& descriptor_;
 	const Pipeline* pipeline_ = nullptr;
+	const Mesh* mesh_ = nullptr;
 	
 public:
 	RenderPass(const RenderPassDescriptor&, const FrameBuffer&);
@@ -51,8 +53,9 @@ public:
 	
 	void setConstantBlendColour(const math::Vec4&);
 
-	// -- drawing primitives
-//	void drawPrimitives(PrimitiveType);
+	// -- drawing
+	void setMesh(const Mesh&);
+	void drawIndexedPrimitives(uint32 startIndex, uint32 indexCount);
 };
 
 

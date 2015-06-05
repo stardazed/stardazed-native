@@ -94,15 +94,22 @@ RenderPass::~RenderPass() {
 	// In this particular case (GL 4.1) that means doing nothing
 	// in 4.3+ or GL ES we could use glInvalidateFrameBuffer(…) for potential gains
 
-	// FIXME: restore all render state to defaults?
-
+	// -- restore render state
+	if (mesh_)
+		glBindVertexArray(0);
+	if (pipeline_)
+		pipeline_->unbind();
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 }
 
 
 void RenderPass::setPipeline(const Pipeline& pipeline) {
+	if (pipeline_)
+		pipeline_->unbind();
+
 	// FIXME: validate Pipeline against FrameBuffer
 	pipeline_ = &pipeline;
+	pipeline_->bind();
 }
 
 
@@ -154,6 +161,20 @@ void RenderPass::setScissorRect(const ScissorRect& rect) {
 
 void RenderPass::setConstantBlendColour(const math::Vec4& colour) {
 	glBlendColor(colour.r, colour.g, colour.b, colour.a);
+}
+
+
+void RenderPass::setMesh(const Mesh& mesh) {
+	mesh_ = &mesh;
+	mesh_->bind();
+}
+
+
+void RenderPass::drawIndexedPrimitives(uint32 startIndex, uint32 indexCount) {
+	assert(mesh_);
+
+	size32 offsetBytes = startIndex * mesh_->indexElementSizeBytes();
+	glDrawElements(mesh_->glPrimitiveType(), indexCount, mesh_->glIndexElementType(), reinterpret_cast<void*>(offsetBytes));
 }
 
 
