@@ -8,6 +8,7 @@
 
 #include "system/Config.hpp"
 #include "math/Matrix.hpp"
+#include "render/common/RenderPass.hpp"
 #include "scene/Scene.hpp"
 
 namespace stardazed {
@@ -33,7 +34,7 @@ class Renderable {
 public:
 	virtual ~Renderable() = default;
 	
-	virtual void render(const RenderPassInfo&, const Entity& entity) const = 0;
+	virtual void render(render::RenderPass&, const RenderPassInfo&, const Entity& entity) const = 0;
 };
 
 

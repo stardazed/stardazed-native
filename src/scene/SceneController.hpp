@@ -10,6 +10,7 @@
 #include "scene/Scene.hpp"
 #include "scene/Renderable.hpp"
 #include "runtime/Client.hpp"
+#include "render/common/RenderPass.hpp"
 #include "system/Time.hpp"
 
 namespace stardazed {
@@ -36,13 +37,13 @@ public:
 	virtual ~SceneController() {}
 
 	template <typename It>
-	void renderEntityRange(const RenderPassInfo& rpi, It from, It to) {
+	void renderEntityRange(render::RenderPass& renderPass, const RenderPassInfo& rpi, It from, It to) {
 		for (It cur = from; cur != to; ++cur) {
 			Entity& entity = entityFromIter(cur);
 			
 			// -- render entity
 			if (entity.renderable) {
-				entity.renderable->render(rpi, entity);
+				entity.renderable->render(renderPass, rpi, entity);
 			}
 			
 			// <-- render children
