@@ -270,7 +270,7 @@ struct PositionedAttribute : VertexAttribute {
 	PositionedAttribute() = default;
 
 	constexpr PositionedAttribute(VertexField vf, VertexAttributeRole ar, size32 offset)
-	: VertexAttribute{ vf, ar}
+	: VertexAttribute{ vf, ar }
 	, offset { static_cast<size16>(offset) }
 	{}
 

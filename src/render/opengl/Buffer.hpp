@@ -29,20 +29,6 @@ enum class BufferRole {
 
 namespace detail {
 	// internal buffer options to gl options
-	constexpr GLbitfield glAccessFlagsForBCA(BufferClientAccess access) {
-		switch (access) {
-			case BufferClientAccess::ReadOnly:
-				return GL_MAP_READ_BIT;
-			case BufferClientAccess::WriteOnly:
-				return GL_MAP_WRITE_BIT;
-			case BufferClientAccess::ReadWrite:
-				return GL_MAP_READ_BIT | GL_MAP_WRITE_BIT;
-			default:
-				return 0;
-		}
-	}
-	
-	
 	constexpr GLenum glUsageHint(BufferUpdateFrequency frequency, BufferClientAccess typicalAccess) {
 		if (typicalAccess == BufferClientAccess::None) {
 			switch (frequency) {
