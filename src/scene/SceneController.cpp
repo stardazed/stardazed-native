@@ -11,8 +11,6 @@
 
 #include <algorithm>
 
-#include <render/opengl/OpenGL.hpp>
-
 namespace stardazed {
 namespace scene {
 

@@ -4,7 +4,6 @@
 // ------------------------------------------------------------------
 
 #include "render/common/IndexBuffer.hpp"
-#include <limits>
 
 namespace stardazed {
 namespace render {

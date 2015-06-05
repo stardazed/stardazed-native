@@ -11,8 +11,6 @@
 
 #import <AppKit/AppKit.h>
 
-#include <vector>
-
 
 //  ____  _       _    __
 // |  _ \| | __ _| |_ / _| ___  _ __ _ __ ___

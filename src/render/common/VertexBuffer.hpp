@@ -13,9 +13,6 @@
 #include "math/Vector.hpp"
 #include "math/Matrix.hpp"
 
-#include <array>
-#include <string>
-#include <vector>
 #include <memory>
 
 namespace stardazed {
