@@ -176,3 +176,7 @@ xcuserdata
 *.lai
 *.la
 *.a
+
+####
+# CLion crap
+.idea/
