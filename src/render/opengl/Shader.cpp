@@ -86,5 +86,30 @@ Shader::~Shader() {
 }
 
 
+void Shader::setTexture(const Texture* texture, uint32 bindPoint, GLint samplerUniformName) {
+	glActiveTexture(GL_TEXTURE0 + bindPoint);
+
+	if (texture) {
+		assert(! texture->renderTargetOnly());
+		bind(texture);
+	}
+	else {
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	
+	setUniform(samplerUniformName, static_cast<int32>(bindPoint));
+}
+
+
+void Shader::setSampler(const Sampler* sampler, uint32 bindPoint) {
+	GLuint samplerName = 0;
+	if (sampler)
+		samplerName = sampler->name();
+
+	glBindSampler(bindPoint, samplerName);
+}
+
+
+
 } // ns render
 } // ns stardazed

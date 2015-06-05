@@ -11,7 +11,7 @@
 #include "math/Vector.hpp"
 #include "math/Matrix.hpp"
 #include "render/common/Shader.hpp"
-#include "render/opengl/OpenGL.hpp"
+#include "render/opengl/Texture.hpp"
 
 #include <string>
 
@@ -28,6 +28,11 @@ public:
 	Shader(ShaderType, const std::string& source, TransformFeedbackDescriptor* = nullptr);
 	~Shader();
 	SD_DEFAULT_MOVE_OPS(Shader)
+	
+	// -- in-renderpass methods
+	void setTexture(const Texture*, uint32 bindPoint, GLint samplerUniformName);
+	void setSampler(const Sampler*, uint32 bindPoint);
+
 
 	// -- observers
 	ShaderType type() const { return type_; }
