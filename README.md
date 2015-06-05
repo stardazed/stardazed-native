@@ -32,7 +32,7 @@ other sections functional but simple.
 * FBX scene loading (it sucks, but everyone uses it)
 
 
-Work is ongoing whenever I have time, I'm should be updating
+Work is ongoing whenever I have time, I should be updating
 [my blog](http://zenmumbler.net/) regularly with updates about
 development. I'm also [on twitter](https://twitter.com/zenmumbler).
 
