@@ -22,6 +22,9 @@ enum class ShaderType {
 };
 
 
+class Shader;
+
+
 enum class TransformFeedbackAction : uint32 {
 	CapturePrimitive,
 	NextBuffer,

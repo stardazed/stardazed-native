@@ -15,9 +15,6 @@ namespace stardazed {
 namespace render {
 
 
-class Texture;
-
-
 constexpr uint32 maxColourAttachments() {
 	// FIXME: while this can be queried at runtime, we want to use
 	// a dependable absolute maximum per platform at compile time
@@ -66,6 +63,9 @@ struct FrameBufferAllocationDescriptor {
 	TextureUsageHint depthUsageHint = TextureUsageHint::RenderTargetOnly;
 	TextureUsageHint stencilUsageHint = TextureUsageHint::RenderTargetOnly;
 };
+
+
+class FrameBuffer;
 
 
 } // ns render

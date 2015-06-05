@@ -25,6 +25,9 @@ enum class TextureClass : uint32 {
 };
 
 
+class Texture;
+
+
 enum class TextureUsageHint : uint32 {
 	Normal,
 	RenderTargetOnly

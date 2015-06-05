@@ -9,6 +9,7 @@
 #include "system/Config.hpp"
 #include "render/common/VertexLayout.hpp"
 #include "render/common/PixelBuffer.hpp"
+#include "render/common/Shader.hpp"
 #include "render/common/FrameBuffer.hpp"
 
 #include <array>
@@ -70,9 +71,6 @@ struct PipelineColourAttachmentDescriptor {
 };
 
 
-class Shader;
-
-
 struct PipelineDescriptor {
 	std::array<PipelineColourAttachmentDescriptor, maxColourAttachments()> colourAttachments {};
 	PixelFormat depthPixelFormat = PixelFormat::None;
@@ -85,6 +83,9 @@ struct PipelineDescriptor {
 	
 	bool32 rasterizerEnabled = true;
 };
+
+
+class Pipeline;
 
 
 } // ns render

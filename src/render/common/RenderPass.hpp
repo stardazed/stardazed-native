@@ -111,6 +111,9 @@ struct RenderPassDescriptor {
 };
 
 
+class RenderPass;
+
+
 } // ns render
 } // ns stardazed
 
