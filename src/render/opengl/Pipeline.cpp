@@ -16,14 +16,17 @@ Pipeline::Pipeline(const PipelineDescriptor& descriptor)
 	glGenProgramPipelines(1, &glPipeline_);
 	
 	if (vertexShader()) {
+		assert(vertexShader()->type() == ShaderType::Vertex);
 		glUseProgramStages(glPipeline_, GL_VERTEX_SHADER_BIT, vertexShader()->name());
 	}
 
 	if (geometryShader()) {
+		assert(geometryShader()->type() == ShaderType::Geometry);
 		glUseProgramStages(glPipeline_, GL_GEOMETRY_SHADER_BIT, geometryShader()->name());
 	}
 	
 	if (fragmentShader()) {
+		assert(fragmentShader()->type() == ShaderType::Fragment);
 		glUseProgramStages(glPipeline_, GL_FRAGMENT_SHADER_BIT, fragmentShader()->name());
 	}
 }

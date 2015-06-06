@@ -29,7 +29,7 @@ public:
 	~Shader();
 	SD_DEFAULT_MOVE_OPS(Shader)
 	
-	// -- in-renderpass methods
+	// -- in-renderpass methods (FIXME: move out to renderpass/pipeline?)
 	void setTexture(const Texture*, uint32 bindPoint, GLint samplerUniformName);
 	void setSampler(const Sampler*, uint32 bindPoint);
 
