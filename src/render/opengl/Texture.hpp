@@ -83,23 +83,6 @@ inline void bind(const Texture& texture) {
 }
 
 
-//template <>
-//inline GLuint saveAndBind(const Texture& tex) {
-//	GLuint currentlyBound;
-//	glGetIntegerv(GL_TEXTURE_BINDING_2D, reinterpret_cast<GLint*>(&currentlyBound));
-//	if (currentlyBound != tex.name())
-//		bind(tex);
-//	
-//	return currentlyBound;
-//}
-//
-//template <>
-//inline void unbindAndRestore(const Texture& tex, GLuint savedTexName) {
-//	if (savedTexName != tex.name())
-//		glBindTexture(tex.target(), savedTexName);
-//}
-
-
 constexpr GLenum glTargetForCubeMapFace(CubeMapFace face) {
 	switch (face) {
 		case CubeMapFace::PosX: return GL_TEXTURE_CUBE_MAP_POSITIVE_X;

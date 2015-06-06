@@ -35,6 +35,7 @@ enum class TransformFeedbackAction : uint32 {
 struct TransformFeedbackCommand {
 	TransformFeedbackAction action;
 	union {
+		// FIXME: this is a recipy for crashy town
 		const char* name = nullptr;
 		uint32 count;
 	};

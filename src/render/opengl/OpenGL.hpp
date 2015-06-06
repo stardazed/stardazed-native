@@ -34,44 +34,6 @@ inline void bind(GLObj* obj) {
 }
 
 
-// -- bind multiple objects
-
-template <typename GLObj>
-inline void bindMultiple(const GLObj& obj) {
-	obj.bind();
-}
-
-template <typename GLObj, typename... More>
-inline void bindMultiple(const GLObj& obj, More&&... more) {
-	obj.bind();
-	bindMultiple(std::forward<More&&>(more)...);
-}
-
-
-// -- specialized by bindable types
-
-template <typename GLObj>
-GLuint saveAndBind(const GLObj&);
-
-template <typename GLObj>
-void unbindAndRestore(const GLObj&, GLuint previousBinding);
-
-
-// -- do action in lambda with one or more objects bound
-// -- the previous bindings are restored after the lambda
-
-template <typename F>
-void withTempBound(F&& func) {
-	func();
-}
-
-template <typename GLObj, typename... More>
-void withTempBound(const GLObj& obj, More&&... more) {
-	auto previous = saveAndBind(obj);
-	withTempBound(std::forward<More&&>(more)...);
-	unbindAndRestore(obj, previous);
-}
-
 
 class OpenGL {
 	OpenGL() = delete;

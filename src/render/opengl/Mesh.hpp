@@ -51,26 +51,6 @@ public:
 };
 
 
-// ---- Mesh binding specializations
-
-template <>
-inline GLuint saveAndBind(const Mesh& mesh) {
-	GLuint currentlyBound;
-	glGetIntegerv(GL_VERTEX_ARRAY_BINDING, reinterpret_cast<GLint*>(&currentlyBound));
-	if (currentlyBound != mesh.name())
-		mesh.bind();
-	
-	return currentlyBound;
-}
-
-template <>
-inline void unbindAndRestore(const Mesh& mesh, GLuint savedVAOName) {
-	if (savedVAOName != mesh.name()) {
-		glBindVertexArray(savedVAOName);
-	}
-}
-
-
 } // ns render
 } // ns stardazed
 

@@ -227,25 +227,6 @@ public:
 };
 
 
-// ---- Buffer Binding Specializations
-
-template <>
-inline GLuint saveAndBind(const Buffer& buffer) {
-	auto currentlyBound = Buffer::boundAtTarget(buffer.target());
-	if (currentlyBound != buffer.name())
-		buffer.bind();
-	
-	return currentlyBound;
-}
-
-template <>
-inline void unbindAndRestore(const Buffer& buffer, GLuint savedBufferName) {
-	if (savedBufferName != buffer.name()) {
-		glBindBuffer(buffer.target(), savedBufferName);
-	}
-}
-
-
 // ---- Indexed Buffer Targets
 
 namespace detail {
