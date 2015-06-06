@@ -170,6 +170,11 @@ void RenderPass::setMesh(const Mesh& mesh) {
 }
 
 
+void RenderPass::setUniformBuffer(const Buffer& buffer, uint32 bindPoint) {
+	IndexedUniformBlocks::bindBufferToBindPoint(buffer, bindPoint);
+}
+
+
 void RenderPass::drawIndexedPrimitives(uint32 startIndex, uint32 indexCount) {
 	assert(mesh_);
 

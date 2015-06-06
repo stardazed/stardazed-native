@@ -55,6 +55,7 @@ public:
 
 	// -- drawing
 	void setMesh(const Mesh&);
+	void setUniformBuffer(const Buffer&, uint32 bindPoint);
 	void drawIndexedPrimitives(uint32 startIndex, uint32 indexCount);
 };
 
