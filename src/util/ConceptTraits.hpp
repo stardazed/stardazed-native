@@ -51,8 +51,8 @@ Class& operator=(const Class&) = delete;
 
 
 #define SD_DEFAULT_MOVE_OPS(Class)   \
-Class(Class&&) = default;            \
-Class& operator=(Class&&) = default;
+Class(Class&&) noexcept = default;            \
+Class& operator=(Class&&) noexcept = default;
 
 
 // Explicitly unused parameter

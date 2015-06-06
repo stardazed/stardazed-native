@@ -21,7 +21,7 @@ namespace render {
 
 class Shader {
 	ShaderType type_;
-	GLuint glProgram_ = 0;
+	GLResource resource_ {};
 	bool32 usesXFB_ = false;
 
 public:
@@ -36,17 +36,17 @@ public:
 
 	// -- observers
 	ShaderType type() const { return type_; }
-	GLuint name() const { return glProgram_; }
+	GLuint name() const { return resource_.name(); }
 	bool32 usesTransformFeedback() const { return usesXFB_; }
 
 
 	// -- Uniform Blocks
 	GLuint uniformBlockIndexForName(const char* blockName) const {
-		return glGetUniformBlockIndex(glProgram_, blockName);
+		return glGetUniformBlockIndex(name(), blockName);
 	}
 	
 	void bindUniformBlockToBindPoint(GLuint programBlockIndex, uint32 bindPoint) {
-		glUniformBlockBinding(glProgram_, programBlockIndex, bindPoint);
+		glUniformBlockBinding(name(), programBlockIndex, bindPoint);
 	}
 	
 	void bindNamedUniformBlockToBindPoint(const char* uniformBlockName, uint32 bindPoint) {
@@ -57,51 +57,51 @@ public:
 
 	// -- Uniforms
 	GLint uniformPositionForName(const char* valueName) const {
-		return glGetUniformLocation(glProgram_, valueName);
+		return glGetUniformLocation(name(), valueName);
 	}
 	
-	void setUniform(GLint valuePos, float value) { glProgramUniform1f(glProgram_, valuePos, value); }
-	void setUniform(GLint valuePos, int32 value) { glProgramUniform1i(glProgram_, valuePos, value); }
-	void setUniform(GLint valuePos, uint32 value) { glProgramUniform1ui(glProgram_, valuePos, value); }
+	void setUniform(GLint valuePos, float value) { glProgramUniform1f(name(), valuePos, value); }
+	void setUniform(GLint valuePos, int32 value) { glProgramUniform1i(name(), valuePos, value); }
+	void setUniform(GLint valuePos, uint32 value) { glProgramUniform1ui(name(), valuePos, value); }
 	
 	void setUniform(GLint valuePos, const math::Vector<2, float>& value) {
-		glProgramUniform2fv(glProgram_, valuePos, 1, value.data);
+		glProgramUniform2fv(name(), valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<3, float>& value) {
-		glProgramUniform3fv(glProgram_, valuePos, 1, value.data);
+		glProgramUniform3fv(name(), valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<4, float>& value) {
-		glProgramUniform4fv(glProgram_, valuePos, 1, value.data);
+		glProgramUniform4fv(name(), valuePos, 1, value.data);
 	}
 	
 	void setUniform(GLint valuePos, const math::Vector<2, int32>& value) {
-		glProgramUniform2iv(glProgram_, valuePos, 1, value.data);
+		glProgramUniform2iv(name(), valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<3, int32>& value) {
-		glProgramUniform3iv(glProgram_, valuePos, 1, value.data);
+		glProgramUniform3iv(name(), valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<4, int32>& value) {
-		glProgramUniform4iv(glProgram_, valuePos, 1, value.data);
+		glProgramUniform4iv(name(), valuePos, 1, value.data);
 	}
 	
 	void setUniform(GLint valuePos, const math::Vector<2, uint32>& value) {
-		glProgramUniform2uiv(glProgram_, valuePos, 1, value.data);
+		glProgramUniform2uiv(name(), valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<3, uint32>& value) {
-		glProgramUniform3uiv(glProgram_, valuePos, 1, value.data);
+		glProgramUniform3uiv(name(), valuePos, 1, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Vector<4, uint32>& value) {
-		glProgramUniform4uiv(glProgram_, valuePos, 1, value.data);
+		glProgramUniform4uiv(name(), valuePos, 1, value.data);
 	}
 	
 	void setUniform(GLint valuePos, const math::Matrix<2, 2, float>& value) {
-		glProgramUniformMatrix2fv(glProgram_, valuePos, 1, GL_FALSE, value.data);
+		glProgramUniformMatrix2fv(name(), valuePos, 1, GL_FALSE, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Matrix<3, 3, float>& value) {
-		glProgramUniformMatrix3fv(glProgram_, valuePos, 1, GL_FALSE, value.data);
+		glProgramUniformMatrix3fv(name(), valuePos, 1, GL_FALSE, value.data);
 	}
 	void setUniform(GLint valuePos, const math::Matrix<4, 4, float>& value) {
-		glProgramUniformMatrix4fv(glProgram_, valuePos, 1, GL_FALSE, value.data);
+		glProgramUniformMatrix4fv(name(), valuePos, 1, GL_FALSE, value.data);
 	}
 };
 

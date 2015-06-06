@@ -28,7 +28,7 @@ constexpr GLenum glForSDShaderType(ShaderType type) {
 
 Shader::Shader(ShaderType type, const std::string& source, TransformFeedbackDescriptor* xfbDesc)
 : type_(type)
-, glProgram_(glCreateProgram())
+, resource_(glCreateProgram())
 {
 	const GLuint shader = glCreateShader(glForSDShaderType(type_));
 
@@ -81,8 +81,10 @@ Shader::Shader(ShaderType type, const std::string& source, TransformFeedbackDesc
 
 
 Shader::~Shader() {
-	if (glProgram_ > 0)
-		glDeleteProgram(glProgram_);
+	if (name() > 0) {
+		glDeleteProgram(name());
+		resource_.clear();
+	}
 }
 
 

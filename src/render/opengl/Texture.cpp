@@ -81,8 +81,11 @@ Texture::Texture(const TextureDescriptor& td)
 				assert(mipmaps() == 1);
 				assert(layers() == 1);
 
-				glGenRenderbuffers(1, &glTex_);
-				glBindRenderbuffer(glTarget_, glTex_);
+				GLuint rbName = 0;
+				glGenRenderbuffers(1, &rbName);
+				resource_.assign(rbName);
+
+				glBindRenderbuffer(glTarget_, name());
 				glRenderbufferStorageMultisample(glTarget_, td.samples, sizedFormat, width(), height());
 				glBindRenderbuffer(glTarget_, 0);
 				
@@ -92,7 +95,9 @@ Texture::Texture(const TextureDescriptor& td)
 	}
 
 	// -- normal texture
-	glGenTextures(1, &glTex_);
+	GLuint texName = 0;
+	glGenTextures(1, &texName);
+	resource_.assign(texName);
 	
 	if (td.textureClass == TextureClass::Tex2D) {
 		// -- 2D textures
@@ -100,7 +105,7 @@ Texture::Texture(const TextureDescriptor& td)
 		if (td.layers == 1) {
 			if (td.samples == 0) {
 				glTarget_ = GL_TEXTURE_2D;
-				glBindTexture(glTarget_, glTex_);
+				glBindTexture(glTarget_, name());
 				glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, width(), height());
 			}
 			else {
@@ -109,13 +114,13 @@ Texture::Texture(const TextureDescriptor& td)
 				assert(mipmaps() == 1);
 
 				glTarget_ = GL_TEXTURE_2D_MULTISAMPLE;
-				glBindTexture(glTarget_, glTex_);
+				glBindTexture(glTarget_, name());
 				glTexImage2DMultisample(glTarget_, td.samples, sizedFormat, width(), height(), GL_TRUE);
 			}
 		}
 		else {
 			glTarget_ = GL_TEXTURE_2D_ARRAY;
-			glBindTexture(glTarget_, glTex_);
+			glBindTexture(glTarget_, name());
 			glTexStorage3D(glTarget_, td.mipmaps, sizedFormat, width(), height(), td.layers);
 		}
 	}
@@ -123,7 +128,7 @@ Texture::Texture(const TextureDescriptor& td)
 		// -- Cube-map textures
 		
 		glTarget_ = GL_TEXTURE_CUBE_MAP;
-		glBindTexture(glTarget_, glTex_);
+		glBindTexture(glTarget_, name());
 		glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, width(), height());
 	}
 	else if (td.textureClass == TextureClass::Tex1D) {
@@ -131,12 +136,12 @@ Texture::Texture(const TextureDescriptor& td)
 		
 		if (td.layers == 1) {
 			glTarget_ = GL_TEXTURE_1D;
-			glBindTexture(glTarget_, glTex_);
+			glBindTexture(glTarget_, name());
 			glTexStorage1D(glTarget_, td.mipmaps, sizedFormat, width());
 		}
 		else {
 			glTarget_ = GL_TEXTURE_1D_ARRAY;
-			glBindTexture(glTarget_, glTex_);
+			glBindTexture(glTarget_, name());
 			glTexStorage2D(glTarget_, td.mipmaps, sizedFormat, width(), td.layers);
 		}
 	}
@@ -144,7 +149,7 @@ Texture::Texture(const TextureDescriptor& td)
 		// -- 3D textures
 		
 		glTarget_ = GL_TEXTURE_3D;
-		glBindTexture(glTarget_, glTex_);
+		glBindTexture(glTarget_, name());
 		glTexStorage3D(glTarget_, td.mipmaps, sizedFormat, width(), height(), depth());
 	}
 	
@@ -153,18 +158,22 @@ Texture::Texture(const TextureDescriptor& td)
 
 
 Texture::~Texture() {
-	if (glTex_ > 0) {
-		if (glTarget_ == GL_RENDERBUFFER)
-			glDeleteRenderbuffers(1, &glTex_);
-		else
-			glDeleteTextures(1, &glTex_);
+	auto resName = name();
+	if (resName > 0) {
+		if (glTarget_ == GL_RENDERBUFFER) {
+			glDeleteRenderbuffers(1, &resName);
+		}
+		else {
+			glDeleteTextures(1, &resName);
+		}
+		resource_.clear();
 	}
 }
 
 
 
 void Texture::write1DPixels(const PixelBuffer& pixels, uint32 offX, uint32 mipmapLevel) {
-	glBindTexture(glTarget_, glTex_);
+	glBindTexture(glTarget_, name());
 	glPixelStorei(GL_UNPACK_ALIGNMENT, pixels.requiredRowAlignment());
 
 	auto glFormat = glImageFormatForPixelFormat(pixels.format);
@@ -187,7 +196,7 @@ void Texture::write1DPixels(const PixelBuffer& pixels, uint32 offX, uint32 mipma
 
 
 void Texture::write2DPixels(GLenum pixelTarget, const PixelBuffer& pixels, uint32 offX, uint32 offY, uint32 mipmapLevel) {
-	glBindTexture(glTarget_, glTex_);
+	glBindTexture(glTarget_, name());
 	glPixelStorei(GL_UNPACK_ALIGNMENT, pixels.requiredRowAlignment());
 
 	auto glFormat = glImageFormatForPixelFormat(pixels.format);
@@ -210,7 +219,7 @@ void Texture::write2DPixels(GLenum pixelTarget, const PixelBuffer& pixels, uint3
 
 
 void Texture::write3DPixels(const PixelBuffer& pixels, PixelCoordinate origin, uint32 mipmapLevel) {
-	glBindTexture(glTarget_, glTex_);
+	glBindTexture(glTarget_, name());
 	glPixelStorei(GL_UNPACK_ALIGNMENT, pixels.requiredRowAlignment());
 
 	auto glFormat = glImageFormatForPixelFormat(pixels.format);
@@ -373,13 +382,15 @@ static float maxAllowedAnisotropy() {
 
 
 Sampler::Sampler(const SamplerDescriptor& desc) {
-	glGenSamplers(1, &glSampler_);
+	GLuint samplerName = 0;
+	glGenSamplers(1, &samplerName);
+	resource_.assign(samplerName);
 	
 	// -- wrapping
-	glSamplerParameteri(glSampler_, GL_TEXTURE_WRAP_S, glTextureRepeatMode(desc.repeatS));
-	glSamplerParameteri(glSampler_, GL_TEXTURE_WRAP_T, glTextureRepeatMode(desc.repeatT));
-	glSamplerParameteri(glSampler_, GL_TEXTURE_WRAP_R, glTextureRepeatMode(desc.repeatR));
-	glSamplerParameterfv(glSampler_, GL_TEXTURE_BORDER_COLOR, desc.constColour.data);
+	glSamplerParameteri(samplerName, GL_TEXTURE_WRAP_S, glTextureRepeatMode(desc.repeatS));
+	glSamplerParameteri(samplerName, GL_TEXTURE_WRAP_T, glTextureRepeatMode(desc.repeatT));
+	glSamplerParameteri(samplerName, GL_TEXTURE_WRAP_R, glTextureRepeatMode(desc.repeatR));
+	glSamplerParameterfv(samplerName, GL_TEXTURE_BORDER_COLOR, desc.constColour.data);
 
 	// -- minification
 	GLint glSizingFilter;
@@ -401,28 +412,31 @@ Sampler::Sampler(const SamplerDescriptor& desc) {
 		else
 			glSizingFilter = GL_LINEAR_MIPMAP_LINEAR;
 	}
-	glSamplerParameteri(glSampler_, GL_TEXTURE_MIN_FILTER, glSizingFilter);
+	glSamplerParameteri(samplerName, GL_TEXTURE_MIN_FILTER, glSizingFilter);
 
 	// -- magnification
 	if (desc.magFilter == TextureSizingFilter::Nearest)
 		glSizingFilter = GL_NEAREST;
 	else
 		glSizingFilter = GL_LINEAR;
-	glSamplerParameteri(glSampler_, GL_TEXTURE_MAG_FILTER, glSizingFilter);
+	glSamplerParameteri(samplerName, GL_TEXTURE_MAG_FILTER, glSizingFilter);
 	
 	// -- lod clamp
-	glSamplerParameterf(glSampler_, GL_TEXTURE_MIN_LOD, desc.lodMinClamp);
-	glSamplerParameterf(glSampler_, GL_TEXTURE_MAX_LOD, desc.lodMaxClamp);
+	glSamplerParameterf(samplerName, GL_TEXTURE_MIN_LOD, desc.lodMinClamp);
+	glSamplerParameterf(samplerName, GL_TEXTURE_MAX_LOD, desc.lodMaxClamp);
 	
 	// -- anisotropy
 	float anisotropy = math::clamp((float)desc.maxAnisotropy, 1.0f, maxAllowedAnisotropy());
-	glSamplerParameterf(glSampler_, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropy);
+	glSamplerParameterf(samplerName, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropy);
 }
 
 
 Sampler::~Sampler() {
-	if (glSampler_ > 0)
-		glDeleteSamplers(1, &glSampler_);
+	auto samplerName = name();
+	if (samplerName > 0) {
+		glDeleteSamplers(1, &samplerName);
+		resource_.clear();
+	}
 }
 
 

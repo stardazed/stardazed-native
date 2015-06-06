@@ -16,7 +16,7 @@ namespace render {
 
 
 class Mesh {
-	GLuint glVAO_ = 0;
+	GLResource resource_ {};
 
 	std::vector<Buffer> buffers_;
 
@@ -43,10 +43,10 @@ public:
 	GLenum glIndexElementType() const { return glIndexElementType_; }
 	size32 indexElementSizeBytes() const { return indexElementSizeBytes_; }
 
-	GLuint name() const { return glVAO_; }
+	GLuint name() const { return resource_.name(); }
 
 	void bind() const {
-		glBindVertexArray(glVAO_);
+		glBindVertexArray(name());
 	}
 };
 

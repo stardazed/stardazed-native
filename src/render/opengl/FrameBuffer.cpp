@@ -53,8 +53,10 @@ static void attachTexture(GLenum glAttachment, const AttachmentDescriptor& attac
 FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc)
 : attachmentDesc_(desc)
 {
-	glGenFramebuffers(1, &glFBO_);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, glFBO_);
+	GLuint fboName = 0;
+	glGenFramebuffers(1, &fboName);
+	resource_.assign(fboName);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, name());
 	
 	Texture* anyTexture = nullptr;
 	
@@ -135,8 +137,11 @@ FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc)
 
 
 FrameBuffer::~FrameBuffer() {
-	if (glFBO_)
-		glDeleteFramebuffers(1, &glFBO_);
+	auto fboName = name();
+	if (fboName) {
+		glDeleteFramebuffers(1, &fboName);
+		resource_.clear();
+	}
 }
 
 

@@ -99,7 +99,9 @@ constexpr GLenum glTypeForVertexField(VertexField vf) {
 
 
 Mesh::Mesh() {
-	glGenVertexArrays(1, &glVAO_);
+	GLuint vaoName = 0;
+	glGenVertexArrays(1, &vaoName);
+	resource_.assign(vaoName);
 }
 
 
@@ -111,8 +113,11 @@ Mesh::Mesh(const MeshDescriptor& descriptor)
 
 
 Mesh::~Mesh() {
-	if (glVAO_ > 0)
-		glDeleteVertexArrays(1, &glVAO_);
+	auto vaoName = name();
+	if (vaoName > 0) {
+		glDeleteVertexArrays(1, &vaoName);
+		resource_.clear();
+	}
 }
 
 
@@ -142,7 +147,7 @@ static void bindVertexBufferAttributes(const VertexBuffer& vb, uint32 startBound
 
 
 void Mesh::initWithDescriptor(const MeshDescriptor& desc) {
-	glBindVertexArray(glVAO_);
+	glBindVertexArray(name());
 	
 	// -- reserve space in the buffers vector for all buffer objects
 	uint32 bufferCount = size32_cast(desc.vertexBindings.size());
@@ -193,10 +198,10 @@ Buffer* Mesh::vertexBufferAtIndex(uint32 vertexBufferIndex) {
 
 
 Buffer* Mesh::indexBuffer() {
-	assert(hasIndexBuffer());
-
 	// the index buffer, when present, is always the last one
-	return &buffers_[buffers_.size() - 1];
+	if (hasIndexBuffer())
+		return &buffers_[buffers_.size() - 1];
+	return nullptr;
 }
 
 

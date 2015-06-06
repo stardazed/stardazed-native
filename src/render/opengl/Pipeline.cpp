@@ -13,33 +13,38 @@ Pipeline::Pipeline(const PipelineDescriptor& descriptor)
 : descriptor_(descriptor)
 , vertexLayout_(descriptor.vertexAttributes)
 {
-	glGenProgramPipelines(1, &glPipeline_);
+	GLuint pipelineName = 0;
+	glGenProgramPipelines(1, &pipelineName);
+	resource_.assign(pipelineName);
 	
 	if (vertexShader()) {
 		assert(vertexShader()->type() == ShaderType::Vertex);
-		glUseProgramStages(glPipeline_, GL_VERTEX_SHADER_BIT, vertexShader()->name());
+		glUseProgramStages(name(), GL_VERTEX_SHADER_BIT, vertexShader()->name());
 	}
 
 	if (geometryShader()) {
 		assert(geometryShader()->type() == ShaderType::Geometry);
-		glUseProgramStages(glPipeline_, GL_GEOMETRY_SHADER_BIT, geometryShader()->name());
+		glUseProgramStages(name(), GL_GEOMETRY_SHADER_BIT, geometryShader()->name());
 	}
 	
 	if (fragmentShader()) {
 		assert(fragmentShader()->type() == ShaderType::Fragment);
-		glUseProgramStages(glPipeline_, GL_FRAGMENT_SHADER_BIT, fragmentShader()->name());
+		glUseProgramStages(name(), GL_FRAGMENT_SHADER_BIT, fragmentShader()->name());
 	}
 }
 
 
 Pipeline::~Pipeline() {
-	if (glPipeline_ > 0)
-		glDeleteProgramPipelines(1, &glPipeline_);
+	auto pipelineName = name();
+	if (pipelineName > 0) {
+		glDeleteProgramPipelines(1, &pipelineName);
+		resource_.clear();
+	}
 }
 
 
 void Pipeline::bind() const {
-	glBindProgramPipeline(glPipeline_);
+	glBindProgramPipeline(name());
 	if (! descriptor_.rasterizerEnabled)
 		glEnable(GL_RASTERIZER_DISCARD);
 	

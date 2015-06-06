@@ -104,7 +104,7 @@ class Buffer {
 	BufferUpdateFrequency updateFrequency_;
 	BufferClientAccess clientAccess_;
 	GLenum target_ {0};
-	GLuint name_ {0};
+	GLResource resource_ {};
 	size32 byteSize_ {0};
 
 public:
@@ -114,12 +114,17 @@ public:
 	, clientAccess_(access)
 	, target_{ detail::glTargetForBufferRole(role) }
 	{
-		glGenBuffers(1, &name_);
+		GLuint bufferName = 0;
+		glGenBuffers(1, &bufferName);
+		resource_.assign(bufferName);
 	}
 	
 	~Buffer() {
-		if (name_)
-			glDeleteBuffers(1, &name_);
+		auto bufferName = name();
+		if (bufferName) {
+			glDeleteBuffers(1, &bufferName);
+			resource_.clear();
+		}
 	}
 	
 	SD_DEFAULT_MOVE_OPS(Buffer)
@@ -212,12 +217,12 @@ public:
 	BufferClientAccess clientAccess() const { return clientAccess_; }
 	size32 byteSize() const { return byteSize_; }
 
-	GLuint name() const { return name_; }
+	GLuint name() const { return resource_.name(); }
 	GLenum target() const { return target_; }
 	
 	// -- binding
 	
-	void bind() const { glBindBuffer(target_, name_); }
+	void bind() const { glBindBuffer(target_, name()); }
 	
 	static GLuint boundAtTarget(GLenum target) {
 		GLuint currentlyBound;

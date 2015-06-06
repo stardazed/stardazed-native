@@ -21,7 +21,7 @@ class Texture {
 	PixelDimensions dim_;
 	size32 layers_, mipmaps_, samples_;
 	PixelFormat pixelFormat_;
-	GLuint glTex_ = 0;
+	GLResource resource_ {};
 	GLenum glTarget_ = GL_NONE;
 
 	void write1DPixels(const PixelBuffer& pixels, uint32 offX, uint32 mipmapLevel);
@@ -66,7 +66,7 @@ public:
 	bool renderTargetOnly() const;
 	
 	// -- gl-specific observers
-	GLuint name() const { return glTex_; }
+	GLuint name() const { return resource_.name(); }
 	GLenum target() const { return glTarget_; }
 };
 
@@ -98,19 +98,17 @@ constexpr GLenum glTargetForCubeMapFace(CubeMapFace face) {
 // ---- Sampler
 
 class Sampler {
-	GLuint glSampler_ = 0;
+	GLResource resource_ {};
 
 public:
 	Sampler(const SamplerDescriptor&);
 	~Sampler();
 	
 	void bindToTextureUnit(uint32 textureUnit) const {
-		glBindSampler(textureUnit, glSampler_);
+		glBindSampler(textureUnit, name());
 	}
 	
-	GLuint name() const {
-		return glSampler_;
-	}
+	GLuint name() const { return resource_.name(); }
 };
 
 

@@ -19,12 +19,14 @@ namespace render {
 class Pipeline {
 	PipelineDescriptor descriptor_;
 	VertexLayout vertexLayout_;
-	GLuint glPipeline_ = 0;
+	GLResource resource_ {};
 	
 public:
 	explicit Pipeline(const PipelineDescriptor&);
 	~Pipeline();
 	SD_DEFAULT_MOVE_OPS(Pipeline)
+	
+	GLuint name() const { return resource_.name(); }
 
 	// FIXME: make most of these methods private and make RenderPass a friend
 	void bind() const;

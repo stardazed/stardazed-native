@@ -3,8 +3,8 @@
 // (c) 2014 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_SCENE_SCENECONTROLLER_HPP
-#define SD_SCENE_SCENECONTROLLER_HPP
+#ifndef SD_SCENE_SCENECONTROLLER_H
+#define SD_SCENE_SCENECONTROLLER_H
 
 #include "system/Config.hpp"
 #include "scene/Scene.hpp"
