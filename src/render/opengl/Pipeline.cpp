@@ -107,7 +107,7 @@ void Pipeline::bind() const {
 			++attIndex;
 		}
 
-		// -- in GL, blending is a global state
+		// -- in mother GL, global state blends YOU!
 		if (useBlending)
 			glEnable(GL_BLEND);
 	}
