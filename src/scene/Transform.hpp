@@ -16,8 +16,7 @@ namespace stardazed {
 namespace scene {
 
 
-class Transform {
-public:
+struct Transform {
 	math::Vec3 position;
 	math::Vec3 scale { 1, 1, 1 };
 	math::Quat rotation;

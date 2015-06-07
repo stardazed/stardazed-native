@@ -329,6 +329,7 @@
 				8E112D9A199E5FE20029CD38 /* render */,
 				8E0EF74419A0E06F00CF38A2 /* audio */,
 				8E112DC6199E60150029CD38 /* geom */,
+				8E7749CD1B248F95003843FA /* physics */,
 				8E6A0DB819B3847700DF0921 /* device */,
 				8E112DCE199E60A50029CD38 /* scene */,
 				8E0EF74F19A13B6C00CF38A2 /* runtime */,
@@ -494,6 +495,13 @@
 				8E6A0DB919B39E1E00DF0921 /* DevicesContext.hpp */,
 			);
 			path = device;
+			sourceTree = "<group>";
+		};
+		8E7749CD1B248F95003843FA /* physics */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = physics;
 			sourceTree = "<group>";
 		};
 		8E86FBD81A923B21001BCBCE /* filesystem */ = {
