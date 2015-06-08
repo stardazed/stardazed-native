@@ -87,6 +87,7 @@
 		8E71E4511A40EE460060DC95 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E71E4501A40EE460060DC95 /* IOKit.framework */; };
 		8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */; };
 		8E71E4551A40FB170060DC95 /* Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4541A40FB170060DC95 /* Controller.hpp */; };
+		8E7749CF1B25BFD2003843FA /* Units.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E7749CE1B25BFD2003843FA /* Units.hpp */; };
 		8E86FBDA1A923BE5001BCBCE /* FileSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */; };
 		8E86FBDC1A923DD5001BCBCE /* mac_FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E86FBDB1A923DD5001BCBCE /* mac_FileSystem.cpp */; };
 		8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBDE1A9650BD001BCBCE /* Plane.hpp */; };
@@ -218,6 +219,7 @@
 		8E71E4501A40EE460060DC95 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_X360Controller.hpp; sourceTree = "<group>"; };
 		8E71E4541A40FB170060DC95 /* Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
+		8E7749CE1B25BFD2003843FA /* Units.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Units.hpp; sourceTree = "<group>"; };
 		8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = FileSystem.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E86FBDB1A923DD5001BCBCE /* mac_FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_FileSystem.cpp; sourceTree = "<group>"; };
 		8E86FBDE1A9650BD001BCBCE /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
@@ -500,8 +502,9 @@
 		8E7749CD1B248F95003843FA /* physics */ = {
 			isa = PBXGroup;
 			children = (
+				8E7749CE1B25BFD2003843FA /* Units.hpp */,
 			);
-			name = physics;
+			path = physics;
 			sourceTree = "<group>";
 		};
 		8E86FBD81A923B21001BCBCE /* filesystem */ = {
@@ -655,6 +658,7 @@
 				8EA7092D19D75FC000129E2D /* Mesh.hpp in Headers */,
 				8E6E53A41A7FC0AF00844C70 /* FrameBuffer.hpp in Headers */,
 				8EF963051AEFE7C80012ED72 /* PixelBuffer.hpp in Headers */,
+				8E7749CF1B25BFD2003843FA /* Units.hpp in Headers */,
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
 				8EF701FE1A76F90B00454341 /* inffast.h in Headers */,
 				8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */,

@@ -10,6 +10,8 @@
 #include "scene/Transform.hpp"
 #include "scene/Behaviour.hpp"
 
+#include "physics/Units.hpp"
+
 namespace stardazed {
 namespace scene {
 
@@ -35,6 +37,7 @@ public:
 
 	// -- components
 	Transform transform;
+	
 	Renderable* renderable = nullptr;
 	Behaviour* behaviour = nullptr;
 };

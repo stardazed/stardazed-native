@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // scene::Transform - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #include "scene/Transform.hpp"
