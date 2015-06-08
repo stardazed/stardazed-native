@@ -26,6 +26,7 @@ class Scene {
 	std::vector<Entity> entityPool_;
 
 	std::vector<std::unique_ptr<Behaviour>> behaviours_; // polymorphic
+	std::vector<RigidBody> rigidBodyPool_;
 	
 	container::RefTree<Entity> entityTree_;
 
@@ -43,7 +44,8 @@ public:
 		behaviours_.emplace_back(b);
 		return b;
 	}
-
+	
+	RigidBody* makeRigidBody(physics::Mass);
 
 	// -- scene::Entity access
 	auto allEntitiesBegin() { return entityPool_.begin(); }

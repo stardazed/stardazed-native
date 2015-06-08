@@ -41,6 +41,12 @@ Camera* Scene::makeCamera(uint32 viewPortWidth, uint32 viewPortHeight) {
 	return &cameraPool_.back();
 }
 
+
+RigidBody* Scene::makeRigidBody(physics::Mass mass) {
+	rigidBodyPool_.emplace_back();
+	return &rigidBodyPool_.back();
+}
+
 		
 } // ns scene
 } // ns stardazed

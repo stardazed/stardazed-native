@@ -23,10 +23,38 @@ template <int KG, int M, int S, size32 N>
 struct SIVector;
 
 
+template <int KG, int M, int S, size32 N>
+constexpr SIVector<KG, M, S, N>
+operator *(float scalar, const SIVector<KG, M, S, N>& ua) {
+	return { scalar * ua.value };
+}
+
+
+template <int KG, int M, int S, size32 N>
+constexpr SIVector<KG, M, S, N>
+operator *(const SIVector<KG, M, S, N>& ua, float scalar) {
+	return { ua.value * scalar };
+}
+
+
 template <int KGA, int MA, int SA, int KGB, int MB, int SB, size32 N>
 constexpr SIVector<KGA + KGB, MA + MB, SA + SB, N>
 operator *(const SIVector<KGA, MA, SA, N>& ua, const SIVector<KGB, MB, SB, N>& ub) {
 	return { ua.value * ub.value };
+}
+
+
+template <int KG, int M, int S, size32 N>
+constexpr SIVector<KG, M, S, N>
+operator /(float scalar, const SIVector<KG, M, S, N>& ua) {
+	return { scalar / ua.value };
+}
+
+
+template <int KG, int M, int S, size32 N>
+constexpr SIVector<KG, M, S, N>
+operator /(const SIVector<KG, M, S, N>& ua, float scalar) {
+	return { ua.value / scalar };
 }
 
 
@@ -177,7 +205,6 @@ using Force  = SIValue <1, 1, -2>;
 using Force2 = SIValue2<1, 1, -2>;
 using Force3 = SIValue3<1, 1, -2>;
 using Force4 = SIValue4<1, 1, -2>;
-
 
 
 } // ns physics

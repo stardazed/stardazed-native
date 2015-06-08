@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // scene::Entity - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #ifndef SD_SCENE_ENTITY_H
@@ -9,8 +9,7 @@
 #include "system/Config.hpp"
 #include "scene/Transform.hpp"
 #include "scene/Behaviour.hpp"
-
-#include "physics/Units.hpp"
+#include "scene/RigidBody.hpp"
 
 namespace stardazed {
 namespace scene {
@@ -37,9 +36,9 @@ public:
 
 	// -- components
 	Transform transform;
-	
 	Renderable* renderable = nullptr;
 	Behaviour* behaviour = nullptr;
+	RigidBody* rigidBody = nullptr;
 };
 
 
