@@ -1,17 +1,17 @@
 // ------------------------------------------------------------------
 // scene::Scene - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #ifndef SD_SCENE_SCENE_H
 #define SD_SCENE_SCENE_H
 
 #include "system/Config.hpp"
-#include "container/RefTree.hpp"
 #include "scene/Entity.hpp"
 #include "scene/Light.hpp"
 #include "scene/Camera.hpp"
 #include "scene/Behaviour.hpp"
+#include "physics/Structures.hpp"
 
 #include <vector>
 #include <memory>
@@ -21,14 +21,16 @@ namespace scene {
 
 
 class Scene {
-	std::vector<Camera> cameraPool_;
+	// -- storage
+	std::unique_ptr<Camera> camera_;
 	std::vector<Light> lightPool_;
 	std::vector<Entity> entityPool_;
 
 	std::vector<std::unique_ptr<Behaviour>> behaviours_; // polymorphic
-	std::vector<RigidBody> rigidBodyPool_;
-	
-	container::RefTree<Entity> entityTree_;
+	std::vector<physics::RigidBody> rigidBodyPool_;
+
+	// -- physics
+	physics::WorldPhysics worldPhysics_ {};
 
 public:
 	Scene();
@@ -37,25 +39,24 @@ public:
 	Entity* makeEntity(EntityType type = EntityType::Generic);
 	Light* makeLight(const render::LightDescriptor&);
 	Camera* makeCamera(uint32 viewPortWidth, uint32 viewPortHeight);
-	
+
 	template <typename B, typename... Args> // B : public Behaviour
 	B* makeBehaviour(Args... args) {
 		auto b = new B(std::forward<Args>(args)...);
 		behaviours_.emplace_back(b);
 		return b;
 	}
-	
-	RigidBody* makeRigidBody(physics::Mass);
 
-	// -- scene::Entity access
-	auto allEntitiesBegin() { return entityPool_.begin(); }
-	auto allEntitiesEnd() { return entityPool_.end(); }
-	
-	auto rootEntitiesBegin() { return entityTree_.root().begin(); };
-	auto rootEntitiesEnd() { return entityTree_.root().end(); }
-	
-	auto camerasBegin() { return cameraPool_.begin(); }
-	auto camerasEnd() { return cameraPool_.end(); }
+	physics::RigidBody* makeRigidBody(Entity&, physics::Mass);
+
+	// -- observers
+	auto entitiesBegin() { return entityPool_.begin(); }
+	auto entitiesEnd() { return entityPool_.end(); }
+
+	auto& camera() { return *camera_; }
+
+	physics::WorldPhysics& worldPhysics() { return worldPhysics_; }
+	const physics::WorldPhysics& worldPhysics() const { return worldPhysics_; }
 };
 
 

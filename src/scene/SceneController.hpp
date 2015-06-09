@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // SceneController - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #ifndef SD_SCENE_SCENECONTROLLER_H
@@ -17,38 +17,13 @@ namespace stardazed {
 namespace scene {
 
 
-template <typename It>
-Entity& entityFromIter(It it) { return *it; }
-
-template <>
-Entity& entityFromIter(container::RefTree<Entity>::Iterator it);
-
-
-	
 class SceneController {
 	scene::Scene scene_;
 	runtime::Client& client_;
 
-	virtual void willResume() {}
-	virtual void willSuspend() {}
-
 public:
 	SceneController(runtime::Client&);
 	virtual ~SceneController() {}
-
-	template <typename It>
-	void renderEntityRange(render::RenderPass& renderPass, const RenderPassInfo& rpi, It from, It to) {
-		for (It cur = from; cur != to; ++cur) {
-			Entity& entity = entityFromIter(cur);
-			
-			// -- render entity
-			if (entity.renderable) {
-				entity.renderable->render(renderPass, rpi, entity);
-			}
-			
-			// <-- render children
-		}
-	}
 
 	virtual void renderFrame(time::Duration) = 0;
 	void simulationFrame(time::Duration);

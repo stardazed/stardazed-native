@@ -26,8 +26,8 @@ public:
 	Entity& entity() { return entity_; }
 	const Entity& entity() const { return entity_; }
 	
-	Transform& transform() { return entity_.transform; }
-	const Transform& transform() const { return entity_.transform; }
+	physics::Transform& transform() { return entity_.transform; }
+	const physics::Transform& transform() const { return entity_.transform; }
 	
 	const render::LightDescriptor& descriptor() const { return descriptor_; }
 };

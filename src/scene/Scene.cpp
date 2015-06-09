@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // scene::Scene - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #include "scene/Scene.hpp"
@@ -11,7 +11,6 @@ namespace scene {
 
 Scene::Scene() {
 	// FIXME: make this settable by client
-	cameraPool_.reserve(16);
 	lightPool_.reserve(128);
 	entityPool_.reserve(512);
 }
@@ -20,9 +19,6 @@ Scene::Scene() {
 Entity* Scene::makeEntity(EntityType type) {
 	entityPool_.emplace_back(type);
 	auto entity = &entityPool_.back();
-
-	auto treeNode = entityTree_.makeNode(*entity);
-	entityTree_.root().append(treeNode);
 
 	return entity;
 }
@@ -37,15 +33,15 @@ Light* Scene::makeLight(const render::LightDescriptor& descriptor) {
 
 Camera* Scene::makeCamera(uint32 viewPortWidth, uint32 viewPortHeight) {
 	auto cameraEntity = makeEntity(EntityType::Camera);
-	cameraPool_.emplace_back(*cameraEntity, viewPortWidth, viewPortHeight);
-	return &cameraPool_.back();
+	camera_ = std::make_unique<Camera>(*cameraEntity, viewPortWidth, viewPortHeight);
+	return camera_.get();
 }
 
 
-RigidBody* Scene::makeRigidBody(physics::Mass mass) {
-	rigidBodyPool_.emplace_back();
+physics::RigidBody* Scene::makeRigidBody(Entity& entity, physics::Mass mass) {
+	rigidBodyPool_.emplace_back(entity.transform, mass);
 	auto rigidBody = &rigidBodyPool_.back();
-	rigidBody->setMass(mass);
+	entity.rigidBody = rigidBody;
 	return rigidBody;
 }
 

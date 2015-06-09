@@ -7,9 +7,9 @@
 #define SD_SCENE_ENTITY_H
 
 #include "system/Config.hpp"
-#include "scene/Transform.hpp"
 #include "scene/Behaviour.hpp"
-#include "scene/RigidBody.hpp"
+#include "physics/Transform.hpp"
+#include "physics/RigidBody.hpp"
 
 namespace stardazed {
 namespace scene {
@@ -35,10 +35,10 @@ public:
 	EntityType type() const { return type_; }
 
 	// -- components
-	Transform transform;
+	physics::Transform transform;
+	physics::RigidBody* rigidBody = nullptr;
 	Renderable* renderable = nullptr;
 	Behaviour* behaviour = nullptr;
-	RigidBody* rigidBody = nullptr;
 };
 
 
