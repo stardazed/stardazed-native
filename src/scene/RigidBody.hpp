@@ -19,7 +19,7 @@ class RigidBody {
 	physics::Momentum3 momentum_ {};
 	
 public:
-	RigidBody();
+	RigidBody() = default;
 	
 	physics::Mass mass() const { return mass_; }
 	void setMass(physics::Mass mass) {
