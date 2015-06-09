@@ -45,7 +45,7 @@ operator *(const SIVector<KGA, MA, SA, N>& ua, const SIVector<KGB, MB, SB, N>& u
 
 
 template <int KG, int M, int S, size32 N>
-constexpr SIVector<KG, M, S, N>
+constexpr SIVector<-KG, -M, -S, N>
 operator /(float scalar, const SIVector<KG, M, S, N>& ua) {
 	return { scalar / ua.value };
 }
@@ -109,6 +109,8 @@ struct SIVector<KG, M, S, 2> {
 	using ValueType = SIValue<KG, M, S>;
 	
 	constexpr SIVector() = default;
+	constexpr SIVector(float fill) : value(fill) {}
+	constexpr SIVector(math::Vec2 val) : value(val) {}
 	constexpr SIVector(float x, float y) : value{x, y} {}
 
 	constexpr ValueType x() { return value.x; }
@@ -131,6 +133,8 @@ struct SIVector<KG, M, S, 3> {
 	using ValueType = SIValue<KG, M, S>;
 	
 	constexpr SIVector() = default;
+	constexpr SIVector(float fill) : value(fill) {}
+	constexpr SIVector(math::Vec3 val) : value(val) {}
 	constexpr SIVector(float x, float y, float z) : value{x, y, z} {}
 
 	constexpr ValueType x() { return value.x; }
@@ -154,6 +158,8 @@ struct SIVector<KG, M, S, 4> {
 	using ValueType = SIValue<KG, M, S>;
 	
 	constexpr SIVector() = default;
+	constexpr SIVector(float fill) : value(fill) {}
+	constexpr SIVector(math::Vec4 val) : value(val) {}
 	constexpr SIVector(float x, float y, float z, float w = 0) : value{x, y, z, w} {}
 	
 	constexpr ValueType x() { return value.x; }
@@ -164,6 +170,15 @@ struct SIVector<KG, M, S, 4> {
 
 template <int KG, int M, int S>
 using SIValue4 = SIVector<KG, M, S, 4>;
+
+
+
+template <size32 N, int KG, int M, int S>
+constexpr SIVector<KG, M, S, N>
+splat(const SIValue<KG, M, S>& v) {
+	return { v.value };
+}
+
 
 
 /*
