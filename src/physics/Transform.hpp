@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// scene::Transform - stardazed
+// physics::Transform - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_SCENE_TRANSFORM_H
-#define SD_SCENE_TRANSFORM_H
+#ifndef SD_PHYSICS_TRANSFORM_H
+#define SD_PHYSICS_TRANSFORM_H
 
 #include "system/Config.hpp"
 #include "math/Angle.hpp"
@@ -13,7 +13,7 @@
 #include "math/Quaternion.hpp"
 
 namespace stardazed {
-namespace scene {
+namespace physics {
 
 
 struct Transform {
@@ -60,7 +60,7 @@ struct Transform {
 };
 
 
-} // ns scene
+} // ns physics
 } // ns stardazed
 
 #endif

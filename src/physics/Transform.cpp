@@ -1,13 +1,13 @@
 // ------------------------------------------------------------------
-// scene::Transform - stardazed
+// physics::Transform - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "scene/Transform.hpp"
+#include "physics/Transform.hpp"
 #include <cmath>
 
 namespace stardazed {
-namespace scene {
+namespace physics {
 
 
 // FIXME: this method is flawed
@@ -67,5 +67,5 @@ math::Mat4 Transform::toMatrix4() const {
 }
 
 
-} // ns scene
+} // ns physics
 } // ns stardazed

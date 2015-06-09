@@ -46,8 +46,6 @@
 		8E112DE0199E60A50029CD38 /* Entity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD5199E60A50029CD38 /* Entity.hpp */; };
 		8E112DE1199E60A50029CD38 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD6199E60A50029CD38 /* Scene.cpp */; };
 		8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD7199E60A50029CD38 /* Scene.hpp */; };
-		8E112DE3199E60A50029CD38 /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD8199E60A50029CD38 /* Transform.cpp */; };
-		8E112DE4199E60A50029CD38 /* Transform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD9199E60A50029CD38 /* Transform.hpp */; };
 		8E112DEA199E60B70029CD38 /* Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE6199E60B70029CD38 /* Application.hpp */; };
 		8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE8199E60B70029CD38 /* Logging.hpp */; };
 		8E112DED199E60B70029CD38 /* Time.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE9199E60B70029CD38 /* Time.hpp */; };
@@ -88,8 +86,7 @@
 		8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */; };
 		8E71E4551A40FB170060DC95 /* Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4541A40FB170060DC95 /* Controller.hpp */; };
 		8E7749CF1B25BFD2003843FA /* Units.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E7749CE1B25BFD2003843FA /* Units.hpp */; };
-		8E7749D11B25E7B5003843FA /* Collider.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E7749D01B25E7B5003843FA /* Collider.hpp */; };
-		8E7749D51B25F257003843FA /* RigidBody.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E7749D41B25F257003843FA /* RigidBody.hpp */; };
+		8E7749D11B25E7B5003843FA /* RigidBody.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E7749D01B25E7B5003843FA /* RigidBody.hpp */; };
 		8E86FBDA1A923BE5001BCBCE /* FileSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */; };
 		8E86FBDC1A923DD5001BCBCE /* mac_FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E86FBDB1A923DD5001BCBCE /* mac_FileSystem.cpp */; };
 		8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBDE1A9650BD001BCBCE /* Plane.hpp */; };
@@ -136,6 +133,9 @@
 		8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF71ECB19D8600A00AA373B /* RenderContext.hpp */; };
 		8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */; };
 		8EF963051AEFE7C80012ED72 /* PixelBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */; };
+		8EFEA1AE1B26FB3900C6406C /* Structures.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1AD1B26FB3900C6406C /* Structures.hpp */; };
+		8EFEA1B11B27320200C6406C /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EFEA1AF1B27320200C6406C /* Transform.cpp */; };
+		8EFEA1B21B27320200C6406C /* Transform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1B01B27320200C6406C /* Transform.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -179,8 +179,6 @@
 		8E112DD5199E60A50029CD38 /* Entity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Entity.hpp; sourceTree = "<group>"; };
 		8E112DD6199E60A50029CD38 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		8E112DD7199E60A50029CD38 /* Scene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Scene.hpp; sourceTree = "<group>"; };
-		8E112DD8199E60A50029CD38 /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
-		8E112DD9199E60A50029CD38 /* Transform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Transform.hpp; sourceTree = "<group>"; };
 		8E112DE6199E60B70029CD38 /* Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Application.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E112DE8199E60B70029CD38 /* Logging.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logging.hpp; sourceTree = "<group>"; };
 		8E112DE9199E60B70029CD38 /* Time.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Time.hpp; sourceTree = "<group>"; };
@@ -222,8 +220,7 @@
 		8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_X360Controller.hpp; sourceTree = "<group>"; };
 		8E71E4541A40FB170060DC95 /* Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
 		8E7749CE1B25BFD2003843FA /* Units.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Units.hpp; sourceTree = "<group>"; };
-		8E7749D01B25E7B5003843FA /* Collider.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Collider.hpp; sourceTree = "<group>"; };
-		8E7749D41B25F257003843FA /* RigidBody.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RigidBody.hpp; sourceTree = "<group>"; };
+		8E7749D01B25E7B5003843FA /* RigidBody.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RigidBody.hpp; sourceTree = "<group>"; };
 		8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = FileSystem.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E86FBDB1A923DD5001BCBCE /* mac_FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_FileSystem.cpp; sourceTree = "<group>"; };
 		8E86FBDE1A9650BD001BCBCE /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
@@ -270,6 +267,9 @@
 		8EF71ECB19D8600A00AA373B /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
 		8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameBuffer.hpp; sourceTree = "<group>"; };
 		8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelBuffer.hpp; sourceTree = "<group>"; };
+		8EFEA1AD1B26FB3900C6406C /* Structures.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Structures.hpp; sourceTree = "<group>"; };
+		8EFEA1AF1B27320200C6406C /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
+		8EFEA1B01B27320200C6406C /* Transform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Transform.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -444,12 +444,9 @@
 		8E112DCE199E60A50029CD38 /* scene */ = {
 			isa = PBXGroup;
 			children = (
-				8E112DD9199E60A50029CD38 /* Transform.hpp */,
-				8E112DD8199E60A50029CD38 /* Transform.cpp */,
 				8E112DD0199E60A50029CD38 /* Behaviour.hpp */,
 				8E112DCF199E60A50029CD38 /* Behaviour.cpp */,
 				8E6E53A71A7FCF7800844C70 /* Renderable.hpp */,
-				8E7749D41B25F257003843FA /* RigidBody.hpp */,
 				8E112DD5199E60A50029CD38 /* Entity.hpp */,
 				8E6E53AE1A810F6000844C70 /* Light.hpp */,
 				8E6E53B01A810FCA00844C70 /* Light.cpp */,
@@ -508,7 +505,10 @@
 			isa = PBXGroup;
 			children = (
 				8E7749CE1B25BFD2003843FA /* Units.hpp */,
-				8E7749D01B25E7B5003843FA /* Collider.hpp */,
+				8EFEA1AD1B26FB3900C6406C /* Structures.hpp */,
+				8EFEA1B01B27320200C6406C /* Transform.hpp */,
+				8EFEA1AF1B27320200C6406C /* Transform.cpp */,
+				8E7749D01B25E7B5003843FA /* RigidBody.hpp */,
 			);
 			path = physics;
 			sourceTree = "<group>";
@@ -604,9 +604,10 @@
 				8EF702051A76F90B00454341 /* zlib.h in Headers */,
 				8E6A0DBE19B3A03600DF0921 /* Keyboard.hpp in Headers */,
 				8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */,
+				8EFEA1AE1B26FB3900C6406C /* Structures.hpp in Headers */,
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
 				8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */,
-				8E7749D11B25E7B5003843FA /* Collider.hpp in Headers */,
+				8E7749D11B25E7B5003843FA /* RigidBody.hpp in Headers */,
 				8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */,
 				8E6E53AF1A810F6000844C70 /* Light.hpp in Headers */,
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
@@ -626,7 +627,6 @@
 				8E112DBF199E5FE20029CD38 /* Pipeline.hpp in Headers */,
 				8E112DE0199E60A50029CD38 /* Entity.hpp in Headers */,
 				8E0EF75119A13E4E00CF38A2 /* Client.hpp in Headers */,
-				8E112DE4199E60A50029CD38 /* Transform.hpp in Headers */,
 				8E112DCA199E60150029CD38 /* Generators.hpp in Headers */,
 				8E147FAD19BB7644002836CA /* RunLoop.hpp in Headers */,
 				8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */,
@@ -639,6 +639,7 @@
 				8E15992C1AF9054200A62CE1 /* PixelFormat.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
 				8EF701FC1A76F90B00454341 /* gzguts.h in Headers */,
+				8EFEA1B21B27320200C6406C /* Transform.hpp in Headers */,
 				8EF702011A76F90B00454341 /* inflate.h in Headers */,
 				8E54FE591A6F0AD3003D649A /* Texture.hpp in Headers */,
 				8EF702091A76FA6600454341 /* PNGFile.hpp in Headers */,
@@ -659,7 +660,6 @@
 				8EC31E9E1B1E08D800AF9582 /* IndexBuffer.hpp in Headers */,
 				8E6A0DBC19B39E7400DF0921 /* mac_DevicesContext.hpp in Headers */,
 				8E6E53B31A8113C100844C70 /* Light.hpp in Headers */,
-				8E7749D51B25F257003843FA /* RigidBody.hpp in Headers */,
 				8E1599271AF9012C00A62CE1 /* PixelFormat.hpp in Headers */,
 				8E112D95199E5FC70029CD38 /* ConceptTraits.hpp in Headers */,
 				8E112DB7199E5FE20029CD38 /* OpenGL.hpp in Headers */,
@@ -761,13 +761,13 @@
 				8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */,
 				8E5C92701A212567007E3774 /* Mesh.cpp in Sources */,
 				8E6E53B11A810FCA00844C70 /* Light.cpp in Sources */,
+				8EFEA1B11B27320200C6406C /* Transform.cpp in Sources */,
 				8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */,
 				8EF7020B1A77036000454341 /* PNGFile.cpp in Sources */,
 				8EF701FA1A76F90B00454341 /* crc32.c in Sources */,
 				8E112DC9199E60150029CD38 /* Generators.cpp in Sources */,
 				8E112D48199E55100029CD38 /* Matrix.cpp in Sources */,
 				8E112DDA199E60A50029CD38 /* Behaviour.cpp in Sources */,
-				8E112DE3199E60A50029CD38 /* Transform.cpp in Sources */,
 				8E8D22B91B1B264F00A876E5 /* VertexLayout.cpp in Sources */,
 				8E112D98199E5FC70029CD38 /* TextFile.cpp in Sources */,
 				8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */,
