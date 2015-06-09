@@ -186,6 +186,13 @@ namespace detail {
 		scalarAssignOperator<Op>(result, scalar);
 		return result;
 	}
+	
+	template <typename Op, size_t N, typename T>
+	Vector<N, T> scalarOperator(const T scalar, const Vector<N, T>& vec) {
+		Vector<N, T> splat{scalar};
+		componentWiseAssignOperator<Op>(splat, vec);
+		return splat;
+	}
 }
 
 
@@ -267,6 +274,13 @@ operator *(const Vector<N, T>& vec, const S scalar) {
 
 
 template <size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
+operator *(const S scalar, const Vector<N, T>& vec) {
+	return detail::scalarOperator<std::multiplies<T>>(vec, static_cast<T>(scalar));
+}
+
+
+template <size_t N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>&>
 operator *=(Vector<N, T>& vec, const S scalar) {
 	return detail::scalarAssignOperator<std::multiplies<T>>(vec, static_cast<T>(scalar));
@@ -291,6 +305,13 @@ template <size_t N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
 operator /(const Vector<N, T>& vec, const S scalar) {
 	return detail::scalarOperator<std::divides<T>>(vec, static_cast<T>(scalar));
+}
+
+
+template <size_t N, typename T, typename S>
+std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
+operator /(const S scalar, const Vector<N, T>& vec) {
+	return detail::scalarOperator<std::divides<T>>(static_cast<T>(scalar), vec);
 }
 
 
