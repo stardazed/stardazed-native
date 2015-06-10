@@ -7,7 +7,6 @@
 #include "system/Application.hpp"
 #include "system/Logging.hpp"
 
-#include <cmath>
 #include <thread>
 
 namespace stardazed {
@@ -65,7 +64,28 @@ void Game::setSceneController(scene::SceneController& ctl) {
 }
 
 
+void Game::simulationStep() {
+	runtime::FrameContext frame{ client_, physicsFixedStepTime_ };
+	auto& scene = controller_->scene();
+	
+	std::for_each(scene.entitiesBegin(), scene.entitiesEnd(),
+		[&](scene::Entity& entity) {
+			if (entity.behaviour)
+				entity.behaviour->update(entity, scene, frame);
+		});
+
+	std::for_each(scene.entitiesBegin(), scene.entitiesEnd(),
+		[&](scene::Entity& entity) {
+			if (entity.rigidBody)
+				;
+//				entity.rigidBody->
+		});
+}
+
+
 void Game::mainLoop() {
+	assert(controller_);
+
 	if (runState_ != GameRunState::Idle)
 		return;
 

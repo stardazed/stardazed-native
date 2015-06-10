@@ -34,6 +34,8 @@ class Game {
 	
 	GameRunState runState_ = GameRunState::Idle;
 	
+	void simulationStep();
+	
 public:
 	Game(Client& client);
 	

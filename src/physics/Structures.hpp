@@ -23,12 +23,6 @@ struct WorldPhysics {
 };
 
 
-struct Derivative {
-	Velocity3 velocity;
-	Force3 force;
-};
-
-
 } // ns physics
 } // ns stardazed
 

@@ -136,6 +136,8 @@
 		8EFEA1AE1B26FB3900C6406C /* Structures.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1AD1B26FB3900C6406C /* Structures.hpp */; };
 		8EFEA1B11B27320200C6406C /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EFEA1AF1B27320200C6406C /* Transform.cpp */; };
 		8EFEA1B21B27320200C6406C /* Transform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1B01B27320200C6406C /* Transform.hpp */; };
+		8EFEA1B41B289EC700C6406C /* Integration.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1B31B289EC700C6406C /* Integration.hpp */; };
+		8EFEA1B61B289F9800C6406C /* Integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EFEA1B51B289F9800C6406C /* Integration.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -270,6 +272,8 @@
 		8EFEA1AD1B26FB3900C6406C /* Structures.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Structures.hpp; sourceTree = "<group>"; };
 		8EFEA1AF1B27320200C6406C /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
 		8EFEA1B01B27320200C6406C /* Transform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Transform.hpp; sourceTree = "<group>"; };
+		8EFEA1B31B289EC700C6406C /* Integration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Integration.hpp; sourceTree = "<group>"; };
+		8EFEA1B51B289F9800C6406C /* Integration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Integration.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -509,6 +513,8 @@
 				8EFEA1B01B27320200C6406C /* Transform.hpp */,
 				8EFEA1AF1B27320200C6406C /* Transform.cpp */,
 				8E7749D01B25E7B5003843FA /* RigidBody.hpp */,
+				8EFEA1B31B289EC700C6406C /* Integration.hpp */,
+				8EFEA1B51B289F9800C6406C /* Integration.cpp */,
 			);
 			path = physics;
 			sourceTree = "<group>";
@@ -609,6 +615,7 @@
 				8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */,
 				8E7749D11B25E7B5003843FA /* RigidBody.hpp in Headers */,
 				8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */,
+				8EFEA1B41B289EC700C6406C /* Integration.hpp in Headers */,
 				8E6E53AF1A810F6000844C70 /* Light.hpp in Headers */,
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
 				8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */,
@@ -741,6 +748,7 @@
 				8E112DDC199E60A50029CD38 /* Camera.cpp in Sources */,
 				8E44B4031A3EFD390059C57D /* mac_AudioContext.mm in Sources */,
 				8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */,
+				8EFEA1B61B289F9800C6406C /* Integration.cpp in Sources */,
 				8EA7092C19D75FC000129E2D /* Mesh.cpp in Sources */,
 				8EF701FD1A76F90B00454341 /* inffast.c in Sources */,
 				8E90F1251A6D51B700AD015B /* Texture.cpp in Sources */,
