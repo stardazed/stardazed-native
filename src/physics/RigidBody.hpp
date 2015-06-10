@@ -28,21 +28,21 @@ public:
 	: transform_(transform)
 	, mass_(mass)
 	{}
-	
+
 	Transform& transform() { return transform_; }
-	
+
 	physics::Mass mass() const { return mass_; }
 	void setMass(physics::Mass mass) {
 		mass_ = mass;
 		oneOverMass_ = 1 / physics::splat<3>(mass_);
 	}
-	
+
 	const physics::Momentum3& momentum() const { return momentum_; }
 	void setMomentum(physics::Momentum3 newMomentum) {
 		momentum_ = newMomentum;
 		velocity_ = momentum_ * oneOverMass_;
 	}
-	
+
 	const physics::Velocity3& velocity() const { return velocity_; }
 };
 	

@@ -48,12 +48,16 @@ public:
 	
 	bool isFullscreen() const;
 	bool usesVerticalSync() const;
+	
+	uint32 renderPixelWidth() const { return renderWidth_; }
+	uint32 renderPixelHeight() const { return renderHeight_; }
 
-	uint32 pixelWidth() const { return width_; }
-	uint32 pixelHeight() const { return height_; }
+	uint32 framePixelWidth() const { return frameWidth_; }
+	uint32 framePixelHeight() const { return frameHeight_; }
 
 private:
-	uint32 width_, height_;
+	uint32 renderWidth_, renderHeight_;
+	uint32 frameWidth_, frameHeight_;
 
 	// object storage
 	std::vector<Pipeline> pipelinePool_;

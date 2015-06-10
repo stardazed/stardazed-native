@@ -8,6 +8,7 @@
 #include "util/ConceptTraits.hpp"
 #include "system/Application.hpp"
 #include "util/TextFile.hpp"
+#include "system/Logging.hpp"
 
 #import <AppKit/AppKit.h>
 
@@ -151,8 +152,8 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 
 	platformData_->coverWindow = window;
 	platformData_->windowDelegate = delegate;
-	width_ = descriptor.width;
-	height_ = descriptor.height;
+	renderWidth_ = descriptor.width;
+	renderHeight_ = descriptor.height;
 	
 	SDOpenGLView *contentView = [platformData_->coverWindow contentView];
 	platformData_->glContext = [contentView openGLContext];
@@ -161,6 +162,11 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 		platformData_->fullscreenOptions = @{};
 		[contentView enterFullScreenMode:[NSScreen mainScreen] withOptions:platformData_->fullscreenOptions];
 	}
+
+	// after the window is created and position (including optional fullscreen,)
+	// retrieve the real frame size for blitting, etc.
+	frameWidth_ = contentView.frame.size.width;
+	frameHeight_ = contentView.frame.size.height;
 	
 	platformData_->verticalSync = descriptor.verticalSync;
 	
@@ -300,8 +306,8 @@ FrameBufferDescriptor RenderContext::allocateTexturesForFrameBuffer(const FrameB
 	
 	// -- default to viewport size if not explicitly specified
 	if (width == 0 && height == 0) {
-		width = pixelWidth();
-		height = pixelHeight();
+		width = renderPixelWidth();
+		height = renderPixelHeight();
 	}
 	
 	// -- colour
