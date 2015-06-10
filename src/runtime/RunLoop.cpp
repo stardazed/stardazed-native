@@ -19,7 +19,7 @@ RunLoop::RunLoop(Client& client)
 {
 	// reasonable defaults
 	setMaxRenderFPS(60);
-	setSimulationFPS(30);
+	setSimulationFPS(60);
 }
 
 
