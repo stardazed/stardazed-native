@@ -49,8 +49,8 @@
 		8E112DEA199E60B70029CD38 /* Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE6199E60B70029CD38 /* Application.hpp */; };
 		8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE8199E60B70029CD38 /* Logging.hpp */; };
 		8E112DED199E60B70029CD38 /* Time.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DE9199E60B70029CD38 /* Time.hpp */; };
-		8E147FAD19BB7644002836CA /* RunLoop.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E147FAC19BB7644002836CA /* RunLoop.hpp */; };
-		8E147FAF19BB9944002836CA /* RunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E147FAE19BB9944002836CA /* RunLoop.cpp */; };
+		8E147FAD19BB7644002836CA /* Game.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E147FAC19BB7644002836CA /* Game.hpp */; };
+		8E147FAF19BB9944002836CA /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E147FAE19BB9944002836CA /* Game.cpp */; };
 		8E1599271AF9012C00A62CE1 /* PixelFormat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E1599261AF9012C00A62CE1 /* PixelFormat.hpp */; };
 		8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1599291AF9034700A62CE1 /* PixelBuffer.cpp */; };
 		8E15992C1AF9054200A62CE1 /* PixelFormat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E15992B1AF9054200A62CE1 /* PixelFormat.hpp */; };
@@ -182,8 +182,8 @@
 		8E112DE6199E60B70029CD38 /* Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Application.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E112DE8199E60B70029CD38 /* Logging.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logging.hpp; sourceTree = "<group>"; };
 		8E112DE9199E60B70029CD38 /* Time.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Time.hpp; sourceTree = "<group>"; };
-		8E147FAC19BB7644002836CA /* RunLoop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RunLoop.hpp; sourceTree = "<group>"; };
-		8E147FAE19BB9944002836CA /* RunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RunLoop.cpp; sourceTree = "<group>"; };
+		8E147FAC19BB7644002836CA /* Game.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
+		8E147FAE19BB9944002836CA /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		8E1599261AF9012C00A62CE1 /* PixelFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
 		8E1599291AF9034700A62CE1 /* PixelBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelBuffer.cpp; sourceTree = "<group>"; };
 		8E15992B1AF9054200A62CE1 /* PixelFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
@@ -300,8 +300,8 @@
 			children = (
 				8E0EF75019A13E4E00CF38A2 /* Client.hpp */,
 				8EBB0AB519C1022700843A1F /* FrameContext.hpp */,
-				8E147FAC19BB7644002836CA /* RunLoop.hpp */,
-				8E147FAE19BB9944002836CA /* RunLoop.cpp */,
+				8E147FAC19BB7644002836CA /* Game.hpp */,
+				8E147FAE19BB9944002836CA /* Game.cpp */,
 			);
 			path = runtime;
 			sourceTree = "<group>";
@@ -628,7 +628,7 @@
 				8E112DE0199E60A50029CD38 /* Entity.hpp in Headers */,
 				8E0EF75119A13E4E00CF38A2 /* Client.hpp in Headers */,
 				8E112DCA199E60150029CD38 /* Generators.hpp in Headers */,
-				8E147FAD19BB7644002836CA /* RunLoop.hpp in Headers */,
+				8E147FAD19BB7644002836CA /* Game.hpp in Headers */,
 				8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */,
 				8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */,
 				8E112D44199E55100029CD38 /* AABB.hpp in Headers */,
@@ -752,7 +752,7 @@
 				8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */,
 				8EC31EA01B1E0ABF00AF9582 /* IndexBuffer.cpp in Sources */,
 				8EF702061A76F90B00454341 /* zutil.c in Sources */,
-				8E147FAF19BB9944002836CA /* RunLoop.cpp in Sources */,
+				8E147FAF19BB9944002836CA /* Game.cpp in Sources */,
 				8E5C53AD1B186B6900F74804 /* RenderPass.cpp in Sources */,
 				8EC145F91A869D12004D533A /* OpenGL.cpp in Sources */,
 				8EF701F91A76F90B00454341 /* adler32.c in Sources */,
