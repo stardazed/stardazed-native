@@ -7,6 +7,7 @@
 #include "system/Time.hpp"
 #include "system/Logging.hpp"
 #include "util/ConceptTraits.hpp"
+#include "runtime/Game.hpp"
 
 #include <thread>
 
@@ -44,32 +45,16 @@ namespace stardazed {
 
 bool Application::quit_ = false;
 bool Application::active_ = true;
+runtime::Game* Application::game_ = nullptr;
 
 
-void Application::main() {
-	auto frameDuration = time::hertz(60);
-
-	while (! shouldQuit()) {
-		auto frameStartTime = time::now();
-		
-		// devices_.frame();
-		
-		if (isActive()) {
-			// game update and render and sound
-		}
-		
-		auto frameAfterUpdateTime = time::now();
-		auto frameTimeSpent = frameAfterUpdateTime - frameStartTime;
-		
-		if (frameTimeSpent < frameDuration) {
-			auto sleepTime = frameDuration - frameTimeSpent;
-			std::this_thread::sleep_for(sleepTime);
-		}
-		else {
-			
-		}
-		
-		// render_.swap();
+void Application::setActive(bool active) {
+	active_ = active;
+	if (game_) {
+		if (active_)
+			game_->resume();
+		else
+			game_->suspend();
 	}
 }
 

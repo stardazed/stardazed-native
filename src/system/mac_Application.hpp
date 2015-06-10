@@ -11,19 +11,27 @@
 namespace stardazed {
 
 
+namespace runtime {
+	class Game;
+}
+
+
 class Application {
 	Application() = delete;
 
 	static bool quit_;
 	static bool active_;
+	static runtime::Game* game_;
 
 public:
 	static void init();
 	
-	static void main();
+	static void setGame(runtime::Game& game) {
+		game_ = &game;
+	}
 
 	// -- active refers to app being frontmost
-	static void setActive(bool active) { active_ = active; }
+	static void setActive(bool active);
 	static bool isActive() { return active_; }
 	
 	// -- handling of Quit signal from system or user
