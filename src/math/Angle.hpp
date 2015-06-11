@@ -105,20 +105,24 @@ constexpr const auto Tau = Pi * 2;
 
 // ---- Literals
 
-constexpr Radians operator ""_rad(long double val) {
-	return Radians{ static_cast<Radians::ValueType>(val) };
-}
+inline namespace literals {
 
-constexpr Radians operator ""_rad(unsigned long long val) {
-	return Radians{ static_cast<Radians::ValueType>(val) };
-}
+	constexpr Radians operator ""_rad(long double val) {
+		return Radians{ static_cast<Radians::ValueType>(val) };
+	}
 
-constexpr Degrees operator ""_deg(long double val) {
-	return Degrees{ static_cast<Degrees::ValueType>(val) };
-}
+	constexpr Radians operator ""_rad(unsigned long long val) {
+		return Radians{ static_cast<Radians::ValueType>(val) };
+	}
 
-constexpr Degrees operator ""_deg(unsigned long long val) {
-	return Degrees{ static_cast<Degrees::ValueType>(val) };
+	constexpr Degrees operator ""_deg(long double val) {
+		return Degrees{ static_cast<Degrees::ValueType>(val) };
+	}
+
+	constexpr Degrees operator ""_deg(unsigned long long val) {
+		return Degrees{ static_cast<Degrees::ValueType>(val) };
+	}
+
 }
 
 
