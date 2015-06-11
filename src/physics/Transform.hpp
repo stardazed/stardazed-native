@@ -43,7 +43,7 @@ struct Transform {
 		position += (rotation * translation) * len;
 	}
 
-	void translate(float x, float y, float z) {
+	void translate(Position x, Position y, Position z) {
 		translate(Position3{ x, y, z });
 	}
 
@@ -51,7 +51,7 @@ struct Transform {
 		position += globalTranslation;
 	}
 
-	void translateGlobal(float gx, float gy, float gz) {
+	void translateGlobal(Position gx, Position gy, Position gz) {
 		position += Position3{ gx, gy, gz };
 	}
 	
