@@ -151,8 +151,8 @@ struct SIVector<KG, M, S, 2> {
 	constexpr SIVector(ValueType x, ValueType y) : value{x.value, y.value} {}
 
 
-	constexpr ValueType x() { return value.x; }
-	constexpr ValueType y() { return value.y; }
+	constexpr ValueType x() const { return value.x; }
+	constexpr ValueType y() const { return value.y; }
 };
 
 template <int KG, int M, int S>
@@ -175,9 +175,9 @@ struct SIVector<KG, M, S, 3> {
 	constexpr SIVector(float x, float y, float z) : value{x, y, z} {}
 	constexpr SIVector(ValueType x, ValueType y, ValueType z) : value{x.value, y.value, z.value} {}
 
-	constexpr ValueType x() { return value.x; }
-	constexpr ValueType y() { return value.y; }
-	constexpr ValueType z() { return value.z; }
+	constexpr ValueType x() const { return value.x; }
+	constexpr ValueType y() const { return value.y; }
+	constexpr ValueType z() const { return value.z; }
 };
 
 template <int KG, int M, int S>
@@ -194,16 +194,20 @@ template <int KG, int M, int S>
 struct SIVector<KG, M, S, 4> {
 	math::Vec4 value;
 	using ValueType = SIValue<KG, M, S>;
+	using Value3Type = SIValue3<KG, M, S>;
 	
 	constexpr SIVector() = default;
+	constexpr SIVector(Value3Type val3) : value(val3.value, 0) {}
 	constexpr SIVector(math::Vec4 val) : value(val) {}
 	constexpr SIVector(float x, float y, float z, float w = 0) : value{x, y, z, w} {}
 	constexpr SIVector(ValueType x, ValueType y, ValueType z, ValueType w = 0) : value{x.value, y.value, z.value, w.value} {}
 	
-	constexpr ValueType x() { return value.x; }
-	constexpr ValueType y() { return value.y; }
-	constexpr ValueType z() { return value.z; }
-	constexpr ValueType w() { return value.w; }
+	constexpr ValueType x() const { return value.x; }
+	constexpr ValueType y() const { return value.y; }
+	constexpr ValueType z() const { return value.z; }
+	constexpr ValueType w() const { return value.w; }
+	
+	constexpr Value3Type xyz() const { return { value.xyz }; }
 };
 
 template <int KG, int M, int S>
@@ -244,15 +248,15 @@ splat4(const SIValue<KG, M, S>& v) {
 //
 
 /*
-	Mass         = kg
-	Position     = m          = x(yz)
-	Time         = s          = t
+	Mass           kg
+	Position       m            x(yz)
+	Time           s            t
 
-	Velocity     = m s-1      = a
-	Acceleration = m s-2      = v
+	Velocity       m s-1        a
+	Acceleration   m s-2        v
 
-	Momentum     = kg m s-1   = kg v   = N s
-	Force        = kg m s-2   = kg a   = N(ewton)
+	Momentum       kg m s-1     kg v     N s
+	Force          kg m s-2     kg a     N(ewton)
 */
 
 using Mass = SIValue<1, 0, 0>;
@@ -284,7 +288,6 @@ using Force3 = SIValue3<1, 1, -2>;
 using Force4 = SIValue4<1, 1, -2>;
 
 
-// -- Quaternion-Position multiplication
 constexpr Position3
 operator *(const math::Quat& quat, const Position3& pos) {
 	return { quat * pos.value };
@@ -313,24 +316,40 @@ inline namespace literals {
 		return Mass{ static_cast<float>(val) };
 	}
 
-	constexpr Time operator ""_s(long double val) {
-		return Time{ static_cast<float>(val) };
-	}
-
-	constexpr Position operator ""_m(long double val) {
-		return Position{ static_cast<float>(val) };
-	}
-
 	constexpr Mass operator ""_kg(unsigned long long val) {
 		return Mass{ static_cast<float>(val) };
+	}
+	
+	constexpr Time operator ""_s(long double val) {
+		return Time{ static_cast<float>(val) };
 	}
 
 	constexpr Time operator ""_s(unsigned long long val) {
 		return Time{ static_cast<float>(val) };
 	}
+	
+	constexpr Position operator ""_m(long double val) {
+		return Position{ static_cast<float>(val) };
+	}
 
 	constexpr Position operator ""_m(unsigned long long val) {
 		return Position{ static_cast<float>(val) };
+	}
+
+	constexpr Velocity operator ""_m_s(long double val) {
+		return Velocity{ static_cast<float>(val) };
+	}
+	
+	constexpr Velocity operator ""_m_s(unsigned long long val) {
+		return Velocity{ static_cast<float>(val) };
+	}
+
+	constexpr Acceleration operator ""_m_s2(long double val) {
+		return Acceleration{ static_cast<float>(val) };
+	}
+	
+	constexpr Acceleration operator ""_m_s2(unsigned long long val) {
+		return Acceleration{ static_cast<float>(val) };
 	}
 
 }
