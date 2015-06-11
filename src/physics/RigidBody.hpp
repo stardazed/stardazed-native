@@ -7,7 +7,7 @@
 #define SD_PHYSICS_RIGIDBODY_H
 
 #include "system/Config.hpp"
-#include "physics/Structures.hpp"
+#include "physics/Units.hpp"
 #include "physics/Transform.hpp"
 
 namespace stardazed {
@@ -15,38 +15,49 @@ namespace physics {
 
 
 class RigidBody {
-	using InverseMass3 = physics::SIValue3<-1, 0, 0>;
+	using InverseMass3 = SIValue3<-1, 0, 0>;
 
 	Transform& transform_;
-	physics::Mass mass_{1};
+//	Transform nextTransform_; this will be used when collision detection etc comes into play
+
+	Mass mass_{1};
 	InverseMass3 oneOverMass_{1};
-	physics::Momentum3 momentum_ {};
-	physics::Velocity3 velocity_ {};
-	
+	Momentum3 momentum_ {};
+	Velocity3 velocity_ {};
+
 public:
-	explicit RigidBody(Transform& transform, physics::Mass mass = 1)
+	explicit RigidBody(Transform& transform, Mass mass = 1)
 	: transform_(transform)
 	, mass_(mass)
 	{}
 
+	// -- observers for primary and secondary values
+
 	Transform& transform() { return transform_; }
 
-	physics::Mass mass() const { return mass_; }
-	void setMass(physics::Mass mass) {
+	Mass mass() const { return mass_; }
+	void setMass(Mass mass) {
 		mass_ = mass;
-		oneOverMass_ = 1 / physics::splat<3>(mass_);
+		oneOverMass_ = 1 / splat<3>(mass_);
 	}
 
-	const physics::Momentum3& momentum() const { return momentum_; }
-	void setMomentum(physics::Momentum3 newMomentum) {
+	const Momentum3& momentum() const { return momentum_; }
+	void setMomentum(Momentum3 newMomentum) {
 		momentum_ = newMomentum;
 		velocity_ = momentum_ * oneOverMass_;
 	}
 
-	const physics::Velocity3& velocity() const { return velocity_; }
+	const Velocity3& velocity() const { return velocity_; }
+
+	// -- behaviour-generated force
+
+	Force3 userForce;
+	void addForce(const Force3& force) {
+		userForce += force;
+	}
 };
-	
-	
+
+
 } // ns physics
 } // ns stardazed
 
