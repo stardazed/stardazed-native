@@ -1,25 +1,30 @@
 // ------------------------------------------------------------------
-// physics::Structures - stardazed
+// physics::PhysicsContext - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_PHYSICS_STRUCTURES_H
-#define SD_PHYSICS_STRUCTURES_H
+#ifndef SD_PHYSICS_PHYSICSCONTEXT_H
+#define SD_PHYSICS_PHYSICSCONTEXT_H
 
 #include "system/Config.hpp"
-#include "physics/Units.hpp"
+#include "physics/RigidBody.hpp"
+
+#include <vector>
 
 namespace stardazed {
 namespace physics {
 
 
-constexpr Acceleration3 earthGravity() { return { 0, -9.80665, 0 }; }
-constexpr Acceleration3 moonGravity() { return { 0, -1.62519, 0 }; }
+class PhysicsContext {
+	std::vector<physics::RigidBody> rigidBodyPool_;
+	
+public:
+	PhysicsContext();
 
-
-struct WorldPhysics {
 	Acceleration3 gravity = earthGravity();
 	float linearDragCoefficient = 1.5;
+	
+	RigidBody* makeRigidBody(Transform& linkedTransform, Mass mass);
 };
 
 

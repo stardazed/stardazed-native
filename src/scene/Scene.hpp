@@ -11,7 +11,7 @@
 #include "scene/Light.hpp"
 #include "scene/Camera.hpp"
 #include "scene/Behaviour.hpp"
-#include "physics/Structures.hpp"
+#include "physics/PhysicsContext.hpp"
 
 #include <vector>
 #include <memory>
@@ -25,12 +25,10 @@ class Scene {
 	std::unique_ptr<Camera> camera_;
 	std::vector<Light> lightPool_;
 	std::vector<Entity> entityPool_;
-
 	std::vector<std::unique_ptr<Behaviour>> behaviours_; // polymorphic
-	std::vector<physics::RigidBody> rigidBodyPool_;
 
-	// -- physics
-	physics::WorldPhysics worldPhysics_ {};
+	// -- subsystems
+	physics::PhysicsContext physicsCtx_ {};
 
 public:
 	Scene();
@@ -54,9 +52,6 @@ public:
 	auto entitiesEnd() { return entityPool_.end(); }
 
 	auto& camera() { return *camera_; }
-
-	physics::WorldPhysics& worldPhysics() { return worldPhysics_; }
-	const physics::WorldPhysics& worldPhysics() const { return worldPhysics_; }
 };
 
 

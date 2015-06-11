@@ -39,8 +39,7 @@ Camera* Scene::makeCamera(uint32 viewPortWidth, uint32 viewPortHeight) {
 
 
 physics::RigidBody* Scene::makeRigidBody(Entity& entity, physics::Mass mass) {
-	rigidBodyPool_.emplace_back(entity.transform, mass);
-	auto rigidBody = &rigidBodyPool_.back();
+	auto rigidBody = physicsCtx_.makeRigidBody(entity.transform, mass);
 	entity.rigidBody = rigidBody;
 	return rigidBody;
 }
