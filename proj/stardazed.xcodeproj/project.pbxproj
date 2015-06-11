@@ -64,6 +64,7 @@
 		8E44B4051A3F41380059C57D /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E44B4041A3F41380059C57D /* AudioUnit.framework */; };
 		8E46C1D019DAE3E6009A85A1 /* Manipulators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */; };
 		8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */; };
+		8E5372501B299CEC002C1538 /* PhysicsContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E53724F1B299CEC002C1538 /* PhysicsContext.cpp */; };
 		8E54FE591A6F0AD3003D649A /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E54FE581A6F0AD3003D649A /* Texture.hpp */; };
 		8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E54FE5A1A6F0BC7003D649A /* Texture.cpp */; };
 		8E5C53AB1B1869B100F74804 /* RenderPass.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5C53AA1B1869B100F74804 /* RenderPass.hpp */; };
@@ -133,7 +134,7 @@
 		8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF71ECB19D8600A00AA373B /* RenderContext.hpp */; };
 		8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */; };
 		8EF963051AEFE7C80012ED72 /* PixelBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */; };
-		8EFEA1AE1B26FB3900C6406C /* Structures.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1AD1B26FB3900C6406C /* Structures.hpp */; };
+		8EFEA1AE1B26FB3900C6406C /* PhysicsContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1AD1B26FB3900C6406C /* PhysicsContext.hpp */; };
 		8EFEA1B11B27320200C6406C /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EFEA1AF1B27320200C6406C /* Transform.cpp */; };
 		8EFEA1B21B27320200C6406C /* Transform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1B01B27320200C6406C /* Transform.hpp */; };
 		8EFEA1B41B289EC700C6406C /* Integration.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1B31B289EC700C6406C /* Integration.hpp */; };
@@ -200,6 +201,7 @@
 		8E46C1CE19DAE3E6009A85A1 /* Manipulators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Manipulators.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E46C1D119DAE44A009A85A1 /* Manipulators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Manipulators.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexDerivedData.hpp; sourceTree = "<group>"; };
+		8E53724F1B299CEC002C1538 /* PhysicsContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsContext.cpp; sourceTree = "<group>"; };
 		8E54FE581A6F0AD3003D649A /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Texture.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E54FE5A1A6F0BC7003D649A /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Texture.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E5C53AA1B1869B100F74804 /* RenderPass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderPass.hpp; sourceTree = "<group>"; };
@@ -269,7 +271,7 @@
 		8EF71ECB19D8600A00AA373B /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
 		8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameBuffer.hpp; sourceTree = "<group>"; };
 		8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelBuffer.hpp; sourceTree = "<group>"; };
-		8EFEA1AD1B26FB3900C6406C /* Structures.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Structures.hpp; sourceTree = "<group>"; };
+		8EFEA1AD1B26FB3900C6406C /* PhysicsContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PhysicsContext.hpp; sourceTree = "<group>"; };
 		8EFEA1AF1B27320200C6406C /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
 		8EFEA1B01B27320200C6406C /* Transform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Transform.hpp; sourceTree = "<group>"; };
 		8EFEA1B31B289EC700C6406C /* Integration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Integration.hpp; sourceTree = "<group>"; };
@@ -509,12 +511,13 @@
 			isa = PBXGroup;
 			children = (
 				8E7749CE1B25BFD2003843FA /* Units.hpp */,
-				8EFEA1AD1B26FB3900C6406C /* Structures.hpp */,
 				8EFEA1B01B27320200C6406C /* Transform.hpp */,
 				8EFEA1AF1B27320200C6406C /* Transform.cpp */,
 				8E7749D01B25E7B5003843FA /* RigidBody.hpp */,
 				8EFEA1B31B289EC700C6406C /* Integration.hpp */,
 				8EFEA1B51B289F9800C6406C /* Integration.cpp */,
+				8EFEA1AD1B26FB3900C6406C /* PhysicsContext.hpp */,
+				8E53724F1B299CEC002C1538 /* PhysicsContext.cpp */,
 			);
 			path = physics;
 			sourceTree = "<group>";
@@ -610,7 +613,7 @@
 				8EF702051A76F90B00454341 /* zlib.h in Headers */,
 				8E6A0DBE19B3A03600DF0921 /* Keyboard.hpp in Headers */,
 				8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */,
-				8EFEA1AE1B26FB3900C6406C /* Structures.hpp in Headers */,
+				8EFEA1AE1B26FB3900C6406C /* PhysicsContext.hpp in Headers */,
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
 				8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */,
 				8E7749D11B25E7B5003843FA /* RigidBody.hpp in Headers */,
@@ -780,6 +783,7 @@
 				8E112D98199E5FC70029CD38 /* TextFile.cpp in Sources */,
 				8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */,
 				8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */,
+				8E5372501B299CEC002C1538 /* PhysicsContext.cpp in Sources */,
 				8E112D96199E5FC70029CD38 /* StringFormat.cpp in Sources */,
 				8EF702021A76F90B00454341 /* inftrees.c in Sources */,
 				8E86FBDC1A923DD5001BCBCE /* mac_FileSystem.cpp in Sources */,

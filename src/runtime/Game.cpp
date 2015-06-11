@@ -24,17 +24,16 @@ struct FrameStatistics {
 	{}
 	
 	// --
+
 	void inputDone() { inputEndTime = time::now();	}
-	
 	void physicsStep() { ++physicsStepsRun; }
 	void physicsDone() { physicsEndTime = time::now(); }
-	
 	void renderDone() { renderEndTime = time::now(); }
 	void swapDone() { swapEndTime = time::now(); }
-	
 	void frameDone() { endTime = time::now(); }
 	
 	// --
+
 	time::Duration inputTime() { return inputEndTime - startTime; }
 	time::Duration physicsTime() { return physicsEndTime - inputEndTime; }
 	time::Duration renderTime() { return renderEndTime - physicsEndTime; }

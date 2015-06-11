@@ -27,7 +27,7 @@ Derivative evaluate(const RigidBody& initial, Time3 t) {
 
 Derivative evaluate(const RigidBody& initial, Time3 t, Time3 dt, const Derivative& d) {
 	RigidBody state{initial};
-	state.transform().position += (d.velocity * dt).value;
+	state.transform().position += d.velocity * dt;
 	state.setMomentum(initial.momentum() + d.force * dt);
 
 	Derivative output;
@@ -49,7 +49,7 @@ void integrateRK4(RigidBody& state, Time t, Time dt) {
 	Velocity3 dxdt = 1.0f/6.0f * (a.velocity + 2.0f*(b.velocity + c.velocity) + d.velocity);
 	Force3 dpdt = 1.0f/6.0f * (a.force + 2.0f*(b.force + c.force) + d.force);
 	
-	state.transform().position += (dxdt * dt3).value;
+	state.transform().position += dxdt * dt3;
 	state.setMomentum(state.momentum() + dpdt * dt3);
 }
 
@@ -60,7 +60,7 @@ void integrateEuler(RigidBody& state, Time t, Time dt) {
 
 	Derivative d = evaluate(state, t3);
 	
-	state.transform().position += (d.velocity * dt3).value;
+	state.transform().position += d.velocity * dt3;
 	state.setMomentum(state.momentum() + d.force * dt3);
 }
 

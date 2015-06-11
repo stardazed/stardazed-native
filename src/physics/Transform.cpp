@@ -33,8 +33,8 @@ static math::Quat lookAtImpl(math::Vec3 localForward, const math::Vec3& worldUp)
 }
 
 
-void Transform::lookAt(const math::Vec3& target, const math::Vec3& up) {
-	rotation = lookAtImpl(target - position, up);
+void Transform::lookAt(const Position3& target, const math::Vec3& up) {
+	rotation = lookAtImpl((target - position).value, up);
 }
 
 
@@ -53,7 +53,7 @@ math::Mat4 Transform::toMatrix4() const {
 	// rotation and scale
 	// TODO: scaleMatrix is unlikely to change for many transforms, optimize/cache
 	// TODO: same goes for position and rotation of basically all static geometry…
-	auto m = math::translationMatrix(position) * rotation.toMatrix4() * math::scaleMatrix(scale);
+	auto m = math::translationMatrix(position.value) * rotation.toMatrix4() * math::scaleMatrix(scale);
 
 	// TODO: this does not take scale into account, add this in as optimization for
 	// trans matrix multiply
