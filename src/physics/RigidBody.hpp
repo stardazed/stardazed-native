@@ -20,13 +20,13 @@ class RigidBody {
 	Transform& transform_;
 //	Transform nextTransform_; this will be used when collision detection etc comes into play
 
-	Mass mass_{1};
-	InverseMass3 oneOverMass_{1};
+	Mass mass_{};
+	InverseMass3 oneOverMass_{};
 	Momentum3 momentum_ {};
 	Velocity3 velocity_ {};
 
 public:
-	explicit RigidBody(Transform& transform, Mass mass = 1)
+	explicit RigidBody(Transform& transform, Mass mass = 1_kg)
 	: transform_(transform)
 	, mass_(mass)
 	{}
@@ -38,7 +38,7 @@ public:
 	Mass mass() const { return mass_; }
 	void setMass(Mass mass) {
 		mass_ = mass;
-		oneOverMass_ = 1 / splat<3>(mass_);
+		oneOverMass_ = 1 / splat3(mass_);
 	}
 
 	const Momentum3& momentum() const { return momentum_; }

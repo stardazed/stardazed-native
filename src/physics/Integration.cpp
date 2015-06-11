@@ -38,8 +38,8 @@ Derivative evaluate(const RigidBody& initial, Time3 t, Time3 dt, const Derivativ
 
 
 void integrateRK4(RigidBody& state, Time t, Time dt) {
-	Time3 t3 = splat<3>(t);
-	Time3 dt3 = splat<3>(dt);
+	Time3 t3 = splat3(t);
+	Time3 dt3 = splat3(dt);
 
 	Derivative a = evaluate(state, t3);
 	Derivative b = evaluate(state, t3, dt3*0.5f, a);
@@ -55,8 +55,8 @@ void integrateRK4(RigidBody& state, Time t, Time dt) {
 
 
 void integrateEuler(RigidBody& state, Time t, Time dt) {
-	Time3 t3 = splat<3>(t);
-	Time3 dt3 = splat<3>(dt);
+	Time3 t3 = splat3(t);
+	Time3 dt3 = splat3(dt);
 
 	Derivative d = evaluate(state, t3);
 	
