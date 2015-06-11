@@ -8,6 +8,7 @@
 
 #include "system/Config.hpp"
 #include "math/Vector.hpp"
+#include "math/Quaternion.hpp"
 
 namespace stardazed {
 namespace physics {
@@ -79,6 +80,41 @@ operator -(const SIVector<KG, M, S, N>& ua, const SIVector<KG, M, S, N>& ub) {
 }
 
 
+// -- modify-assign
+// no *= or /= because it would modify the dimension of the assigned value
+
+template <int KG, int M, int S, size32 N>
+constexpr SIVector<KG, M, S, N>&
+operator +=(SIVector<KG, M, S, N>& ua, const SIVector<KG, M, S, N>& ub) {
+	ua.value += ub.value;
+	return ua;
+}
+
+
+template <int KG, int M, int S, size32 N>
+constexpr SIVector<KG, M, S, N>&
+operator +=(SIVector<KG, M, S, N>& ua, float scalar) {
+	ua.value += scalar;
+	return ua;
+}
+
+
+template <int KG, int M, int S, size32 N>
+constexpr SIVector<KG, M, S, N>&
+operator -=(SIVector<KG, M, S, N>& ua, const SIVector<KG, M, S, N>& ub) {
+	ua.value -= ub.value;
+	return ua;
+}
+
+
+template <int KG, int M, int S, size32 N>
+constexpr SIVector<KG, M, S, N>&
+operator -=(SIVector<KG, M, S, N>& ua, float scalar) {
+	ua.value -= scalar;
+	return ua;
+}
+
+
 //  ___ _____   __    _
 // / __|_ _\ \ / /_ _| |_  _ ___
 // \__ \| | \ V / _` | | || / -_)
@@ -91,6 +127,7 @@ struct SIVector<KG, M, S, 1> {
 	
 	constexpr SIVector() = default;
 	constexpr SIVector(float x) : value{x} {}
+	constexpr SIVector(const SIVector<KG, M, S, 1>& other) : value{other.value} {}
 };
 
 template <int KG, int M, int S>
@@ -112,6 +149,8 @@ struct SIVector<KG, M, S, 2> {
 	constexpr SIVector(float fill) : value(fill) {}
 	constexpr SIVector(math::Vec2 val) : value(val) {}
 	constexpr SIVector(float x, float y) : value{x, y} {}
+	constexpr SIVector(ValueType x, ValueType y) : value{x.value, y.value} {}
+
 
 	constexpr ValueType x() { return value.x; }
 	constexpr ValueType y() { return value.y; }
@@ -136,6 +175,7 @@ struct SIVector<KG, M, S, 3> {
 	constexpr SIVector(float fill) : value(fill) {}
 	constexpr SIVector(math::Vec3 val) : value(val) {}
 	constexpr SIVector(float x, float y, float z) : value{x, y, z} {}
+	constexpr SIVector(ValueType x, ValueType y, ValueType z) : value{x.value, y.value, z.value} {}
 
 	constexpr ValueType x() { return value.x; }
 	constexpr ValueType y() { return value.y; }
@@ -161,6 +201,7 @@ struct SIVector<KG, M, S, 4> {
 	constexpr SIVector(float fill) : value(fill) {}
 	constexpr SIVector(math::Vec4 val) : value(val) {}
 	constexpr SIVector(float x, float y, float z, float w = 0) : value{x, y, z, w} {}
+	constexpr SIVector(ValueType x, ValueType y, ValueType z, ValueType w = 0) : value{x.value, y.value, z.value, w.value} {}
 	
 	constexpr ValueType x() { return value.x; }
 	constexpr ValueType y() { return value.y; }
@@ -180,6 +221,11 @@ splat(const SIValue<KG, M, S>& v) {
 }
 
 
+//  ___ ___   _   _      _ _
+// / __|_ _| | | | |_ _ (_) |_ ___
+// \__ \| |  | |_| | ' \| |  _(_-<
+// |___/___|  \___/|_||_|_|\__/__/
+//
 
 /*
 	Mass         = kg
@@ -220,6 +266,42 @@ using Force  = SIValue <1, 1, -2>;
 using Force2 = SIValue2<1, 1, -2>;
 using Force3 = SIValue3<1, 1, -2>;
 using Force4 = SIValue4<1, 1, -2>;
+
+
+// -- Quaternion-Position multiplication
+constexpr Position3
+operator *(const math::Quat& quat, const Position3& pos) {
+	return { quat * pos.value };
+}
+
+
+//   ___             _            _
+//  / __|___ _ _  __| |_ __ _ _ _| |_ ___
+// | (__/ _ \ ' \(_-<  _/ _` | ' \  _(_-<
+//  \___\___/_|\_/__/\__\__,_|_|\_\__/__/
+//
+
+constexpr Acceleration3 earthGravity() { return { 0, -9.80665, 0 }; }
+constexpr Acceleration3 moonGravity() { return { 0, -1.62519, 0 }; }
+
+
+//  _    _ _                _
+// | |  (_) |_ ___ _ _ __ _| |___
+// | |__| |  _/ -_) '_/ _` | (_-<
+// |____|_|\__\___|_| \__,_|_/__/
+//
+
+constexpr Mass operator ""_kg(long double val) {
+	return { static_cast<float>(val) };
+}
+
+constexpr Time operator ""_s(long double val) {
+	return { static_cast<float>(val) };
+}
+
+constexpr Position operator ""_m(long double val) {
+	return { static_cast<float>(val) };
+}
 
 
 } // ns physics
