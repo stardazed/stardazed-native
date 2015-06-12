@@ -28,8 +28,9 @@ class RigidBody {
 public:
 	explicit RigidBody(Transform& transform, Mass mass = 1_kg)
 	: transform_(transform)
-	, mass_(mass)
-	{}
+	{
+		setMass(mass);
+	}
 
 	// -- observers for primary and secondary values
 
