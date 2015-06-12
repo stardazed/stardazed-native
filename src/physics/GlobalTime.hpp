@@ -27,9 +27,9 @@ public:
 	constexpr GlobalTime(const GlobalTime& other)
 	: time_(other.time_)
 	{}
-
-	// immutable
-	GlobalTime& operator =(const GlobalTime&) = delete;
+	constexpr GlobalTime(const time::Duration& duration)
+	: time_(duration.count())
+	{}
 
 	// direct double access
 	constexpr double value() const { return time_; }
@@ -37,6 +37,17 @@ public:
 	// export as float-precision Time
 	explicit constexpr operator Time() const {
 		return Time{ static_cast<float>(time_) };
+	}
+	
+	// friends
+	friend GlobalTime& operator +=(GlobalTime& into, const GlobalTime add) {
+		into.time_ += add.time_;
+		return into;
+	}
+
+	friend GlobalTime& operator -=(GlobalTime& into, const GlobalTime add) {
+		into.time_ -= add.time_;
+		return into;
 	}
 };
 

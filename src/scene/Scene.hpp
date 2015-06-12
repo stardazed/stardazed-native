@@ -52,6 +52,10 @@ public:
 	auto entitiesEnd() { return entityPool_.end(); }
 
 	auto& camera() { return *camera_; }
+	
+	physics::PhysicsContext& physics() {
+		return physicsCtx_;
+	}
 };
 
 

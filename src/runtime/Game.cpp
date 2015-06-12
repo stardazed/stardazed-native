@@ -73,12 +73,7 @@ void Game::simulationStep() {
 				entity.behaviour->update(entity, scene, frame);
 		});
 
-	std::for_each(scene.entitiesBegin(), scene.entitiesEnd(),
-		[&](scene::Entity& entity) {
-			if (entity.rigidBody)
-				;
-//				entity.rigidBody->
-		});
+	controller_->scene().physics().integrateStep(globalTime_, physicsFixedStepTime_);
 }
 
 
@@ -87,9 +82,12 @@ void Game::mainLoop() {
 
 	if (runState_ != GameRunState::Idle)
 		return;
-
-	previousFrameStartTime_ = time::now();
 	runState_ = GameRunState::Running;
+
+	// -- set time base
+	previousFrameStartTime_ = time::now();
+	baseTime_ = previousFrameStartTime_;
+	globalTime_ = baseTime_;
 
 	while (! Application::shouldQuit()) {
 		FrameStatistics stats;
@@ -103,7 +101,7 @@ void Game::mainLoop() {
 			stats.lagDuration = timeSinceLastFrameStart - maxFrameTime_;
 			timeSinceLastFrameStart = maxFrameTime_;
 		}
-		globalTimePoint_ += timeSinceLastFrameStart;
+		globalTime_ += timeSinceLastFrameStart;
 
 		client_.devices().frame();
 		stats.inputDone();
@@ -114,7 +112,7 @@ void Game::mainLoop() {
 			while (physicsLag_ >= physicsFixedStepTime_) {
 				// run as many simulation frames as needed to catch up
 				physicsLag_ -= physicsFixedStepTime_;
-				controller_->simulationFrame(physicsFixedStepTime_);
+				simulationStep();
 				stats.physicsStep();
 			}
 			stats.physicsDone();
