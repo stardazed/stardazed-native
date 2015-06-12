@@ -14,8 +14,6 @@ struct Derivative {
 	Force3 force;
 };
 
-using Time3 = SIValue3<0, 0, 1>;
-
 
 Derivative evaluate(const RigidBody& initial, GlobalTime t) {
 	Derivative output;
@@ -39,19 +37,7 @@ Derivative evaluate(const RigidBody& initial, GlobalTime t, Time3 dt, const Deri
 }
 
 
-template <typename It>
-void integrate(It from, It to, GlobalTime t, Time dt) {
-	Time3 dt3 = splat3(dt);
-
-	for (; ++from; from != to) {
-		
-	}
-}
-
-
-void integrateRK4(RigidBody& state, GlobalTime t, Time dt) {
-	Time3 dt3 = splat3(dt);
-
+void integrateRK4(RigidBody& state, GlobalTime t, Time3 dt3) {
 	Derivative a = evaluate(state, t);
 	Derivative b = evaluate(state, t, dt3*0.5f, a);
 	Derivative c = evaluate(state, t, dt3*0.5f, b);
@@ -66,9 +52,7 @@ void integrateRK4(RigidBody& state, GlobalTime t, Time dt) {
 }
 
 
-void integrateEuler(RigidBody& state, GlobalTime t, Time dt) {
-	Time3 dt3 = splat3(dt);
-
+void integrateEuler(RigidBody& state, GlobalTime t, Time3 dt3) {
 	Derivative d = evaluate(state, t);
 	
 	state.transform().position += d.velocity * dt3;
