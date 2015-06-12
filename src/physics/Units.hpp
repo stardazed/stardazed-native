@@ -230,11 +230,25 @@ using SIValue4 = SIVector<KG, M, S, 4>;
 
 
 
-//          _      _
-//  ____ __| |__ _| |_
-// (_-< '_ \ / _` |  _|
-// /__/ .__/_\__,_|\__|
-//    |_|
+
+
+//  _  _     _
+// | || |___| |_ __  ___ _ _ ___
+// | __ / -_) | '_ \/ -_) '_(_-<
+// |_||_\___|_| .__/\___|_| /__/
+//            |_|
+
+constexpr SIVector<0, 1, 0, 3>
+operator *(const math::Quat& quat, const SIVector<0, 1, 0, 3>& pos) {
+	return { quat * pos.value };
+}
+
+
+template <int KG, int M, int S, size32 N>
+std::string toString(const SIVector<KG, M, S, N>& siv) {
+	return sd::toString(siv.value);
+}
+
 
 template <int KG, int M, int S>
 constexpr SIVector<KG, M, S, 2>
@@ -262,6 +276,16 @@ splat4(const SIValue<KG, M, S>& v) {
 // |___/___|  \___/|_||_|_|\__/__/
 //
 
+#define SI_UNIT(name, KG, M, S) \
+using name = SIValue<KG, M, S>; \
+using name##2 = SIValue2<KG, M, S>; \
+using name##3 = SIValue3<KG, M, S>; \
+using name##4 = SIValue4<KG, M, S>; \
+using Inverse##name = SIValue<-KG, -M, -S>; \
+using Inverse##name##2 = SIValue2<-KG, -M, -S>; \
+using Inverse##name##3 = SIValue3<-KG, -M, -S>; \
+using Inverse##name##4 = SIValue4<-KG, -M, -S>;
+
 /*
 	Mass           kg
 	Position       m            x(yz)
@@ -274,51 +298,22 @@ splat4(const SIValue<KG, M, S>& v) {
 	Force          kg m s-2     kg a     N(ewton)
 */
 
-using Mass = SIValue<1, 0, 0>;
-using Time = SIValue<0, 0, 1>;
+SI_UNIT(Mass,     1, 0, 0)
+SI_UNIT(Position, 0, 1, 0)
+SI_UNIT(Time,     0, 0, 1)
 
-using Position  = SIValue <0, 1, 0>;
-using Position2 = SIValue2<0, 1, 0>;
-using Position3 = SIValue3<0, 1, 0>;
-using Position4 = SIValue4<0, 1, 0>;
+SI_UNIT(Velocity,     0, 1, -1)
+SI_UNIT(Acceleration, 0, 1, -2)
 
-using Velocity  = SIValue <0, 1, -1>;
-using Velocity2 = SIValue2<0, 1, -1>;
-using Velocity3 = SIValue3<0, 1, -1>;
-using Velocity4 = SIValue4<0, 1, -1>;
+SI_UNIT(Momentum, 1, 1, -1)
+SI_UNIT(Force,    1, 1, -2)
 
-using Acceleration  = SIValue <0, 1, -2>;
-using Acceleration2 = SIValue2<0, 1, -2>;
-using Acceleration3 = SIValue3<0, 1, -2>;
-using Acceleration4 = SIValue4<0, 1, -2>;
+SI_UNIT(Area,   0, 2, 0)
+SI_UNIT(Volume, 0, 3, 0)
 
-using Momentum  = SIValue <1, 1, -1>;
-using Momentum2 = SIValue2<1, 1, -1>;
-using Momentum3 = SIValue3<1, 1, -1>;
-using Momentum4 = SIValue4<1, 1, -1>;
+SI_UNIT(MassDensity, 1, -3, 0);
 
-using Force  = SIValue <1, 1, -2>;
-using Force2 = SIValue2<1, 1, -2>;
-using Force3 = SIValue3<1, 1, -2>;
-using Force4 = SIValue4<1, 1, -2>;
-
-
-//  _  _     _
-// | || |___| |_ __  ___ _ _ ___
-// | __ / -_) | '_ \/ -_) '_(_-<
-// |_||_\___|_| .__/\___|_| /__/
-//            |_|
-
-constexpr Position3
-operator *(const math::Quat& quat, const Position3& pos) {
-	return { quat * pos.value };
-}
-
-
-template <int KG, int M, int S, size32 N>
-std::string toString(const SIVector<KG, M, S, N>& siv) {
-	return sd::toString(siv.value);
-}
+#undef SI_UNIT
 
 
 //   ___             _            _
@@ -329,6 +324,8 @@ std::string toString(const SIVector<KG, M, S, N>& siv) {
 
 constexpr Acceleration3 earthGravity() { return { 0, -9.80665, 0 }; }
 constexpr Acceleration3 moonGravity() { return { 0, -1.62519, 0 }; }
+
+constexpr MassDensity earthSeaLevelAirDensity() { return MassDensity{ 1.2250 }; } // at 15°C
 
 
 //  _    _ _                _
