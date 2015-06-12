@@ -7,8 +7,7 @@
 #define SD_PHYSICS_PHYSICSCONTEXT_H
 
 #include "system/Config.hpp"
-#include "physics/GlobalTime.hpp"
-#include "physics/RigidBody.hpp"
+#include "physics/Integration.hpp"
 
 #include <vector>
 
@@ -22,13 +21,12 @@ class PhysicsContext {
 	
 public:
 	PhysicsContext();
-
-	Acceleration3 gravity = earthGravity();
-	float linearDragCoefficient = 1.5;
 	
 	RigidBody* makeRigidBody(Transform& linkedTransform, Mass mass);
 	
 	void integrateStep(GlobalTime t, GlobalTime dt);
+	
+	Environment environment {};
 };
 
 

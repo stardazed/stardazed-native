@@ -22,7 +22,8 @@ RigidBody* PhysicsContext::makeRigidBody(Transform& linkedTransform, Mass mass) 
 
 
 void PhysicsContext::integrateStep(GlobalTime t, GlobalTime dt) {
-	integrate(rigidBodyPool_.begin(), rigidBodyPool_.end(), t, Time(dt));
+	IntegrationStep is { environment, t, Time(dt) };
+	is.integrateRange(rigidBodyPool_.begin(), rigidBodyPool_.end());
 }
 
 

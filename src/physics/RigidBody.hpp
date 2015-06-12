@@ -14,10 +14,11 @@ namespace stardazed {
 namespace physics {
 
 
-class RigidBody {
-	using InverseMass3 = SIValue3<-1, 0, 0>;
+struct Environment;
 
-	Transform& transform_;
+
+class RigidBody {
+	Transform* transform_;
 //	Transform nextTransform_; this will be used when collision detection etc comes into play
 
 	Mass mass_{};
@@ -27,14 +28,16 @@ class RigidBody {
 
 public:
 	explicit RigidBody(Transform& transform, Mass mass = 1_kg)
-	: transform_(transform)
+	: transform_(&transform)
 	{
 		setMass(mass);
 	}
 
 	// -- observers for primary and secondary values
 
-	Transform& transform() { return transform_; }
+	Transform& transform() { return *transform_; }
+	const Transform& transform() const { return *transform_; }
+	void useTransform(Transform& newTransformRef) { transform_ = &newTransformRef; }
 
 	Mass mass() const { return mass_; }
 	void setMass(Mass mass) {
@@ -56,6 +59,9 @@ public:
 	void addForce(const Force3& force) {
 		userForce += force;
 	}
+	
+	// -- integration
+	Force3 calcForce(const Environment&, const Time3& globalTime) const;
 };
 
 

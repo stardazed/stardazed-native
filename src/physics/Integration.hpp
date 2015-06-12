@@ -14,21 +14,36 @@ namespace stardazed {
 namespace physics {
 
 
-using Time3 = SIValue3<0, 0, 1>;
+struct Environment {
+	Acceleration3 gravity = earthGravity();
+	MassDensity airDensity = earthSeaLevelAirDensity();
+};
 
 
-void integrateRK4(RigidBody& state, GlobalTime t, Time3 dt3);
-void integrateEuler(RigidBody& state, GlobalTime t, Time3 dt3);
+struct Derivative;
 
 
-template <typename It>
-void integrate(It from, It to, GlobalTime t, Time dt) {
-	auto dt3 = splat3(dt);
+class IntegrationStep {
+	Environment environment_;
+	Time3 t3_, dt3_;
 
-	for (; from != to; ++from) {
-		integrateRK4(*from, t, dt3);
+	Derivative evaluate(const RigidBody&);
+	Derivative evaluate(const RigidBody&, const Time3&, const Derivative&);
+
+	void integrateRK4(RigidBody& state);
+	void integrateEuler(RigidBody& state);
+
+public:
+	IntegrationStep(Environment, GlobalTime, Time dt);
+
+	template <typename It>
+	void integrateRange(It from, It to) {
+		for (; from != to; ++from) {
+			integrateRK4(*from);
+			from->userForce = Force3{0,0,0}; // FIXME: this var is the comms between Behaviour and RigidBody
+		}
 	}
-}
+};
 
 
 } // ns physics

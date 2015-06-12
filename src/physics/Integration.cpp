@@ -15,49 +15,54 @@ struct Derivative {
 };
 
 
-Derivative evaluate(const RigidBody& initial, GlobalTime t) {
+IntegrationStep::IntegrationStep(Environment env, GlobalTime t, Time dt)
+: environment_(env)
+, t3_{splat3(Time{t})}
+, dt3_{splat3(dt)}
+{}
+
+
+Derivative IntegrationStep::evaluate(const RigidBody& initial) {
 	Derivative output;
 	output.velocity = initial.velocity();
-//	output.force = force(initial, t);
-	output.force = initial.userForce;
+	output.force = initial.calcForce(environment_, t3_);
 	return output;
 }
 
 
-Derivative evaluate(const RigidBody& initial, GlobalTime t, Time3 dt, const Derivative& d) {
+Derivative IntegrationStep::evaluate(const RigidBody& initial, const Time3& dt3, const Derivative& d) {
+	Transform next{ initial.transform() };
 	RigidBody state{initial};
-	state.transform().position += d.velocity * dt;
-	state.setMomentum(initial.momentum() + d.force * dt);
+	state.useTransform(next); // FIMXE: this setup kinda sucks
+	state.transform().position += d.velocity * dt3;
+	state.setMomentum(initial.momentum() + d.force * dt3);
 
 	Derivative output;
 	output.velocity = state.velocity();
-//	output.force = force(state, t + dt);
-	output.force = state.userForce;
+	output.force = state.calcForce(environment_, t3_ + dt3_);
 	return output;
 }
 
 
-void integrateRK4(RigidBody& state, GlobalTime t, Time3 dt3) {
-	Derivative a = evaluate(state, t);
-	Derivative b = evaluate(state, t, dt3*0.5f, a);
-	Derivative c = evaluate(state, t, dt3*0.5f, b);
-	Derivative d = evaluate(state, t, dt3, c);
+void IntegrationStep::integrateRK4(RigidBody& state) {
+	Derivative a = evaluate(state);
+	Derivative b = evaluate(state, dt3_*0.5f, a);
+	Derivative c = evaluate(state, dt3_*0.5f, b);
+	Derivative d = evaluate(state, dt3_, c);
 	
 	Velocity3 dxdt = 1.0f/6.0f * (a.velocity + 2.0f*(b.velocity + c.velocity) + d.velocity);
 	Force3 dpdt = 1.0f/6.0f * (a.force + 2.0f*(b.force + c.force) + d.force);
 	
-	state.transform().position += dxdt * dt3;
-	state.setMomentum(state.momentum() + dpdt * dt3);
-	state.userForce = Force3{0,0,0};
+	state.transform().position += dxdt * dt3_;
+	state.setMomentum(state.momentum() + dpdt * dt3_);
 }
 
 
-void integrateEuler(RigidBody& state, GlobalTime t, Time3 dt3) {
-	Derivative d = evaluate(state, t);
+void IntegrationStep::integrateEuler(RigidBody& state) {
+	Derivative d = evaluate(state);
 	
-	state.transform().position += d.velocity * dt3;
-	state.setMomentum(state.momentum() + d.force * dt3);
-	state.userForce = Force3{0,0,0};
+	state.transform().position += d.velocity * dt3_;
+	state.setMomentum(state.momentum() + d.force * dt3_);
 }
 
 
