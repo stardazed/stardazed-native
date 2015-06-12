@@ -7,6 +7,7 @@
 #define SD_PHYSICS_UNITS_H
 
 #include "system/Config.hpp"
+#include "util/StringFormat.hpp"
 #include "math/Vector.hpp"
 #include "math/Quaternion.hpp"
 
@@ -288,9 +289,21 @@ using Force3 = SIValue3<1, 1, -2>;
 using Force4 = SIValue4<1, 1, -2>;
 
 
+//  _  _     _
+// | || |___| |_ __  ___ _ _ ___
+// | __ / -_) | '_ \/ -_) '_(_-<
+// |_||_\___|_| .__/\___|_| /__/
+//            |_|
+
 constexpr Position3
 operator *(const math::Quat& quat, const Position3& pos) {
 	return { quat * pos.value };
+}
+
+
+template <int KG, int M, int S, size32 N>
+std::string toString(const SIVector<KG, M, S, N>& siv) {
+	return sd::toString(siv.value);
 }
 
 
@@ -350,6 +363,14 @@ inline namespace literals {
 	
 	constexpr Acceleration operator ""_m_s2(unsigned long long val) {
 		return Acceleration{ static_cast<float>(val) };
+	}
+
+	constexpr Force operator ""_N(long double val) {
+		return Force{ static_cast<float>(val) };
+	}
+	
+	constexpr Force operator ""_N(unsigned long long val) {
+		return Force{ static_cast<float>(val) };
 	}
 
 }
