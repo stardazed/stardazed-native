@@ -39,6 +39,20 @@ operator *(const SIVector<KG, M, S, N>& ua, float scalar) {
 }
 
 
+template <int KG, int M, int S, size32 N>
+constexpr SIVector<KG, M, S, N>
+operator *(const SIVector<KG, M, S, 1>& ua, const math::Vector<N, float>& scalarVec) {
+	return SIVector<KG, M, S, N>{ ua.value * scalarVec };
+}
+
+
+template <int KG, int M, int S, size32 N>
+constexpr SIVector<KG, M, S, N>
+operator *(const math::Vector<N, float>& scalarVec, const SIVector<KG, M, S, 1>& ua) {
+	return SIVector<KG, M, S, N>{ scalarVec * ua.value };
+}
+
+
 template <int KGA, int MA, int SA, int KGB, int MB, int SB, size32 N>
 constexpr SIVector<KGA + KGB, MA + MB, SA + SB, N>
 operator *(const SIVector<KGA, MA, SA, N>& ua, const SIVector<KGB, MB, SB, N>& ub) {
@@ -373,7 +387,7 @@ inline namespace literals {
 		return Force{ static_cast<float>(val) };
 	}
 
-}
+} // inline ns literals
 
 
 } // ns physics
