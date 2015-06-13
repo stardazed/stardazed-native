@@ -22,7 +22,7 @@ class RigidBody {
 //	Transform nextTransform_; this will be used when collision detection etc comes into play
 
 	Mass mass_{};
-	InverseMass3 oneOverMass_{};
+	InverseMass oneOverMass_{};
 	Momentum3 momentum_ {};
 	Velocity3 velocity_ {};
 
@@ -42,7 +42,7 @@ public:
 	Mass mass() const { return mass_; }
 	void setMass(Mass mass) {
 		mass_ = mass;
-		oneOverMass_ = 1 / splat3(mass_);
+		oneOverMass_ = 1 / mass_;
 	}
 
 	const Momentum3& momentum() const { return momentum_; }
@@ -61,7 +61,7 @@ public:
 	}
 	
 	// -- integration
-	Force3 calcForce(const Environment&, const Time3& globalTime) const;
+	Force3 calcForce(const Environment&, const Time& globalTime) const;
 };
 
 

@@ -9,7 +9,7 @@ namespace stardazed {
 namespace physics {
 
 
-Force3 RigidBody::calcForce(const Environment& env, const Time3& globalTime) const {
+Force3 RigidBody::calcForce(const Environment& env, const Time& /* globalTime */) const {
 	return userForce - Force3{ momentum().value * .6125 };
 }
 

@@ -25,10 +25,10 @@ struct Derivative;
 
 class IntegrationStep {
 	Environment environment_;
-	Time3 t3_, dt3_;
+	Time t_, dt_;
 
 	Derivative evaluate(const RigidBody&);
-	Derivative evaluate(const RigidBody&, const Time3&, const Derivative&);
+	Derivative evaluate(const RigidBody&, const Time&, const Derivative&);
 
 	void integrateRK4(RigidBody& state);
 	void integrateEuler(RigidBody& state);
