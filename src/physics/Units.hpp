@@ -320,14 +320,14 @@ SI_UNIT_VEC(Angle,    0, 0, 0, 1)
 
 SI_UNIT_VEC(Velocity,     0, 1, -1, 0)
 SI_UNIT_VEC(Acceleration, 0, 1, -2, 0)
-SI_UNIT    (Inertia,      1, 0, 0, 0)
+SI_UNIT_VEC(Inertia,      1, 0, 0, 0)
 
 SI_UNIT_VEC(Momentum, 1, 1, -1, 0)
 SI_UNIT_VEC(Force,    1, 1, -2, 0)
 
 SI_UNIT_VEC(AngVelocity,   0, 0, -1, 1)
 SI_UNIT_VEC(AngAccelation, 0, 0, -2, 1)
-SI_UNIT    (AngInertia,    1, 2, 0, -2)
+SI_UNIT_VEC(AngInertia,    1, 2, 0, -2)
 
 SI_UNIT_VEC(AngMomentum,   1, 2, -1, -1)
 SI_UNIT_VEC(Torque,        1, 2, -2, -1)
