@@ -25,6 +25,7 @@ template <int KG, int M, int S, size32 N>
 struct SIVector;
 
 
+// -- simple scaling of any SIVector by a single float scalar
 template <int KG, int M, int S, size32 N>
 constexpr SIVector<KG, M, S, N>
 operator *(float scalar, const SIVector<KG, M, S, N>& ua) {
@@ -39,6 +40,8 @@ operator *(const SIVector<KG, M, S, N>& ua, float scalar) {
 }
 
 
+// -- allow for 1-sized SIVectors (values) to combine with normal vectors
+// -- and return a SIVector sized to the scalar vector
 template <int KG, int M, int S, size32 N>
 constexpr SIVector<KG, M, S, N>
 operator *(const SIVector<KG, M, S, 1>& ua, const math::Vector<N, float>& scalarVec) {
@@ -53,6 +56,8 @@ operator *(const math::Vector<N, float>& scalarVec, const SIVector<KG, M, S, 1>&
 }
 
 
+// -- standard multiplication of 2 equally sized dimensioned values
+// -- result has dimensions of sum of the 2 vectors' dimensions
 template <int KGA, int MA, int SA, int KGB, int MB, int SB, size32 N>
 constexpr SIVector<KGA + KGB, MA + MB, SA + SB, N>
 operator *(const SIVector<KGA, MA, SA, N>& ua, const SIVector<KGB, MB, SB, N>& ub) {
@@ -60,6 +65,23 @@ operator *(const SIVector<KGA, MA, SA, N>& ua, const SIVector<KGB, MB, SB, N>& u
 }
 
 
+// -- allow for 1-sized vectors (values) to act as dimensioned scalars
+
+template <int KGA, int MA, int SA, int KGB, int MB, int SB, size32 N>
+constexpr SIVector<KGA + KGB, MA + MB, SA + SB, N>
+operator *(const SIVector<KGA, MA, SA, 1>& ua, const SIVector<KGB, MB, SB, N>& ub) {
+	return SIVector<KGA + KGB, MA + MB, SA + SB, N>{ ua.value * ub.value };
+}
+
+
+template <int KGA, int MA, int SA, int KGB, int MB, int SB, size32 N>
+constexpr SIVector<KGA + KGB, MA + MB, SA + SB, N>
+operator *(const SIVector<KGA, MA, SA, N>& ua, const SIVector<KGB, MB, SB, 1>& ub) {
+	return SIVector<KGA + KGB, MA + MB, SA + SB, N>{ ua.value * ub.value };
+}
+
+
+// -- scalar division of an SIVector
 template <int KG, int M, int S, size32 N>
 constexpr SIVector<-KG, -M, -S, N>
 operator /(float scalar, const SIVector<KG, M, S, N>& ua) {
@@ -74,12 +96,32 @@ operator /(const SIVector<KG, M, S, N>& ua, float scalar) {
 }
 
 
+// -- standard division of 2 equally sized dimensioned values
+// -- result has dimensions of difference of the 2 vectors' dimensions
+
 template <int KGA, int MA, int SA, int KGB, int MB, int SB, size32 N>
 constexpr SIVector<KGA - KGB, MA - MB, SA - SB, N>
 operator /(const SIVector<KGA, MA, SA, N>& ua, const SIVector<KGB, MB, SB, N>& ub) {
 	return SIVector<KGA - KGB, MA - MB, SA - SB, N>{ ua.value / ub.value };
 }
 
+
+// -- allow for 1-sized vectors (values) to act as dimensioned scalars
+
+template <int KGA, int MA, int SA, int KGB, int MB, int SB, size32 N>
+constexpr SIVector<KGA - KGB, MA - MB, SA - SB, N>
+operator /(const SIVector<KGA, MA, SA, 1>& ua, const SIVector<KGB, MB, SB, N>& ub) {
+	return SIVector<KGA - KGB, MA - MB, SA - SB, N>{ ua.value / ub.value };
+}
+
+template <int KGA, int MA, int SA, int KGB, int MB, int SB, size32 N>
+constexpr SIVector<KGA - KGB, MA - MB, SA - SB, N>
+operator /(const SIVector<KGA, MA, SA, N>& ua, const SIVector<KGB, MB, SB, 1>& ub) {
+	return SIVector<KGA - KGB, MA - MB, SA - SB, N>{ ua.value / ub.value };
+}
+
+
+// -- addition and subtraction of 2 SIVector in the same dimension
 
 template <int KG, int M, int S, size32 N>
 constexpr SIVector<KG, M, S, N>
@@ -229,7 +271,57 @@ template <int KG, int M, int S>
 using SIValue4 = SIVector<KG, M, S, 4>;
 
 
+//  ___ ___   _   _      _ _
+// / __|_ _| | | | |_ _ (_) |_ ___
+// \__ \| |  | |_| | ' \| |  _(_-<
+// |___/___|  \___/|_||_|_|\__/__/
+//
 
+#define SI_UNIT(name, KG, M, S) \
+using name = SIValue<KG, M, S>; \
+using Inverse##name = SIValue<-KG, -M, -S>; \
+
+
+#define SI_UNIT_VEC(name, KG, M, S) \
+using name = SIValue<KG, M, S>; \
+using name##2 = SIValue2<KG, M, S>; \
+using name##3 = SIValue3<KG, M, S>; \
+using name##4 = SIValue4<KG, M, S>; \
+using Inverse##name = SIValue<-KG, -M, -S>; \
+using Inverse##name##2 = SIValue2<-KG, -M, -S>; \
+using Inverse##name##3 = SIValue3<-KG, -M, -S>; \
+using Inverse##name##4 = SIValue4<-KG, -M, -S>;
+
+/*
+	Mass           kg
+	Position       m            x(yz)
+	Time           s            t
+
+	Velocity       m s-1        a
+	Acceleration   m s-2        v
+
+	Momentum       kg m s-1     kg v     N s
+	Force          kg m s-2     kg a     N(ewton)
+*/
+
+SI_UNIT(Mass,     1, 0, 0)
+SI_UNIT_VEC(Position, 0, 1, 0)
+SI_UNIT(Time,     0, 0, 1)
+
+SI_UNIT_VEC(Velocity,     0, 1, -1)
+SI_UNIT_VEC(Acceleration, 0, 1, -2)
+
+SI_UNIT_VEC(Momentum, 1, 1, -1)
+SI_UNIT_VEC(Force,    1, 1, -2)
+
+SI_UNIT(Area,   0, 2, 0)
+SI_UNIT(Volume, 0, 3, 0)
+
+SI_UNIT(MassDensity, 1, -3, 0);
+
+
+#undef SI_UNIT
+#undef SI_UNIT_VEC
 
 
 //  _  _     _
@@ -238,8 +330,8 @@ using SIValue4 = SIVector<KG, M, S, 4>;
 // |_||_\___|_| .__/\___|_| /__/
 //            |_|
 
-constexpr SIVector<0, 1, 0, 3>
-operator *(const math::Quat& quat, const SIVector<0, 1, 0, 3>& pos) {
+constexpr Position3
+operator *(const math::Quat& quat, const Position3& pos) {
 	return { quat * pos.value };
 }
 
@@ -267,53 +359,6 @@ constexpr SIVector<KG, M, S, 4>
 splat4(const SIValue<KG, M, S>& v) {
 	return { v, v, v, v };
 }
-
-
-
-//  ___ ___   _   _      _ _
-// / __|_ _| | | | |_ _ (_) |_ ___
-// \__ \| |  | |_| | ' \| |  _(_-<
-// |___/___|  \___/|_||_|_|\__/__/
-//
-
-#define SI_UNIT(name, KG, M, S) \
-using name = SIValue<KG, M, S>; \
-using name##2 = SIValue2<KG, M, S>; \
-using name##3 = SIValue3<KG, M, S>; \
-using name##4 = SIValue4<KG, M, S>; \
-using Inverse##name = SIValue<-KG, -M, -S>; \
-using Inverse##name##2 = SIValue2<-KG, -M, -S>; \
-using Inverse##name##3 = SIValue3<-KG, -M, -S>; \
-using Inverse##name##4 = SIValue4<-KG, -M, -S>;
-
-/*
-	Mass           kg
-	Position       m            x(yz)
-	Time           s            t
-
-	Velocity       m s-1        a
-	Acceleration   m s-2        v
-
-	Momentum       kg m s-1     kg v     N s
-	Force          kg m s-2     kg a     N(ewton)
-*/
-
-SI_UNIT(Mass,     1, 0, 0)
-SI_UNIT(Position, 0, 1, 0)
-SI_UNIT(Time,     0, 0, 1)
-
-SI_UNIT(Velocity,     0, 1, -1)
-SI_UNIT(Acceleration, 0, 1, -2)
-
-SI_UNIT(Momentum, 1, 1, -1)
-SI_UNIT(Force,    1, 1, -2)
-
-SI_UNIT(Area,   0, 2, 0)
-SI_UNIT(Volume, 0, 3, 0)
-
-SI_UNIT(MassDensity, 1, -3, 0);
-
-#undef SI_UNIT
 
 
 //   ___             _            _
