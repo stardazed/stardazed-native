@@ -457,6 +457,14 @@ inline namespace literals {
 		return Force{ static_cast<float>(val) };
 	}
 
+	constexpr Torque operator ""_Nm(long double val) {
+		return Torque{ static_cast<float>(val) };
+	}
+	
+	constexpr Torque operator ""_Nm(unsigned long long val) {
+		return Torque{ static_cast<float>(val) };
+	}
+
 } // inline ns literals
 
 

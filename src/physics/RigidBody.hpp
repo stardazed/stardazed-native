@@ -38,9 +38,9 @@ public:
 
 	// -- behaviour-generated force
 	Force3 userForce;
-	void addForce(const Force3& force) {
-		userForce += force;
-	}
+	Torque3 userTorque;
+	void addForce(const Force3& force) { userForce += force; }
+	void addTorque(const Torque3& torque) { userTorque += torque; }
 	
 	// -- integration
 	void calcForces(const PhysicsState&, const Time globalTime, Force3& outForce, Torque3& outTorque) const;

@@ -20,6 +20,7 @@ void RigidBody::update(GlobalTime t, GlobalTime dt) {
 	previous_.copyPrimaryAndSecondaryValuesFrom(current_);
 	integrate(current_, Time{t}, Time{dt});
 	userForce = Force3{0,0,0};
+	userTorque = Torque3{0,0,0};
 }
 
 
@@ -33,9 +34,9 @@ void RigidBody::setAngularInertia(const AngInertia angularInertia) {
 }
 
 
-void RigidBody::calcForces(const PhysicsState&, const Time /*globalTime*/, Force3& outForce, Torque3& outTorque) const {
-	outForce  = userForce - Force3{ state().momentum.value * .6125 };
-	outTorque = Torque3{ 0, 0, 0 };
+void RigidBody::calcForces(const PhysicsState& state, const Time /*globalTime*/, Force3& outForce, Torque3& outTorque) const {
+	outForce  = userForce - Force3{ state.momentum.value * .6125 };
+	outTorque = userTorque - Torque3{ state.angularMomentum.value * .5 };
 }
 
 
