@@ -7,8 +7,7 @@
 #define SD_PHYSICS_INTEGRATION_H
 
 #include "system/Config.hpp"
-#include "physics/GlobalTime.hpp"
-#include "physics/RigidBody.hpp"
+#include "physics/Transform.hpp"
 
 namespace stardazed {
 namespace physics {
@@ -20,29 +19,75 @@ struct Environment {
 };
 
 
-struct Derivative;
+class PhysicsState {
+	// (semi-)constant values
+	Mass mass_ {};
+	AngInertia angularInertia_ {};
+	InverseMass oneOverMass_ {};
+	InverseAngInertia oneOverAngularInertia_ {};
+
+	// secondary values
+	Velocity3 velocity_ {};
+	AngVelocity3 angularVelocity_ {};
+	math::Quat spin_{};
+
+public:
+	// primary values
+	Transform& transform;
+	Momentum3 momentum {};
+	AngMomentum3 angularMomentum {};
+	
+	PhysicsState(Transform& transform, const Mass mass, const AngInertia angularInertia)
+	: transform(transform)
+	{
+		setMass(mass);
+		setAngularInertia(angularInertia);
+	}
+
+	// -- no copy or move allowed, explicitly use copyPrimaryAndSecondaryValuesFrom instead
+	PhysicsState(const PhysicsState&) = delete;
+	PhysicsState& operator =(const PhysicsState&) = delete;
+
+	// -- observers for semi-constant state
+
+	Mass mass() const { return mass_; }
+	void setMass(const Mass mass) {
+		mass_ = mass;
+		oneOverMass_ = 1 / mass;
+	}
+
+	AngInertia angularInertia() const { return angularInertia_; }
+	void setAngularInertia(const AngInertia angInertia) {
+		angularInertia_ = angInertia;
+		oneOverAngularInertia_ = 1 / angInertia;
+	}
+
+	// -- observers for secondary state
+	
+	const Velocity3& velocity() const { return velocity_; }
+	const math::Quat& spin() const { return spin_; }
+	const AngVelocity3& angularVelocity() { return angularVelocity_; }
+	
+	void recalcSecondaryValues();
+	void copyPrimaryAndSecondaryValuesFrom(const PhysicsState&);
+};
+
+
+struct Derivative {
+	Velocity3 velocity;
+	Force3 force;
+
+	math::Quat spin;
+	Torque3 torque;
+};
 
 
 class IntegrationStep {
-	Environment environment_;
-	Time t_, dt_;
-
-	Derivative evaluate(const RigidBody&);
-	Derivative evaluate(const RigidBody&, const Time&, const Derivative&);
-
-	void integrateRK4(RigidBody& state);
-	void integrateEuler(RigidBody& state);
+	Derivative evaluate(const PhysicsState&, const Time t);
+	Derivative evaluate(const PhysicsState&, const Time t, const Time dt, const Derivative&);
 
 public:
-	IntegrationStep(Environment, GlobalTime, Time dt);
-
-	template <typename It>
-	void integrateRange(It from, It to) {
-		for (; from != to; ++from) {
-			integrateRK4(*from);
-			from->userForce = Force3{0,0,0}; // FIXME: this var is the comms between Behaviour and RigidBody
-		}
-	}
+	void integrate(PhysicsState& state, const Time t, const Time dt);
 };
 
 

@@ -7,54 +7,34 @@
 #define SD_PHYSICS_RIGIDBODY_H
 
 #include "system/Config.hpp"
-#include "physics/Units.hpp"
-#include "physics/Transform.hpp"
+#include "physics/Integration.hpp"
 
 namespace stardazed {
 namespace physics {
 
 
+// defined in physics/Integration.hpp, which already includes this file
 struct Environment;
+class IntegrationStep;
 
 
 class RigidBody {
-	Transform* transform_;
-//	Transform nextTransform_; this will be used when collision detection etc comes into play
-
-	Mass mass_{};
-	InverseMass oneOverMass_{};
-	Momentum3 momentum_ {};
-	Velocity3 velocity_ {};
-
+	Transform previousTransform_;
+	PhysicsState previous_, current_;
+	
 public:
-	explicit RigidBody(Transform& transform, Mass mass = 1_kg)
-	: transform_(&transform)
-	{
-		setMass(mass);
-	}
-
-	// -- observers for primary and secondary values
-
-	Transform& transform() { return *transform_; }
-	const Transform& transform() const { return *transform_; }
-	void useTransform(Transform& newTransformRef) { transform_ = &newTransformRef; }
-
-	Mass mass() const { return mass_; }
-	void setMass(Mass mass) {
-		mass_ = mass;
-		oneOverMass_ = 1 / mass_;
-	}
-
-	const Momentum3& momentum() const { return momentum_; }
-	void setMomentum(Momentum3 newMomentum) {
-		momentum_ = newMomentum;
-		velocity_ = momentum_ * oneOverMass_;
-	}
-
-	const Velocity3& velocity() const { return velocity_; }
+	RigidBody(Transform& linkedTransform, const Mass, const AngInertia);
+	
+	void update(const IntegrationStep&);
+	
+	// -- observable state
+	const PhysicsState& state() const { return current_; }
+	
+	// -- shared semi-constant state
+	void setMass(const Mass);
+	void setAngularInertia(const AngInertia);
 
 	// -- behaviour-generated force
-
 	Force3 userForce;
 	void addForce(const Force3& force) {
 		userForce += force;

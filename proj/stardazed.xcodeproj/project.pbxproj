@@ -518,10 +518,10 @@
 				8E5372511B29E8AF002C1538 /* GlobalTime.hpp */,
 				8EFEA1B01B27320200C6406C /* Transform.hpp */,
 				8EFEA1AF1B27320200C6406C /* Transform.cpp */,
-				8E7749D01B25E7B5003843FA /* RigidBody.hpp */,
-				8E842E571B2B79B900A8557D /* RigidBody.cpp */,
 				8EFEA1B31B289EC700C6406C /* Integration.hpp */,
 				8EFEA1B51B289F9800C6406C /* Integration.cpp */,
+				8E7749D01B25E7B5003843FA /* RigidBody.hpp */,
+				8E842E571B2B79B900A8557D /* RigidBody.cpp */,
 				8EFEA1AD1B26FB3900C6406C /* PhysicsContext.hpp */,
 				8E53724F1B299CEC002C1538 /* PhysicsContext.cpp */,
 			);

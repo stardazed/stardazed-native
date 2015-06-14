@@ -9,60 +9,59 @@ namespace stardazed {
 namespace physics {
 
 
-struct Derivative {
-	Velocity3 velocity;
-	Force3 force;
-};
+void PhysicsState::recalcSecondaryValues() {
+	velocity_ = momentum * oneOverMass_;
+	angularVelocity_ = angularMomentum * oneOverAngularInertia_;
+	math::normalizeInPlace(transform.rotation);
+	spin_ = 0.5 * math::Quat{angularVelocity_.value, 0} * transform.rotation;
+}
 
 
-IntegrationStep::IntegrationStep(Environment env, GlobalTime t, Time dt)
-: environment_(env)
-, t_{Time{t}}
-, dt_{dt}
-{}
+void PhysicsState::copyPrimaryAndSecondaryValuesFrom(const PhysicsState& other) {
+	transform = other.transform;
+	momentum = other.momentum;
+	angularMomentum = other.angularMomentum;
+	
+	velocity_ = other.velocity_;
+	angularVelocity_ = other.angularVelocity_;
+	spin_ = other.spin_;
+}
 
 
-Derivative IntegrationStep::evaluate(const RigidBody& initial) {
+
+Derivative IntegrationStep::evaluate(const PhysicsState& initial, const Time t) {
 	Derivative output;
 	output.velocity = initial.velocity();
-	output.force = initial.calcForce(environment_, t_);
+	output.force = initial.calcForce(t);
 	return output;
 }
 
 
-Derivative IntegrationStep::evaluate(const RigidBody& initial, const Time& dt, const Derivative& d) {
-	Transform next{ initial.transform() };
-	RigidBody state{initial};
-	state.useTransform(next); // FIMXE: this setup kinda sucks
-	state.transform().position += d.velocity * dt;
-	state.setMomentum(initial.momentum() + d.force * dt);
+Derivative IntegrationStep::evaluate(const PhysicsState& initial, const Time t, const Time dt, const Derivative& d) {
+	Transform tempTransform{ initial.transform };
+	PhysicsState state{ tempTransform, initial.mass(), initial.angularInertia() };
+	state.transform.position += d.velocity * dt;
+	state.momentum += d.force * dt;
+	state.recalcSecondaryValues();
 
 	Derivative output;
 	output.velocity = state.velocity();
-	output.force = state.calcForce(environment_, t_ + dt);
+	output.force = state.calcForce(t + dt);
 	return output;
 }
 
 
-void IntegrationStep::integrateRK4(RigidBody& state) {
-	Derivative a = evaluate(state);
-	Derivative b = evaluate(state, dt_*0.5f, a);
-	Derivative c = evaluate(state, dt_*0.5f, b);
-	Derivative d = evaluate(state, dt_, c);
+void IntegrationStep::integrate(PhysicsState& state, const Time t, const Time dt) {
+	Derivative a = evaluate(state, t);
+	Derivative b = evaluate(state, t, dt*0.5f, a);
+	Derivative c = evaluate(state, t, dt*0.5f, b);
+	Derivative d = evaluate(state, t, dt, c);
 	
 	Velocity3 dxdt = 1.0f/6.0f * (a.velocity + 2.0f*(b.velocity + c.velocity) + d.velocity);
 	Force3 dpdt = 1.0f/6.0f * (a.force + 2.0f*(b.force + c.force) + d.force);
 	
-	state.transform().position += dxdt * dt_;
-	state.setMomentum(state.momentum() + dpdt * dt_);
-}
-
-
-void IntegrationStep::integrateEuler(RigidBody& state) {
-	Derivative d = evaluate(state);
-	
-	state.transform().position += d.velocity * dt_;
-	state.setMomentum(state.momentum() + d.force * dt_);
+	state.transform.position += dxdt * dt;
+	state.momentum += dpdt * dt;
 }
 
 
