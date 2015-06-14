@@ -4,7 +4,6 @@
 // ------------------------------------------------------------------
 
 #include "physics/PhysicsContext.hpp"
-#include "physics/Integration.hpp"
 
 namespace stardazed {
 namespace physics {
@@ -15,15 +14,16 @@ PhysicsContext::PhysicsContext() {
 }
 
 
-RigidBody* PhysicsContext::makeRigidBody(Transform& linkedTransform, Mass mass) {
-	rigidBodyPool_.emplace_back(linkedTransform, mass);
+RigidBody* PhysicsContext::makeRigidBody(Transform& linkedTransform, Mass mass, AngInertia angInertia) {
+	rigidBodyPool_.emplace_back(linkedTransform, mass, angInertia);
 	return &rigidBodyPool_.back();
 }
 
 
 void PhysicsContext::integrateStep(GlobalTime t, GlobalTime dt) {
-	IntegrationStep is { environment, t, Time(dt) };
-	is.integrateRange(rigidBodyPool_.begin(), rigidBodyPool_.end());
+	for (auto& rigidBody : rigidBodyPool_) {
+		rigidBody.update(t, dt);
+	}
 }
 
 

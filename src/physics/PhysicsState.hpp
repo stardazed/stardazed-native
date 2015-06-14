@@ -1,22 +1,17 @@
 // ------------------------------------------------------------------
-// physics::Integration - stardazed
+// physics::PhysicsState - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_PHYSICS_INTEGRATION_H
-#define SD_PHYSICS_INTEGRATION_H
+#ifndef SD_PHYSICS_PHYSICSSTATE_H
+#define SD_PHYSICS_PHYSICSSTATE_H
 
 #include "system/Config.hpp"
+#include "util/ConceptTraits.hpp"
 #include "physics/Transform.hpp"
 
 namespace stardazed {
 namespace physics {
-
-
-struct Environment {
-	Acceleration3 gravity = earthGravity();
-	MassDensity airDensity = earthSeaLevelAirDensity();
-};
 
 
 class PhysicsState {
@@ -44,9 +39,7 @@ public:
 		setAngularInertia(angularInertia);
 	}
 
-	// -- no copy or move allowed, explicitly use copyPrimaryAndSecondaryValuesFrom instead
-	PhysicsState(const PhysicsState&) = delete;
-	PhysicsState& operator =(const PhysicsState&) = delete;
+	SD_DEFAULT_MOVE_OPS(PhysicsState)
 
 	// -- observers for semi-constant state
 
@@ -70,24 +63,6 @@ public:
 	
 	void recalcSecondaryValues();
 	void copyPrimaryAndSecondaryValuesFrom(const PhysicsState&);
-};
-
-
-struct Derivative {
-	Velocity3 velocity;
-	Force3 force;
-
-	math::Quat spin;
-	Torque3 torque;
-};
-
-
-class IntegrationStep {
-	Derivative evaluate(const PhysicsState&, const Time t);
-	Derivative evaluate(const PhysicsState&, const Time t, const Time dt, const Derivative&);
-
-public:
-	void integrate(PhysicsState& state, const Time t, const Time dt);
 };
 
 

@@ -7,25 +7,27 @@
 #define SD_PHYSICS_RIGIDBODY_H
 
 #include "system/Config.hpp"
-#include "physics/Integration.hpp"
+#include "physics/Integratable.hpp"
+#include "physics/GlobalTime.hpp"
 
 namespace stardazed {
 namespace physics {
 
 
-// defined in physics/Integration.hpp, which already includes this file
-struct Environment;
-class IntegrationStep;
+struct Environment {
+	Acceleration3 gravity = earthGravity();
+	MassDensity airDensity = earthSeaLevelAirDensity();
+};
 
 
-class RigidBody {
+class RigidBody : public Integratable<RigidBody> {
 	Transform previousTransform_;
 	PhysicsState previous_, current_;
 	
 public:
 	RigidBody(Transform& linkedTransform, const Mass, const AngInertia);
 	
-	void update(const IntegrationStep&);
+	void update(GlobalTime t, GlobalTime dt);
 	
 	// -- observable state
 	const PhysicsState& state() const { return current_; }
@@ -41,7 +43,7 @@ public:
 	}
 	
 	// -- integration
-	Force3 calcForce(const Environment&, const Time& globalTime) const;
+	void calcForces(const PhysicsState&, const Time globalTime, Force3& outForce, Torque3& outTorque) const;
 };
 
 

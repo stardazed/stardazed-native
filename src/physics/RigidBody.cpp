@@ -4,7 +4,6 @@
 // ------------------------------------------------------------------
 
 #include "physics/RigidBody.hpp"
-#include "physics/Integration.hpp"
 
 namespace stardazed {
 namespace physics {
@@ -17,9 +16,10 @@ RigidBody::RigidBody(Transform& linkedTransform, const Mass mass, const AngInert
 {}
 
 
-void RigidBody::update(const IntegrationStep& integrator) {
+void RigidBody::update(GlobalTime t, GlobalTime dt) {
 	previous_.copyPrimaryAndSecondaryValuesFrom(current_);
-	integrator.
+	integrate(current_, Time{t}, Time{dt});
+	userForce = Force3{0,0,0};
 }
 
 
@@ -33,8 +33,9 @@ void RigidBody::setAngularInertia(const AngInertia angularInertia) {
 }
 
 
-Force3 RigidBody::calcForce(const Environment& /* env */, const Time& /* globalTime */) const {
-	return userForce - Force3{ state().momentum.value * .6125 };
+void RigidBody::calcForces(const PhysicsState&, const Time /*globalTime*/, Force3& outForce, Torque3& outTorque) const {
+	outForce = userForce - Force3{ state().momentum.value * .6125 };
+	outTorque = Torque3{ 0, 0, 0 };
 }
 
 

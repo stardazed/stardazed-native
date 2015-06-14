@@ -7,7 +7,7 @@
 #define SD_PHYSICS_PHYSICSCONTEXT_H
 
 #include "system/Config.hpp"
-#include "physics/Integration.hpp"
+#include "physics/RigidBody.hpp"
 
 #include <vector>
 
@@ -17,12 +17,11 @@ namespace physics {
 
 class PhysicsContext {
 	std::vector<physics::RigidBody> rigidBodyPool_;
-	GlobalTime baseTime_;
 	
 public:
 	PhysicsContext();
 	
-	RigidBody* makeRigidBody(Transform& linkedTransform, Mass mass);
+	RigidBody* makeRigidBody(Transform& linkedTransform, Mass, AngInertia);
 	
 	void integrateStep(GlobalTime t, GlobalTime dt);
 	

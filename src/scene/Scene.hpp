@@ -45,7 +45,7 @@ public:
 		return b;
 	}
 
-	physics::RigidBody* makeRigidBody(Entity&, physics::Mass);
+	physics::RigidBody* makeRigidBody(Entity&, physics::Mass, physics::AngInertia);
 
 	// -- observers
 	auto entitiesBegin() { return entityPool_.begin(); }
