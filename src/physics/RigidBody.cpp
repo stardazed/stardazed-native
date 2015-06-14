@@ -34,7 +34,7 @@ void RigidBody::setAngularInertia(const AngInertia angularInertia) {
 
 
 void RigidBody::calcForces(const PhysicsState&, const Time /*globalTime*/, Force3& outForce, Torque3& outTorque) const {
-	outForce = userForce - Force3{ state().momentum.value * .6125 };
+	outForce  = userForce - Force3{ state().momentum.value * .6125 };
 	outTorque = Torque3{ 0, 0, 0 };
 }
 

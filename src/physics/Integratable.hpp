@@ -8,6 +8,7 @@
 
 #include "system/Config.hpp"
 #include "physics/PhysicsState.hpp"
+#include "system/Logging.hpp"
 
 namespace stardazed {
 namespace physics {
@@ -56,6 +57,7 @@ public:
 		
 		state.transform.position += dxdt * dt;
 		state.momentum += dpdt * dt;
+		state.recalcSecondaryValues();
 	}
 };
 
