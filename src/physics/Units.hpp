@@ -354,6 +354,16 @@ operator *(const math::Quat& quat, const Position3& pos) {
 }
 
 
+inline physics::Angle toPhysicsAngle(math::Angle mathAngle) {
+	return physics::Angle{ mathAngle.rad().val() };
+}
+
+
+inline math::Angle toMathAngle(physics::Angle physAngle) {
+	return math::Radians{ physAngle.value };
+}
+
+
 template <int KG, int M, int S, int RAD, size32 N>
 std::string toString(const SIVector<KG, M, S, RAD, N>& siv) {
 	return sd::toString(siv.value);
