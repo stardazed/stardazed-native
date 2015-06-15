@@ -39,6 +39,9 @@ public:
 	physics::RigidBody* rigidBody = nullptr;
 	Renderable* renderable = nullptr;
 	Behaviour* behaviour = nullptr;
+	
+	// -- util
+	uint32 tag = 0;
 };
 
 
