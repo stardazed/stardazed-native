@@ -99,12 +99,15 @@ public:
 };
 
 
-class Cube : public MeshGenerator<Cube> {
-	float diameter_;
+class Box : public MeshGenerator<Box> {
+	float xDiam_, yDiam_, zDiam_;
 	
 public:
-	Cube(float diameter)
-	: diameter_(diameter)
+	Box(float diameter)
+	: xDiam_(diameter), yDiam_(diameter), zDiam_(diameter)
+	{}
+	Box(float xDiam, float yDiam, float zDiam)
+	: xDiam_(xDiam), yDiam_(yDiam), zDiam_(zDiam)
 	{}
 	
 	size32 vertexCount() const override { return 24; }
@@ -143,7 +146,7 @@ class Sphere : public MeshGenerator<Sphere> {
 	bool hasBottomDisc() const { return sliceTo_ == 1.f; }
 
 public:
-	Sphere(int rows = 20, int segs = 30, float radius = 1.0f,
+	Sphere(float radius = 1.0f, int rows = 20, int segs = 30,
 		   float sliceFrom = 0.0f, float sliceTo = 1.0f);
 	
 	size32 vertexCount() const override {
@@ -207,7 +210,7 @@ template <typename... Args>
 render::MeshData plane(Args&&... args) { return basic<Plane>(std::forward<Args>(args)...); }
 
 template <typename... Args>
-render::MeshData cube(Args&&... args) { return basic<Cube>(std::forward<Args>(args)...); }
+render::MeshData box(Args&&... args) { return basic<Box>(std::forward<Args>(args)...); }
 
 template <typename... Args>
 render::MeshData arc(Args&&... args) { return basic<Arc>(std::forward<Args>(args)...); }

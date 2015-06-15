@@ -74,31 +74,33 @@ void Plane::generateImpl(const PositionAddFn& position, const FaceAddFn& face, c
 }
 
 
-//   ____      _
-//  / ___|   _| |__   ___
-// | |  | | | | '_ \ / _ \
-// | |__| |_| | |_) |  __/
-//  \____\__,_|_.__/ \___|
+//  ____
+// | __ )  _____  __
+// |  _ \ / _ \ \/ /
+// | |_) | (_) >  <
+// |____/ \___/_/\_\
 //
-void Cube::generateImpl(const PositionAddFn& position, const FaceAddFn& face, const UVAddFn& uv) const {
-	auto hd = diameter_ / 2;
+void Box::generateImpl(const PositionAddFn& position, const FaceAddFn& face, const UVAddFn& uv) const {
+	auto xh = xDiam_ / 2;
+	auto yh = yDiam_ / 2;
+	auto zh = zDiam_ / 2;
 	uint32 curVtx = 0;
 	
 	// unique positions
 	math::Vec3 p[8] = {
-		{ -hd, -hd, -hd },
-		{  hd, -hd, -hd },
-		{  hd,  hd, -hd },
-		{ -hd,  hd, -hd },
+		{ -xh, -yh, -zh },
+		{  xh, -yh, -zh },
+		{  xh,  yh, -zh },
+		{ -xh,  yh, -zh },
 
-		{ -hd, -hd,  hd },
-		{  hd, -hd,  hd },
-		{  hd,  hd,  hd },
-		{ -hd,  hd,  hd }
+		{ -xh, -yh,  zh },
+		{  xh, -yh,  zh },
+		{  xh,  yh,  zh },
+		{ -xh,  yh,  zh }
 	};
 
 	// topleft, topright, botright, botleft
-	auto quad = [&, hd](int a, int b, int c, int d) {
+	auto quad = [&](int a, int b, int c, int d) {
 		position(p[a].x, p[a].y, p[a].z);
 		position(p[b].x, p[b].y, p[b].z);
 		position(p[c].x, p[c].y, p[c].z);
@@ -198,7 +200,7 @@ void Arc::generateImpl(const PositionAddFn& position, const FaceAddFn& face, con
 //  ___) | |_) | | | |  __/ | |  __/
 // |____/| .__/|_| |_|\___|_|  \___|
 //       |_|
-Sphere::Sphere(int rows, int segs, float radius, float sliceFrom, float sliceTo)
+Sphere::Sphere(float radius, int rows, int segs, float sliceFrom, float sliceTo)
 : rows_(rows)
 , segs_(segs)
 , radius_(radius)
