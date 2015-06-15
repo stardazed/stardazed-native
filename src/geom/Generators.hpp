@@ -157,7 +157,10 @@ public:
 	}
 
 	size32 faceCount() const override {
-		return 2u * segs_ * rows_;
+		size32 fc = 2u * segs_ * rows_;
+		if (hasTopDisc()) fc -= segs_;
+		if (hasBottomDisc()) fc -= segs_;
+		return fc;
 	}
 	
 	void generateImpl(const PositionAddFn&, const FaceAddFn&, const UVAddFn&) const;

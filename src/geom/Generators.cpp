@@ -113,8 +113,8 @@ void Box::generateImpl(const PositionAddFn& position, const FaceAddFn& face, con
 		uv(0, 1);
 
 		// ccw faces
-		face(curVtx, curVtx + 2, curVtx + 1);
-		face(curVtx + 2, curVtx, curVtx + 3);
+		face(curVtx, curVtx + 1, curVtx + 2);
+		face(curVtx + 2, curVtx + 3, curVtx);
 		
 		curVtx += 4;
 	};
@@ -281,8 +281,10 @@ void Sphere::generateImpl(const PositionAddFn& position, const FaceAddFn& face, 
 					rbl = rbmul * seg,
 					rbr = rbmul * ((seg + 1) % segs_);
 				
-				face(raix + ral, rbix + rbl, raix + rar);
-				face(raix + rar, rbix + rbl, rbix + rbr);
+				if (ral != rar)
+					face(raix + ral, rbix + rbl, raix + rar);
+				if (rbl != rbr)
+					face(raix + rar, rbix + rbl, rbix + rbr);
 			}
 		}
 	}
