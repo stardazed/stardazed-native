@@ -73,6 +73,9 @@ public:
 };
 
 
+class Mesh;
+
+
 } // ns render
 } // ns stardazed
 

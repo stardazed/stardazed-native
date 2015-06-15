@@ -33,7 +33,8 @@ struct RenderPassInfo {
 class Renderable {
 public:
 	virtual ~Renderable() = default;
-	
+
+	virtual void linkWithPipeline(render::Pipeline&) = 0;
 	virtual void render(render::RenderPass&, const RenderPassInfo&, const Entity& entity) const = 0;
 };
 
