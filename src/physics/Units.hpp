@@ -25,6 +25,14 @@ template <int KG, int M, int S, int RAD, size32 N>
 struct SIVector;
 
 
+// -- unary minus
+template <int KG, int M, int S, int RAD, size32 N>
+constexpr SIVector<KG, M, S, RAD, N>
+operator -(const SIVector<KG, M, S, RAD, N>& ua) {
+	return SIVector<KG, M, S, RAD, N>{ -ua.value };
+}
+
+
 // -- simple scaling of any SIVector by a single float scalar
 template <int KG, int M, int S, int RAD, size32 N>
 constexpr SIVector<KG, M, S, RAD, N>
