@@ -8,7 +8,6 @@
 
 #include "system/Config.hpp"
 #include "math/Vector.hpp"
-#include "math/AABB.hpp"
 #include "render/common/VertexBuffer.hpp"
 #include "render/common/IndexBuffer.hpp"
 
