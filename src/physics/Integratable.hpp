@@ -39,7 +39,7 @@ class Integratable {
 		PhysicsState state{ tempTransform, initial.mass(), initial.angularInertia() };
 		state.transform.position += derivative.velocity * dt;
 		state.momentum += derivative.force * dt;
-		state.transform.rotation += derivative.spin * dt.value;
+		state.transform.rotation += derivative.spin * dt;
 		state.angularMomentum += derivative.torque * dt;
 		state.recalcSecondaryValues();
 
@@ -64,7 +64,7 @@ public:
 
 		state.transform.position += dxdt * dt;
 		state.momentum += dpdt * dt;
-		state.transform.rotation += drdt * dt.value;
+		state.transform.rotation += drdt * dt;
 		state.angularMomentum += dTdt * dt;
 
 		state.recalcSecondaryValues();

@@ -37,7 +37,7 @@ struct Transform {
 	}
 	
 	void translate(const Position3& translation) {
-		float len = math::length(translation.value);
+		float len = math::length(translation);
 		if (math::nearEqual(len, 0.0f))
 			return;
 		position += (rotation * translation) * len;

@@ -35,10 +35,6 @@ public:
 		       vec.x <= max_.x && vec.y <= max_.y && vec.z <= max_.z;
 	}
 
-	constexpr bool contains(const Position3& pos) const {
-		return contains(pos.value);
-	}
-	
 	constexpr bool contains(const AxisAlignedBoundingBox& aabb) const {
 		return aabb.min_.x >= min_.x && aabb.min_.y >= min_.y && aabb.min_.z >= min_.z &&
 		       aabb.max_.x <= max_.x && aabb.max_.y <= max_.y && aabb.max_.z <= max_.z;

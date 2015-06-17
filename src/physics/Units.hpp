@@ -15,171 +15,6 @@ namespace stardazed {
 namespace physics {
 
 
-//  ___ _____   __      _
-// / __|_ _\ \ / /__ __| |_ ___ _ _
-// \__ \| | \ V / -_) _|  _/ _ \ '_|
-// |___/___| \_/\___\__|\__\___/_|
-//
-
-template <int KG, int M, int S, int RAD, size32 N>
-struct SIVector;
-
-
-// -- unary minus
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>
-operator -(const SIVector<KG, M, S, RAD, N>& ua) {
-	return SIVector<KG, M, S, RAD, N>{ -ua.value };
-}
-
-
-// -- simple scaling of any SIVector by a single float scalar
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>
-operator *(float scalar, const SIVector<KG, M, S, RAD, N>& ua) {
-	return SIVector<KG, M, S, RAD, N>{ scalar * ua.value };
-}
-
-
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>
-operator *(const SIVector<KG, M, S, RAD, N>& ua, float scalar) {
-	return SIVector<KG, M, S, RAD, N>{ ua.value * scalar };
-}
-
-
-// -- allow for 1-sized SIVectors (values) to combine with normal vectors
-// -- and return a SIVector sized to the scalar vector
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>
-operator *(const SIVector<KG, M, S, RAD, 1>& ua, const math::Vector<N, float>& scalarVec) {
-	return SIVector<KG, M, S, RAD, N>{ ua.value * scalarVec };
-}
-
-
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>
-operator *(const math::Vector<N, float>& scalarVec, const SIVector<KG, M, S, RAD, 1>& ua) {
-	return SIVector<KG, M, S, RAD, N>{ scalarVec * ua.value };
-}
-
-
-// -- standard multiplication of 2 equally sized dimensioned values
-// -- result has dimensions of sum of the 2 vectors' dimensions
-template <int KGA, int MA, int SA, int RADA, int KGB, int MB, int SB, int RADB, size32 N>
-constexpr SIVector<KGA + KGB, MA + MB, SA + SB, RADA + RADB, N>
-operator *(const SIVector<KGA, MA, SA, RADA, N>& ua, const SIVector<KGB, MB, SB, RADB, N>& ub) {
-	return SIVector<KGA + KGB, MA + MB, SA + SB, RADA + RADB, N>{ ua.value * ub.value };
-}
-
-
-// -- allow for 1-sized vectors (values) to act as dimensioned scalars
-
-template <int KGA, int MA, int SA, int RADA, int KGB, int MB, int SB, int RADB, size32 N>
-constexpr SIVector<KGA + KGB, MA + MB, SA + SB, RADA + RADB, N>
-operator *(const SIVector<KGA, MA, SA, RADA, 1>& ua, const SIVector<KGB, MB, SB, RADB, N>& ub) {
-	return SIVector<KGA + KGB, MA + MB, SA + SB, RADA + RADB, N>{ ua.value * ub.value };
-}
-
-
-template <int KGA, int MA, int SA, int RADA, int KGB, int MB, int SB, int RADB, size32 N>
-constexpr SIVector<KGA + KGB, MA + MB, SA + SB, RADA + RADB, N>
-operator *(const SIVector<KGA, MA, SA, RADA, N>& ua, const SIVector<KGB, MB, SB, RADB, 1>& ub) {
-	return SIVector<KGA + KGB, MA + MB, SA + SB, RADA + RADB, N>{ ua.value * ub.value };
-}
-
-
-// -- scalar division of an SIVector
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<-KG, -M, -S, -RAD, N>
-operator /(float scalar, const SIVector<KG, M, S, RAD, N>& ua) {
-	return SIVector<-KG, -M, -S, -RAD, N>{ scalar / ua.value };
-}
-
-
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>
-operator /(const SIVector<KG, M, S, RAD, N>& ua, float scalar) {
-	return SIVector<KG, M, S, RAD, N>{ ua.value / scalar };
-}
-
-
-// -- standard division of 2 equally sized dimensioned values
-// -- result has dimensions of difference of the 2 vectors' dimensions
-
-template <int KGA, int MA, int SA, int RADA, int KGB, int MB, int SB, int RADB, size32 N>
-constexpr SIVector<KGA - KGB, MA - MB, SA - SB, RADA - RADB, N>
-operator /(const SIVector<KGA, MA, SA, RADA, N>& ua, const SIVector<KGB, MB, SB, RADB, N>& ub) {
-	return SIVector<KGA - KGB, MA - MB, SA - SB, RADA - RADB, N>{ ua.value / ub.value };
-}
-
-
-// -- allow for 1-sized vectors (values) to act as dimensioned scalars
-
-template <int KGA, int MA, int SA, int RADA, int KGB, int MB, int SB, int RADB, size32 N>
-constexpr SIVector<KGA - KGB, MA - MB, SA - SB, RADA - RADB, N>
-operator /(const SIVector<KGA, MA, SA, RADA, 1>& ua, const SIVector<KGB, MB, SB, RADB, N>& ub) {
-	return SIVector<KGA - KGB, MA - MB, SA - SB, RADA - RADB, N>{ ua.value / ub.value };
-}
-
-template <int KGA, int MA, int SA, int RADA, int KGB, int MB, int SB, int RADB, size32 N>
-constexpr SIVector<KGA - KGB, MA - MB, SA - SB, RADA - RADB, N>
-operator /(const SIVector<KGA, MA, SA, RADA, N>& ua, const SIVector<KGB, MB, SB, RADB, 1>& ub) {
-	return SIVector<KGA - KGB, MA - MB, SA - SB, RADA - RADB, N>{ ua.value / ub.value };
-}
-
-
-// -- addition and subtraction of 2 SIVector in the same dimension
-
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>
-operator +(const SIVector<KG, M, S, RAD, N>& ua, const SIVector<KG, M, S, RAD, N>& ub) {
-	return SIVector<KG, M, S, RAD, N>{ ua.value + ub.value };
-}
-
-
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>
-operator -(const SIVector<KG, M, S, RAD, N>& ua, const SIVector<KG, M, S, RAD, N>& ub) {
-	return SIVector<KG, M, S, RAD, N>{ ua.value - ub.value };
-}
-
-
-// -- modify-assign
-// no *= or /= because it would modify the dimension of the assigned value
-
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>&
-operator +=(SIVector<KG, M, S, RAD, N>& ua, const SIVector<KG, M, S, RAD, N>& ub) {
-	ua.value += ub.value;
-	return ua;
-}
-
-
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>&
-operator +=(SIVector<KG, M, S, RAD, N>& ua, float scalar) {
-	ua.value += scalar;
-	return ua;
-}
-
-
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>&
-operator -=(SIVector<KG, M, S, RAD, N>& ua, const SIVector<KG, M, S, RAD, N>& ub) {
-	ua.value -= ub.value;
-	return ua;
-}
-
-
-template <int KG, int M, int S, int RAD, size32 N>
-constexpr SIVector<KG, M, S, RAD, N>&
-operator -=(SIVector<KG, M, S, RAD, N>& ua, float scalar) {
-	ua.value -= scalar;
-	return ua;
-}
-
-
 //  ___ _____   __    _
 // / __|_ _\ \ / /_ _| |_  _ ___
 // \__ \| | \ V / _` | | || / -_)
@@ -187,96 +22,79 @@ operator -=(SIVector<KG, M, S, RAD, N>& ua, float scalar) {
 // 								  
 
 template <int KG, int M, int S, int RAD>
-struct SIVector<KG, M, S, RAD, 1> {
-	float value;
+struct SIValue {
+	float data {0};
 	
-	constexpr SIVector() = default;
-	explicit constexpr SIVector(float x) : value{x} {}
-	constexpr SIVector(const SIVector<KG, M, S, RAD, 1>& other) : value{other.value} {}
+	constexpr SIValue() = default;
+	constexpr SIValue(float x) : data{x} {}
+	
+	constexpr explicit operator float() const { return data; }
 };
 
-template <int KG, int M, int S, int RAD>
-using SIValue = SIVector<KG, M, S, RAD, 1>;
-
-
-//  ___ _____   __    _          ___ 
-// / __|_ _\ \ / /_ _| |_  _ ___|_  )
-// \__ \| | \ V / _` | | || / -_)/ / 
-// |___/___| \_/\__,_|_|\_,_\___/___|
-// 								  
+#define SIVal SIValue<KG, M, S, RAD>
+#define SIVal_A SIValue<KGA, MA, SA, RADA>
+#define SIVal_B SIValue<KGB, MB, SB, RADB>
+#define SIVal_AxB(OP) SIValue<KGA OP KGB, MA OP MB, SA OP SB, RADA OP RADB>
 
 template <int KG, int M, int S, int RAD>
-struct SIVector<KG, M, S, RAD, 2> {
-	math::Vec2 value;
-	using ValueType = SIValue<KG, M, S, RAD>;
+constexpr SIVal
+operator -(const SIVal& a) {
+	return -float(a);
+}
+
+template <int KG, int M, int S, int RAD>
+constexpr SIVal
+operator +(const SIVal& a, const SIVal& b) {
+	return float(a) + float(b);
+}
+
+template <int KG, int M, int S, int RAD>
+constexpr SIVal
+operator -(const SIVal& a, const SIVal& b) {
+	return float(a) - float(b);
+}
+
+template <int KGA, int MA, int SA, int RADA, int KGB, int MB, int SB, int RADB>
+constexpr SIVal_AxB(+)
+operator *(const SIVal_A& a, const SIVal_B& b) {
+	return float(a) * float(b);
+}
+
+template <int KG, int M, int S, int RAD>
+constexpr SIVal
+operator *(const SIVal& a, float f) {
+	return float(a) * f;
+}
+
+template <int KG, int M, int S, int RAD>
+constexpr SIVal
+operator *(float f, const SIVal& a) {
+	return f * float(a);
+}
+
+template <int KGA, int MA, int SA, int RADA, int KGB, int MB, int SB, int RADB>
+constexpr SIVal_AxB(-)
+operator /(const SIVal_A& a, const SIVal_B& b) {
+	return float(a) / float(b);
+}
+
+template <int KG, int M, int S, int RAD>
+constexpr SIVal
+operator /(const SIVal& a, float f) {
+	return float(a) / f;
+}
+
+template <int KG, int M, int S, int RAD>
+constexpr SIVal
+operator /(float f, const SIVal& a) {
+	return f / float(a);
+}
 	
-	constexpr SIVector() = default;
-	constexpr SIVector(math::Vec2 val) : value(val) {}
-	constexpr SIVector(float x, float y) : value{x, y} {}
-	constexpr SIVector(ValueType x, ValueType y) : value{x.value, y.value} {}
 
-
-	constexpr ValueType x() const { return value.x; }
-	constexpr ValueType y() const { return value.y; }
-};
-
-template <int KG, int M, int S, int RAD>
-using SIValue2 = SIVector<KG, M, S, RAD, 2>;
-
-
-//  ___ _____   __    _          ____
-// / __|_ _\ \ / /_ _| |_  _ ___|__ /
-// \__ \| | \ V / _` | | || / -_)|_ \
-// |___/___| \_/\__,_|_|\_,_\___|___/
-// 								  
-
-template <int KG, int M, int S, int RAD>
-struct SIVector<KG, M, S, RAD, 3> {
-	math::Vec3 value;
-	using ValueType = SIValue<KG, M, S, RAD>;
-	
-	constexpr SIVector() = default;
-	constexpr SIVector(math::Vec3 val) : value(val) {}
-	constexpr SIVector(float x, float y, float z) : value{x, y, z} {}
-	constexpr SIVector(ValueType x, ValueType y, ValueType z) : value{x.value, y.value, z.value} {}
-
-	constexpr ValueType x() const { return value.x; }
-	constexpr ValueType y() const { return value.y; }
-	constexpr ValueType z() const { return value.z; }
-};
-
-template <int KG, int M, int S, int RAD>
-using SIValue3 = SIVector<KG, M, S, RAD, 3>;
-
-
-//  ___ _____   __    _          _ _  
-// / __|_ _\ \ / /_ _| |_  _ ___| | | 
-// \__ \| | \ V / _` | | || / -_)_  _|
-// |___/___| \_/\__,_|_|\_,_\___| |_| 
-// 								   
-
-template <int KG, int M, int S, int RAD>
-struct SIVector<KG, M, S, RAD, 4> {
-	math::Vec4 value;
-	using ValueType = SIValue<KG, M, S, RAD>;
-	using Value3Type = SIValue3<KG, M, S, RAD>;
-	
-	constexpr SIVector() = default;
-	constexpr SIVector(Value3Type val3) : value(val3.value, 0) {}
-	constexpr SIVector(math::Vec4 val) : value(val) {}
-	constexpr SIVector(float x, float y, float z, float w = 0) : value{x, y, z, w} {}
-	constexpr SIVector(ValueType x, ValueType y, ValueType z, ValueType w = 0) : value{x.value, y.value, z.value, w.value} {}
-	
-	constexpr ValueType x() const { return value.x; }
-	constexpr ValueType y() const { return value.y; }
-	constexpr ValueType z() const { return value.z; }
-	constexpr ValueType w() const { return value.w; }
-	
-	constexpr Value3Type xyz() const { return { value.xyz }; }
-};
-
-template <int KG, int M, int S, int RAD>
-using SIValue4 = SIVector<KG, M, S, RAD, 4>;
+#undef SIVal
+#undef SIVal_A
+#undef SIVal_B
+#undef SIVal_AxB
 
 
 //  ___ ___   _   _      _ _
@@ -292,13 +110,13 @@ using Inverse##name = SIValue<-KG, -M, -S, -RAD>; \
 
 #define SI_UNIT_VEC(name, KG, M, S, RAD) \
 using name = SIValue<KG, M, S, RAD>; \
-using name##2 = SIValue2<KG, M, S, RAD>; \
-using name##3 = SIValue3<KG, M, S, RAD>; \
-using name##4 = SIValue4<KG, M, S, RAD>; \
+using name##2 = math::Vector<2, name>; \
+using name##3 = math::Vector<3, name>; \
+using name##4 = math::Vector<4, name>; \
 using Inverse##name = SIValue<-KG, -M, -S, -RAD>; \
-using Inverse##name##2 = SIValue2<-KG, -M, -S, -RAD>; \
-using Inverse##name##3 = SIValue3<-KG, -M, -S, -RAD>; \
-using Inverse##name##4 = SIValue4<-KG, -M, -S, -RAD>;
+using Inverse##name##2 = math::Vector<2, Inverse##name>; \
+using Inverse##name##3 = math::Vector<3, Inverse##name>; \
+using Inverse##name##4 = math::Vector<4, Inverse##name>;
 
 /*
 	Mass           kg
@@ -358,7 +176,7 @@ SI_UNIT    (MassDensity, 1, -3, 0, 0);
 
 constexpr Position3
 operator *(const math::Quat& quat, const Position3& pos) {
-	return { quat * pos.value };
+	return { quat * pos };
 }
 
 
@@ -368,32 +186,7 @@ inline physics::Angle toPhysicsAngle(math::Angle mathAngle) {
 
 
 inline math::Angle toMathAngle(physics::Angle physAngle) {
-	return math::Radians{ physAngle.value };
-}
-
-
-template <int KG, int M, int S, int RAD, size32 N>
-std::string toString(const SIVector<KG, M, S, RAD, N>& siv) {
-	return sd::toString(siv.value);
-}
-
-
-template <int KG, int M, int S, int RAD>
-constexpr SIVector<KG, M, S, RAD, 2>
-splat2(const SIValue<KG, M, S, RAD>& v) {
-	return { v, v };
-}
-
-template <int KG, int M, int S, int RAD>
-constexpr SIVector<KG, M, S, RAD, 3>
-splat3(const SIValue<KG, M, S, RAD>& v) {
-	return { v, v, v };
-}
-
-template <int KG, int M, int S, int RAD>
-constexpr SIVector<KG, M, S, RAD, 4>
-splat4(const SIValue<KG, M, S, RAD>& v) {
-	return { v, v, v, v };
+	return math::Radians{ physAngle.data };
 }
 
 
