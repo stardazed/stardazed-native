@@ -65,8 +65,8 @@
 		8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */; };
 		8E5372501B299CEC002C1538 /* PhysicsContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E53724F1B299CEC002C1538 /* PhysicsContext.cpp */; };
 		8E5372551B304201002C1538 /* Collider.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5372541B304201002C1538 /* Collider.hpp */; };
-		8E5372571B306936002C1538 /* AxisAlignedBoundingBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5372561B306936002C1538 /* AxisAlignedBoundingBox.hpp */; };
-		8E5372591B308062002C1538 /* AxisAlignedBoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E5372581B308062002C1538 /* AxisAlignedBoundingBox.cpp */; };
+		8E5372571B306936002C1538 /* Bounds.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5372561B306936002C1538 /* Bounds.hpp */; };
+		8E5372591B308062002C1538 /* Bounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E5372581B308062002C1538 /* Bounds.cpp */; };
 		8E53725B1B3185F5002C1538 /* mac_Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E53725A1B3185F5002C1538 /* mac_Time.cpp */; };
 		8E54FE591A6F0AD3003D649A /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E54FE581A6F0AD3003D649A /* Texture.hpp */; };
 		8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E54FE5A1A6F0BC7003D649A /* Texture.cpp */; };
@@ -207,8 +207,8 @@
 		8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexDerivedData.hpp; sourceTree = "<group>"; };
 		8E53724F1B299CEC002C1538 /* PhysicsContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsContext.cpp; sourceTree = "<group>"; };
 		8E5372541B304201002C1538 /* Collider.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Collider.hpp; sourceTree = "<group>"; };
-		8E5372561B306936002C1538 /* AxisAlignedBoundingBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AxisAlignedBoundingBox.hpp; sourceTree = "<group>"; };
-		8E5372581B308062002C1538 /* AxisAlignedBoundingBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AxisAlignedBoundingBox.cpp; sourceTree = "<group>"; };
+		8E5372561B306936002C1538 /* Bounds.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bounds.hpp; sourceTree = "<group>"; };
+		8E5372581B308062002C1538 /* Bounds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bounds.cpp; sourceTree = "<group>"; };
 		8E53725A1B3185F5002C1538 /* mac_Time.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_Time.cpp; sourceTree = "<group>"; };
 		8E54FE581A6F0AD3003D649A /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Texture.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E54FE5A1A6F0BC7003D649A /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Texture.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -521,8 +521,8 @@
 			isa = PBXGroup;
 			children = (
 				8E7749CE1B25BFD2003843FA /* Units.hpp */,
-				8E5372561B306936002C1538 /* AxisAlignedBoundingBox.hpp */,
-				8E5372581B308062002C1538 /* AxisAlignedBoundingBox.cpp */,
+				8E5372561B306936002C1538 /* Bounds.hpp */,
+				8E5372581B308062002C1538 /* Bounds.cpp */,
 				8EFEA1B01B27320200C6406C /* Transform.hpp */,
 				8EFEA1AF1B27320200C6406C /* Transform.cpp */,
 				8E842E591B2DED6D00A8557D /* PhysicsState.hpp */,
@@ -672,7 +672,7 @@
 				8EF701FF1A76F90B00454341 /* inffixed.h in Headers */,
 				8E112DDF199E60A50029CD38 /* SceneController.hpp in Headers */,
 				8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */,
-				8E5372571B306936002C1538 /* AxisAlignedBoundingBox.hpp in Headers */,
+				8E5372571B306936002C1538 /* Bounds.hpp in Headers */,
 				8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */,
 				8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */,
 				8E5C53AB1B1869B100F74804 /* RenderPass.hpp in Headers */,
@@ -802,7 +802,7 @@
 				8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */,
 				8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */,
 				8E5372501B299CEC002C1538 /* PhysicsContext.cpp in Sources */,
-				8E5372591B308062002C1538 /* AxisAlignedBoundingBox.cpp in Sources */,
+				8E5372591B308062002C1538 /* Bounds.cpp in Sources */,
 				8E112D96199E5FC70029CD38 /* StringFormat.cpp in Sources */,
 				8EF702021A76F90B00454341 /* inftrees.c in Sources */,
 				8E86FBDC1A923DD5001BCBCE /* mac_FileSystem.cpp in Sources */,
