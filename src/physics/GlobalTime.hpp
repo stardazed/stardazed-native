@@ -32,12 +32,7 @@ public:
 	{}
 
 	// direct double access
-	constexpr double value() const { return time_; }
-
-	// export as float-precision Time
-	explicit constexpr operator Time() const {
-		return Time{ static_cast<float>(time_) };
-	}
+	constexpr operator double() const { return time_; }
 	
 	// friends
 	friend GlobalTime& operator +=(GlobalTime& into, const GlobalTime add) {
@@ -53,11 +48,11 @@ public:
 
 
 constexpr GlobalTime operator +(GlobalTime a, GlobalTime b) {
-	return GlobalTime{ a.value() + b.value() };
+	return GlobalTime{ a + b };
 }
 
 constexpr GlobalTime operator -(GlobalTime a, GlobalTime b) {
-	return GlobalTime{ a.value() - b.value() };
+	return GlobalTime{ a - b };
 }
 
 

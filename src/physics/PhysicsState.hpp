@@ -16,23 +16,23 @@ namespace physics {
 
 class PhysicsState {
 	// (semi-)constant values
-	Mass mass_ {};
-	AngInertia angularInertia_ {};
-	InverseMass oneOverMass_ {};
-	InverseAngInertia oneOverAngularInertia_ {};
+	float mass_ {};
+	float angularInertia_ {};
+	float oneOverMass_ {};
+	float oneOverAngularInertia_ {};
 
 	// secondary values
-	Velocity3 velocity_ {};
-	AngVelocity3 angularVelocity_ {};
+	math::Vec3 velocity_ {};
+	math::Vec3 angularVelocity_ {};
 	math::Quat spin_{};
 
 public:
 	// primary values
 	Transform& transform;
-	Momentum3 momentum {};
-	AngMomentum3 angularMomentum {};
+	math::Vec3 momentum {};
+	math::Vec3 angularMomentum {};
 	
-	PhysicsState(Transform& transform, const Mass mass, const AngInertia angularInertia)
+	PhysicsState(Transform& transform, float mass, float angularInertia)
 	: transform(transform)
 	{
 		setMass(mass);
@@ -43,23 +43,23 @@ public:
 
 	// -- observers for semi-constant state
 
-	Mass mass() const { return mass_; }
-	void setMass(const Mass mass) {
+	float mass() const { return mass_; }
+	void setMass(float mass) {
 		mass_ = mass;
 		oneOverMass_ = 1 / mass;
 	}
 
-	AngInertia angularInertia() const { return angularInertia_; }
-	void setAngularInertia(const AngInertia angInertia) {
+	float angularInertia() const { return angularInertia_; }
+	void setAngularInertia(float angInertia) {
 		angularInertia_ = angInertia;
 		oneOverAngularInertia_ = 1 / angInertia;
 	}
 
 	// -- observers for secondary state
 	
-	const Velocity3& velocity() const { return velocity_; }
+	const math::Vec3& velocity() const { return velocity_; }
 	const math::Quat& spin() const { return spin_; }
-	const AngVelocity3& angularVelocity() { return angularVelocity_; }
+	const math::Vec3& angularVelocity() { return angularVelocity_; }
 	
 	void recalcSecondaryValues();
 	void copyPrimaryAndSecondaryValuesFrom(const PhysicsState&);

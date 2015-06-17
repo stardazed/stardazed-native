@@ -21,7 +21,7 @@ class PhysicsContext {
 public:
 	PhysicsContext();
 	
-	RigidBody* makeRigidBody(Transform& linkedTransform, Mass, AngInertia);
+	RigidBody* makeRigidBody(Transform& linkedTransform, float mass, float angInertia);
 	
 	void integrateStep(GlobalTime t, GlobalTime dt);
 	

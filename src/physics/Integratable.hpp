@@ -16,11 +16,11 @@ namespace physics {
 
 
 struct Derivative {
-	Velocity3 velocity;
-	Force3 force;
+	math::Vec3 velocity;
+	math::Vec3 force;
 
 	math::Quat spin;
-	Torque3 torque;
+	math::Vec3 torque;
 };
 
 
@@ -57,10 +57,10 @@ public:
 		Derivative c = evaluate(state, t, dt*0.5f, b);
 		Derivative d = evaluate(state, t, dt, c);
 		
-		Velocity3  dxdt = 1.0f/6.0f * (a.velocity + 2.0f*(b.velocity + c.velocity) + d.velocity);
-		Force3     dpdt = 1.0f/6.0f * (a.force + 2.0f*(b.force + c.force) + d.force);
+		math::Vec3 dxdt = 1.0f/6.0f * (a.velocity + 2.0f*(b.velocity + c.velocity) + d.velocity);
+		math::Vec3 dpdt = 1.0f/6.0f * (a.force + 2.0f*(b.force + c.force) + d.force);
 		math::Quat drdt = 1.0f/6.0f * (a.spin + 2.0f*(b.spin + c.spin) + d.spin);
-		Torque3    dTdt = 1.0f/6.0f * (a.torque + 2.0f*(b.torque + c.torque) + d.torque);
+		math::Vec3 dTdt = 1.0f/6.0f * (a.torque + 2.0f*(b.torque + c.torque) + d.torque);
 
 		state.transform.position += dxdt * dt;
 		state.momentum += dpdt * dt;

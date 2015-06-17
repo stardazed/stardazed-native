@@ -18,11 +18,11 @@ namespace physics {
 
 
 struct Transform {
-	Position3 position;
+	math::Vec3 position;
 	math::Vec3 scale { 1, 1, 1 };
 	math::Quat rotation;
 
-	void lookAt(const Position3& target, const math::Vec3& up = {0,1,0});
+	void lookAt(const math::Vec3& target, const math::Vec3& up = {0,1,0});
 
 	void rotate(math::Angle overX, math::Angle overY, math::Angle overZ) {
 		rotation *= math::Quat::fromEuler(overZ, overY, overX);
@@ -36,23 +36,23 @@ struct Transform {
 		rotation *= q;
 	}
 	
-	void translate(const Position3& translation) {
+	void translate(const math::Vec3& translation) {
 		float len = math::length(translation);
 		if (math::nearEqual(len, 0.0f))
 			return;
 		position += (rotation * translation) * len;
 	}
 
-	void translate(Position x, Position y, Position z) {
-		translate(Position3{ x, y, z });
+	void translate(float x, float y, float z) {
+		translate(math::Vec3{ x, y, z });
 	}
 
-	void translateGlobal(const Position3& globalTranslation) {
+	void translateGlobal(const math::Vec3& globalTranslation) {
 		position += globalTranslation;
 	}
 
-	void translateGlobal(Position gx, Position gy, Position gz) {
-		position += Position3{ gx, gy, gz };
+	void translateGlobal(float gx, float gy, float gz) {
+		position += math::Vec3{ gx, gy, gz };
 	}
 	
 	Transform apply(const Transform&) const;

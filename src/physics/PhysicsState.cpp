@@ -13,7 +13,7 @@ void PhysicsState::recalcSecondaryValues() {
 	velocity_ = momentum * oneOverMass_;
 	angularVelocity_ = angularMomentum * oneOverAngularInertia_;
 	math::normalizeInPlace(transform.rotation);
-	spin_ = 0.5 * math::Quat{angularVelocity_.value, 0} * transform.rotation;
+	spin_ = 0.5 * math::Quat{angularVelocity_, 0} * transform.rotation;
 }
 
 

@@ -15,8 +15,8 @@ namespace physics {
 
 
 struct Environment {
-	Acceleration3 gravity = earthGravity();
-	MassDensity airDensity = earthSeaLevelAirDensity();
+	math::Vec3 gravity = earthGravity();
+	float airDensity = earthSeaLevelAirDensity();
 };
 
 
@@ -25,7 +25,7 @@ class RigidBody : public Integratable<RigidBody> {
 	PhysicsState previous_, current_;
 	
 public:
-	RigidBody(Transform& linkedTransform, const Mass, const AngInertia);
+	RigidBody(Transform& linkedTransform, float mass, float angInertia);
 	
 	void update(GlobalTime t, GlobalTime dt);
 	
@@ -33,17 +33,17 @@ public:
 	const PhysicsState& state() const { return current_; }
 	
 	// -- shared semi-constant state
-	void setMass(const Mass);
-	void setAngularInertia(const AngInertia);
+	void setMass(float mass) { current_.setMass(mass); }
+	void setAngularInertia(float angularInertia) { current_.setAngularInertia(angularInertia); }
 
 	// -- behaviour-generated force
-	Force3 userForce;
-	Torque3 userTorque;
-	void addForce(const Force3& force) { userForce += force; }
-	void addTorque(const Torque3& torque) { userTorque += torque; }
+	math::Vec3 userForce;
+	math::Vec3 userTorque;
+	void addForce(const math::Vec3& force) { userForce += force; }
+	void addTorque(const math::Vec3& torque) { userTorque += torque; }
 	
 	// -- integration
-	void calcForces(const PhysicsState&, const Time globalTime, Force3& outForce, Torque3& outTorque) const;
+	void calcForces(const PhysicsState&, const Time globalTime, math::Vec3& outForce, math::Vec3& outTorque) const;
 };
 
 

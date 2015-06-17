@@ -14,7 +14,7 @@ PhysicsContext::PhysicsContext() {
 }
 
 
-RigidBody* PhysicsContext::makeRigidBody(Transform& linkedTransform, Mass mass, AngInertia angInertia) {
+RigidBody* PhysicsContext::makeRigidBody(Transform& linkedTransform, float mass, float angInertia) {
 	rigidBodyPool_.emplace_back(linkedTransform, mass, angInertia);
 	return &rigidBodyPool_.back();
 }

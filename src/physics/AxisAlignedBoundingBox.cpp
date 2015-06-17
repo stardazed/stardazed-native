@@ -9,14 +9,14 @@ namespace stardazed {
 namespace physics {
 
 
-AxisAlignedBoundingBox AxisAlignedBoundingBox::fromCenterAndSize(const physics::Position3& center, const Position3& size) {
+AxisAlignedBoundingBox AxisAlignedBoundingBox::fromCenterAndSize(const math::Vec3& center, const math::Vec3& size) {
 	AxisAlignedBoundingBox aabb;
 	aabb.setCenterAndSize(center, size);
 	return aabb;
 }
 
 
-void AxisAlignedBoundingBox::setCenterAndSize(const physics::Position3& center, const Position3& size) {
+void AxisAlignedBoundingBox::setCenterAndSize(const math::Vec3& center, const math::Vec3& size) {
 	auto extents = size / 2;
 	min_ = center - extents;
 	max_ = center + extents;
