@@ -7,23 +7,26 @@
 #define SD_PHYSICS_COLLIDER_H
 
 #include "system/Config.hpp"
+#include "math/Bounds.hpp"
 #include "physics/RigidBody.hpp"
 
 namespace stardazed {
 namespace physics {
 
 
-class Collider {
-	
-public:
-	Collider();
+struct Collider {
+	virtual ~Collider() = default;
+
+	virtual const math::Bounds& bounds() = 0;
 };
 
 
+class BoxCollider : public Collider {
+	math::Bounds bounds_;
 
-class BoxCollider {
 public:
-	
+	BoxCollider(const math::Vec3& size);
+	const math::Bounds& bounds() final { return bounds_; }
 };
 
 

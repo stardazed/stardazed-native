@@ -18,6 +18,7 @@ class PhysicsState {
 	// (semi-)constant values
 	float mass_ {};
 	float angularInertia_ {};
+
 	float oneOverMass_ {};
 	float oneOverAngularInertia_ {};
 

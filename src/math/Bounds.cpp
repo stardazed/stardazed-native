@@ -1,12 +1,12 @@
 // ------------------------------------------------------------------
-// physics::Bounds - stardazed
+// math::Bounds - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "physics/Bounds.hpp"
+#include "math/Bounds.hpp"
 
 namespace stardazed {
-namespace physics {
+namespace math {
 
 
 Bounds Bounds::fromCenterAndSize(const math::Vec3& center, const math::Vec3& size) {
@@ -44,15 +44,15 @@ void Bounds::setMinAndMax(const math::Vec3& min, const math::Vec3& max) {
 }
 
 
-void Bounds::include(const math::Vec3& vec) {
-	if (vec.x < min_.x) min_.x = vec.x;
-	if (vec.x > max_.x) max_.x = vec.x;
+void Bounds::include(const math::Vec3& pt) {
+	if (pt.x < min_.x) min_.x = pt.x;
+	if (pt.x > max_.x) max_.x = pt.x;
 
-	if (vec.y < min_.y) min_.y = vec.y;
-	if (vec.y > max_.y) max_.y = vec.y;
+	if (pt.y < min_.y) min_.y = pt.y;
+	if (pt.y > max_.y) max_.y = pt.y;
 
-	if (vec.z < min_.z) min_.z = vec.z;
-	if (vec.z > max_.z) max_.z = vec.z;
+	if (pt.z < min_.z) min_.z = pt.z;
+	if (pt.z > max_.z) max_.z = pt.z;
 }
 
 
@@ -68,5 +68,12 @@ void Bounds::include(const Bounds& bounds) {
 }
 
 
-} // ns physics
+Vec3 Bounds::closestPoint(const Vec3& pt) const {
+	if (contains(pt))
+		return pt;
+	return pt;
+}
+
+
+} // ns math
 } // ns stardazed
