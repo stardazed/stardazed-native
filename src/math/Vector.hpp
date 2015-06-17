@@ -22,21 +22,21 @@ namespace math {
 namespace detail {
 	// ---- Vector shared data access
 	
-	template <typename VecImp, size_t N, typename T>
+	template <typename VecImp, size32 N, typename T>
 	struct VectorBase {
 		using ValueType = T;
 
-		constexpr T& operator[](const size_t index) {
+		constexpr T& operator[](const size32 index) {
 			assert(index < N);
 			return static_cast<VecImp*>(this)->data[index];
 		}
 		
-		constexpr T operator[](const size_t index) const {
+		constexpr T operator[](const size32 index) const {
 			assert(index < N);
 			return static_cast<const VecImp*>(this)->data[index];
 		}
 		
-		constexpr size_t size() const { return N; }
+		constexpr size32 size() const { return N; }
 		constexpr T* begin() { return &static_cast<VecImp*>(this)->data[0]; }
 		constexpr T* end() { return &static_cast<VecImp*>(this)->data[0] + N; }
 		constexpr const T* begin() const { return &static_cast<const VecImp*>(this)->data[0]; }
@@ -45,7 +45,7 @@ namespace detail {
 }
 
 
-template <size_t N, typename T = float>
+template <size32 N, typename T = float>
 struct Vector : public detail::VectorBase<Vector<N, T>, N, T> {
 	T data[N];
 
@@ -129,7 +129,7 @@ struct Vector<4, T> : public detail::VectorBase<Vector<4, T>, 4, T> {
 
 // implementation of generic and specialized component-wise operators for Vectors
 namespace detail {
-	template <typename Op, size_t N, typename T>
+	template <typename Op, size32 N, typename T>
 	Vector<N, T>& componentWiseAssignOperator(Vector<N, T>& a, const Vector<N, T>& b) {
 		std::transform(a.begin(), a.end(), b.begin(), a.begin(), [op = Op()](auto va, auto vb) {
 			return op(va, vb);
@@ -164,14 +164,14 @@ namespace detail {
 		return a;
 	}
 	
-	template <typename Op, size_t N, typename T>
+	template <typename Op, size32 N, typename T>
 	Vector<N, T> componentWiseOperator(const Vector<N, T>& a, const Vector<N, T>& b) {
 		Vector<N, T> result = a;
 		componentWiseAssignOperator<Op>(result, b);
 		return result;
 	}
 
-	template <typename Op, size_t N, typename T>
+	template <typename Op, size32 N, typename T>
 	Vector<N, T>& scalarAssignOperator(Vector<N, T>& vec, const T scalar) {
 		auto op = Op();
 		std::transform(vec.begin(), vec.end(), vec.begin(), [&op, scalar](auto va) {
@@ -180,14 +180,14 @@ namespace detail {
 		return vec;
 	}
 	
-	template <typename Op, size_t N, typename T>
+	template <typename Op, size32 N, typename T>
 	Vector<N, T> scalarOperator(const Vector<N, T>& vec, const T scalar) {
 		Vector<N, T> result = vec;
 		scalarAssignOperator<Op>(result, scalar);
 		return result;
 	}
 	
-	template <typename Op, size_t N, typename T>
+	template <typename Op, size32 N, typename T>
 	Vector<N, T> scalarOperator(const T scalar, const Vector<N, T>& vec) {
 		Vector<N, T> splat{scalar};
 		componentWiseAssignOperator<Op>(splat, vec);
@@ -198,26 +198,26 @@ namespace detail {
 
 // ---- Addition
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T> operator +(const Vector<N, T>& a, const Vector<N, T>& b) {
 	return detail::componentWiseOperator<std::plus<T>>(a, b);
 }
 
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T>& operator +=(Vector<N, T>& a, const Vector<N, T>& b) {
 	return detail::componentWiseAssignOperator<std::plus<T>>(a, b);
 }
 
 
-template <size_t N, typename T, typename S>
+template <size32 N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
 operator +(const Vector<N, T>& vec, const S scalar) {
 	return detail::scalarOperator<std::plus<T>>(vec, static_cast<T>(scalar));
 }
 
 
-template <size_t N, typename T, typename S>
+template <size32 N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>&>
 operator +=(Vector<N, T>& vec, const S scalar) {
 	return detail::scalarAssignOperator<std::plus<T>>(vec, static_cast<T>(scalar));
@@ -226,26 +226,26 @@ operator +=(Vector<N, T>& vec, const S scalar) {
 
 // ---- Subtraction
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T> operator -(const Vector<N, T>& a, const Vector<N, T>& b) {
 	return detail::componentWiseOperator<std::minus<T>>(a, b);
 }
 
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T>& operator -=(Vector<N, T>& a, const Vector<N, T>& b) {
 	return detail::componentWiseAssignOperator<std::minus<T>>(a, b);
 }
 
 
-template <size_t N, typename T, typename S>
+template <size32 N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
 operator -(const Vector<N, T>& vec, const S scalar) {
 	return detail::scalarOperator<std::minus<T>>(vec, static_cast<T>(scalar));
 }
 
 
-template <size_t N, typename T, typename S>
+template <size32 N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>&>
 operator -=(Vector<N, T>& vec, const S scalar) {
 	return detail::scalarAssignOperator<std::minus<T>>(vec, static_cast<T>(scalar));
@@ -254,33 +254,33 @@ operator -=(Vector<N, T>& vec, const S scalar) {
 	
 // ---- Multiplication
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T> operator *(const Vector<N, T>& a, const Vector<N, T>& b) {
 	return detail::componentWiseOperator<std::multiplies<T>>(a, b);
 }
 
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T>& operator *=(Vector<N, T>& a, const Vector<N, T>& b) {
 	return detail::componentWiseAssignOperator<std::multiplies<T>>(a, b);
 }
 
 
-template <size_t N, typename T, typename S>
+template <size32 N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
 operator *(const Vector<N, T>& vec, const S scalar) {
 	return detail::scalarOperator<std::multiplies<T>>(vec, static_cast<T>(scalar));
 }
 
 
-template <size_t N, typename T, typename S>
+template <size32 N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
 operator *(const S scalar, const Vector<N, T>& vec) {
 	return detail::scalarOperator<std::multiplies<T>>(vec, static_cast<T>(scalar));
 }
 
 
-template <size_t N, typename T, typename S>
+template <size32 N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>&>
 operator *=(Vector<N, T>& vec, const S scalar) {
 	return detail::scalarAssignOperator<std::multiplies<T>>(vec, static_cast<T>(scalar));
@@ -289,33 +289,33 @@ operator *=(Vector<N, T>& vec, const S scalar) {
 
 // ---- Division
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T> operator /(const Vector<N, T>& a, const Vector<N, T>& b) {
 	return detail::componentWiseOperator<std::divides<T>>(a, b);
 }
 
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T>& operator /=(Vector<N, T>& a, const Vector<N, T>& b) {
 	return detail::componentWiseAssignOperator<std::divides<T>>(a, b);
 }
 
 
-template <size_t N, typename T, typename S>
+template <size32 N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
 operator /(const Vector<N, T>& vec, const S scalar) {
 	return detail::scalarOperator<std::divides<T>>(vec, static_cast<T>(scalar));
 }
 
 
-template <size_t N, typename T, typename S>
+template <size32 N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>>
 operator /(const S scalar, const Vector<N, T>& vec) {
 	return detail::scalarOperator<std::divides<T>>(static_cast<T>(scalar), vec);
 }
 
 
-template <size_t N, typename T, typename S>
+template <size32 N, typename T, typename S>
 std::enable_if_t<std::is_convertible<S, T>::value, Vector<N, T>&>
 operator /=(Vector<N, T>& vec, const S scalar) {
 	return detail::scalarAssignOperator<std::divides<T>>(vec, static_cast<T>(scalar));
@@ -324,7 +324,7 @@ operator /=(Vector<N, T>& vec, const S scalar) {
 	
 // ---- Unary minus
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T> operator -(const Vector<N, T>& vec) {
 	auto result = vec;
 	std::transform(result.begin(), result.end(), result.begin(), std::negate<T>());
@@ -352,13 +352,13 @@ constexpr Vector<4, T> operator -(const Vector<4, T>& vec) {
 
 // ---- Exact component-wise comparison
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 bool operator ==(const Vector<N, T>& a, const Vector<N, T>& b) {
 	return std::equal(a.begin(), a.end(), b.begin());
 }
 
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 constexpr bool operator !=(const Vector<N, T>& a, const Vector<N, T>& b) {
 	return ! (a == b);
 }
@@ -386,7 +386,7 @@ constexpr bool operator ==(const Vector<4, T>& a, const Vector<4, T>& b) {
 
 // ---- Dot product
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 T dot(const Vector<N, T>& a, const Vector<N, T>& b) {
 	return std::inner_product(a.begin(), a.end(), b.begin(), T{0});
 }
@@ -436,7 +436,7 @@ void orthoNormalize(Vector<3, T>& normal, Vector<3, T>& tangent) {
 
 // ---- Length
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 T lengthSquared(const Vector<N, T>& vec) {
 	return std::inner_product(vec.begin(), vec.end(), vec.begin(), T(0));
 }
@@ -460,7 +460,7 @@ constexpr T lengthSquared(const Vector<4, T>& vec) {
 }
 
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 T length(const Vector<N, T>& vec) {
 	return std::sqrt(lengthSquared(vec));
 }
@@ -486,14 +486,14 @@ constexpr T length(const Vector<4, T>& vec) {
 
 // ---- Normalize (in-place and pure)
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T>& normalizeInPlace(Vector<N, T>& vec) {
 	vec /= length(vec);
 	return vec;
 }
 
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T> normalize(const Vector<N, T>& vec) {
 	auto normal = vec;
 	return normalizeInPlace(normal);
@@ -502,7 +502,7 @@ Vector<N, T> normalize(const Vector<N, T>& vec) {
 
 // ---- Swappable
 
-template <size_t N, typename T>
+template <size32 N, typename T>
 void swap(Vector<N, T>& a, Vector<N, T>& b) {
 	std::swap<T, N>(a.data, b.data);
 }
@@ -622,7 +622,7 @@ Vector<4, T> lerp(const Vector<4, T>& from, const Vector<4, T>& to, T t) {
 // ---- Clamp
 
 // clamp generic Vector elements to specified range
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T> clamp(const Vector<N, T>& vec, T min, T max) {
 	Vector<N, T> result;
 	
@@ -668,11 +668,11 @@ Vector<4, T> clamp(const Vector<4, T>& vec, T min, T max) {
 
 
 // clamp generic Vector elements to ranges specified by min/max Vector pair
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T> clamp(const Vector<N, T>& vec, const Vector<N, T>& mins, const Vector<N, T>& maxes) {
 	Vector<N, T> result;
 	
-	for (size_t ix=0; ix < N; ++ix)
+	for (size32 ix=0; ix < N; ++ix)
 		result[ix] = clamp(vec[ix], mins[ix], maxes[ix]);
 	
 	return result;
@@ -715,7 +715,7 @@ Vector<4, T> clamp(const Vector<4, T>& vec, const Vector<4, T>& mins, const Vect
 // ---- Mix
 
 // mix generic Vector elements together according to ratio
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T> mix(const Vector<N, T>& a, const Vector<N, T>& b, T ratio) {
 	Vector<N, T> result;
 	
@@ -761,11 +761,11 @@ Vector<4, T> mix(const Vector<4, T>& a, const Vector<4, T>& b, T ratio) {
 
 
 // mix generic Vector elements together according to Vector of ratios
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T> mix(const Vector<N, T>& a, const Vector<N, T>& b, const Vector<N, T>& ratios) {
 	Vector<N, T> result;
 	
-	for (size_t ix=0; ix < N; ++ix)
+	for (size32 ix=0; ix < N; ++ix)
 		result[ix] = mix(a[ix], b[ix], ratios[ix]);
 	
 	return result;
@@ -806,12 +806,12 @@ Vector<4, T> mix(const Vector<4, T>& a, const Vector<4, T>& b, const Vector<4, T
 
 
 // special mix variant with Vector<N, bool> ratios, where false yields a and true yields b (unoptimized, not specialized)
-template <size_t N, typename T>
+template <size32 N, typename T>
 Vector<N, T> mix(const Vector<N, T>& a, const Vector<N, T>& b, const Vector<N, bool>& selects) {
 	Vector<N, T> result;
 	T ratios[] = { false, true };
 	
-	for (size_t ix=0; ix < N; ++ix)
+	for (size32 ix=0; ix < N; ++ix)
 		result[ix] = mix(a[ix], b[ix], ratios[selects[ix]]);
 	
 	return result;
