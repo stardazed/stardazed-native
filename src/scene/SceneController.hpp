@@ -22,8 +22,8 @@ public:
 	SceneController(runtime::Client&);
 	virtual ~SceneController() {}
 
-	virtual void renderFrame(time::Duration) = 0;
-	virtual void simulationFrame(time::Duration) = 0;
+	virtual void renderFrame(Time) = 0;
+	virtual void simulationFrame(Time) = 0;
 
 	Scene& scene() { return scene_; }
 	runtime::Client& client() { return client_; }

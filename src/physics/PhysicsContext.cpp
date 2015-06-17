@@ -20,7 +20,7 @@ RigidBody* PhysicsContext::makeRigidBody(Transform& linkedTransform, float mass,
 }
 
 
-void PhysicsContext::integrateStep(GlobalTime t, GlobalTime dt) {
+void PhysicsContext::integrateStep(Time t, Time dt) {
 	for (auto& rigidBody : rigidBodyPool_) {
 		rigidBody.update(t, dt);
 	}

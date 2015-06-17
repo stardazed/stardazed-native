@@ -23,7 +23,7 @@ public:
 	
 	RigidBody* makeRigidBody(Transform& linkedTransform, float mass, float angInertia);
 	
-	void integrateStep(GlobalTime t, GlobalTime dt);
+	void integrateStep(Time t, Time dt);
 	
 	Environment environment {};
 };

@@ -14,9 +14,9 @@ namespace runtime {
 
 
 struct FrameStatistics {
-	time::Duration startTime, endTime;
-	time::Duration inputEndTime {}, physicsEndTime {}, renderEndTime {}, swapEndTime {};
-	time::Duration lagDuration {};
+	Time startTime, endTime;
+	Time inputEndTime {}, physicsEndTime {}, renderEndTime {}, swapEndTime {};
+	Time lagDuration {};
 	int physicsStepsRun = 0;
 	
 	FrameStatistics()
@@ -34,20 +34,18 @@ struct FrameStatistics {
 	
 	// --
 
-	time::Duration inputTime() { return inputEndTime - startTime; }
-	time::Duration physicsTime() { return physicsEndTime - inputEndTime; }
-	time::Duration renderTime() { return renderEndTime - physicsEndTime; }
-	time::Duration swapTime() { return swapEndTime - renderEndTime; }
-	time::Duration totalFrameTime() { return endTime - startTime; }
+	Time inputTime() { return inputEndTime - startTime; }
+	Time physicsTime() { return physicsEndTime - inputEndTime; }
+	Time renderTime() { return renderEndTime - physicsEndTime; }
+	Time swapTime() { return swapEndTime - renderEndTime; }
+	Time totalFrameTime() { return endTime - startTime; }
 	
 	void print() {
-		using namespace std::chrono;
-
-		auto input = duration_cast<microseconds>(inputTime()).count();
-		auto physics = duration_cast<microseconds>(physicsTime()).count();
-		auto render = duration_cast<microseconds>(renderTime()).count();
-		auto swap = duration_cast<microseconds>(swapTime()).count();
-		auto total = duration_cast<microseconds>(totalFrameTime()).count();
+		auto input = time::asMicroseconds(inputTime());
+		auto physics = time::asMicroseconds(physicsTime());
+		auto render = time::asMicroseconds(renderTime());
+		auto swap = time::asMicroseconds(swapTime());
+		auto total = time::asMicroseconds(totalFrameTime());
 		sd::log("input: ", input, "us phys: ", physics, "us rend: ", render, "us swap: ", swap, "us total: ", total, "us");
 	}
 };
@@ -128,8 +126,8 @@ void Game::mainLoop() {
 			if (! client_.render().usesVerticalSync()) {
 				auto sleepDuration = minFrameTime_ - stats.totalFrameTime();
 
-				if (sleepDuration.count() > 0) {
-					std::this_thread::sleep_for(sleepDuration);
+				if (sleepDuration > 0) {
+					std::this_thread::sleep_for(std::chrono::duration<double>(sleepDuration));
 
 //					auto afterSleepTime = time::now();
 //					auto realSleepDuration = afterSleepTime - stats.endTime;
@@ -138,7 +136,7 @@ void Game::mainLoop() {
 		}
 		else {
 			// game is not the active process, be nice
-			std::this_thread::sleep_for(maxFrameTime_);
+			std::this_thread::sleep_for(std::chrono::duration<double>(maxFrameTime_));
 		}
 		
 //		stats.print();

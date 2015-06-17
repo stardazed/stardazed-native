@@ -16,16 +16,16 @@ namespace runtime {
 
 class FrameContext {
 	Client& client_;
-	time::Duration deltaTime_;
+	Time deltaTime_;
 
 public:
 	FrameContext(Client& client,
-				 time::Duration deltaTime)
+				 Time deltaTime)
 	: client_(client)
 	, deltaTime_(deltaTime)
 	{}
 	
-	time::Duration deltaTime() { return deltaTime_; }
+	Time deltaTime() { return deltaTime_; }
 
 	auto& client()  { return client_; }
 };

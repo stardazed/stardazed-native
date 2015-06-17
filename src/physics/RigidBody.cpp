@@ -16,7 +16,7 @@ RigidBody::RigidBody(Transform& linkedTransform, float mass, float angularInerti
 {}
 
 
-void RigidBody::update(GlobalTime t, GlobalTime dt) {
+void RigidBody::update(Time t, Time dt) {
 	previous_.copyPrimaryAndSecondaryValuesFrom(current_);
 	integrate(current_, t, dt);
 	userForce = {0, 0, 0};

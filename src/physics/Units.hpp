@@ -13,9 +13,6 @@ namespace stardazed {
 namespace physics {
 
 
-using Time = double;
-
-
 //   ___             _            _
 //  / __|___ _ _  __| |_ __ _ _ _| |_ ___
 // | (__/ _ \ ' \(_-<  _/ _` | ' \  _(_-<

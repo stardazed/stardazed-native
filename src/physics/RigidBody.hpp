@@ -7,8 +7,8 @@
 #define SD_PHYSICS_RIGIDBODY_H
 
 #include "system/Config.hpp"
+#include "system/Time.hpp"
 #include "physics/Integratable.hpp"
-#include "physics/GlobalTime.hpp"
 
 namespace stardazed {
 namespace physics {
@@ -27,7 +27,7 @@ class RigidBody : public Integratable<RigidBody> {
 public:
 	RigidBody(Transform& linkedTransform, float mass, float angInertia);
 	
-	void update(GlobalTime t, GlobalTime dt);
+	void update(Time t, Time dt);
 	
 	// -- observable state
 	const PhysicsState& state() const { return current_; }
