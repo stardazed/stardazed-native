@@ -86,6 +86,8 @@ struct Vector<2, T> : public detail::VectorBase<Vector<2, T>, 2, T> {
 	explicit constexpr Vector(const T fill) : x(fill), y(fill) {}
 	constexpr Vector(const T x, const T y) : x(x), y(y) {}
 	constexpr Vector() : Vector(T(0)) {}
+	
+	static constexpr const Vector& zero() { return { 0, 0 }; }
 };
 
 
@@ -103,6 +105,8 @@ struct Vector<3, T> : public detail::VectorBase<Vector<3, T>, 3, T> {
 	constexpr Vector(const T x, const T y, const T z) : x(x), y(y), z(z) {}
 	constexpr Vector(const Vector<2, T>& xy, const T z) : x(xy.x), y(xy.y), z(z) {}
 	constexpr Vector() : Vector(T(0)) {}
+	
+	static constexpr const Vector& zero() { return { 0, 0, 0 }; }
 };
 
 
@@ -122,6 +126,8 @@ struct Vector<4, T> : public detail::VectorBase<Vector<4, T>, 4, T> {
 	constexpr Vector(const T x, const T y, const T z, const T w) : x(x), y(y), z(z), w(w) {}
 	constexpr Vector(const Vector<3, T>& xyz, const T w) : x(xyz.x), y(xyz.y), z(xyz.z), w(w) {}
 	constexpr Vector() : Vector(T(0)) {}
+	
+	static constexpr const Vector& zero() { return { 0, 0, 0, 0 }; }
 };
 
 

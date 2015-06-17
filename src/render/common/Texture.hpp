@@ -116,7 +116,7 @@ struct SamplerDescriptor {
 	TextureRepeatMode repeatS = TextureRepeatMode::Repeat;
 	TextureRepeatMode repeatT = TextureRepeatMode::Repeat;
 	TextureRepeatMode repeatR = TextureRepeatMode::Repeat;
-	math::Vec4 constColour = { 0, 0, 0, 0 }; // ignored on Metal, uses fixed zero value
+	math::Vec4 constColour = math::Vec4::zero(); // ignored on Metal, uses fixed zero value
 
 	TextureSizingFilter minFilter = TextureSizingFilter::Linear;
 	TextureSizingFilter magFilter = TextureSizingFilter::Linear;
