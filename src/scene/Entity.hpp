@@ -10,6 +10,7 @@
 #include "scene/Behaviour.hpp"
 #include "physics/Transform.hpp"
 #include "physics/RigidBody.hpp"
+#include "physics/Collider.hpp"
 
 namespace stardazed {
 namespace scene {
@@ -37,6 +38,7 @@ public:
 	// -- components
 	physics::Transform transform;
 	physics::RigidBody* rigidBody = nullptr;
+	physics::Collider* collider = nullptr;
 	Renderable* renderable = nullptr;
 	Behaviour* behaviour = nullptr;
 	

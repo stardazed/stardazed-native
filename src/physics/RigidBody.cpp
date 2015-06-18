@@ -24,8 +24,6 @@ void RigidBody::update(Time t, Time dt) {
 }
 
 
-
-
 void RigidBody::calcForces(const PhysicsState& state, const Time /*globalTime*/, math::Vec3& outForce, math::Vec3& outTorque) const {
 	outForce  = userForce - state.momentum * .5;
 	outTorque = userTorque - state.angularMomentum * .5;

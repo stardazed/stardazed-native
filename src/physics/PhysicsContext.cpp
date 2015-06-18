@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------
 
 #include "physics/PhysicsContext.hpp"
+#include "system/Logging.hpp"
 
 namespace stardazed {
 namespace physics {
@@ -11,6 +12,7 @@ namespace physics {
 
 PhysicsContext::PhysicsContext() {
 	rigidBodyPool_.reserve(128);
+	colliderPool_.reserve(256);
 }
 
 
@@ -24,6 +26,11 @@ void PhysicsContext::integrateStep(Time t, Time dt) {
 	for (auto& rigidBody : rigidBodyPool_) {
 		rigidBody.update(t, dt);
 	}
+	
+	auto C1 = colliderPool_[0].get();
+	auto C2 = colliderPool_[1].get();
+	
+	sd::log(C1->worldBounds().intersects(C2->worldBounds()));
 }
 
 

@@ -47,15 +47,22 @@ public:
 
 	physics::RigidBody* makeRigidBody(Entity&, float mass, float angInertia);
 
+	template <typename C, typename... Args> // C : public Collider
+	C* makeCollider(Entity& entity, Args... args) {
+		auto collider = physicsCtx_.makeCollider<C>(std::cref(entity.transform), std::forward<Args>(args)...);
+		entity.collider = collider;
+		if (entity.rigidBody)
+			collider->linkToRigidBody(*entity.rigidBody);
+		return collider;
+	}
+
 	// -- observers
 	auto entitiesBegin() { return entityPool_.begin(); }
 	auto entitiesEnd() { return entityPool_.end(); }
 
 	auto& camera() { return *camera_; }
 	
-	physics::PhysicsContext& physics() {
-		return physicsCtx_;
-	}
+	physics::PhysicsContext& physics() { return physicsCtx_; }
 };
 
 

@@ -30,13 +30,14 @@ public:
 	void update(Time t, Time dt);
 	
 	// -- observable state
+	const PhysicsState& previousState() const { return previous_; }
 	const PhysicsState& state() const { return current_; }
 	
 	// -- shared semi-constant state
 	void setMass(float mass) { current_.setMass(mass); }
 	void setAngularInertia(float angularInertia) { current_.setAngularInertia(angularInertia); }
 
-	// -- behaviour-generated force
+	// -- behaviour-generated forces
 	math::Vec3 userForce;
 	math::Vec3 userTorque;
 	void addForce(const math::Vec3& force) { userForce += force; }
