@@ -69,9 +69,7 @@ void Bounds::include(const Bounds& bounds) {
 
 
 Vec3 Bounds::closestPoint(const Vec3& pt) const {
-	if (contains(pt))
-		return pt;
-	return pt;
+	return math::clamp(pt, min(), max());
 }
 
 
