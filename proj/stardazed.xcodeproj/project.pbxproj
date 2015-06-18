@@ -69,6 +69,7 @@
 		8E53725E1B31B0AC002C1538 /* Bounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E53725C1B31B0AC002C1538 /* Bounds.cpp */; };
 		8E53725F1B31B0AC002C1538 /* Bounds.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E53725D1B31B0AC002C1538 /* Bounds.hpp */; };
 		8E5372611B31B49E002C1538 /* Collider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E5372601B31B49E002C1538 /* Collider.cpp */; };
+		8E5372631B332C3A002C1538 /* PhysicMaterial.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5372621B332C3A002C1538 /* PhysicMaterial.hpp */; };
 		8E54FE591A6F0AD3003D649A /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E54FE581A6F0AD3003D649A /* Texture.hpp */; };
 		8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E54FE5A1A6F0BC7003D649A /* Texture.cpp */; };
 		8E5C53AB1B1869B100F74804 /* RenderPass.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5C53AA1B1869B100F74804 /* RenderPass.hpp */; };
@@ -212,6 +213,7 @@
 		8E53725C1B31B0AC002C1538 /* Bounds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bounds.cpp; sourceTree = "<group>"; };
 		8E53725D1B31B0AC002C1538 /* Bounds.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bounds.hpp; sourceTree = "<group>"; };
 		8E5372601B31B49E002C1538 /* Collider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Collider.cpp; sourceTree = "<group>"; };
+		8E5372621B332C3A002C1538 /* PhysicMaterial.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PhysicMaterial.hpp; sourceTree = "<group>"; };
 		8E54FE581A6F0AD3003D649A /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Texture.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E54FE5A1A6F0BC7003D649A /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Texture.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E5C53AA1B1869B100F74804 /* RenderPass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderPass.hpp; sourceTree = "<group>"; };
@@ -529,6 +531,7 @@
 				8EFEA1AF1B27320200C6406C /* Transform.cpp */,
 				8E842E591B2DED6D00A8557D /* PhysicsState.hpp */,
 				8E842E5B1B2DEDE700A8557D /* PhysicsState.cpp */,
+				8E5372621B332C3A002C1538 /* PhysicMaterial.hpp */,
 				8EFEA1B31B289EC700C6406C /* Integratable.hpp */,
 				8E7749D01B25E7B5003843FA /* RigidBody.hpp */,
 				8E842E571B2B79B900A8557D /* RigidBody.cpp */,
@@ -642,6 +645,7 @@
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
 				8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */,
 				8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */,
+				8E5372631B332C3A002C1538 /* PhysicMaterial.hpp in Headers */,
 				8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */,
 				8E90F1271A6D636500AD015B /* Texture.hpp in Headers */,
 				8E6A0DBA19B39E1E00DF0921 /* DevicesContext.hpp in Headers */,
