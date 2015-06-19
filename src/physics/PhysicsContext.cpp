@@ -26,11 +26,20 @@ void PhysicsContext::integrateStep(Time t, Time dt) {
 	for (auto& rigidBody : rigidBodyPool_) {
 		rigidBody.update(t, dt);
 	}
-	
-	auto C1 = colliderPool_[0].get();
-	auto C2 = colliderPool_[1].get();
-	
-	sd::log(C1->worldBounds().intersects(C2->worldBounds()));
+
+	auto collEnd = colliderPool_.end();
+
+	// fun little n log n algo for my couple of colliders
+	for (auto collBegin = colliderPool_.begin(); collBegin != collEnd; ++collBegin) {
+		for (auto nextBegin = collBegin + 1; nextBegin != collEnd; ++nextBegin) {
+			auto& collA = *collBegin;
+			auto& collB = *nextBegin;
+
+			if (collA->worldBounds().intersects(collB->worldBounds())) {
+				// GJK, essentially
+			}
+		}
+	}
 }
 
 
