@@ -22,7 +22,6 @@ struct Collider {
 
 	virtual void linkToRigidBody(RigidBody&) = 0;
 	virtual RigidBody* linkedRigidBody() const = 0;
-	
 	virtual bool isStatic() const = 0;
 };
 

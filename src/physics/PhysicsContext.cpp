@@ -31,12 +31,23 @@ void PhysicsContext::integrateStep(Time t, Time dt) {
 
 	// fun little n log n algo for my couple of colliders
 	for (auto collBegin = colliderPool_.begin(); collBegin != collEnd; ++collBegin) {
+		auto& collA = *collBegin;
+		auto rigidBodyA = collA->linkedRigidBody();
+		if (! rigidBodyA)
+			continue;
+
 		for (auto nextBegin = collBegin + 1; nextBegin != collEnd; ++nextBegin) {
-			auto& collA = *collBegin;
 			auto& collB = *nextBegin;
+			auto rigidBodyB = collB->linkedRigidBody();
 
 			if (collA->worldBounds().intersects(collB->worldBounds())) {
-				// GJK, essentially
+				auto forceA = rigidBodyA->state().momentum / dt;
+				auto forceB = rigidBodyB ? (rigidBodyB->state().momentum / dt) : math::Vec3::zero();
+				auto totalForce = forceA + forceB;
+				
+				auto dA = rigidBodyA->state().transform.position - rigidBodyA->previousState().transform.position;
+				auto tEnter = (collB->worldBounds().min() - (collA->worldBounds().max() - dA)) / dA;
+				auto tLeave = (collB->worldBounds().max() - (collA->worldBounds().min() - dA)) / dA;
 			}
 		}
 	}
