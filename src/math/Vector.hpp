@@ -820,6 +820,14 @@ Vector<N, T> mix(const Vector<N, T>& a, const Vector<N, T>& b, const Vector<N, b
 	return result;
 }
 
+
+// ---- Reflect
+
+template <typename T>
+Vector<3, T> reflect(const Vector<3, T>& in, const Vector<3, T>& normal) {
+	return in - (2 * dot(in, normal) * normal);
+}
+
 	
 } // ns math
 } // ns stardazed
