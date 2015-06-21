@@ -9,7 +9,7 @@ namespace stardazed {
 namespace physics {
 
 
-BoxCollider::BoxCollider(const Transform& transform, const math::Vec3& localCenter, const math::Vec3& size)
+BoxCollider::BoxCollider(Transform& transform, const math::Vec3& localCenter, const math::Vec3& size)
 : transform_(transform)
 {
 	localBounds_.setCenterAndSize(localCenter, size);
@@ -26,7 +26,7 @@ const math::Bounds& BoxCollider::worldBounds() {
 }
 
 
-SphereCollider::SphereCollider(const Transform& transform, const math::Vec3& localCenter, float radius)
+SphereCollider::SphereCollider(Transform& transform, const math::Vec3& localCenter, float radius)
 : transform_(transform)
 {
 	radius_ = radius;

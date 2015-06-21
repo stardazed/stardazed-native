@@ -31,6 +31,7 @@ public:
 	
 	// -- observable state
 	const PhysicsState& previousState() const { return previous_; }
+	PhysicsState& state() { return current_; }
 	const PhysicsState& state() const { return current_; }
 	
 	// -- shared semi-constant state

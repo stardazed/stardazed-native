@@ -18,7 +18,7 @@ struct Collider {
 	virtual ~Collider() = default;
 
 	virtual const math::Bounds& worldBounds() = 0;
-	virtual const Transform& linkedTransform() const = 0;
+	virtual Transform& linkedTransform() = 0;
 
 	virtual void linkToRigidBody(RigidBody&) = 0;
 	virtual RigidBody* linkedRigidBody() const = 0;
@@ -28,13 +28,13 @@ struct Collider {
 
 class BoxCollider : public Collider {
 	math::Bounds localBounds_, worldBounds_;
-	const Transform& transform_;
+	Transform& transform_;
 	RigidBody* rigidBody_ = nullptr;
 
 public:
-	BoxCollider(const Transform&, const math::Vec3& localCenter, const math::Vec3& size);
+	BoxCollider(Transform&, const math::Vec3& localCenter, const math::Vec3& size);
 	const math::Bounds& worldBounds() final;
-	const Transform& linkedTransform() const final { return transform_; }
+	Transform& linkedTransform() final { return transform_; }
 
 	void linkToRigidBody(RigidBody& rigidBody) final {
 		rigidBody_ = &rigidBody;
@@ -46,14 +46,14 @@ public:
 
 class SphereCollider : public Collider {
 	math::Bounds localBounds_, worldBounds_;
-	const Transform& transform_;
+	Transform& transform_;
 	RigidBody* rigidBody_ = nullptr;
 	float radius_;
 
 public:
-	SphereCollider(const Transform&, const math::Vec3& localCenter, float radius);
+	SphereCollider(Transform&, const math::Vec3& localCenter, float radius);
 	const math::Bounds& worldBounds() final;
-	const Transform& linkedTransform() const final { return transform_; }
+	Transform& linkedTransform() final { return transform_; }
 
 	void linkToRigidBody(RigidBody& rigidBody) final {
 		rigidBody_ = &rigidBody;

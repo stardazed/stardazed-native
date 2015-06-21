@@ -49,7 +49,7 @@ public:
 
 	template <typename C, typename... Args> // C : public Collider
 	C* makeCollider(Entity& entity, Args... args) {
-		auto collider = physicsCtx_.makeCollider<C>(std::cref(entity.transform), std::forward<Args>(args)...);
+		auto collider = physicsCtx_.makeCollider<C>(std::ref(entity.transform), std::forward<Args>(args)...);
 		entity.collider = collider;
 		if (entity.rigidBody)
 			collider->linkToRigidBody(*entity.rigidBody);
