@@ -139,7 +139,8 @@ void Game::mainLoop() {
 			std::this_thread::sleep_for(std::chrono::duration<double>(maxFrameTime_));
 		}
 		
-//		stats.print();
+		if (client_.devices().keyboard().isPressed(device::Key::F))
+			stats.print();
 	}
 	
 	runState_ = GameRunState::Idle;

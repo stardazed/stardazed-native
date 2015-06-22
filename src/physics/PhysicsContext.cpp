@@ -28,10 +28,11 @@ void PhysicsContext::integrateStep(Time t, Time dt) {
 	}
 
 	auto collEnd = colliderPool_.end();
+	float bounciness = 0.3;
 	
 	using namespace math;
 
-	// fun little n log n algo for my couple of colliders
+	// fun little n2 algo for my couple of colliders
 	for (auto collBegin = colliderPool_.begin(); collBegin != collEnd; ++collBegin) {
 		auto& collA = *collBegin;
 		auto rigidBodyA = collA->linkedRigidBody();
@@ -53,13 +54,14 @@ void PhysicsContext::integrateStep(Time t, Time dt) {
 				
 				// find bounce time and normal of closest plane
 				float tEnterMin = 100.0;
-				math::Vec3 bounceNormal;
+				math::Vec3 bounceNormal, bounceFriction;
 				
 				if (! nearEqual(0.0f, dA.x)) {
 					auto tEnterX = min(tEnter.x, tLeave.x);
 					if (tEnterX > 0.0f) {
 						tEnterMin = min(tEnter.x, tLeave.x);
 						bounceNormal = normalize(Vec3{ -dA.x, 0, 0 });
+						bounceFriction = { bounciness, 1, 1 };
 					}
 				}
 				if (! nearEqual(0.0f, dA.y)) {
@@ -67,6 +69,7 @@ void PhysicsContext::integrateStep(Time t, Time dt) {
 					if (tEnterY > 0 && tEnterY < tEnterMin) {
 						tEnterMin = tEnterY;
 						bounceNormal = normalize(Vec3{ 0, -dA.y, 0 });
+						bounceFriction = { 1, bounciness, 1 };
 					}
 				}
 				if (! nearEqual(0.0f, dA.z)) {
@@ -74,6 +77,7 @@ void PhysicsContext::integrateStep(Time t, Time dt) {
 					if (tEnterZ > 0 && tEnterZ < tEnterMin) {
 						tEnterMin = tEnterZ;
 						bounceNormal = normalize(Vec3{ 0, 0, -dA.z });
+						bounceFriction = { 1, 1, bounciness };
 					}
 				}
 				
@@ -81,17 +85,17 @@ void PhysicsContext::integrateStep(Time t, Time dt) {
 				if (tEnterMin > 0.0f && tEnterMin < 100.0f) {
 					auto dVA = rigidBodyA->state().velocity() - rigidBodyA->previousState().velocity();
 					auto velAtHit = rigidBodyA->previousState().velocity() + (dVA * tEnterMin);
-					auto velOut = reflect(velAtHit, bounceNormal) * 0.7; // bounciness
+					auto velOut = reflect(velAtHit, bounceNormal) * bounceFriction;
 
 					auto clippedPos = rigidBodyA->previousState().transform.position + (dA * tEnterMin);
-					collA->linkedTransform().position = clippedPos + ((1.0 - tEnterMin) * reflect(dA, bounceNormal) * 0.7);
-					sd::log("in, dA, tRem, out,dL ", velAtHit, dA, (1.0-tEnterMin), velOut, velOut * ((1.0 - tEnterMin) * dt));
+					collA->linkedTransform().position = clippedPos + ((1.0 - tEnterMin) * reflect(dA, bounceNormal) * bounciness);
+//					sd::log(rigidBodyA->previousState().transform.position, clippedPos, collA->linkedTransform().position);
 
 					rigidBodyA->state().momentum = velOut * rigidBodyA->state().mass();
 //					rigidBodyA->state().momentum = Vec3::zero();
 					rigidBodyA->state().recalcSecondaryValues();
 //
-//					sd::log(rigidBodyA->previousState().velocity(), rigidBodyA->state().velocity());
+					sd::log(rigidBodyA->previousState().velocity(), rigidBodyA->state().velocity());
 				}
 			}
 		}
