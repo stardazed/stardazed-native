@@ -33,7 +33,7 @@ public:
 	const PhysicsState& previousState() const { return previous_; }
 	PhysicsState& state() { return current_; }
 	const PhysicsState& state() const { return current_; }
-	
+
 	// -- shared semi-constant state
 	void setMass(float mass) { current_.setMass(mass); }
 	void setAngularInertia(float angularInertia) { current_.setAngularInertia(angularInertia); }
