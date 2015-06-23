@@ -49,7 +49,7 @@ std::string toString(const T* p) {
 
 // basic conversions
 std::string toString(const bool b);
-std::string toString(const char * cs);
+std::string toString(const char* cs);
 std::string toString(std::string s);
 
 
