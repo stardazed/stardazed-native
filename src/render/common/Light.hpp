@@ -15,9 +15,7 @@ namespace render {
 	
 
 enum class LightType : uint32 {
-	Directional,
-	Point,
-	Spot
+	Directional
 };
 
 
@@ -29,55 +27,20 @@ struct LightAttenuation {
 
 
 struct LightDescriptor {
-	math::Vec3 colour;
 	LightType type;
+	math::Vec3 colour {};
 	float intensity = 1;
-
-	// Point and Spot only
-	LightAttenuation attenuation {};
-
-	// Spot only
-	math::Angle spotCutoff = math::Radians{0};
-	
-	// position and direction are taken from the entity connected to the light
 };
 
 
-constexpr LightDescriptor directionalLight(const math::Vec3& colour,
-										   float intensity = 1)
+constexpr LightDescriptor makeLightDescDirectional(
+	const math::Vec3& colour,
+	float intensity = 1)
 {
 	return {
-		colour,
 		LightType::Directional,
+		colour,
 		intensity
-	};
-}
-
-
-constexpr LightDescriptor pointLight(const math::Vec3& colour,
-									 const LightAttenuation& attenuation,
-									 float intensity = 1)
-{
-	return {
-		colour,
-		LightType::Point,
-		intensity,
-		attenuation
-	};
-}
-	
-	
-constexpr LightDescriptor spotLight(const math::Vec3& colour,
-									const LightAttenuation& attenuation,
-									math::Angle cutoff,
-									float intensity = 1)
-{
-	return {
-		colour,
-		LightType::Spot,
-		intensity,
-		attenuation,
-		cutoff
 	};
 }
 
