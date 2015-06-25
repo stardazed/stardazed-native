@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------
 
 #include "render/opengl/Pipeline.hpp"
+#include "system/Logging.hpp"
 
 namespace stardazed {
 namespace render {
@@ -129,6 +130,24 @@ void Pipeline::unbind() const {
 		glDisable(GL_BLEND);
 		glBlendEquation(GL_FUNC_ADD);
 		glBlendFunc(GL_ONE, GL_ZERO);
+	}
+}
+
+
+void Pipeline::validateAgainstCurrentGLState() const {
+	glValidateProgramPipeline(name());
+	auto err = glGetError();
+	assert(err == GL_NO_ERROR);
+	GLint pipelineValid = GL_FALSE;
+	glGetProgramPipelineiv(name(), GL_VALIDATE_STATUS, &pipelineValid);
+	err = glGetError();
+	assert(err == GL_NO_ERROR);
+
+	if (! pipelineValid) {
+		std::vector<char> infoLog(1000);
+		GLsizei infoLen = 0;
+		glGetProgramPipelineInfoLog(name(), (uint32)infoLog.size(), &infoLen, infoLog.data());
+		sd::log("pipeline infolog: ", std::string{infoLog.data(), (size_t)infoLen});
 	}
 }
 

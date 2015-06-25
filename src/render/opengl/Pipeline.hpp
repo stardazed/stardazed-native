@@ -37,6 +37,9 @@ public:
 	Shader* fragmentShader() const { return descriptor_.fragmentShader; }
 	
 	const VertexLayout& vertexLayout() const { return vertexLayout_; }
+	
+	// -- debugging
+	void validateAgainstCurrentGLState() const;
 };
 
 
