@@ -17,14 +17,12 @@ namespace scene {
 
 struct RenderPassInfo {
 	Scene& scene;
-	Camera& camera;
 	math::Mat4 projMat, viewMat, viewProjMat;
 	
-	RenderPassInfo(Scene& scene, Camera& cam)
+	RenderPassInfo(Scene& scene, const math::Mat4& projectionMatrix, const math::Mat4& viewMatrix)
 	: scene (scene)
-	, camera (cam)
-	, projMat { cam.projectionMatrix() }
-	, viewMat { cam.viewMatrix() }
+	, projMat { projectionMatrix }
+	, viewMat { viewMatrix }
 	, viewProjMat { projMat * viewMat }
 	{}
 };
