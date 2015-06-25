@@ -160,6 +160,22 @@ bool FrameBuffer::hasStencilAttachment() const {
 	return attachmentDesc_.stencilAttachment.texture != nullptr;
 }
 
+
+const Texture* FrameBuffer::colourAttachmentTexture(uint32 atIndex) const {
+	assert(atIndex < maxColourAttachments());
+	return attachmentDesc_.colourAttachments[atIndex].texture;
+}
+
+
+const Texture* FrameBuffer::depthAttachmentTexture() const {
+	return attachmentDesc_.depthAttachment.texture;
+}
+
+
+const Texture* FrameBuffer::stencilAttachmentTexture() const {
+	return attachmentDesc_.stencilAttachment.texture;
+}
+
 	
 } // ns render
 } // ns stardazed

@@ -41,6 +41,10 @@ public:
 	bool hasColourAttachment(uint32 atIndex) const;
 	bool hasDepthAttachment() const;
 	bool hasStencilAttachment() const;
+	
+	const Texture* colourAttachmentTexture(uint32 atIndex) const;
+	const Texture* depthAttachmentTexture() const;
+	const Texture* stencilAttachmentTexture() const;
 };
 
 
