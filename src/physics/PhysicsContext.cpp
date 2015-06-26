@@ -45,8 +45,6 @@ void PhysicsContext::integrateStep(Time t, Time dt) {
 			if (&collB == &collA)
 				continue;
 			
-			auto rigidBodyB = collB->linkedRigidBody();
-
 			if (collA->worldBounds().intersects(collB->worldBounds())) {
 				auto dA = rigidBodyA->state().transform.position - rigidBodyA->previousState().transform.position;
 				auto tEnter = (collB->worldBounds().min() - (collA->worldBounds().max() - dA)) / dA;

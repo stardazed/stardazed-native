@@ -15,19 +15,6 @@ namespace stardazed {
 namespace scene {
 	
 
-struct RenderPassInfo {
-	Scene& scene;
-	math::Mat4 projMat, viewMat, viewProjMat;
-	
-	RenderPassInfo(Scene& scene, const math::Mat4& projectionMatrix, const math::Mat4& viewMatrix)
-	: scene (scene)
-	, projMat { projectionMatrix }
-	, viewMat { viewMatrix }
-	, viewProjMat { projMat * viewMat }
-	{}
-};
-
-
 class Renderable {
 public:
 	virtual ~Renderable() = default;
