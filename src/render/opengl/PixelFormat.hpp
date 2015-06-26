@@ -104,10 +104,13 @@ constexpr GLenum glPixelDataTypeForPixelFormat(PixelFormat format) {
 		case PixelFormat::RG8:
 		case PixelFormat::RGB8:
 		case PixelFormat::BGR8:
-		case PixelFormat::RGBA8:
-		case PixelFormat::BGRA8:
 		case PixelFormat::Stencil8:
 			return GL_UNSIGNED_BYTE;
+
+		case PixelFormat::RGBA8:
+			return GL_UNSIGNED_INT_8_8_8_8;
+		case PixelFormat::BGRA8:
+			return GL_UNSIGNED_INT_8_8_8_8_REV;
 			
 		case PixelFormat::RGB32F:
 		case PixelFormat::RGBA32F:
