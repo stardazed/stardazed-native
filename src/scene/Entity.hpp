@@ -11,30 +11,13 @@
 #include "physics/Transform.hpp"
 #include "physics/RigidBody.hpp"
 #include "physics/Collider.hpp"
+#include "scene/Material.hpp"
 
 namespace stardazed {
 namespace scene {
 
 
-enum class EntityType {
-	Generic,
-	Light,
-	Camera
-};
-
-
-class Renderable;
-
-
-class Entity {
-	EntityType type_;
-
-public:
-	Entity(EntityType type) : type_(type) {}
-	Entity() : Entity(EntityType::Generic) {}
-
-	EntityType type() const { return type_; }
-
+struct Entity {
 	// -- components
 	physics::Transform transform;
 	physics::RigidBody* rigidBody = nullptr;

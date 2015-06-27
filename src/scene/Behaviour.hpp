@@ -17,13 +17,13 @@ namespace stardazed {
 namespace scene {
 
 
-class Entity;
+struct Entity;
 class Scene;
 
 
-class Behaviour {
-public:
+struct Behaviour {
 	virtual ~Behaviour() = default;
+
 	using SimpleBehaviourHandler = std::function<void(Entity&, Scene&, runtime::FrameContext&)>;
 	
 	virtual void update(Entity&, Scene&, runtime::FrameContext&) = 0;

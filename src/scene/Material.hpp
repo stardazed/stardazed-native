@@ -1,39 +1,50 @@
 // ------------------------------------------------------------------
-// render::Technique - stardazed
+// scene::Material - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_RENDER_TECHNIQUE_H
-#define SD_RENDER_TECHNIQUE_H
+#ifndef SD_SCENE_MATERIAL_H
+#define SD_SCENE_MATERIAL_H
 
 #include "system/Config.hpp"
 #include "math/Matrix.hpp"
 #include "render/common/RenderPass.hpp"
 
 namespace stardazed {
-namespace render {
+namespace scene {
 
 
 struct ProjectionSetup {
-	math::Mat4 projMat, viewMat, viewProjMat;
+	math::Mat4 projMat, viewMat;
 	
 	ProjectionSetup(const math::Mat4& projectionMatrix, const math::Mat4& viewMatrix)
 	: projMat { projectionMatrix }
 	, viewMat { viewMatrix }
-	, viewProjMat { projMat * viewMat }
 	{}
 };
 
 
-struct Technique {
-	virtual ~Technique() = default;
+struct Renderable;
+
+
+struct Material {
+	virtual ~Material() = default;
 	
-	virtual void start(RenderPass&, const ProjectionSetup&) = 0;
-	virtual void stop() {}
+	virtual void setup(render::RenderPass&, const ProjectionSetup&) = 0;
+	virtual void render(const Renderable&) = 0;
+	virtual void teardown() {}
 };
 
 
-} // ns render
+struct Renderable {
+	bool castShadows = true;
+	bool receiveShadows = true;
+
+	Material* material = nullptr;
+};
+
+
+} // ns scene
 } // ns stardazed
 
 #endif
