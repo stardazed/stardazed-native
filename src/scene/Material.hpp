@@ -24,7 +24,15 @@ struct ProjectionSetup {
 };
 
 
-struct Renderable;
+struct Material;
+
+
+struct Renderable {
+	bool castShadows = true;
+	bool receiveShadows = true;
+
+	Material* material = nullptr;
+};
 
 
 struct Material {
@@ -36,12 +44,30 @@ struct Material {
 };
 
 
-struct Renderable {
-	bool castShadows = true;
-	bool receiveShadows = true;
-
-	Material* material = nullptr;
+enum class MaterialMode : uint {
+	Opaque,
+	Transparent
 };
+
+
+struct StandardMaterial {
+	MaterialMode mode = MaterialMode::Opaque;
+	math::Vec3 tintColor = math::Vec3::one();
+
+	render::Texture* diffuseMap = nullptr;
+	render::Texture* normalMap = nullptr;
+};
+
+
+/*
+ 3 parts:
+ - Shader (Pipeline with uniform buffer/value knowledge, get/set)
+	- has a render fn that takes instances of a Material
+ - Material
+	- a struct of Texture, vector and scalar info for rendering (uniforms)
+ - Renderable
+	- Component, render information (shadows, etc) + Material information
+*/
 
 
 } // ns scene
