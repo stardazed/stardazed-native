@@ -35,12 +35,10 @@ struct Renderable {
 };
 
 
-struct Material {
-	virtual ~Material() = default;
+struct MaterialShader {
+	virtual ~MaterialShader() = default;
 	
-	virtual void setup(render::RenderPass&, const ProjectionSetup&) = 0;
-	virtual void render(const Renderable&) = 0;
-	virtual void teardown() {}
+	virtual void render(render::RenderPass& renderPass, const ProjectionSetup&, const Renderable&) const = 0;
 };
 
 
