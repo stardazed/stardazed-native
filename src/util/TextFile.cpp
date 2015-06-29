@@ -4,13 +4,11 @@
 // ------------------------------------------------------------------
 
 #include "util/TextFile.hpp"
-#include "filesystem/FileSystem.hpp"
 
 namespace stardazed {
 
 
-std::string readTextFile(const std::string& filePath) {
-	fs::Path path { filePath };
+std::string readTextFile(fs::Path path) {
 	fs::FileReadStream file { path };
 	auto fileSize = path.fileSize();
 	

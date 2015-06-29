@@ -25,6 +25,7 @@ public:
 	
 	Path(const Path& basePath, const std::string& relPath);
 	Path(const Path& basePath, const char* relPath) : Path(basePath, std::string{ relPath }) {}
+	Path(const Path& basePath, const Path& relPath);
 	
 	Path(const Path&);
 	

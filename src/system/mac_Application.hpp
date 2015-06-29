@@ -7,6 +7,7 @@
 #define SD_SYSTEM_MAC_APPLICATION_H
 
 #include "system/Config.hpp"
+#include "filesystem/FileSystem.hpp"
 
 namespace stardazed {
 
@@ -29,6 +30,9 @@ public:
 	static void setGame(runtime::Game& game) {
 		game_ = &game;
 	}
+	
+	// -- resources
+	static const fs::Path& dataPath();
 
 	// -- active refers to app being frontmost
 	static void setActive(bool active);

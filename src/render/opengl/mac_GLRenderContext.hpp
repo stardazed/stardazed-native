@@ -7,6 +7,7 @@
 #define SD_RENDER_MAC_GLRENDERCONTEXT_H
 
 #include "system/Config.hpp"
+#include "filesystem/FileSystem.hpp"
 #include "render/common/RenderContext.hpp"
 #include "render/opengl/Shader.hpp"
 #include "render/opengl/Pipeline.hpp"
@@ -27,7 +28,7 @@ public:
 	RenderContext(const RenderContextDescriptor&);
 	~RenderContext();
 	
-	Shader* loadShaderFromPath(ShaderType type, const std::string& path);
+	Shader* loadShaderNamed(const std::string& fileName);
 
 	Pipeline* makePipeline(const PipelineDescriptor&);
 
@@ -65,6 +66,10 @@ private:
 	std::vector<Texture> texturePool_;
 	std::vector<FrameBuffer> frameBufferPool_;
 	std::vector<DepthStencilTest> depthStencilTestPool_;
+	
+	// resource base paths
+	fs::Path shadersBasePath_;
+	fs::Path texturesBasePath_;
 
 	// internal methods
 	FrameBufferDescriptor allocateTexturesForFrameBuffer(const FrameBufferAllocationDescriptor&);

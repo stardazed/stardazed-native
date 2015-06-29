@@ -23,6 +23,11 @@ Path::Path(const Path& basePath, const std::string& relPath)
 {}
 
 
+Path::Path(const Path& basePath, const Path& relPath)
+: Path(basePath, relPath.toString())
+{}
+
+
 Path::Path(const Path& path)
 : url_(path.url_)
 {

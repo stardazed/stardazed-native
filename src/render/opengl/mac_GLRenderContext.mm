@@ -141,7 +141,9 @@ public:
 
 
 RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
-: platformData_{ std::make_unique<PlatformData>() }
+: shadersBasePath_(Application::dataPath(), "shaders")
+, texturesBasePath_(Application::dataPath(), "textures")
+, platformData_{ std::make_unique<PlatformData>() }
 {
 	NSWindow *window = createRenderWindow(descriptor);
 
@@ -177,8 +179,8 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 	texturePool_.reserve(128);
 	frameBufferPool_.reserve(16);
 
-	// -- some sensible global defaults
-	// FIXME: these may/should likely go somewhere else?
+	// -- this is disabled by default and we leave it on for the entire
+	// duration of the app.
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 }
 
@@ -223,8 +225,25 @@ bool RenderContext::usesVerticalSync() const {
 // |_| \_\___||___/\___/ \__,_|_|  \___\___||___/
 //
 
-Shader* RenderContext::loadShaderFromPath(ShaderType type, const std::string& path) {
-	shaderPool_.emplace_back(type, readTextFile(path));
+Shader* RenderContext::loadShaderNamed(const std::string& fileName) {
+	fs::Path fileRelPath { fileName };
+
+	// -- determine shader type based on file extension
+	auto ext = fileRelPath.extension();
+	ShaderType type;
+	if (ext == "vert")
+		type = ShaderType::Vertex;
+	else if (ext == "frag")
+		type = ShaderType::Fragment;
+	else if (ext == "geom")
+		type = ShaderType::Geometry;
+	else {
+		assert(! "Unknown file extension for shader");
+		return nullptr;
+	}
+
+	// create, append and return shader instance
+	shaderPool_.emplace_back(type, readTextFile(fs::Path{ shadersBasePath_, fileRelPath }));
 	return &shaderPool_.back();
 }
 
