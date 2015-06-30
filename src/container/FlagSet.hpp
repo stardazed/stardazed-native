@@ -107,6 +107,9 @@ constexpr FlagSet<EnumType, DataType> operator ^(const FlagSet<EnumType, DataTyp
 
 
 template <typename EnumType>
+using FlagSet8 = detail::FlagSet<EnumType, uint8>;
+
+template <typename EnumType>
 using FlagSet16 = detail::FlagSet<EnumType, uint16>;
 
 template <typename EnumType>

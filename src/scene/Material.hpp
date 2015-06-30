@@ -7,6 +7,7 @@
 #define SD_SCENE_MATERIAL_H
 
 #include "system/Config.hpp"
+#include "container/FlagSet.hpp"
 #include "math/Matrix.hpp"
 #include "render/common/RenderPass.hpp"
 
@@ -50,10 +51,28 @@ enum class MaterialMode : uint {
 
 struct StandardMaterial {
 	MaterialMode mode = MaterialMode::Opaque;
-	math::Vec3 tintColor = math::Vec3::one();
+	float specularExponent = 1;
+
+	math::Vec3 diffuseColour = math::Vec3::one();
+	math::Vec3 specularColour = math::Vec3::one();
 
 	render::Texture* diffuseMap = nullptr;
 	render::Texture* normalMap = nullptr;
+};
+
+
+enum class StandardMaterialFlagsEnum : uint8 {
+	UseDiffuseMap,
+	UseNormalMap
+};
+
+
+using StandardMaterialFlags = container::FlagSet8<StandardMaterialFlagsEnum>;
+
+
+struct CompiledStandardMaterial {
+	GLint diffuseMap = 0, normalMap = 0;
+	
 };
 
 
