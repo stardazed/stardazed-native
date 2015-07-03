@@ -18,14 +18,21 @@ Path::Path(const std::string& absPath)
 {}
 
 
-Path::Path(const Path& basePath, const std::string& relPath)
-: url_(CFURLCreateFromFileSystemRepresentationRelativeToBase(nullptr, (uint8*)relPath.data(), relPath.size(), false, basePath.nativeHandle()))
-{}
+Path::Path(const Path& basePath, const std::string& relPath) {
+	bool isDir = false;
+	auto pathLen = relPath.length();
 
+	if (relPath.length() > 0 && relPath.back() == '/') {
+		isDir = true;
+		--pathLen; // omit the trailing / when passing this to avoid double slashing
+	}
 
-Path::Path(const Path& basePath, const Path& relPath)
-: Path(basePath, relPath.toString())
-{}
+	auto cfRelPath = CFStringCreateWithBytes(nullptr, (uint8*)relPath.data(), pathLen, kCFStringEncodingUTF8, false);
+
+	url_ = CFURLCreateCopyAppendingPathComponent(nullptr, basePath.nativeHandle(), cfRelPath, isDir);
+	
+	CFRelease(cfRelPath);
+}
 
 
 Path::Path(const Path& path)

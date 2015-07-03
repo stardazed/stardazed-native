@@ -141,8 +141,8 @@ public:
 
 
 RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
-: shadersBasePath_(Application::dataPath(), "shaders")
-, texturesBasePath_(Application::dataPath(), "textures")
+: shadersBasePath_{ Application::dataPath(), "shaders/" }
+, texturesBasePath_{ Application::dataPath(), "textures/" }
 , platformData_{ std::make_unique<PlatformData>() }
 {
 	NSWindow *window = createRenderWindow(descriptor);
@@ -177,7 +177,9 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 	pipelinePool_.reserve(128);
 	shaderPool_.reserve(128);
 	texturePool_.reserve(128);
+	meshPool_.reserve(128);
 	frameBufferPool_.reserve(16);
+	depthStencilTestPool_.reserve(32);
 
 	// -- this is disabled by default and we leave it on for the entire
 	// duration of the app.
@@ -226,10 +228,10 @@ bool RenderContext::usesVerticalSync() const {
 //
 
 Shader* RenderContext::loadShaderNamed(const std::string& fileName) {
-	fs::Path fileRelPath { fileName };
+	fs::Path fileAsPath { fileName };
 
 	// -- determine shader type based on file extension
-	auto ext = fileRelPath.extension();
+	auto ext = fileAsPath.extension();
 	ShaderType type;
 	if (ext == "vert")
 		type = ShaderType::Vertex;
@@ -243,7 +245,7 @@ Shader* RenderContext::loadShaderNamed(const std::string& fileName) {
 	}
 
 	// create, append and return shader instance
-	shaderPool_.emplace_back(type, readTextFile(fs::Path{ shadersBasePath_, fileRelPath }));
+	shaderPool_.emplace_back(type, readTextFile(fs::Path{ shadersBasePath_, fileName }));
 	return &shaderPool_.back();
 }
 
@@ -314,6 +316,17 @@ FrameBuffer* RenderContext::makeFrameBufferAllocatingTextures(const FrameBufferA
 DepthStencilTest* RenderContext::makeDepthStencilTest(const DepthStencilTestDescriptor& dstDesc) {
 	depthStencilTestPool_.emplace_back(dstDesc);
 	return &depthStencilTestPool_.back();
+}
+
+
+Mesh* RenderContext::makeMesh(const MeshDescriptor& meshDescriptor) {
+	meshPool_.emplace_back(meshDescriptor);
+	return &meshPool_.back();
+}
+
+
+Mesh* RenderContext::makeMesh(const MeshData& meshData) {
+	return makeMesh(meshData.defaultDescriptor());
 }
 
 

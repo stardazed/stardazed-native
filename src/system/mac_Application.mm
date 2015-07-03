@@ -66,7 +66,7 @@ static void changeToResourcesDirectory() {
 
 
 const fs::Path& Application::dataPath() {
-	static fs::Path dataPath_s { "data" };
+	static fs::Path dataPath_s { "data/" };
 	return dataPath_s;
 }
 
