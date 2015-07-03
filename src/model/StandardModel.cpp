@@ -75,8 +75,8 @@ StandardShader::StandardShader(RenderContext& renderCtx) {
 	PipelineDescriptor pld;
 	pld.colourAttachments[0].pixelFormat = PixelFormat::RGBA8;
 	pld.depthPixelFormat = PixelFormat::Depth32F;
-	pld.shaders.vertexShader = vert;
-	pld.shaders.fragmentShader = frag;
+	pld.vertexShader = vert;
+	pld.fragmentShader = frag;
 	pipeline_ = renderCtx.makePipeline(pld);
 	
 	vsMV = vert->uniformPositionForName("modelViewMatrix");

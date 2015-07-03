@@ -104,6 +104,9 @@ RenderPass::~RenderPass() {
 
 
 void RenderPass::setPipeline(const Pipeline& pipeline) {
+	if (&pipeline == pipeline_)
+		return;
+
 	if (pipeline_)
 		pipeline_->unbind();
 
