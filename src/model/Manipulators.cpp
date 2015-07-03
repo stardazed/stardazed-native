@@ -1,15 +1,15 @@
 // ------------------------------------------------------------------
-// geom::Manipulators - stardazed
-// (c) 2014 by Arthur Langereis
+// model::Manipulators - stardazed
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "geom/Manipulators.hpp"
+#include "model/Manipulators.hpp"
 #include "math/Constants.hpp"
 #include "math/Vector.hpp"
 #include "math/Algorithm.hpp"
 
 namespace stardazed {
-namespace geom {
+namespace model {
 
 using namespace render;
 using namespace math;
@@ -65,5 +65,5 @@ MeshData combine(const MeshData& m1, const MeshData& m2) {
 }
 */
 
-} // ns geom
+} // ns model
 } // ns stardazed

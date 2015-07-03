@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// geom::Generators - stardazed
+// model::Generators - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_GEOM_GENERATORS_H
-#define SD_GEOM_GENERATORS_H
+#ifndef SD_MODEL_GENERATORS_H
+#define SD_MODEL_GENERATORS_H
 
 #include "system/Config.hpp"
 #include "math/Angle.hpp"
@@ -15,7 +15,7 @@
 #include <initializer_list>
 
 namespace stardazed {
-namespace geom {
+namespace model {
 namespace gen {
 
 
@@ -223,7 +223,7 @@ render::MeshData sphere(Args&&... args) { return basic<Sphere>(std::forward<Args
 
 
 } // ns gen
-} // ns geom
+} // ns model
 } // ns stardazed
 
 

@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------
-// geom::Generators.cpp - stardazed
-// (c) 2014 by Arthur Langereis
+// model::Generators.cpp - stardazed
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "geom/Generators.hpp"
+#include "model/Generators.hpp"
 #include "math/Constants.hpp"
 #include "math/Vector.hpp"
 #include "math/Algorithm.hpp"
@@ -11,7 +11,7 @@
 #include <cmath>
 
 namespace stardazed {
-namespace geom {
+namespace model {
 namespace gen {
 
 
@@ -292,5 +292,5 @@ void Sphere::generateImpl(const PositionAddFn& position, const FaceAddFn& face, 
 
 
 } // ns gen
-} // ns geom
+} // ns model
 } // ns stardazed
