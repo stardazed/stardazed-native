@@ -10,21 +10,13 @@
 #include "util/ConceptTraits.hpp"
 
 #include "math/Vector.hpp"
+#include "render/common/Buffer.hpp"
 #include "render/common/Mesh.hpp"
 #include "render/opengl/OpenGL.hpp"
 
 
 namespace stardazed {
 namespace render {
-
-
-enum class BufferRole {
-	VertexAttribute,
-	VertexIndex,
-	TextureBuffer,
-	TransformFeedback,
-	UniformBlock
-};
 
 
 namespace detail {
@@ -78,7 +70,7 @@ namespace detail {
 				return GL_TEXTURE_BUFFER;
 			case BufferRole::TransformFeedback:
 				return GL_TRANSFORM_FEEDBACK_BUFFER;
-			case BufferRole::UniformBlock:
+			case BufferRole::ConstantBuffer:
 				return GL_UNIFORM_BUFFER;
 		}
 	}
