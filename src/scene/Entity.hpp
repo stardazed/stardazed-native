@@ -11,7 +11,7 @@
 #include "physics/Transform.hpp"
 #include "physics/RigidBody.hpp"
 #include "physics/Collider.hpp"
-#include "scene/Material.hpp"
+#include "scene/MeshRenderer.hpp"
 
 namespace stardazed {
 namespace scene {
@@ -22,7 +22,7 @@ struct Entity {
 	physics::Transform transform;
 	physics::RigidBody* rigidBody = nullptr;
 	physics::Collider* collider = nullptr;
-	Renderable* renderable = nullptr;
+	MeshRenderer* renderer = nullptr;
 	Behaviour* behaviour = nullptr;
 	
 	// -- util

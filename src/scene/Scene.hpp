@@ -11,7 +11,7 @@
 #include "scene/Light.hpp"
 #include "scene/Camera.hpp"
 #include "scene/Behaviour.hpp"
-#include "scene/Material.hpp"
+#include "scene/MeshRenderer.hpp"
 #include "physics/PhysicsContext.hpp"
 
 #include <vector>
@@ -26,8 +26,8 @@ class Scene {
 	std::unique_ptr<Camera> camera_;
 	std::vector<Light> lightPool_;
 	std::vector<Entity> entityPool_;
-	std::vector<Renderable> renderablePool_;
-	std::vector<std::unique_ptr<Material>> materialPool_; // polymorphic
+	std::vector<MeshRenderer> meshRendererPool_;
+	std::vector<std::unique_ptr<Renderable>> renderablePool_; // polymorphic
 	std::vector<std::unique_ptr<Behaviour>> behaviourPool_; // polymorphic
 
 	// -- subsystems
@@ -42,7 +42,7 @@ public:
 	Camera* makeCamera(uint32 viewPortWidth, uint32 viewPortHeight);
 	
 	// -- components that can be used with multiple entities
-	Renderable* makeRenderable();
+	MeshRenderer* makeMeshRenderer(Renderable&);
 	
 	template <typename B, typename... Args> // B : public Behaviour
 	B* makeBehaviour(Args... args) {
@@ -51,11 +51,11 @@ public:
 		return b;
 	}
 
-	template <typename M, typename... Args> // M : public Material
-	M* makeMaterial(Args... args) {
-		auto m = new M(std::forward<Args>(args)...);
-		materialPool_.emplace_back(m);
-		return m;
+	template <typename R, typename... Args> // R : public Renderable
+	R* makeRenderable(Args... args) {
+		auto r = new R(std::forward<Args>(args)...);
+		renderablePool_.emplace_back(r);
+		return r;
 	}
 
 	// -- single entity bound components

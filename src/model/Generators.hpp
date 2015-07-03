@@ -226,5 +226,4 @@ render::MeshData sphere(Args&&... args) { return basic<Sphere>(std::forward<Args
 } // ns model
 } // ns stardazed
 
-
 #endif

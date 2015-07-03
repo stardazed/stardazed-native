@@ -14,7 +14,7 @@ Scene::Scene() {
 	lightPool_.reserve(128);
 	entityPool_.reserve(512);
 	renderablePool_.reserve(512);
-	materialPool_.reserve(64);
+	meshRendererPool_.reserve(64);
 	behaviourPool_.reserve(64);
 }
 
@@ -50,9 +50,11 @@ physics::RigidBody* Scene::makeRigidBody(Entity& entity, float mass, float angIn
 }
 
 
-Renderable* Scene::makeRenderable() {
-	renderablePool_.emplace_back();
-	return &renderablePool_.back();
+MeshRenderer* Scene::makeMeshRenderer(Renderable& renderable) {
+	meshRendererPool_.emplace_back();
+	auto& meshRenderer = meshRendererPool_.back();
+	meshRenderer.renderable = &renderable;
+	return &meshRenderer;
 }
 
 		

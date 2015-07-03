@@ -12,6 +12,7 @@
 #include "render/opengl/Shader.hpp"
 #include "render/opengl/Pipeline.hpp"
 #include "render/opengl/Texture.hpp"
+#include "render/opengl/Mesh.hpp"
 #include "render/opengl/FrameBuffer.hpp"
 #include "render/opengl/RenderPass.hpp"
 
@@ -45,6 +46,9 @@ public:
 	
 	DepthStencilTest* makeDepthStencilTest(const DepthStencilTestDescriptor&);
 	
+	Mesh* makeMesh(const MeshDescriptor&);
+	Mesh* makeMesh(const MeshData&);
+	
 	void swap();
 	
 	bool isFullscreen() const;
@@ -64,6 +68,7 @@ private:
 	std::vector<Pipeline> pipelinePool_;
 	std::vector<Shader> shaderPool_;
 	std::vector<Texture> texturePool_;
+	std::vector<Mesh> meshPool_;
 	std::vector<FrameBuffer> frameBufferPool_;
 	std::vector<DepthStencilTest> depthStencilTestPool_;
 	
