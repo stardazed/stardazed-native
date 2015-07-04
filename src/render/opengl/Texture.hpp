@@ -103,6 +103,7 @@ class Sampler {
 public:
 	Sampler(const SamplerDescriptor&);
 	~Sampler();
+	SD_DEFAULT_MOVE_OPS(Sampler)
 	
 	void bindToTextureUnit(uint32 textureUnit) const {
 		glBindSampler(textureUnit, name());

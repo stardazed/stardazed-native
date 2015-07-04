@@ -40,6 +40,7 @@ public:
 											 const PixelDataProvider& posZ, const PixelDataProvider& negZ,
 											 UseMipMaps useMipMaps);
 
+	Sampler* makeSampler(const SamplerDescriptor&);
 
 	FrameBuffer* makeFrameBuffer(const FrameBufferDescriptor&);
 	FrameBuffer* makeFrameBufferAllocatingTextures(const FrameBufferAllocationDescriptor&);
@@ -68,6 +69,7 @@ private:
 	std::vector<Pipeline> pipelinePool_;
 	std::vector<Shader> shaderPool_;
 	std::vector<Texture> texturePool_;
+	std::vector<Sampler> samplerPool_;
 	std::vector<Mesh> meshPool_;
 	std::vector<FrameBuffer> frameBufferPool_;
 	std::vector<DepthStencilTest> depthStencilTestPool_;

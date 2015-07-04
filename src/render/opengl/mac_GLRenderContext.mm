@@ -177,6 +177,7 @@ RenderContext::RenderContext(const RenderContextDescriptor& descriptor)
 	pipelinePool_.reserve(128);
 	shaderPool_.reserve(128);
 	texturePool_.reserve(128);
+	samplerPool_.reserve(128);
 	meshPool_.reserve(128);
 	frameBufferPool_.reserve(16);
 	depthStencilTestPool_.reserve(32);
@@ -298,6 +299,12 @@ Texture* RenderContext::makeCubeMapTextureFromProviders(const PixelDataProvider&
 	texture->writeProviderPixels(negZ, CubeMapFace::NegZ);
 
 	return texture;
+}
+
+
+Sampler* RenderContext::makeSampler(const SamplerDescriptor& descriptor) {
+	samplerPool_.emplace_back(descriptor);
+	return &samplerPool_.back();
 }
 
 
