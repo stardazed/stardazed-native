@@ -64,14 +64,14 @@ void Game::setSceneController(scene::SceneController& ctl) {
 void Game::simulationStep() {
 	runtime::FrameContext frame{ client_, physicsFixedStepTime_ };
 	auto& scene = controller_->scene();
+
+	scene.physics().integrateStep(globalTime_, physicsFixedStepTime_);
 	
 	std::for_each(scene.entitiesBegin(), scene.entitiesEnd(),
 		[&](scene::Entity& entity) {
 			if (entity.behaviour)
 				entity.behaviour->update(entity, scene, frame);
 		});
-
-	controller_->scene().physics().integrateStep(globalTime_, physicsFixedStepTime_);
 }
 
 
