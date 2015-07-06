@@ -92,6 +92,22 @@ constexpr uint32 roundUpPowerOf2(uint32 n) {
 }
 
 
+// alignUp
+// round val up to closest alignmentPow2
+
+constexpr uint32 alignUp(uint32 val, uint32 alignmentPow2) {
+	return (val + alignmentPow2 - 1) & (~(alignmentPow2 - 1));
+}
+
+
+// alignDown
+// round val down to closest alignmentPow2
+
+constexpr uint32 alignDown(uint32 val, uint32 alignmentPow2) {
+	return val & (~(alignmentPow2 - 1));
+}
+
+
 
 } // ns math
 } // ns stardazed

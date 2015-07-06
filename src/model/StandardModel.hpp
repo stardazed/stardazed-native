@@ -42,6 +42,7 @@ class StandardMaterial {
 	render::Buffer materialsConstBuffer_;
 	uint32 maxMaterialsPerMappedRange_, rangeBlockSizeBytes_;
 	uint32 nextIndex_, maxIndex_;
+	uint32 uniformOffsetAlignment_;
 	
 public:
 	StandardMaterial();

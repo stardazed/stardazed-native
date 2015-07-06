@@ -35,6 +35,7 @@ StandardMaterial::StandardMaterial()
 	glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, &maxVert);
 	glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS, &maxFrag);
 	glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, &maxConstBlockSize);
+	glGetIntegerv(GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT, reinterpret_cast<GLint*>(&uniformOffsetAlignment_));
 
 	GLint maxUsableComponents = math::min(maxVert, maxFrag);
 	GLint maxBlockSizeLimitedMaterials = maxConstBlockSize / sizeof(ConstStandardMaterial);
@@ -44,11 +45,17 @@ StandardMaterial::StandardMaterial()
 	auto maxComponentLimitedMaterials = maxUsableComponents / componentsPerMat;
 
 	maxMaterialsPerMappedRange_ = static_cast<uint32>(math::min(maxBlockSizeLimitedMaterials, maxComponentLimitedMaterials));
-	rangeBlockSizeBytes_ = maxMaterialsPerMappedRange_ * sizeof(ConstStandardMaterial);
+	rangeBlockSizeBytes_ = math::alignUp(maxMaterialsPerMappedRange_ * sizeof(ConstStandardMaterial), uniformOffsetAlignment_);
 	
-	materialsConstBuffer_.allocate(rangeBlockSizeBytes_);
-	nextIndex_ = 1; // Indexes are 1-based to allow 0 being a nullptr-like
-	maxIndex_ = maxMaterialsPerMappedRange_ - 1;
+	// -- test
+	nextIndex_ = 1195;
+	maxIndex_ = 1195 + maxMaterialsPerMappedRange_ - 1;
+	uint32 initialOffset = nextIndex_ * sizeof(ConstStandardMaterial);
+	// --
+	
+	materialsConstBuffer_.allocate(rangeBlockSizeBytes_ + initialOffset);
+//	nextIndex_ = 1; // Indexes are 1-based to allow 0 being a nullptr-like
+//	maxIndex_ = maxMaterialsPerMappedRange_ - 1;
 }
 
 
@@ -96,6 +103,9 @@ void StandardMaterial::allocMultiple(const StandardMaterialDescriptor* base, uin
 void StandardMaterial::mapMaterialAtBindPoint(Index material, uint32 bindPoint) {
 	auto blockIndex = material.index / maxMaterialsPerMappedRange_;
 	auto offset = blockIndex * rangeBlockSizeBytes_;
+	
+	// align the offset down to the nearest previous alignment boundary
+	offset = math::alignDown(offset, uniformOffsetAlignment_);
 	IndexedUniformBlocks::bindBufferRangeToBindPoint(materialsConstBuffer_, offset, rangeBlockSizeBytes_, bindPoint);
 }
 
