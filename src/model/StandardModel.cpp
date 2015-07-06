@@ -16,7 +16,7 @@ using namespace render;
 
 
 struct ConstStandardMaterial {
-	// this is a direct mirror of the scalar/vector data in StandardMaterial
+	// this is a direct mirror of the non-sampler data in StandardMaterialDescriptor
 	// the layouts of these structures must be exactly the same
 	math::Vec3 mainColour;
 	float pad__;
@@ -27,42 +27,114 @@ struct ConstStandardMaterial {
 };
 
 
-StandardModel::StandardModel(const StandardModelDescriptor& desc, StandardShader& shader)
-: descriptor_(desc)
-, mesh_(*desc.mesh)
-, constMatBuffer_{ BufferRole::ConstantBuffer, BufferUpdateFrequency::Never, BufferClientAccess::WriteOnly }
-, shader_(shader)
+StandardMaterial::StandardMaterial()
+: materialsConstBuffer_{ BufferRole::ConstantBuffer, BufferUpdateFrequency::Never, BufferClientAccess::ReadWrite }
 {
-	auto cma = std::make_unique<ConstStandardMaterial[]>(32); // mirrors MAX_MATERIALS in StandardShader.frag
-	size32 cmaSize = size32_cast(32 * sizeof(ConstStandardMaterial));
+	// determine maximum number of components that can be safely used in both the vertex and fragment shaders
+	GLint maxVert, maxFrag, maxConstBlockSize;
+	glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, &maxVert);
+	glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS, &maxFrag);
+	glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, &maxConstBlockSize);
+
+	GLint maxUsableComponents = math::min(maxVert, maxFrag);
+	GLint maxBlockSizeLimitedMaterials = maxConstBlockSize / sizeof(ConstStandardMaterial);
+
+	// -- WARNING: this does not take into account any <float sized components in the material
+	GLint componentsPerMat = sizeof(ConstStandardMaterial) / sizeof(float);
+	auto maxComponentLimitedMaterials = maxUsableComponents / componentsPerMat;
+
+	maxMaterialsPerMappedRange_ = static_cast<uint32>(math::min(maxBlockSizeLimitedMaterials, maxComponentLimitedMaterials));
+	rangeBlockSizeBytes_ = maxMaterialsPerMappedRange_ * sizeof(ConstStandardMaterial);
 	
-	std::for_each(begin(desc.materials), end(desc.materials),
-		[cmaPtr = cma.get()](const StandardMaterial& mat) mutable {
+	materialsConstBuffer_.allocate(rangeBlockSizeBytes_);
+	nextIndex_ = 1; // Indexes are 1-based to allow 0 being a nullptr-like
+	maxIndex_ = maxMaterialsPerMappedRange_ - 1;
+}
+
+
+StandardMaterial::Index StandardMaterial::alloc(const StandardMaterialDescriptor& matDesc) {
+	assert(nextIndex_ <= maxIndex_);
+
+	size32 sizeBytes = sizeof32<ConstStandardMaterial>();
+	size32 offset = nextIndex_ * sizeBytes;
+	materialsConstBuffer_.write(sizeBytes, &matDesc, offset);
+	
+	return { nextIndex_++ };
+}
+
+
+void StandardMaterial::allocMultiple(const StandardMaterialDescriptor* base, uint32 count, StandardMaterial::Index* outIndexesBase) {
+	assert(nextIndex_ + count <= maxIndex_);
+
+	size32 structSizeBytes = sizeof32<ConstStandardMaterial>();
+	size32 arraySizeBytes =  structSizeBytes * count;
+	size32 offsetBytes = nextIndex_ * structSizeBytes;
+
+	// -- copy-append const part of each descriptor into temp array
+	auto cma = std::make_unique<ConstStandardMaterial[]>(count);
+	
+	std::for_each(base, base + count,
+		[cmaPtr = cma.get()](const StandardMaterialDescriptor& mat) mutable {
 			std::memcpy(cmaPtr, &mat, sizeof(ConstStandardMaterial));
 			++cmaPtr;
 		});
 
-	constMatBuffer_.allocate(cmaSize, cma.get());
+	// -- copy const materials to GL buffer
+	materialsConstBuffer_.write(arraySizeBytes, cma.get(), offsetBytes);
+
+	// -- return optional Indexes
+	if (outIndexesBase) {
+		auto uptoIndex = nextIndex_ + count;
+		for (auto curIndex = nextIndex_; curIndex < uptoIndex; ++curIndex)
+			*(outIndexesBase++) = { curIndex };
+	}
+
+	nextIndex_ += count;
+}
+
+
+void StandardMaterial::mapMaterialAtBindPoint(Index material, uint32 bindPoint) {
+	auto blockIndex = material.index / maxMaterialsPerMappedRange_;
+	auto offset = blockIndex * rangeBlockSizeBytes_;
+	IndexedUniformBlocks::bindBufferRangeToBindPoint(materialsConstBuffer_, offset, rangeBlockSizeBytes_, bindPoint);
+}
+
+
+
+StandardModel::StandardModel(const StandardModelDescriptor& desc, StandardShader& shader)
+: descriptor_(desc)
+, mesh_(*desc.mesh)
+, shader_(shader)
+{
+	materialIndexes_.resize(desc.materials.size());
+	standardMaterial().allocMultiple(desc.materials.data(), size32_cast(desc.materials.size()), materialIndexes_.data());
+}
+
+
+StandardMaterial& StandardModel::standardMaterial() {
+	static StandardMaterial sm_s;
+	return sm_s;
 }
 
 
 void StandardModel::render(RenderPass& renderPass, const scene::ProjectionSetup& proj, const scene::Entity& entity) const {
 	renderPass.setPipeline(shader_.pipeline());
 	renderPass.setMesh(mesh_);
-	renderPass.setUniformBuffer(constMatBuffer_, 0);
+	
+	// TODO: add some material-range thing here
+	standardMaterial().mapMaterialAtBindPoint(materialIndexes_[0], 0);
 
 	shader_.setMatrices(proj.projMat, proj.viewMat, entity.transform.toMatrix4());
 	shader_.setLights(math::Vec3{ -0.4, 1, 0.4 });
 
 	for (const FaceGroup& fg : descriptor_.faceGroups) {
 		auto& material = descriptor_.materials[fg.materialIx];
-		shader_.setMaterial(fg.materialIx, material);
+		shader_.setMaterial(materialIndexes_[fg.materialIx], material);
 
 		uint32 startIndex = fg.fromFaceIx * 3;
 		uint32 indexCount = (fg.toFaceIx - fg.fromFaceIx) * 3;
 		renderPass.drawIndexedPrimitives(startIndex, indexCount);
 	}
-	
 }
 
 
@@ -118,10 +190,10 @@ void StandardShader::setLights(const math::Vec3 dirLight) {
 }
 
 
-void StandardShader::setMaterial(uint32 index, const StandardMaterial& material) {
+void StandardShader::setMaterial(StandardMaterial::Index matIndex, const StandardMaterialDescriptor& material) {
 	auto frag = pipeline_->fragmentShader();
 
-	frag->setUniform(fsMatIndex, index);
+	frag->setUniform(fsMatIndex, matIndex.index);
 //	frag->setTexture(material.albedoMap, 0, fsAlbedoMap);
 //	frag->setTexture(material.normalMap, 1, fsNormalMap);
 }

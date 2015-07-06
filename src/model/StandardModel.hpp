@@ -22,10 +22,10 @@ namespace stardazed {
 namespace model {
 
 
-struct StandardMaterial {
+struct StandardMaterialDescriptor {
 	// colours
 	math::Vec3 mainColour = math::Vec3::one();        // single colour or tint for albedo
-	float pad__ = 0;
+	float pad__ = 1;
 	math::Vec3 specularColour = math::Vec3::zero();
 	float specularExponent = 0;                       // 0 means no specular
 
@@ -38,14 +38,32 @@ struct StandardMaterial {
 };
 
 
+class StandardMaterial {
+	render::Buffer materialsConstBuffer_;
+	uint32 maxMaterialsPerMappedRange_, rangeBlockSizeBytes_;
+	uint32 nextIndex_, maxIndex_;
+	
+public:
+	StandardMaterial();
+	SD_NOCOPYORMOVE_CLASS(StandardMaterial)
+
+	struct Index { uint32 index; };
+	
+	Index alloc(const StandardMaterialDescriptor&);
+	void allocMultiple(const StandardMaterialDescriptor* base, uint32 count, Index* outIndexesBase);
+	
+	void mapMaterialAtBindPoint(Index material, uint32 bindPoint);
+};
+
+
 struct FaceGroup {
-	uint32 materialIx, fromFaceIx, toFaceIx;          // materialIx is index into materials array
+	uint32 materialIx, fromFaceIx, toFaceIx;          // materialIx is a model-local index (not a StandardMaterial::Index val)
 };
 
 
 struct StandardModelDescriptor {
 	render::Mesh* mesh;
-	std::vector<StandardMaterial> materials;
+	std::vector<StandardMaterialDescriptor> materials;
 	std::vector<FaceGroup> faceGroups;
 };
 
@@ -55,9 +73,11 @@ class StandardShader;
 
 class StandardModel : public scene::Renderable {
 	StandardModelDescriptor descriptor_;
+	std::vector<StandardMaterial::Index> materialIndexes_;
 	render::Mesh& mesh_;
-	render::Buffer constMatBuffer_;
 	StandardShader& shader_;
+	
+	static StandardMaterial& standardMaterial();
 
 public:
 	StandardModel(const StandardModelDescriptor&, StandardShader&);
@@ -75,11 +95,9 @@ public:
 	StandardShader(render::RenderContext&);
 	const render::Pipeline& pipeline() { return *pipeline_; }
 	
-	void applyMaterial(const StandardMaterial&);
-	
 	void setMatrices(const math::Mat4& projection, const math::Mat4& view, const math::Mat4& model);
 	void setLights(const math::Vec3 dirLight); // FIXME
-	void setMaterial(uint32 index, const StandardMaterial&);
+	void setMaterial(StandardMaterial::Index, const StandardMaterialDescriptor&);
 };
 
 
