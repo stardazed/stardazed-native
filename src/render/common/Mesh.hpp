@@ -36,7 +36,7 @@ struct VertexBufferBinding {
 	const VertexBuffer* vertexBuffer = nullptr;
 	uint32 baseAttributeIndex = 0;
 
-	BufferClientAccess clientAccess = BufferClientAccess::None;
+	BufferClientAccess clientAccess = BufferClientAccess::WriteOnly;
 	BufferUpdateFrequency updateFrequency = BufferUpdateFrequency::Never;
 };
 
@@ -44,7 +44,7 @@ struct VertexBufferBinding {
 struct IndexBufferBinding {
 	const IndexBuffer* indexBuffer = nullptr;
 	
-	BufferClientAccess clientAccess = BufferClientAccess::None;
+	BufferClientAccess clientAccess = BufferClientAccess::WriteOnly;
 	BufferUpdateFrequency updateFrequency = BufferUpdateFrequency::Never;
 };
 
