@@ -28,7 +28,7 @@ struct ConstStandardMaterial {
 
 
 StandardMaterial::StandardMaterial()
-: materialsConstBuffer_{ BufferRole::ConstantBuffer, BufferUpdateFrequency::Never, BufferClientAccess::ReadWrite }
+: materialsConstBuffer_{ BufferRole::ConstantBuffer, BufferUpdateFrequency::Never, BufferClientAccess::WriteOnly }
 {
 	// determine maximum number of components that can be safely used in both the vertex and fragment shaders
 	GLint maxVert, maxFrag, maxConstBlockSize;
@@ -44,18 +44,15 @@ StandardMaterial::StandardMaterial()
 	GLint componentsPerMat = sizeof(ConstStandardMaterial) / sizeof(float);
 	auto maxComponentLimitedMaterials = maxUsableComponents / componentsPerMat;
 
-	maxMaterialsPerMappedRange_ = static_cast<uint32>(math::min(maxBlockSizeLimitedMaterials, maxComponentLimitedMaterials));
-	rangeBlockSizeBytes_ = math::alignUp(maxMaterialsPerMappedRange_ * sizeof(ConstStandardMaterial), uniformOffsetAlignment_);
+	materialsPerBlock_ = static_cast<uint32>(math::min(maxBlockSizeLimitedMaterials, maxComponentLimitedMaterials));
+	rangeBlockSizeBytes_ = materialsPerBlock_ * sizeof(ConstStandardMaterial);
+	rangeBlockSizeBytesAligned_ = math::alignUp(rangeBlockSizeBytes_, uniformOffsetAlignment_);
 	
-	// -- test
-	nextIndex_ = 1195;
-	maxIndex_ = 1195 + maxMaterialsPerMappedRange_ - 1;
-	uint32 initialOffset = nextIndex_ * sizeof(ConstStandardMaterial);
-	// --
-	
-	materialsConstBuffer_.allocate(rangeBlockSizeBytes_ + initialOffset);
-//	nextIndex_ = 1; // Indexes are 1-based to allow 0 being a nullptr-like
-//	maxIndex_ = maxMaterialsPerMappedRange_ - 1;
+	nextIndex_ = 1; // Indexes are 1-based to allow 0 being a nullptr-like
+	maxIndex_ = materialsPerBlock_ - 1;
+
+	auto numBlocks = static_cast<uint32>(std::ceilf((float)maxIndex_ / (float)materialsPerBlock_));
+	materialsConstBuffer_.allocate(numBlocks * rangeBlockSizeBytesAligned_);
 }
 
 
@@ -101,8 +98,9 @@ void StandardMaterial::allocMultiple(const StandardMaterialDescriptor* base, uin
 
 
 void StandardMaterial::mapMaterialAtBindPoint(Index material, uint32 bindPoint) {
-	auto blockIndex = material.index / maxMaterialsPerMappedRange_;
-	auto offset = blockIndex * rangeBlockSizeBytes_;
+	auto blockIndex = material.index / materialsPerBlock_;
+	auto offset = blockIndex * rangeBlockSizeBytesAligned_;
+	firstBoundMaterialIndex_ = blockIndex * materialsPerBlock_;
 	
 	// align the offset down to the nearest previous alignment boundary
 	offset = math::alignDown(offset, uniformOffsetAlignment_);
@@ -133,13 +131,16 @@ void StandardModel::render(RenderPass& renderPass, const scene::ProjectionSetup&
 	
 	// TODO: add some material-range thing here
 	standardMaterial().mapMaterialAtBindPoint(materialIndexes_[0], 0);
+	auto firstBoundMatIndex = standardMaterial().firstBoundMaterialIndex();
 
 	shader_.setMatrices(proj.projMat, proj.viewMat, entity.transform.toMatrix4());
 	shader_.setLights(math::Vec3{ -0.4, 1, 0.4 });
 
 	for (const FaceGroup& fg : descriptor_.faceGroups) {
 		auto& material = descriptor_.materials[fg.materialIx];
-		shader_.setMaterial(materialIndexes_[fg.materialIx], material);
+		auto matIndex = materialIndexes_[fg.materialIx];
+		matIndex.index -= firstBoundMatIndex;
+		shader_.setMaterial(matIndex, material);
 
 		uint32 startIndex = fg.fromFaceIx * 3;
 		uint32 indexCount = (fg.toFaceIx - fg.fromFaceIx) * 3;

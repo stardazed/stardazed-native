@@ -40,9 +40,11 @@ struct StandardMaterialDescriptor {
 
 class StandardMaterial {
 	render::Buffer materialsConstBuffer_;
-	uint32 maxMaterialsPerMappedRange_, rangeBlockSizeBytes_;
+	uint32 materialsPerBlock_;
+	uint32 rangeBlockSizeBytes_, rangeBlockSizeBytesAligned_;
 	uint32 nextIndex_, maxIndex_;
 	uint32 uniformOffsetAlignment_;
+	uint32 firstBoundMaterialIndex_ = 0;
 	
 public:
 	StandardMaterial();
@@ -54,6 +56,7 @@ public:
 	void allocMultiple(const StandardMaterialDescriptor* base, uint32 count, Index* outIndexesBase);
 	
 	void mapMaterialAtBindPoint(Index material, uint32 bindPoint);
+	uint32 firstBoundMaterialIndex() const { return firstBoundMaterialIndex_; };
 };
 
 
