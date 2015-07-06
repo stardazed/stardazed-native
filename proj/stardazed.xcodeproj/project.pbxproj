@@ -889,6 +889,8 @@
 					"-Wextra",
 					"-Wno-missing-braces",
 					"-Wglobal-constructors",
+					"-Werror=uninitialized",
+					"-fno-unwind-tables",
 				);
 				SDKROOT = macosx;
 			};
@@ -940,6 +942,8 @@
 					"-Wextra",
 					"-Wno-missing-braces",
 					"-Wglobal-constructors",
+					"-Werror=uninitialized",
+					"-fno-unwind-tables",
 				);
 				SDKROOT = macosx;
 			};

@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // math::Algorithm - stardazed
-// (c) 2014 by Arthur Langereis
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #ifndef SD_MATH_ALGORITHM_H
@@ -63,9 +63,10 @@ T mix(T a, T b, T ratio) {
 }
 
 
-// linearCoord
+// texCoord
 // return fraction of number and 1-fract for negative numbers
 // to have linear increasing fractions for all numbers for e.g. uv-coords
+
 template <typename T>
 float texCoord(T v) {
 	v -= trunc(v);
@@ -73,6 +74,22 @@ float texCoord(T v) {
 		v += 1.f;
 	return v;
 };
+
+
+// roundUpPowerOf2
+// return closest powerOf2 number that is >= n
+// e.g.: 15 -> 16; 16 -> 16; 17 -> 32
+
+constexpr uint32 roundUpPowerOf2(uint32 n) {
+	if (n == 0) return 1;
+	n--;
+	n |= n >> 1;
+	n |= n >> 2;
+	n |= n >> 4;
+	n |= n >> 8;
+	n |= n >> 16;
+	return n + 1;
+}
 
 
 
