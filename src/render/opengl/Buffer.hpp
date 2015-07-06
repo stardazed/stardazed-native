@@ -145,7 +145,7 @@ public:
 
 	// -- direct updates
 	
-	void write(size32 bytes, void* data, size32 offset) {
+	void write(size32 bytes, const void* data, size32 offset) {
 		bind();
 		glBufferSubData(target_, offset, bytes, data);
 	}
@@ -201,6 +201,10 @@ public:
 	template <typename T>
 	T* mapBufferForFullAccess() {
 		return mapRangeForFullAccess<T>(0, byteSize_);
+	}
+	
+	void unmap() {
+		glUnmapBuffer(target_);
 	}
 	
 	// -- observers
@@ -260,7 +264,7 @@ namespace detail {
 
 		static void bindBufferRangeToBindPoint(const Buffer& buffer, size32 offset, size32 bytes, uint32 bindPoint) {
 			assert(static_cast<GLint>(bindPoint) < maxIndex());
-			assert(offset + bytes < buffer.byteSize());
+			assert(offset + bytes <= buffer.byteSize());
 			glBindBufferRange(target, bindPoint, buffer.name(), static_cast<GLintptr>(offset), bytes);
 		}
 	};
