@@ -36,9 +36,9 @@ enum class PrimitiveType {
 
 constexpr size32 indexElementTypeSizeBytes(IndexElementType iet) {
 	switch (iet) {
-		case IndexElementType::UInt8: return sizeof(uint8);
-		case IndexElementType::UInt16: return sizeof(uint16);
-		case IndexElementType::UInt32: return sizeof(uint32);
+		case IndexElementType::UInt8:  return sizeof32<uint8>();
+		case IndexElementType::UInt16: return sizeof32<uint16>();
+		case IndexElementType::UInt32: return sizeof32<uint32>();
 	}
 }
 
