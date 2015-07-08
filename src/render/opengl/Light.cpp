@@ -22,10 +22,5 @@ Light::Light()
 }
 
 
-Light::Index Light::alloc(const LightDescriptor&) {
-	return { nextIndex_ };
-}
-
-
 } // ns render
 } // ns stardazed

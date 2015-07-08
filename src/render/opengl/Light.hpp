@@ -17,15 +17,9 @@ namespace render {
 class Light {
 	Buffer shaderLights_;
 	uint32 maxShaderLights_, shaderBlockSizeBytes_;
-	
-	struct Index { uint32 index; };
-
-	uint32 nextIndex_;
 
 public:
 	Light();
-
-	Index alloc(const LightDescriptor&);
 };
 
 
