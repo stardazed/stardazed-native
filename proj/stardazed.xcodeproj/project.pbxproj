@@ -65,6 +65,7 @@
 		8E28645D1B46D4C500FD436D /* Buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E28645C1B46D4C500FD436D /* Buffer.hpp */; };
 		8E31873619ED460000D3B189 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E31873519ED460000D3B189 /* OpenGL.framework */; };
 		8E3A702B1AD2ABAD00A9923B /* Mouse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E3A702A1AD2ABAD00A9923B /* Mouse.hpp */; };
+		8E43CDA01B4C7F89009D24B5 /* Light.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E43CD9F1B4C7F89009D24B5 /* Light.hpp */; };
 		8E44B4031A3EFD390059C57D /* mac_AudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E44B4021A3EFD390059C57D /* mac_AudioContext.mm */; };
 		8E44B4051A3F41380059C57D /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E44B4041A3F41380059C57D /* AudioUnit.framework */; };
 		8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */; };
@@ -212,6 +213,7 @@
 		8E28645C1B46D4C500FD436D /* Buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Buffer.hpp; sourceTree = "<group>"; };
 		8E31873519ED460000D3B189 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		8E3A702A1AD2ABAD00A9923B /* Mouse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mouse.hpp; sourceTree = "<group>"; };
+		8E43CD9F1B4C7F89009D24B5 /* Light.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
 		8E44B4021A3EFD390059C57D /* mac_AudioContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_AudioContext.mm; sourceTree = "<group>"; };
 		8E44B4041A3F41380059C57D /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexDerivedData.hpp; sourceTree = "<group>"; };
@@ -445,6 +447,7 @@
 				8E90F1241A6D51B700AD015B /* Texture.cpp */,
 				8E6E53A31A7FC0AF00844C70 /* FrameBuffer.hpp */,
 				8E6E53A51A7FC10700844C70 /* FrameBuffer.cpp */,
+				8E43CD9F1B4C7F89009D24B5 /* Light.hpp */,
 				8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */,
 				8E112DAC199E5FE20029CD38 /* Shader.hpp */,
 				8E112DAB199E5FE20029CD38 /* Shader.cpp */,
@@ -729,6 +732,7 @@
 				8EF702041A76F90B00454341 /* zconf.h in Headers */,
 				8EF702071A76F90B00454341 /* zutil.h in Headers */,
 				8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */,
+				8E43CDA01B4C7F89009D24B5 /* Light.hpp in Headers */,
 				8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
