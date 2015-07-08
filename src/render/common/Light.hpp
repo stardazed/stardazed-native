@@ -21,12 +21,12 @@ enum class ShadowType {
 };
 
 
-enum class ShadowQuality {
-	Auto,
-	Low,      // 1/8
-	Medium,   // 1/4
-	High,     // 1/2
-	Full      // 1/1
+enum class ShadowQuality : uint {
+	Auto    = 0,
+	Low     = 25,
+	Medium  = 50,
+	High    = 75,
+	Full    = 100
 };
 
 

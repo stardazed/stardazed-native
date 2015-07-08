@@ -11,7 +11,6 @@ namespace scene {
 
 Scene::Scene() {
 	// FIXME: make this settable by client
-	lightPool_.reserve(128);
 	entityPool_.reserve(512);
 	renderablePool_.reserve(512);
 	meshRendererPool_.reserve(64);
@@ -27,11 +26,11 @@ Entity* Scene::makeEntity() {
 
 // FIXME: Light and Camera should be converted into Components
 
-Light* Scene::makeLight(const render::LightDescriptor& descriptor) {
-	auto lightEntity = makeEntity();
-	lightPool_.emplace_back(*lightEntity, descriptor);
-	return &lightPool_.back();
-}
+//Light* Scene::makeLight(const render::LightDescriptor& descriptor) {
+//	auto lightEntity = makeEntity();
+//	lightPool_.emplace_back(*lightEntity, descriptor);
+//	return &lightPool_.back();
+//}
 
 
 Camera* Scene::makeCamera(uint32 viewPortWidth, uint32 viewPortHeight) {

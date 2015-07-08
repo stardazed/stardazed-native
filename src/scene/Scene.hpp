@@ -8,7 +8,6 @@
 
 #include "system/Config.hpp"
 #include "scene/Entity.hpp"
-#include "scene/Light.hpp"
 #include "scene/Camera.hpp"
 #include "scene/Behaviour.hpp"
 #include "scene/MeshRenderer.hpp"
@@ -24,7 +23,6 @@ namespace scene {
 class Scene {
 	// -- storage
 	std::unique_ptr<Camera> camera_;
-	std::vector<Light> lightPool_;
 	std::vector<Entity> entityPool_;
 	std::vector<MeshRenderer> meshRendererPool_;
 	std::vector<std::unique_ptr<Renderable>> renderablePool_; // polymorphic
@@ -38,7 +36,7 @@ public:
 
 	// -- factory methods
 	Entity* makeEntity();
-	Light* makeLight(const render::LightDescriptor&);
+//	Light* makeLight(const render::LightDescriptor&);
 	Camera* makeCamera(uint32 viewPortWidth, uint32 viewPortHeight);
 	
 	// -- components that can be used with multiple entities
