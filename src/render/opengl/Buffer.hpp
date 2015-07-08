@@ -281,6 +281,38 @@ template class detail::IndexedBufferOps<GL_TRANSFORM_FEEDBACK_BUFFER>;
 using IndexedTransformFeedbackBlocks = detail::IndexedBufferOps<GL_TRANSFORM_FEEDBACK_BUFFER>;
 
 
+
+// ---- Constant Buffer Limits
+
+namespace ConstantBufferLimits {
+	struct MaxComponents {
+		uint32 vertexStage = 0;
+		uint32 geometryStage = 0;
+		uint32 fragmentStage = 0;
+		
+		uint32 allStages = 0;
+	};
+	
+	const MaxComponents& maxComponents(); // maximum # of individually accessible components in a buffer
+	uint32 maxBlockSize();                // maximum bindable size of buffer
+	uint32 offsetAlignment();             // required alignment of offsets for BindRange, etc.
+	
+	template <typename T>
+	uint32 maximumAccessibleArrayElementsPerBlock() {
+		auto& componentLimits = ConstantBufferLimits::maxComponents();
+		auto maxUsableComponents = componentLimits.allStages;
+		auto componentsPerElement = math::max(1u, sizeof32<T>() / sizeof32<float>());
+		auto maxComponentLimitedElements = maxUsableComponents / componentsPerElement;
+
+		// -- WARNING: this does not take into account any <float sized components in struct T
+		auto maxConstBlockSize = ConstantBufferLimits::maxBlockSize();
+		auto maxBlockSizeLimitedElements = maxConstBlockSize / sizeof32<T>();
+		
+		return math::min(maxBlockSizeLimitedElements, maxComponentLimitedElements);
+	}
+}
+
+
 } // ns render
 } // ns stardazed
 

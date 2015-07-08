@@ -30,22 +30,10 @@ struct ConstStandardMaterial {
 StandardMaterial::StandardMaterial()
 : materialsConstBuffer_{ BufferRole::ConstantBuffer, BufferUpdateFrequency::Never, BufferClientAccess::WriteOnly }
 {
-	// determine maximum number of components that can be safely used in both the vertex and fragment shaders
-	GLint maxVert, maxFrag, maxConstBlockSize;
-	glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, &maxVert);
-	glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS, &maxFrag);
-	glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, &maxConstBlockSize);
-	glGetIntegerv(GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT, reinterpret_cast<GLint*>(&uniformOffsetAlignment_));
+	materialsPerBlock_ = ConstantBufferLimits::maximumAccessibleArrayElementsPerBlock<ConstStandardMaterial>();
+	rangeBlockSizeBytes_ = materialsPerBlock_ * sizeof32<ConstStandardMaterial>();
 
-	GLint maxUsableComponents = math::min(maxVert, maxFrag);
-	GLint maxBlockSizeLimitedMaterials = maxConstBlockSize / sizeof(ConstStandardMaterial);
-
-	// -- WARNING: this does not take into account any <float sized components in the material
-	GLint componentsPerMat = sizeof(ConstStandardMaterial) / sizeof(float);
-	auto maxComponentLimitedMaterials = maxUsableComponents / componentsPerMat;
-
-	materialsPerBlock_ = static_cast<uint32>(math::min(maxBlockSizeLimitedMaterials, maxComponentLimitedMaterials));
-	rangeBlockSizeBytes_ = materialsPerBlock_ * sizeof(ConstStandardMaterial);
+	uniformOffsetAlignment_ = ConstantBufferLimits::offsetAlignment();
 	rangeBlockSizeBytesAligned_ = math::alignUp(rangeBlockSizeBytes_, uniformOffsetAlignment_);
 	
 	nextIndex_ = 1; // Indexes are 1-based to allow 0 being a nullptr-like
