@@ -7,6 +7,7 @@
 #define SD_CONTAINER_MULTIELEMENTARRAYBUFFER_H
 
 #include "system/Config.hpp"
+#include "memory/Allocator.hpp"
 #include <utility>
 
 namespace stardazed {
@@ -59,8 +60,9 @@ namespace detail {
 template <typename... Ts>
 // requires TriviallyCopyable<Ts...>
 class MultiElementArrayBuffer {
-	void* data_ = nullptr;
 	uint32 capacity_ = 0, count_ = 0;
+	void* data_ = nullptr;
+	memory::Allocator& allocator_;
 
 public:
 	static constexpr const uint32 elementCount = sizeof...(Ts);
@@ -70,14 +72,16 @@ public:
 		return sizeof32<typename detail::ElementType<Index, Ts...>::Type>();
 	}
 
-	MultiElementArrayBuffer(uint32 initialCount) {
+	MultiElementArrayBuffer(memory::Allocator& allocator, uint32 initialCount)
+	: allocator_(allocator)
+	{
 		capacity_ = initialCount;
 		count_ = initialCount;
-		data_ = calloc(capacity_, detail::elementSumSize<Ts...>());
+		data_ = allocator_.alloc(capacity_ * detail::elementSumSize<Ts...>());
 	}
 	
 	~MultiElementArrayBuffer() {
-		free(data_);
+		allocator_.free(data_);
 	}
 	
 	uint32 capacity() const { return capacity_; }
@@ -92,7 +96,7 @@ public:
 //	}
 	
 	template <uint32 Index>
-	auto elementsBasePtr() {
+	auto elementsBasePtr() const {
 		auto basePtr = static_cast<uint8_t*>(data_) + (detail::elementOffset<Index, Ts...>() * capacity_);
 		return reinterpret_cast<typename detail::ElementType<Index, Ts...>::Type*>(basePtr);
 	}
