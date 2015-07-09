@@ -17,8 +17,6 @@
 		8E112D49199E55100029CD38 /* Matrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D41199E55100029CD38 /* Matrix.hpp */; };
 		8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D42199E55100029CD38 /* Quaternion.hpp */; };
 		8E112D4B199E55100029CD38 /* Vector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D43199E55100029CD38 /* Vector.hpp */; };
-		8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */; };
-		8E112D83199E5F540029CD38 /* MemoryResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D7F199E5F540029CD38 /* MemoryResource.hpp */; };
 		8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */; };
 		8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D87199E5F870029CD38 /* FlagSet.hpp */; };
 		8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D89199E5F870029CD38 /* RefTree.hpp */; };
@@ -126,6 +124,8 @@
 		8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC342AC1ACC90A50020F3EC /* jpgd.cpp */; };
 		8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EC342AD1ACC90A50020F3EC /* jpgd.h */; };
 		8EC8C5381B4F16AC00EAADE9 /* MultiElementArrayBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EC8C5371B4F16AC00EAADE9 /* MultiElementArrayBuffer.hpp */; };
+		8EC8C53A1B4F1FC400EAADE9 /* Allocator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EC8C5391B4F1FC400EAADE9 /* Allocator.hpp */; };
+		8EC8C53C1B4F26A900EAADE9 /* Allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C53B1B4F26A900EAADE9 /* Allocator.cpp */; };
 		8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */; };
 		8EF701F91A76F90B00454341 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EA1A76F90B00454341 /* adler32.c */; };
 		8EF701FA1A76F90B00454341 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EB1A76F90B00454341 /* crc32.c */; };
@@ -165,8 +165,6 @@
 		8E112D41199E55100029CD38 /* Matrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
 		8E112D42199E55100029CD38 /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
 		8E112D43199E55100029CD38 /* Vector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
-		8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BasicPoolAllocator.hpp; sourceTree = "<group>"; };
-		8E112D7F199E5F540029CD38 /* MemoryResource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MemoryResource.hpp; sourceTree = "<group>"; };
 		8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = STLAllocAdapter.hpp; sourceTree = "<group>"; };
 		8E112D87199E5F870029CD38 /* FlagSet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FlagSet.hpp; sourceTree = "<group>"; };
 		8E112D89199E5F870029CD38 /* RefTree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RefTree.hpp; sourceTree = "<group>"; };
@@ -274,6 +272,8 @@
 		8EC342AC1ACC90A50020F3EC /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
 		8EC342AD1ACC90A50020F3EC /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
 		8EC8C5371B4F16AC00EAADE9 /* MultiElementArrayBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MultiElementArrayBuffer.hpp; sourceTree = "<group>"; };
+		8EC8C5391B4F1FC400EAADE9 /* Allocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Allocator.hpp; sourceTree = "<group>"; };
+		8EC8C53B1B4F26A900EAADE9 /* Allocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Allocator.cpp; sourceTree = "<group>"; };
 		8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_X360Controller.cpp; sourceTree = "<group>"; };
 		8EF701EA1A76F90B00454341 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
 		8EF701EB1A76F90B00454341 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
@@ -394,9 +394,9 @@
 		8E112D7D199E5F540029CD38 /* memory */ = {
 			isa = PBXGroup;
 			children = (
-				8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */,
-				8E112D7F199E5F540029CD38 /* MemoryResource.hpp */,
 				8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */,
+				8EC8C5391B4F1FC400EAADE9 /* Allocator.hpp */,
+				8EC8C53B1B4F26A900EAADE9 /* Allocator.cpp */,
 			);
 			path = memory;
 			sourceTree = "<group>";
@@ -649,7 +649,6 @@
 				8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */,
 				8EFEA1AE1B26FB3900C6406C /* PhysicsContext.hpp in Headers */,
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
-				8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */,
 				8E7749D11B25E7B5003843FA /* RigidBody.hpp in Headers */,
 				8E842E5A1B2DED6D00A8557D /* PhysicsState.hpp in Headers */,
 				8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */,
@@ -677,12 +676,12 @@
 				8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */,
 				8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */,
 				8E9214491B15FBE7006CBE05 /* RenderPass.hpp in Headers */,
-				8E112D83199E5F540029CD38 /* MemoryResource.hpp in Headers */,
 				8E53725F1B31B0AC002C1538 /* Bounds.hpp in Headers */,
 				8EA7093019D75FC000129E2D /* RenderContext.hpp in Headers */,
 				8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */,
 				8E15992C1AF9054200A62CE1 /* PixelFormat.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
+				8EC8C53A1B4F1FC400EAADE9 /* Allocator.hpp in Headers */,
 				8E187C6A1B3F3DCD003FA0BC /* MeshRenderer.hpp in Headers */,
 				8EF701FC1A76F90B00454341 /* gzguts.h in Headers */,
 				8EFEA1B21B27320200C6406C /* Transform.hpp in Headers */,
@@ -826,6 +825,7 @@
 				8E112D98199E5FC70029CD38 /* TextFile.cpp in Sources */,
 				8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */,
 				8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */,
+				8EC8C53C1B4F26A900EAADE9 /* Allocator.cpp in Sources */,
 				8E2864551B4694E100FD436D /* Manipulators.cpp in Sources */,
 				8E5372501B299CEC002C1538 /* PhysicsContext.cpp in Sources */,
 				8E112D96199E5FC70029CD38 /* StringFormat.cpp in Sources */,
