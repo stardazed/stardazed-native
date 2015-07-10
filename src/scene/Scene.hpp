@@ -11,6 +11,7 @@
 #include "scene/Camera.hpp"
 #include "scene/Behaviour.hpp"
 #include "scene/MeshRenderer.hpp"
+#include "scene/Light.hpp"
 #include "physics/PhysicsContext.hpp"
 
 #include <vector>
@@ -36,7 +37,7 @@ public:
 
 	// -- factory methods
 	Entity* makeEntity();
-//	Light* makeLight(const render::LightDescriptor&);
+//	Light* makeLight(const scene::LightDescriptor&);
 	Camera* makeCamera(uint32 viewPortWidth, uint32 viewPortHeight);
 	
 	// -- components that can be used with multiple entities

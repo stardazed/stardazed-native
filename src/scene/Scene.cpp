@@ -24,12 +24,9 @@ Entity* Scene::makeEntity() {
 }
 
 
-// FIXME: Light and Camera should be converted into Components
-
-//Light* Scene::makeLight(const render::LightDescriptor& descriptor) {
+//Light* Scene::makeLight(const scene::LightDescriptor& descriptor) {
 //	auto lightEntity = makeEntity();
-//	lightPool_.emplace_back(*lightEntity, descriptor);
-//	return &lightPool_.back();
+//	return X;
 //}
 
 
