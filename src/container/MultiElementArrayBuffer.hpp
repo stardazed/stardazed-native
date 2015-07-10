@@ -77,6 +77,12 @@ namespace detail {
 } // ns detail
 
 
+enum class InvalidatePointers : int {
+	No,
+	Yes
+};
+
+
 template <typename... Ts>
 // requires TrivialType<Ts...>
 class MultiElementArrayBuffer {
@@ -97,7 +103,7 @@ public:
 	MultiElementArrayBuffer(memory::Allocator& allocator, uint32 initialCount)
 	: allocator_(allocator)
 	{
-		resize(initialCount);
+		reserve(initialCount);
 	}
 
 	
@@ -110,9 +116,11 @@ public:
 	uint32 count() const { return count_; }
 
 	
-	void reserve(uint32 newCapacity) {
+	InvalidatePointers reserve(uint32 newCapacity) {
 		if (newCapacity <= capacity())
-			return;
+			return InvalidatePointers::No;
+		
+		auto invalidation = InvalidatePointers::No;
 		
 		auto newData = allocator_.alloc(newCapacity * detail::elementSumSize<Ts...>());
 		assert(newData);
@@ -132,29 +140,37 @@ public:
 				});
 			
 			allocator_.free(data_);
+			invalidation = InvalidatePointers::Yes;
 		}
 		
 		data_ = newData;
 		capacity_ = newCapacity;
+		
+		return invalidation;
 	}
 
 	
-	void resize(uint32 newCount) {
+	InvalidatePointers resize(uint32 newCount) {
 		assert(newCount > 0);
-		if (newCount > capacity())
-			reserve(newCount);
+		auto invalidation = InvalidatePointers::No;
+
+		if (newCount > capacity()) {
+			invalidation = reserve(newCount);
+		}
+
 		count_ = newCount;
+		return invalidation;
 	}
 
 	
-	void allocate(uint32 toAdd) {
-		if (count_ + toAdd <= capacity_)
+	InvalidatePointers allocate(uint32 toAdd) {
+		if (count_ + toAdd <= capacity_) {
 			count_ += toAdd;
-		else {
-			// TODO: do something smart here with doubling storage or some such
- 			// but first see if this is even a method that would be used for this type of container.
-			resize(count_ + toAdd);
+			return InvalidatePointers::No;
 		}
+
+		// FIXME: reserve *2 size, etc.
+		return resize(count_ + toAdd);
 	}
 
 	
