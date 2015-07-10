@@ -126,6 +126,8 @@
 		8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC342AC1ACC90A50020F3EC /* jpgd.cpp */; };
 		8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EC342AD1ACC90A50020F3EC /* jpgd.h */; };
 		8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */; };
+		8EDD58221B4EB45E00749BC0 /* Light.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58211B4EB45E00749BC0 /* Light.hpp */; };
+		8EDD58241B4EB4AD00749BC0 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD58231B4EB4AD00749BC0 /* Light.cpp */; };
 		8EF701F91A76F90B00454341 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EA1A76F90B00454341 /* adler32.c */; };
 		8EF701FA1A76F90B00454341 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EB1A76F90B00454341 /* crc32.c */; };
 		8EF701FB1A76F90B00454341 /* crc32.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701EC1A76F90B00454341 /* crc32.h */; };
@@ -273,6 +275,8 @@
 		8EC342AC1ACC90A50020F3EC /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
 		8EC342AD1ACC90A50020F3EC /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
 		8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_X360Controller.cpp; sourceTree = "<group>"; };
+		8EDD58211B4EB45E00749BC0 /* Light.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
+		8EDD58231B4EB4AD00749BC0 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		8EF701EA1A76F90B00454341 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
 		8EF701EB1A76F90B00454341 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
 		8EF701EC1A76F90B00454341 /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc32.h; sourceTree = "<group>"; };
@@ -482,6 +486,8 @@
 				8E112DD5199E60A50029CD38 /* Entity.hpp */,
 				8E112DD2199E60A50029CD38 /* Camera.hpp */,
 				8E112DD1199E60A50029CD38 /* Camera.cpp */,
+				8EDD58211B4EB45E00749BC0 /* Light.hpp */,
+				8EDD58231B4EB4AD00749BC0 /* Light.cpp */,
 				8E112DD7199E60A50029CD38 /* Scene.hpp */,
 				8E112DD6199E60A50029CD38 /* Scene.cpp */,
 				8E112DD4199E60A50029CD38 /* SceneController.hpp */,
@@ -729,6 +735,7 @@
 				8EF702071A76F90B00454341 /* zutil.h in Headers */,
 				8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */,
 				8E43CDA01B4C7F89009D24B5 /* Light.hpp in Headers */,
+				8EDD58221B4EB45E00749BC0 /* Light.hpp in Headers */,
 				8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -799,6 +806,7 @@
 				8E842E581B2B79B900A8557D /* RigidBody.cpp in Sources */,
 				8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */,
 				8E5372611B31B49E002C1538 /* Collider.cpp in Sources */,
+				8EDD58241B4EB4AD00749BC0 /* Light.cpp in Sources */,
 				8E25240D1B4D291200CC4789 /* Light.cpp in Sources */,
 				8EC31EA01B1E0ABF00AF9582 /* IndexBuffer.cpp in Sources */,
 				8EF702061A76F90B00454341 /* zutil.c in Sources */,
