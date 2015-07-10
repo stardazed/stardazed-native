@@ -17,8 +17,6 @@ Light::Light()
 	
 	auto uniformOffsetAlignment = ConstantBufferLimits::offsetAlignment();
 	shaderLights_.allocate(math::alignUp(shaderBlockSizeBytes_, uniformOffsetAlignment));
-
-	nextIndex_ = 1; // Indexes are 1-based to allow 0 being a nullptr-like
 }
 
 
