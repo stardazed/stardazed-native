@@ -8,6 +8,8 @@
 
 #include "system/Config.hpp"
 #include "memory/Allocator.hpp"
+#include "math/Algorithm.hpp"
+
 #include <utility>
 #include <functional>
 
@@ -117,6 +119,15 @@ public:
 
 	
 	InvalidatePointers reserve(uint32 newCapacity) {
+		assert(newCapacity > 0);
+
+		// By forcing an allocated multiple of 32 elements, we never have
+		// to worry about padding between consecutive arrays. 32 is chosen
+		// as it is the AVX layout requirement, so e.g. a char field followed
+		// by an m256 field will be aligned regardless of array length.
+		// We could align to 16 or even 8 and likely be fine, but this container
+		// isn't meant for tiny arrays so 32 it is.
+		newCapacity = math::alignUp(newCapacity, 32);
 		if (newCapacity <= capacity())
 			return InvalidatePointers::No;
 		
@@ -127,9 +138,9 @@ public:
 
 		if (data_) {
 			// Since a capacity change will change the length of each array individually
-			// we need to re-layout the data in the new arrays.
+			// we need to re-layout the data in the new buffer.
 			// We iterate over the basePointers and copy count_ elements from the old
-			// data to the new array. With large arrays >100k elements this can take
+			// data to each new array. With large arrays >100k elements this can take
 			// millisecond-order time, so avoid resizes when possible.
 
 			detail::eachArrayBasePtr<0, Ts...>(data_, capacity_,
@@ -150,27 +161,32 @@ public:
 	}
 
 	
+	// TODO: add way to cut capacity?
+	// TODO: add clear() method -> count_ = 0 & memset(0, instanceData_)
+	
+	
 	InvalidatePointers resize(uint32 newCount) {
-		assert(newCount > 0);
 		auto invalidation = InvalidatePointers::No;
 
 		if (newCount > capacity()) {
 			invalidation = reserve(newCount);
 		}
+		// TODO: if newCount < count() then clear invalidated entries in all arrays
 
 		count_ = newCount;
 		return invalidation;
 	}
-
 	
-	InvalidatePointers allocate(uint32 toAdd) {
-		if (count_ + toAdd <= capacity_) {
-			count_ += toAdd;
-			return InvalidatePointers::No;
+	
+	InvalidatePointers append() {
+		auto invalidation = InvalidatePointers::No;
+
+		if (count_ == capacity_) {
+			invalidation = reserve(capacity() * 2);
 		}
 
-		// FIXME: reserve *2 size, etc.
-		return resize(count_ + toAdd);
+		++count_;
+		return invalidation;
 	}
 
 	

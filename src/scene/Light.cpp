@@ -27,7 +27,7 @@ void Light::rebase() {
 
 
 Light::Handle Light::append(const LightDescriptor& desc) {
-	if (__builtin_expect(instanceData_.allocate(1) == container::InvalidatePointers::Yes, 0)) {
+	if (__builtin_expect(instanceData_.append() == container::InvalidatePointers::Yes, 0)) {
 		rebase();
 	}
 
@@ -37,10 +37,11 @@ Light::Handle Light::append(const LightDescriptor& desc) {
 	setColour(h, desc.colour);
 	setIntensity(h, desc.intensity);
 	
-	if (desc.type != LightType::Directional)
+	if (desc.type != LightType::Directional) {
 		setRange(h, desc.range);
-	if (desc.type == LightType::Spot)
-		setCutoff(h, desc.spotCutoff);
+		if (desc.type == LightType::Spot)
+			setCutoff(h, desc.spotCutoff);
+	}
 	
 	return h;
 }

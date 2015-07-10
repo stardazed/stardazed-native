@@ -17,7 +17,6 @@
 		8E112D49199E55100029CD38 /* Matrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D41199E55100029CD38 /* Matrix.hpp */; };
 		8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D42199E55100029CD38 /* Quaternion.hpp */; };
 		8E112D4B199E55100029CD38 /* Vector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D43199E55100029CD38 /* Vector.hpp */; };
-		8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */; };
 		8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */; };
 		8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D87199E5F870029CD38 /* FlagSet.hpp */; };
 		8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D89199E5F870029CD38 /* RefTree.hpp */; };
@@ -124,6 +123,8 @@
 		8EC31EA41B209AC700AF9582 /* VertexDerivedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC31EA31B209AC700AF9582 /* VertexDerivedData.cpp */; };
 		8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC342AC1ACC90A50020F3EC /* jpgd.cpp */; };
 		8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EC342AD1ACC90A50020F3EC /* jpgd.h */; };
+		8EC8C53F1B506B1E00EAADE9 /* Allocator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EC8C53D1B506B1E00EAADE9 /* Allocator.hpp */; };
+		8EC8C5401B506B1E00EAADE9 /* Allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C53E1B506B1E00EAADE9 /* Allocator.cpp */; };
 		8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */; };
 		8EDD58221B4EB45E00749BC0 /* Light.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58211B4EB45E00749BC0 /* Light.hpp */; };
 		8EDD58241B4EB4AD00749BC0 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD58231B4EB4AD00749BC0 /* Light.cpp */; };
@@ -166,7 +167,6 @@
 		8E112D41199E55100029CD38 /* Matrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
 		8E112D42199E55100029CD38 /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
 		8E112D43199E55100029CD38 /* Vector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
-		8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BasicPoolAllocator.hpp; sourceTree = "<group>"; };
 		8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = STLAllocAdapter.hpp; sourceTree = "<group>"; };
 		8E112D87199E5F870029CD38 /* FlagSet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FlagSet.hpp; sourceTree = "<group>"; };
 		8E112D89199E5F870029CD38 /* RefTree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RefTree.hpp; sourceTree = "<group>"; };
@@ -273,6 +273,8 @@
 		8EC31EA31B209AC700AF9582 /* VertexDerivedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexDerivedData.cpp; sourceTree = "<group>"; };
 		8EC342AC1ACC90A50020F3EC /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
 		8EC342AD1ACC90A50020F3EC /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
+		8EC8C53D1B506B1E00EAADE9 /* Allocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Allocator.hpp; sourceTree = "<group>"; };
+		8EC8C53E1B506B1E00EAADE9 /* Allocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Allocator.cpp; sourceTree = "<group>"; };
 		8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_X360Controller.cpp; sourceTree = "<group>"; };
 		8EDD58211B4EB45E00749BC0 /* Light.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
 		8EDD58231B4EB4AD00749BC0 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
@@ -396,7 +398,8 @@
 		8E112D7D199E5F540029CD38 /* memory */ = {
 			isa = PBXGroup;
 			children = (
-				8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */,
+				8EC8C53D1B506B1E00EAADE9 /* Allocator.hpp */,
+				8EC8C53E1B506B1E00EAADE9 /* Allocator.cpp */,
 				8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */,
 			);
 			path = memory;
@@ -652,7 +655,6 @@
 				8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */,
 				8EFEA1AE1B26FB3900C6406C /* PhysicsContext.hpp in Headers */,
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
-				8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */,
 				8E7749D11B25E7B5003843FA /* RigidBody.hpp in Headers */,
 				8E842E5A1B2DED6D00A8557D /* PhysicsState.hpp in Headers */,
 				8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */,
@@ -686,6 +688,7 @@
 				8E15992C1AF9054200A62CE1 /* PixelFormat.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
 				8E187C6A1B3F3DCD003FA0BC /* MeshRenderer.hpp in Headers */,
+				8EC8C53F1B506B1E00EAADE9 /* Allocator.hpp in Headers */,
 				8EF701FC1A76F90B00454341 /* gzguts.h in Headers */,
 				8EFEA1B21B27320200C6406C /* Transform.hpp in Headers */,
 				8EF702011A76F90B00454341 /* inflate.h in Headers */,
@@ -810,6 +813,7 @@
 				8E25240D1B4D291200CC4789 /* Light.cpp in Sources */,
 				8EC31EA01B1E0ABF00AF9582 /* IndexBuffer.cpp in Sources */,
 				8EF702061A76F90B00454341 /* zutil.c in Sources */,
+				8EC8C5401B506B1E00EAADE9 /* Allocator.cpp in Sources */,
 				8E147FAF19BB9944002836CA /* Game.cpp in Sources */,
 				8E5C53AD1B186B6900F74804 /* RenderPass.cpp in Sources */,
 				8EC145F91A869D12004D533A /* OpenGL.cpp in Sources */,
