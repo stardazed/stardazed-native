@@ -9,6 +9,7 @@
 #include "system/Config.hpp"
 #include "memory/Allocator.hpp"
 #include <utility>
+#include <functional>
 
 namespace stardazed {
 namespace container {
@@ -53,12 +54,31 @@ namespace detail {
 	struct ElementType<0, T, Ts...> {
 		using Type = T;
 	};
+	
+	
+	// -- Call a callback with base pointer and element size info for each T
+	// Used internally to in MEAB::reserve
+	
+	using ItFn = std::function<void(uint32, void*, uint32)>;
+	
+	template <uint32 Index, typename T>
+	void eachArrayBasePtr(void* basePtr, uint32 /*capacity*/, const ItFn& fn, T* = nullptr) {
+		fn(Index, basePtr, sizeof32<T>());
+	}
+	
+	template <uint32 Index, typename T, typename... Ts>
+	void eachArrayBasePtr(void* basePtr, uint32 capacity, const ItFn& fn, T* = nullptr, Ts*... ts = nullptr) {
+		fn(Index, basePtr, sizeof32<T>());
+
+		auto bytePtr = static_cast<uint8*>(basePtr);
+		eachArrayBasePtr<Index + 1, Ts...>(bytePtr + (capacity * sizeof(T)), capacity, fn, std::forward<Ts*>(ts)...);
+	}
 
 } // ns detail
 
 
 template <typename... Ts>
-// requires TriviallyCopyable<Ts...>
+// requires TrivialType<Ts...>
 class MultiElementArrayBuffer {
 	uint32 capacity_ = 0, count_ = 0;
 	void* data_ = nullptr;
@@ -66,34 +86,77 @@ class MultiElementArrayBuffer {
 
 public:
 	static constexpr const uint32 elementCount = sizeof...(Ts);
+
 	
 	template <uint32 Index>
 	static constexpr size32 elementSizeBytes() {
 		return sizeof32<typename detail::ElementType<Index, Ts...>::Type>();
 	}
 
+
 	MultiElementArrayBuffer(memory::Allocator& allocator, uint32 initialCount)
 	: allocator_(allocator)
 	{
-		capacity_ = initialCount;
-		count_ = initialCount;
-		data_ = allocator_.alloc(capacity_ * detail::elementSumSize<Ts...>());
+		resize(initialCount);
 	}
+
 	
 	~MultiElementArrayBuffer() {
 		allocator_.free(data_);
 	}
+
 	
 	uint32 capacity() const { return capacity_; }
 	uint32 count() const { return count_; }
+
 	
-//	void allocate(uint32 toAdd) {
-//		if (count_ + toAdd > capacity_) {
-//			// stuff
-//		}
-//
-//		count_ += toAdd;
-//	}
+	void reserve(uint32 newCapacity) {
+		if (newCapacity <= capacity())
+			return;
+		
+		auto newData = allocator_.alloc(newCapacity * detail::elementSumSize<Ts...>());
+		assert(newData);
+
+		if (data_) {
+			// Since a capacity change will change the length of each array individually
+			// we need to re-layout the data in the new arrays.
+			// We iterate over the basePointers and copy count_ elements from the old
+			// data to the new array. With large arrays >100k elements this can take
+			// millisecond-order time, so avoid resizes when possible.
+
+			detail::eachArrayBasePtr<0, Ts...>(data_, capacity_,
+				[newDataPtr = (uint8*)newData, newCapacity, usedCount = count_]
+				(uint32 /*index*/, void* basePtr, uint32 elementSizeBytes) mutable {
+					memcpy(newDataPtr, basePtr, usedCount * elementSizeBytes);
+					newDataPtr += elementSizeBytes * newCapacity;
+				});
+			
+			allocator_.free(data_);
+		}
+		
+		data_ = newData;
+		capacity_ = newCapacity;
+	}
+
+	
+	void resize(uint32 newCount) {
+		assert(newCount > 0);
+		if (newCount > capacity())
+			reserve(newCount);
+		count_ = newCount;
+	}
+
+	
+	void allocate(uint32 toAdd) {
+		if (count_ + toAdd <= capacity_)
+			count_ += toAdd;
+		else {
+			// TODO: do something smart here with doubling storage or some such
+ 			// but first see if this is even a method that would be used for this type of container.
+			resize(count_ + toAdd);
+		}
+	}
+
 	
 	template <uint32 Index>
 	auto elementsBasePtr() const {
@@ -103,7 +166,6 @@ public:
 };
 
 	
-		
 } // ns container
 } // ns stardazed
 

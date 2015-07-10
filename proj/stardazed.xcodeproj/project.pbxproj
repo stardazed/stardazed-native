@@ -18,7 +18,6 @@
 		8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D42199E55100029CD38 /* Quaternion.hpp */; };
 		8E112D4B199E55100029CD38 /* Vector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D43199E55100029CD38 /* Vector.hpp */; };
 		8E112D82199E5F540029CD38 /* BasicPoolAllocator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */; };
-		8E112D83199E5F540029CD38 /* MemoryResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D7F199E5F540029CD38 /* MemoryResource.hpp */; };
 		8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */; };
 		8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D87199E5F870029CD38 /* FlagSet.hpp */; };
 		8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D89199E5F870029CD38 /* RefTree.hpp */; };
@@ -128,6 +127,7 @@
 		8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */; };
 		8EDD58221B4EB45E00749BC0 /* Light.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58211B4EB45E00749BC0 /* Light.hpp */; };
 		8EDD58241B4EB4AD00749BC0 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD58231B4EB4AD00749BC0 /* Light.cpp */; };
+		8EDD58261B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */; };
 		8EF701F91A76F90B00454341 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EA1A76F90B00454341 /* adler32.c */; };
 		8EF701FA1A76F90B00454341 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EB1A76F90B00454341 /* crc32.c */; };
 		8EF701FB1A76F90B00454341 /* crc32.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701EC1A76F90B00454341 /* crc32.h */; };
@@ -167,7 +167,6 @@
 		8E112D42199E55100029CD38 /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
 		8E112D43199E55100029CD38 /* Vector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
 		8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BasicPoolAllocator.hpp; sourceTree = "<group>"; };
-		8E112D7F199E5F540029CD38 /* MemoryResource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MemoryResource.hpp; sourceTree = "<group>"; };
 		8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = STLAllocAdapter.hpp; sourceTree = "<group>"; };
 		8E112D87199E5F870029CD38 /* FlagSet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FlagSet.hpp; sourceTree = "<group>"; };
 		8E112D89199E5F870029CD38 /* RefTree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RefTree.hpp; sourceTree = "<group>"; };
@@ -277,6 +276,7 @@
 		8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_X360Controller.cpp; sourceTree = "<group>"; };
 		8EDD58211B4EB45E00749BC0 /* Light.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
 		8EDD58231B4EB4AD00749BC0 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
+		8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MultiElementArrayBuffer.hpp; sourceTree = "<group>"; };
 		8EF701EA1A76F90B00454341 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
 		8EF701EB1A76F90B00454341 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
 		8EF701EC1A76F90B00454341 /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc32.h; sourceTree = "<group>"; };
@@ -397,7 +397,6 @@
 			isa = PBXGroup;
 			children = (
 				8E112D7E199E5F540029CD38 /* BasicPoolAllocator.hpp */,
-				8E112D7F199E5F540029CD38 /* MemoryResource.hpp */,
 				8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */,
 			);
 			path = memory;
@@ -408,6 +407,7 @@
 			children = (
 				8E112D87199E5F870029CD38 /* FlagSet.hpp */,
 				8E112D89199E5F870029CD38 /* RefTree.hpp */,
+				8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */,
 				8EC31EA11B1F2C5A00AF9582 /* STLBufferIterator.hpp */,
 			);
 			path = container;
@@ -680,7 +680,6 @@
 				8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */,
 				8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */,
 				8E9214491B15FBE7006CBE05 /* RenderPass.hpp in Headers */,
-				8E112D83199E5F540029CD38 /* MemoryResource.hpp in Headers */,
 				8E53725F1B31B0AC002C1538 /* Bounds.hpp in Headers */,
 				8EA7093019D75FC000129E2D /* RenderContext.hpp in Headers */,
 				8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */,
@@ -736,6 +735,7 @@
 				8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */,
 				8E43CDA01B4C7F89009D24B5 /* Light.hpp in Headers */,
 				8EDD58221B4EB45E00749BC0 /* Light.hpp in Headers */,
+				8EDD58261B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp in Headers */,
 				8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
