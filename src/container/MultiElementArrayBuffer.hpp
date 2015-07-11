@@ -61,19 +61,19 @@ namespace detail {
 	// -- Call a callback with base pointer and element size info for each T
 	// Used internally to in MEAB::reserve
 	
-	using ItFn = std::function<void(uint32, void*, uint32)>;
+	using ItFn = std::function<void(void*, uint32)>;
 	
-	template <uint32 Index, typename T>
+	template <typename T>
 	void eachArrayBasePtr(void* basePtr, uint32 /*capacity*/, const ItFn& fn, T* = nullptr) {
-		fn(Index, basePtr, sizeof32<T>());
+		fn(basePtr, sizeof32<T>());
 	}
 	
-	template <uint32 Index, typename T, typename... Ts>
+	template <typename T, typename... Ts>
 	void eachArrayBasePtr(void* basePtr, uint32 capacity, const ItFn& fn, T* = nullptr, Ts*... ts = nullptr) {
-		fn(Index, basePtr, sizeof32<T>());
+		fn(basePtr, sizeof32<T>());
 
 		auto bytePtr = static_cast<uint8*>(basePtr);
-		eachArrayBasePtr<Index + 1, Ts...>(bytePtr + (capacity * sizeof(T)), capacity, fn, std::forward<Ts*>(ts)...);
+		eachArrayBasePtr<Ts...>(bytePtr + (capacity * sizeof(T)), capacity, fn, std::forward<Ts*>(ts)...);
 	}
 
 } // ns detail
@@ -127,9 +127,12 @@ public:
 		// by an m256 field will be aligned regardless of array length.
 		// We could align to 16 or even 8 and likely be fine, but this container
 		// isn't meant for tiny arrays so 32 it is.
+
 		newCapacity = math::alignUp(newCapacity, 32);
-		if (newCapacity <= capacity())
+		if (newCapacity <= capacity()) {
+			// TODO: add way to cut capacity?
 			return InvalidatePointers::No;
+		}
 		
 		auto invalidation = InvalidatePointers::No;
 		
@@ -143,9 +146,9 @@ public:
 			// data to each new array. With large arrays >100k elements this can take
 			// millisecond-order time, so avoid resizes when possible.
 
-			detail::eachArrayBasePtr<0, Ts...>(data_, capacity_,
+			detail::eachArrayBasePtr<Ts...>(data_, capacity_,
 				[newDataPtr = (uint8*)newData, newCapacity, usedCount = count_]
-				(uint32 /*index*/, void* basePtr, uint32 elementSizeBytes) mutable {
+				(void* basePtr, uint32 elementSizeBytes) mutable {
 					memcpy(newDataPtr, basePtr, usedCount * elementSizeBytes);
 					newDataPtr += elementSizeBytes * newCapacity;
 				});
@@ -161,9 +164,11 @@ public:
 	}
 
 	
-	// TODO: add way to cut capacity?
-	// TODO: add clear() method -> count_ = 0 & memset(0, instanceData_)
-	
+	void clear() {
+		count_ = 0;
+		memset(data_, 0, capacity() * detail::elementSumSize<Ts...>());
+	}
+
 	
 	InvalidatePointers resize(uint32 newCount) {
 		auto invalidation = InvalidatePointers::No;
@@ -171,7 +176,19 @@ public:
 		if (newCount > capacity()) {
 			invalidation = reserve(newCount);
 		}
-		// TODO: if newCount < count() then clear invalidated entries in all arrays
+		else if (newCount < count()) {
+			// Reducing the count will clear the now freed up elements so that when
+			// a new allocation is made the element data is guaranteed to be zeroed.
+
+			auto elementsToClear = count() - newCount;
+			detail::eachArrayBasePtr<Ts...>(data_, capacity_,
+				[elementsToClear, fromIndex = count()]
+				(void* basePtr, uint32 elementSizeBytes) {
+					auto firstDeletedElementPtr = static_cast<uint8*>(basePtr) + (elementSizeBytes * fromIndex);
+					memset(firstDeletedElementPtr, 0, elementSizeBytes * elementsToClear);
+				});
+
+		}
 
 		count_ = newCount;
 		return invalidation;
