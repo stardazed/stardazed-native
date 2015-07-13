@@ -135,9 +135,16 @@ public:
 		}
 		
 		auto invalidation = InvalidatePointers::No;
+		auto newSizeBytes = newCapacity * detail::elementSumSize<Ts...>();
 		
-		auto newData = allocator_.alloc(newCapacity * detail::elementSumSize<Ts...>());
+		auto newData = allocator_.alloc(newSizeBytes);
 		assert(newData);
+		
+		// Not all Allocators return zero-filled memory but this container guarantees
+		// zeroed elements so we clear the memory explicitly if necessary.
+		if (! allocator_.allocZeroesMemory()) {
+			memset(newData, 0, newSizeBytes);
+		}
 
 		if (data_) {
 			// Since a capacity change will change the length of each array individually

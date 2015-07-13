@@ -10,8 +10,14 @@ namespace memory {
 
 
 SystemAllocator& SystemAllocator::sharedInstance() {
-	static SystemAllocator sa_s;
-	return sa_s;
+	static SystemAllocator sha_s;
+	return sha_s;
+}
+
+
+StackAllocator& StackAllocator::sharedInstance() {
+	static StackAllocator ssa_s;
+	return ssa_s;
 }
 
 	

@@ -59,7 +59,8 @@ class Light {
 
 public:
 	Light();
-	
+
+	// -- shared Component `interface`
 	struct Handle { uint32 ref; };
 	
 	uint32 count() const { return instanceData_.count(); }
