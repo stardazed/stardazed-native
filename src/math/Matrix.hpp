@@ -62,6 +62,9 @@ struct Matrix {
 		if (count < maxCells)
 			std::fill_n(dataBegin() + count, maxCells - count, T(0));
 	}
+	
+	
+	static constexpr Matrix identity() { return Matrix(1); }
 
 
 	constexpr RowType& operator[](const size_t row) {
@@ -637,7 +640,7 @@ Matrix<3, 3, double> extractSubMatrix<3,3,4,4,double>(const Matrix<4, 4, double>
 // ---- Scale Matrix
 
 constexpr Mat4 scaleMatrix(float scaleX, float scaleY, float scaleZ) {
-	auto m = Mat4(1);
+	auto m = Mat4::identity();
 	m[0][0] = scaleX;
 	m[1][1] = scaleY;
 	m[2][2] = scaleZ;
@@ -656,7 +659,7 @@ constexpr Mat4 scaleMatrix(const Vec3& scaleXYZ) {
 // ---- Translation Matrix
 
 constexpr Mat4 translationMatrix(float transX, float transY, float transZ) {
-	auto m = Mat4(1);
+	auto m = Mat4::identity();
 	m[3][0] = transX;
 	m[3][1] = transY;
 	m[3][2] = transZ;
@@ -664,7 +667,7 @@ constexpr Mat4 translationMatrix(float transX, float transY, float transZ) {
 }
 
 constexpr Mat4 translationMatrix(const Vec3& trans) {
-	auto m = Mat4(1);
+	auto m = Mat4::identity();
 	m[3].xyz = trans;
 	return m;
 }

@@ -17,6 +17,13 @@ namespace stardazed {
 namespace scene {
 
 
+struct TransformDescriptor {
+	math::Vec3 position = math::Vec3::zero();
+	math::Quat rotation = math::Quat::identity();
+	math::Vec3 scale = math::Vec3::one();
+};
+
+
 class Transform {
 public:
 	struct Handle { uint32 ref; };
@@ -42,10 +49,13 @@ private:
 
 public:
 	Transform();
+	
+	static const Handle root() { return {0}; }
 
 	// -- shared Component `interface`
 	uint32 count() const { return instanceData_.count(); }
-	Handle append(Handle parent);
+	Handle append(const Handle parent = root());
+	Handle append(const TransformDescriptor&, const Handle parent = root());
 
 	// -- single instance data access
 	Handle parent(Handle h) const { return parentBase_[h.ref]; }
@@ -54,54 +64,42 @@ public:
 	const math::Vec3& scale(Handle h) const { return scaleBase_[h.ref]; }
 	const math::Mat4& modelMatrix(Handle h) const { return modelMatrixBase_[h.ref]; }
 
-	void setParent(Handle h, Handle newParent);
-	void setPosition(Handle h, const math::Vec3& newPosition);
-	void setRotation(Handle h, const math::Quat& newRotation);
-	void setScale(Handle h, const math::Vec3& newScale);
-};
+	void setParent(const Handle h, const Handle newParent);
+	void setPosition(const Handle h, const math::Vec3& newPosition);
+	void setRotation(const Handle h, const math::Quat& newRotation);
+	void setPositionAndRotation(const Handle h, const math::Vec3& newPosition, const math::Quat& newRotation);
+	void setScale(const Handle h, const math::Vec3& newScale);
 
-
-struct TransformX {
-	math::Vec3 position;
-	math::Vec3 scale { 1, 1, 1 };
-	math::Quat rotation;
-
-	void lookAt(const math::Vec3& target, const math::Vec3& up = {0,1,0});
-
-	void rotate(math::Angle overX, math::Angle overY, math::Angle overZ) {
-		rotation *= math::Quat::fromEuler(overZ, overY, overX);
-	}
-
-	void rotate(const math::Vec3& axis, math::Angle angle) {
-		rotation *= math::Quat::fromAxisAngle(axis, angle);
-	}
-
-	void rotate(const math::Quat& q) {
-		rotation *= q;
+	// -- single instance state modifiers
+	void rotate(const Handle h, math::Angle overX, math::Angle overY, math::Angle overZ) {
+		setRotation(h, rotation(h) * math::Quat::fromEuler(overZ, overY, overX));
 	}
 	
-	void translate(const math::Vec3& translation) {
+	void rotate(const Handle h, const math::Vec3& axis, math::Angle angle) {
+		setRotation(h, rotation(h) * math::Quat::fromAxisAngle(axis, angle));
+	}
+	
+	void rotate(const Handle h, const math::Quat& q) {
+		setRotation(h, rotation(h) * q);
+	}
+	
+	void translate(const Handle h, const math::Vec3& translation) {
 		float len = math::length(translation);
-		if (math::nearEqual(len, 0.0f))
-			return;
-		position += (rotation * translation) * len;
-	}
-
-	void translate(float x, float y, float z) {
-		translate(math::Vec3{ x, y, z });
-	}
-
-	void translateGlobal(const math::Vec3& globalTranslation) {
-		position += globalTranslation;
-	}
-
-	void translateGlobal(float gx, float gy, float gz) {
-		position += math::Vec3{ gx, gy, gz };
+		if (! math::nearEqual(len, 0.0f))
+			setPosition(h, position(h) + (rotation(h) * translation) * len);
 	}
 	
-	Transform apply(const Transform&) const;
-
-	math::Mat4 toMatrix4() const;
+	void translate(const Handle h, float x, float y, float z) {
+		translate(h, math::Vec3{ x, y, z });
+	}
+	
+	void translateGlobal(const Handle h, const math::Vec3& globalTranslation) {
+		setPosition(h, position(h) + globalTranslation);
+	}
+	
+	void translateGlobal(const Handle h, float gx, float gy, float gz) {
+		setPosition(h, position(h) + math::Vec3{ gx, gy, gz });
+	}
 };
 
 

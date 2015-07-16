@@ -33,6 +33,12 @@ static math::Quat lookAtImpl(math::Vec3 localForward, const math::Vec3& worldUp)
 }
 
 
+inline void recalcModelMatrix(const math::Vec3& pos, const math::Quat& rot, const math::Vec3& scale, math::Mat4& modelMat) {
+	modelMat = math::translationMatrix(pos) * rot.toMatrix4() * math::scaleMatrix(scale);
+}
+
+
+
 Transform::Transform()
 : instanceData_{ memory::SystemAllocator::sharedInstance(), 512 }
 {
@@ -49,7 +55,7 @@ void Transform::rebase() {
 }
 
 
-Transform::Handle Transform::append(Handle parent) {
+Transform::Handle Transform::append(const Handle parent) {
 	if (__builtin_expect(instanceData_.append() == container::InvalidatePointers::Yes, 0)) {
 		rebase();
 	}
@@ -57,63 +63,74 @@ Transform::Handle Transform::append(Handle parent) {
 	Handle h { nextRef_++ };
 
 	parentBase_[h.ref] = parent;
+	rotationBase_[h.ref] = math::Quat::identity();
 	scaleBase_[h.ref] = math::Vec3::one();
+	modelMatrixBase_[h.ref] = math::Mat4::identity();
 	
 	return h;
 }
 
 
-void Transform::setParent(Handle h, Handle newParent) {
+Transform::Handle Transform::append(const TransformDescriptor& desc, const Handle parent) {
+	if (__builtin_expect(instanceData_.append() == container::InvalidatePointers::Yes, 0)) {
+		rebase();
+	}
+	
+	Handle h { nextRef_++ };
+	
+	parentBase_[h.ref] = parent;
+	positionBase_[h.ref] = desc.position;
+	rotationBase_[h.ref] = desc.rotation;
+	scaleBase_[h.ref] = desc.scale;
+	recalcModelMatrix(desc.position, desc.rotation, desc.scale, modelMatrixBase_[h.ref]);
+	
+	return h;
 	
 }
 
 
-inline void recalcModelMatrix(const math::Vec3& pos, const math::Quat& rot, const math::Vec3& scale, math::Mat4& modelMat) {
-	modelMat = math::translationMatrix(pos) * rot.toMatrix4() * math::scaleMatrix(scale);
+void Transform::setParent(const Handle h, const Handle newParent) {
+	assert(h.ref != 0);
+	parentBase_[h.ref] = newParent;
 }
 
 
-void Transform::setPosition(Handle h, const math::Vec3& newPosition) {
+void Transform::setPosition(const Handle h, const math::Vec3& newPosition) {
+	assert(h.ref != 0);
+
 	positionBase_[h.ref] = newPosition;
-	modelMatrixBase_[h.ref] = math::translationMatrix(position(h)) * rotation(h).toMatrix4() * math::scaleMatrix(scale(h));
-	recalcModelMatrix(position(h), rotation(h), scale(h), modelMatrixBase_[h.ref]);
+	recalcModelMatrix(newPosition, rotation(h), scale(h), modelMatrixBase_[h.ref]);
 }
 
 
-void Transform::setRotation(Handle h, const math::Quat& newRotation) {
-	
+void Transform::setRotation(const Handle h, const math::Quat& newRotation) {
+	assert(h.ref != 0);
+
+	rotationBase_[h.ref] = newRotation;
+	recalcModelMatrix(position(h), newRotation, scale(h), modelMatrixBase_[h.ref]);
 }
 
 
-void Transform::setScale(Handle h, const math::Vec3& newScale) {
-	
+void Transform::setPositionAndRotation(const Handle h, const math::Vec3& newPosition, const math::Quat& newRotation) {
+	assert(h.ref != 0);
+
+	positionBase_[h.ref] = newPosition;
+	rotationBase_[h.ref] = newRotation;
+	recalcModelMatrix(newPosition, newRotation, scale(h), modelMatrixBase_[h.ref]);
+}
+
+
+void Transform::setScale(const Handle h, const math::Vec3& newScale) {
+	assert(h.ref != 0);
+
+	scaleBase_[h.ref] = newScale;
+	recalcModelMatrix(position(h), rotation(h), newScale, modelMatrixBase_[h.ref]);
 }
 
 
 /*
 void Transform::lookAt(const math::Vec3& target, const math::Vec3& up) {
 	rotation = lookAtImpl(target - position, up);
-}
-
-
-Transform Transform::apply(const Transform& subTr) const {
-	return {
-		position + (rotation * subTr.position),
-		scale * subTr.scale,
-		rotation * subTr.rotation
-	};
-}
-
-
-math::Mat4 Transform::toMatrix4() const {
-	using namespace math;
-
-	// rotation and scale
-	// TODO: scaleMatrix is unlikely to change for many transforms, optimize/cache
-	// TODO: same goes for position and rotation of basically all static geometry…
-	auto m = math::translationMatrix(position) * rotation.toMatrix4() * math::scaleMatrix(scale);
-
-	return m;
 }
 */
 
