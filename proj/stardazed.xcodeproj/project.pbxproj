@@ -487,12 +487,12 @@
 		8E112DCE199E60A50029CD38 /* scene */ = {
 			isa = PBXGroup;
 			children = (
+				8E112DD5199E60A50029CD38 /* Entity.hpp */,
 				8E221FB21B56F6F8006E5CFD /* Transform.hpp */,
 				8E221FB41B56FEAE006E5CFD /* Transform.cpp */,
 				8E112DD0199E60A50029CD38 /* Behaviour.hpp */,
 				8E112DCF199E60A50029CD38 /* Behaviour.cpp */,
 				8E187C691B3F3DCD003FA0BC /* MeshRenderer.hpp */,
-				8E112DD5199E60A50029CD38 /* Entity.hpp */,
 				8E112DD2199E60A50029CD38 /* Camera.hpp */,
 				8E112DD1199E60A50029CD38 /* Camera.cpp */,
 				8EDD58211B4EB45E00749BC0 /* Light.hpp */,

@@ -11,8 +11,6 @@
 
 #include <functional>
 
-// Let's prototype some object event/behaviour mechanics
-
 namespace stardazed {
 namespace scene {
 
@@ -23,14 +21,13 @@ class Scene;
 
 struct Behaviour {
 	virtual ~Behaviour() = default;
-
-	using SimpleBehaviourHandler = std::function<void(Entity&, Scene&, runtime::FrameContext&)>;
-	
 	virtual void update(Entity&, Scene&, runtime::FrameContext&) = 0;
 };
 
 
 class PluggableBehaviour : public Behaviour {
+	using SimpleBehaviourHandler = std::function<void(Entity&, Scene&, runtime::FrameContext&)>;
+
 	SimpleBehaviourHandler updateFunc_;
 
 public:
