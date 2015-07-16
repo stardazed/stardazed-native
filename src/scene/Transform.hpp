@@ -100,6 +100,8 @@ public:
 	void translateGlobal(const Handle h, float gx, float gy, float gz) {
 		setPosition(h, position(h) + math::Vec3{ gx, gy, gz });
 	}
+
+	void lookAt(const Handle h, const math::Vec3& target, const math::Vec3& up);
 };
 
 

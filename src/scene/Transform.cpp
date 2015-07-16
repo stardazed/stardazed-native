@@ -128,11 +128,10 @@ void Transform::setScale(const Handle h, const math::Vec3& newScale) {
 }
 
 
-/*
-void Transform::lookAt(const math::Vec3& target, const math::Vec3& up) {
-	rotation = lookAtImpl(target - position, up);
+void Transform::lookAt(const Handle h, const math::Vec3& target, const math::Vec3& up) {
+	setRotation(h, lookAtImpl(target - position(h), up));
 }
-*/
+
 
 } // ns scene
 } // ns stardazed
