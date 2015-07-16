@@ -69,7 +69,7 @@ public:
 	// -- single instance data access
 	LightType type(Handle h) const { return typeBase_[h.ref]; }
 	bool8 enabled(Handle h) const { return enabledBase_[h.ref]; }
-	math::Vec3 colour(Handle h) const { return colourBase_[h.ref]; }
+	const math::Vec3& colour(Handle h) const { return colourBase_[h.ref]; }
 	float intensity(Handle h) const { return intensityBase_[h.ref]; }
 	float range(Handle h) const { return rangeBase_[h.ref]; }
 	math::Angle cutoff(Handle h) const { return cutoffBase_[h.ref]; }

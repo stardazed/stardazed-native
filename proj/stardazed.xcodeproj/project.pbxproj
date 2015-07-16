@@ -53,6 +53,8 @@
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
 		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
+		8E221FB31B56F6F8006E5CFD /* Transform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E221FB21B56F6F8006E5CFD /* Transform.hpp */; };
+		8E221FB51B56FEAE006E5CFD /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E221FB41B56FEAE006E5CFD /* Transform.cpp */; };
 		8E2389C619F5A04400080E15 /* VertexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E2389C519F5A04400080E15 /* VertexBuffer.hpp */; };
 		8E25240D1B4D291200CC4789 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E25240C1B4D291200CC4789 /* Light.cpp */; };
 		8E2864531B4694E100FD436D /* Generators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E28644F1B4694E100FD436D /* Generators.cpp */; };
@@ -203,6 +205,8 @@
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
 		8E19672519ACD69F009CB5E6 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
+		8E221FB21B56F6F8006E5CFD /* Transform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Transform.hpp; sourceTree = "<group>"; };
+		8E221FB41B56FEAE006E5CFD /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
 		8E2389C519F5A04400080E15 /* VertexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = VertexBuffer.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E25240C1B4D291200CC4789 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		8E28644F1B4694E100FD436D /* Generators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Generators.cpp; sourceTree = "<group>"; };
@@ -483,6 +487,8 @@
 		8E112DCE199E60A50029CD38 /* scene */ = {
 			isa = PBXGroup;
 			children = (
+				8E221FB21B56F6F8006E5CFD /* Transform.hpp */,
+				8E221FB41B56FEAE006E5CFD /* Transform.cpp */,
 				8E112DD0199E60A50029CD38 /* Behaviour.hpp */,
 				8E112DCF199E60A50029CD38 /* Behaviour.cpp */,
 				8E187C691B3F3DCD003FA0BC /* MeshRenderer.hpp */,
@@ -652,6 +658,7 @@
 				8E3A702B1AD2ABAD00A9923B /* Mouse.hpp in Headers */,
 				8EF702051A76F90B00454341 /* zlib.h in Headers */,
 				8E6A0DBE19B3A03600DF0921 /* Keyboard.hpp in Headers */,
+				8E221FB31B56F6F8006E5CFD /* Transform.hpp in Headers */,
 				8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */,
 				8EFEA1AE1B26FB3900C6406C /* PhysicsContext.hpp in Headers */,
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
@@ -808,6 +815,7 @@
 				8EF702001A76F90B00454341 /* inflate.c in Sources */,
 				8E842E581B2B79B900A8557D /* RigidBody.cpp in Sources */,
 				8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */,
+				8E221FB51B56FEAE006E5CFD /* Transform.cpp in Sources */,
 				8E5372611B31B49E002C1538 /* Collider.cpp in Sources */,
 				8EDD58241B4EB4AD00749BC0 /* Light.cpp in Sources */,
 				8E25240D1B4D291200CC4789 /* Light.cpp in Sources */,

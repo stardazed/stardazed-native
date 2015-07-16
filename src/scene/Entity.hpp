@@ -30,6 +30,11 @@ struct Entity {
 };
 
 
+struct EntityManager {
+	
+};
+
+
 } // ns scene
 } // ns stardazed
 
