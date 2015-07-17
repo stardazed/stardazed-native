@@ -33,7 +33,7 @@ struct Allocator {
 
 // Allocates memory on the heap using the default system allocator.
 
-struct SystemAllocator final : public Allocator {
+struct SystemAllocator final : Allocator {
 	void* alloc(size_t sizeBytes) final {
 		return calloc(1, sizeBytes);
 	}
@@ -64,7 +64,7 @@ private:
 // Allocates directly from the stack and thus free() is a nop.
 // Use only for small(ish), local allocations.
 
-struct StackAllocator final : public Allocator {
+struct StackAllocator final : Allocator {
 	void* alloc(size_t sizeBytes) final {
 		return alloca(sizeBytes);
 	}

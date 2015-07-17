@@ -116,6 +116,7 @@
 		8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA7092519D75FC000129E2D /* Pipeline.hpp */; };
 		8EA7093019D75FC000129E2D /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA7092719D75FC000129E2D /* RenderContext.hpp */; };
 		8EA7093119D75FC000129E2D /* Shader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA7092819D75FC000129E2D /* Shader.hpp */; };
+		8EACE1911B590AD70043814F /* Arena.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EACE1901B590AD70043814F /* Arena.hpp */; };
 		8EB49E8319FFEF7D003F687C /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */; };
 		8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EBB0AB519C1022700843A1F /* FrameContext.hpp */; };
 		8EC145F91A869D12004D533A /* OpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC145F81A869D12004D533A /* OpenGL.cpp */; };
@@ -268,6 +269,7 @@
 		8EA7092519D75FC000129E2D /* Pipeline.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Pipeline.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8EA7092719D75FC000129E2D /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
 		8EA7092819D75FC000129E2D /* Shader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
+		8EACE1901B590AD70043814F /* Arena.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Arena.hpp; sourceTree = "<group>"; };
 		8EB49E8219FFEF7D003F687C /* VertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = VertexBuffer.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8EBB0AB519C1022700843A1F /* FrameContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameContext.hpp; sourceTree = "<group>"; };
 		8EC145F81A869D12004D533A /* OpenGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGL.cpp; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 			children = (
 				8EC8C53D1B506B1E00EAADE9 /* Allocator.hpp */,
 				8EC8C53E1B506B1E00EAADE9 /* Allocator.cpp */,
+				8EACE1901B590AD70043814F /* Arena.hpp */,
 				8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */,
 			);
 			path = memory;
@@ -656,6 +659,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E3A702B1AD2ABAD00A9923B /* Mouse.hpp in Headers */,
+				8EACE1911B590AD70043814F /* Arena.hpp in Headers */,
 				8EF702051A76F90B00454341 /* zlib.h in Headers */,
 				8E6A0DBE19B3A03600DF0921 /* Keyboard.hpp in Headers */,
 				8E221FB31B56F6F8006E5CFD /* Transform.hpp in Headers */,
