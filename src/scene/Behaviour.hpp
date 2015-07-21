@@ -7,6 +7,7 @@
 #define SD_SCENE_BEHAVIOUR_H
 
 #include "system/Config.hpp"
+#include "container/Array.hpp"
 #include "runtime/FrameContext.hpp"
 
 #include <functional>
@@ -65,21 +66,26 @@ class Behaviour {
 		void run_(Time t) final { t_.run(t); }
 	};
 
+	memory::Allocator& allocator_;
+	container::Array<uint32> offsets_;
 	uint8 *base_, *cur_;
 	uint32 count_;
-	std::vector<uint32> offsets_;
 
 public:
-	Behaviour() {
-		offsets_.resize(32);
-		count_ = 0;
-		base_ = static_cast<uint8*>(malloc(64 * 1024));
+	Behaviour(memory::Allocator& allocator, uint32 initialCapacity, uint32 averageElementSize = 16)
+	: allocator_(allocator)
+	, offsets_(allocator, initialCapacity)
+	{
+		base_ = static_cast<uint8*>(allocator_.alloc(initialCapacity * averageElementSize));
 		cur_ = base_;
+		count_ = 0;
 	}
 	
 	~Behaviour() {
 		for (auto b = 0u; b < count_; ++b)
 			reinterpret_cast<BehaviourConcept*>(base_ + offsets_[b])->~BehaviourConcept();
+		
+		allocator_.free(base_);
 	}
 
 	struct Handle { uint32 ref; };
