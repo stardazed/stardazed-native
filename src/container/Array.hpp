@@ -28,6 +28,16 @@ class Array {
 	uint32 capacity_ = 0, count_ = 0;
 	T* data_ = nullptr;
 	memory::Allocator& allocator_;
+	
+
+	void destructRange(T* first, uint32 count) {
+		// Call destructor for each deleted value for Ts that need it.
+		while (count--) {
+			first->~T();
+			++first;
+		}
+	}
+
 
 public:
 	Array(memory::Allocator& allocator, uint32 initialCapacity)
@@ -84,15 +94,8 @@ public:
 
 	
 	void clear() {
-		// Call destructor for each deleted value for Ts that need it.
 		if (! canSkipElementDestructor) {
-			auto elementsToDestruct = count();
-			auto zombieElementPtr = data_;
-			
-			while (elementsToDestruct--) {
-				zombieElementPtr->~T();
-				++zombieElementPtr;
-			}
+			destructRange(data_, count());
 		}
 
 		// Clear memory for potential newly default-constructed values after the clear()
@@ -130,13 +133,7 @@ public:
 		else if (newCount < oldCount) {
 			// Call destructor for each deleted value for Ts that need it.
 			if (! canSkipElementDestructor) {
-				auto elementsToDestruct = oldCount - newCount;
-				auto zombieElementPtr = data_ + newCount;
-				
-				while (elementsToDestruct--) {
-					zombieElementPtr->~T();
-					++zombieElementPtr;
-				}
+				destructRange(data_ + newCount, oldCount - newCount);
 			}
 
 			// For trivial Ts we zero the released memory now so append()s don't have to.
@@ -165,7 +162,7 @@ public:
 	}
 
 
-	void emplace() {
+	void emplaceBack() {
 		if (__builtin_expect(count() == capacity(), 0)) {
 			reserve(capacity() * 2);
 		}
@@ -180,7 +177,7 @@ public:
 
 	
 	template <typename... Args>
-	void emplace(Args&&... args) {
+	void emplaceBack(Args&&... args) {
 		if (__builtin_expect(count() == capacity(), 0)) {
 			reserve(capacity() * 2);
 		}
@@ -189,6 +186,38 @@ public:
 		new (data_ + count_) T{std::forward<Args>(args)...};
 		
 		++count_;
+	}
+
+
+	// -- removing elements
+	
+	void remove(uint32 startIndex, uint32 elementsToRemove = 1) {
+		assert(startIndex + elementsToRemove - 1 < count());
+
+		// Call destructor for each deleted value for Ts that need it.
+		if (! canSkipElementDestructor) {
+			destructRange(data_ + startIndex, elementsToRemove);
+		}
+
+		// Shift back items beyond the deleted range
+		int elementsToCopy = count() - startIndex - elementsToRemove;
+		if (elementsToCopy > 0) {
+			// FIXME: check for trivially_copyable
+			memmove(
+					data_ + startIndex,
+					data_ + startIndex + elementsToRemove,
+					elementSizeBytes() * elementsToCopy
+			);
+		}
+
+		count_ -= elementsToRemove;
+		
+		// Pre-clear now unused object space
+		if (canSkipElementConstructor) {
+			auto elementsToClear = elementsToRemove;
+			auto firstDeletedElementPtr = data_ + count();
+			memset(firstDeletedElementPtr, 0, elementSizeBytes() * elementsToClear);
+		}
 	}
 
 
