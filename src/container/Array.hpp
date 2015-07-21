@@ -20,7 +20,7 @@ template <typename T>
 // requires DefaultConstructible<T>
 // prefers TriviallyDefaultConstructible<T> && TriviallyDestructible<T>
 class Array {
-	static_assert(std::is_default_constructible<T>::value, "T must have be default constructible");
+	static_assert(std::is_default_constructible<T>::value, "T must be default constructible");
 	
 	static constexpr bool canSkipElementConstructor = std::is_trivially_default_constructible<T>::value;
 	static constexpr bool canSkipElementDestructor = std::is_trivially_destructible<T>::value;
@@ -47,6 +47,10 @@ public:
 	}
 
 	~Array() {
+		if (! canSkipElementDestructor) {
+			destructRange(data_, count());
+		}
+
 		allocator_.free(data_);
 	}
 
