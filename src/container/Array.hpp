@@ -7,13 +7,13 @@
 #define SD_CONTAINER_ARRAY_H
 
 #include "system/Config.hpp"
-#include "memory/Allocator.hpp"
+#include "memory/Arena.hpp"
 
 #include <type_traits>
 
 namespace stardazed {
 namespace container {
-		
+
 
 template <typename T>
 // requires DefaultConstructible<T>

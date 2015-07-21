@@ -14,38 +14,81 @@ namespace stardazed {
 namespace memory {
 
 
-class FixedSizeArena {
-	size_t sizeBytes_;
+class DynamicArena {
+	Allocator& allocator_;
 	uint8* base_;
 	uint8* cur_;
-	
-public:
-	FixedSizeArena(void* base, size_t sizeBytes)
-	: sizeBytes_(sizeBytes)
-	, base_(static_cast<uint8*>(base))
-	, cur_(base_)
-	{
-		assert(base);
-		assert(sizeBytes > 0);
-	}
-	
-	void* alloc(size_t sizeBytes) final {
-		assert(freeBytes() > sizeBytes);
+	uint32 capacity_;
 
-		auto next = cur_;
-		cur_ += sizeBytes;
-		return next;
+public:
+	DynamicArena(Allocator& allocator, uint32 initialCapacity)
+	: allocator_(allocator)
+	{
+		assert(initialCapacity > 0);
+
+		base_ = static_cast<uint8*>(allocator_.alloc(initialCapacity));
+		cur_ = base_;
+		capacity_ = initialCapacity;
 	}
+	
+	
+	~DynamicArena() {
+		allocator_.free(base_);
+	}
+
+
+	void* alloc(uint32 sizeBytes, uint32 alignment = 8) {
+		auto usedBytes = uint32(cur_ - base_);
+		auto alignmentPadding = math::alignUp(usedBytes, alignment) - usedBytes;
+		auto effectiveSizeBytes = alignmentPadding + sizeBytes;
+
+		if (__builtin_expect(usedBytes + sizeBytes > capacity_, 0)) {
+			auto newCapacity = XXXXXX;
+
+			auto newBase = static_cast<uint8*>(allocator_.alloc(newCapacity));
+			assert(newBase);
+
+			// Copy over the data to the new buffer and free the old one
+			memcpy(newBase, base_, capacity_);
+			allocator_.free(base_);
+
+			base_ = newBase;
+			cur_ = newBase + usedBytes;
+			capacity_ = newCapacity;
+		}
+
+		auto block = cur_ + alignmentPadding;
+		cur_ += effectiveSizeBytes;
+		return block;
+	}
+
 	
 	void clear() {
 		cur_ = base_;
 	}
 
-	// -- specific to fixed size arena
-	size_t capacity() const { return sizeBytes_; }
-	size_t usedBytes() const { return cur_ - base_; }
-	size_t freeBytes() const { return capacity() - usedBytes(); }
-	void* basePointer() const { return arena_; }
+	
+	uint32 internalOffsetOf(void* block) {
+		assert((uint8*)block > base_ && (uint8*)block < base_ + capacity_);
+		
+		return uint32((uint8*)block - base_);
+	}
+
+	
+	void* internalPointerAtOffset(uint32 offsetBytes) {
+		assert(offsetBytes < capacity_ - 1);
+		return base_ + offsetBytes;
+	}
+
+
+	template <typename T>
+	T* instanceAtOffset(uint32 offsetBytes) {
+		assert(offsetBytes < capacity_ - 1);
+		return reinterpret_cast<T*>(base_ + offsetBytes);
+	}
+
+
+	void* basePointer() const { return base_; }
 };
 
 
