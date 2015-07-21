@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
-// scene::Scene - stardazed
-// (c) 2014 by Arthur Langereis
+// scene::Behaviour.cpp - stardazed
+// (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #include "scene/Behaviour.hpp"

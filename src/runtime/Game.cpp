@@ -67,11 +67,11 @@ void Game::simulationStep() {
 
 	scene.physics().integrateStep(globalTime_, physicsFixedStepTime_);
 	
-	std::for_each(scene.entitiesBegin(), scene.entitiesEnd(),
-		[&](scene::Entity& entity) {
-			if (entity.behaviour)
-				entity.behaviour->update(entity, scene, frame);
-		});
+//	std::for_each(scene.entitiesBegin(), scene.entitiesEnd(),
+//		[&](scene::Entity& entity) {
+//			if (entity.behaviour)
+//				entity.behaviour->update(entity, scene, frame);
+//		});
 }
 
 
