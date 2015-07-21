@@ -102,10 +102,10 @@ public:
 	}
 
 
-	MultiElementArrayBuffer(memory::Allocator& allocator, uint32 initialCount)
+	MultiElementArrayBuffer(memory::Allocator& allocator, uint32 initialCapacity)
 	: allocator_(allocator)
 	{
-		reserve(initialCount);
+		reserve(initialCapacity);
 	}
 
 	

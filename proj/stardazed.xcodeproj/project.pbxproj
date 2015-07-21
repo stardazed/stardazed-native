@@ -19,7 +19,6 @@
 		8E112D4B199E55100029CD38 /* Vector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D43199E55100029CD38 /* Vector.hpp */; };
 		8E112D84199E5F540029CD38 /* STLAllocAdapter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */; };
 		8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D87199E5F870029CD38 /* FlagSet.hpp */; };
-		8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D89199E5F870029CD38 /* RefTree.hpp */; };
 		8E112D95199E5FC70029CD38 /* ConceptTraits.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D90199E5FC70029CD38 /* ConceptTraits.hpp */; };
 		8E112D96199E5FC70029CD38 /* StringFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112D91199E5FC70029CD38 /* StringFormat.cpp */; };
 		8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D92199E5FC70029CD38 /* StringFormat.hpp */; };
@@ -103,6 +102,7 @@
 		8E86FBDA1A923BE5001BCBCE /* FileSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */; };
 		8E86FBDC1A923DD5001BCBCE /* mac_FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E86FBDB1A923DD5001BCBCE /* mac_FileSystem.cpp */; };
 		8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBDE1A9650BD001BCBCE /* Plane.hpp */; };
+		8E8876511B5E4C9300F35493 /* Array.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E8876501B5E4C9300F35493 /* Array.hpp */; };
 		8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */; };
 		8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */; };
 		8E8D22B51B1A0A6500A876E5 /* ShaderLibrary.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */; };
@@ -172,7 +172,6 @@
 		8E112D43199E55100029CD38 /* Vector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
 		8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = STLAllocAdapter.hpp; sourceTree = "<group>"; };
 		8E112D87199E5F870029CD38 /* FlagSet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FlagSet.hpp; sourceTree = "<group>"; };
-		8E112D89199E5F870029CD38 /* RefTree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RefTree.hpp; sourceTree = "<group>"; };
 		8E112D90199E5FC70029CD38 /* ConceptTraits.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConceptTraits.hpp; sourceTree = "<group>"; };
 		8E112D91199E5FC70029CD38 /* StringFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringFormat.cpp; sourceTree = "<group>"; };
 		8E112D92199E5FC70029CD38 /* StringFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StringFormat.hpp; sourceTree = "<group>"; };
@@ -256,6 +255,7 @@
 		8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = FileSystem.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E86FBDB1A923DD5001BCBCE /* mac_FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_FileSystem.cpp; sourceTree = "<group>"; };
 		8E86FBDE1A9650BD001BCBCE /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
+		8E8876501B5E4C9300F35493 /* Array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Array.hpp; sourceTree = "<group>"; };
 		8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_GLRenderContext.hpp; sourceTree = "<group>"; };
 		8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_GLRenderContext.mm; sourceTree = "<group>"; };
 		8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderLibrary.hpp; sourceTree = "<group>"; };
@@ -416,7 +416,7 @@
 			isa = PBXGroup;
 			children = (
 				8E112D87199E5F870029CD38 /* FlagSet.hpp */,
-				8E112D89199E5F870029CD38 /* RefTree.hpp */,
+				8E8876501B5E4C9300F35493 /* Array.hpp */,
 				8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */,
 				8EC31EA11B1F2C5A00AF9582 /* STLBufferIterator.hpp */,
 			);
@@ -726,6 +726,7 @@
 				8E6E53B31A8113C100844C70 /* Light.hpp in Headers */,
 				8E1599271AF9012C00A62CE1 /* PixelFormat.hpp in Headers */,
 				8E112D95199E5FC70029CD38 /* ConceptTraits.hpp in Headers */,
+				8E8876511B5E4C9300F35493 /* Array.hpp in Headers */,
 				8E112DB7199E5FE20029CD38 /* OpenGL.hpp in Headers */,
 				8EA7092D19D75FC000129E2D /* Mesh.hpp in Headers */,
 				8E6E53A41A7FC0AF00844C70 /* FrameBuffer.hpp in Headers */,
@@ -741,7 +742,6 @@
 				8E86FBDA1A923BE5001BCBCE /* FileSystem.hpp in Headers */,
 				8E8D22B71B1A1E4D00A876E5 /* VertexLayout.hpp in Headers */,
 				8EF701FB1A76F90B00454341 /* crc32.h in Headers */,
-				8E112D8D199E5F870029CD38 /* RefTree.hpp in Headers */,
 				8E112D49199E55100029CD38 /* Matrix.hpp in Headers */,
 				8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */,
 				8EF702041A76F90B00454341 /* zconf.h in Headers */,
