@@ -27,7 +27,7 @@ class Scene {
 	std::vector<Entity> entityPool_;
 	std::vector<MeshRenderer> meshRendererPool_;
 	std::vector<std::unique_ptr<Renderable>> renderablePool_; // polymorphic
-	std::vector<std::unique_ptr<Behaviour>> behaviourPool_; // polymorphic
+	std::vector<std::unique_ptr<BehaviourX>> behaviourPool_; // polymorphic
 
 	// -- subsystems
 	physics::PhysicsContext physicsCtx_ {};

@@ -23,7 +23,7 @@ struct Entity {
 	physics::RigidBody* rigidBody = nullptr;
 	physics::Collider* collider = nullptr;
 	MeshRenderer* renderer = nullptr;
-	Behaviour* behaviour = nullptr;
+	BehaviourX* behaviour = nullptr;
 	
 	// -- util
 	uint32 tag = 0;
