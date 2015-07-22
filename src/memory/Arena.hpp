@@ -43,7 +43,9 @@ public:
 		auto effectiveSizeBytes = alignmentPadding + sizeBytes;
 
 		if (__builtin_expect(usedBytes + sizeBytes > capacity_, 0)) {
-			auto newCapacity = XXXXXX;
+			auto newCapacity = capacity_ * 2;
+			if (sizeBytes >= capacity_)
+				newCapacity += sizeBytes;
 
 			auto newBase = static_cast<uint8*>(allocator_.alloc(newCapacity));
 			assert(newBase);
