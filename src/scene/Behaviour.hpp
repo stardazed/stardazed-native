@@ -66,26 +66,20 @@ class Behaviour {
 		void run_(Time t) final { t_.run(t); }
 	};
 
-	memory::Allocator& allocator_;
+	memory::GrowableArena objects_;
 	container::Array<uint32> offsets_;
-	uint8 *base_, *cur_;
 	uint32 count_;
 
 public:
 	Behaviour(memory::Allocator& allocator, uint32 initialCapacity, uint32 averageElementSize = 16)
-	: allocator_(allocator)
+	: objects_(allocator, initialCapacity * averageElementSize)
 	, offsets_(allocator, initialCapacity)
-	{
-		base_ = static_cast<uint8*>(allocator_.alloc(initialCapacity * averageElementSize));
-		cur_ = base_;
-		count_ = 0;
-	}
+	, count_(0)
+	{}
 	
 	~Behaviour() {
 		for (auto b = 0u; b < count_; ++b)
 			reinterpret_cast<BehaviourConcept*>(base_ + offsets_[b])->~BehaviourConcept();
-		
-		allocator_.free(base_);
 	}
 
 	struct Handle { uint32 ref; };

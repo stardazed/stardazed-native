@@ -17,7 +17,6 @@ struct Allocator {
 	virtual ~Allocator() = default;
 	
 	virtual void* alloc(size_t sizeBytes) = 0;
-	virtual void* realloc(void* ptr, size_t newSizeBytes) = 0;
 	virtual void free(void* ptr) = 0;
 	
 	// allocation traits
@@ -36,10 +35,6 @@ struct Allocator {
 struct SystemAllocator final : Allocator {
 	void* alloc(size_t sizeBytes) final {
 		return calloc(1, sizeBytes);
-	}
-
-	void* realloc(void* ptr, size_t newSizeBytes) final {
-		return realloc(ptr, newSizeBytes);
 	}
 
 	void free(void* ptr) final {
@@ -67,10 +62,6 @@ private:
 struct StackAllocator final : Allocator {
 	void* alloc(size_t sizeBytes) final {
 		return alloca(sizeBytes);
-	}
-	
-	void* realloc(void* /* ptr */, size_t newSizeBytes) final {
-		return alloca(newSizeBytes);
 	}
 	
 	void free(void* /* ptr */) final {

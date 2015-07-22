@@ -7,7 +7,7 @@
 #define SD_CONTAINER_ARRAY_H
 
 #include "system/Config.hpp"
-#include "memory/Arena.hpp"
+#include "memory/Allocator.hpp"
 
 #include <type_traits>
 
