@@ -105,6 +105,7 @@
 		8E8876511B5E4C9300F35493 /* Array.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E8876501B5E4C9300F35493 /* Array.hpp */; };
 		8E8876571B5FBE9F00F35493 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E8876561B5FBE9F00F35493 /* Block.cpp */; };
 		8E8876591B5FD2E500F35493 /* ArenaSet.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E8876581B5FD2E500F35493 /* ArenaSet.hpp */; };
+		8E88765C1B60F84800F35493 /* Arena.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E88765B1B60F84800F35493 /* Arena.hpp */; };
 		8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */; };
 		8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */; };
 		8E8D22B51B1A0A6500A876E5 /* ShaderLibrary.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */; };
@@ -260,6 +261,7 @@
 		8E8876501B5E4C9300F35493 /* Array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Array.hpp; sourceTree = "<group>"; };
 		8E8876561B5FBE9F00F35493 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Block.cpp; sourceTree = "<group>"; };
 		8E8876581B5FD2E500F35493 /* ArenaSet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ArenaSet.hpp; sourceTree = "<group>"; };
+		8E88765B1B60F84800F35493 /* Arena.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Arena.hpp; sourceTree = "<group>"; };
 		8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_GLRenderContext.hpp; sourceTree = "<group>"; };
 		8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_GLRenderContext.mm; sourceTree = "<group>"; };
 		8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderLibrary.hpp; sourceTree = "<group>"; };
@@ -373,8 +375,8 @@
 				8E112D7D199E5F540029CD38 /* memory */,
 				8E112D86199E5F870029CD38 /* container */,
 				8E112D8F199E5FC70029CD38 /* util */,
-				8E86FBD81A923B21001BCBCE /* filesystem */,
 				8E112D3B199E54FE0029CD38 /* math */,
+				8E86FBD81A923B21001BCBCE /* filesystem */,
 				8E112D9A199E5FE20029CD38 /* render */,
 				8E112DC6199E60150029CD38 /* model */,
 				8E0EF74419A0E06F00CF38A2 /* audio */,
@@ -412,6 +414,7 @@
 				8EC8C53E1B506B1E00EAADE9 /* Allocator.cpp */,
 				8EACE1901B590AD70043814F /* Block.hpp */,
 				8E8876561B5FBE9F00F35493 /* Block.cpp */,
+				8E88765B1B60F84800F35493 /* Arena.hpp */,
 				8E112D80199E5F540029CD38 /* STLAllocAdapter.hpp */,
 			);
 			path = memory;
@@ -726,6 +729,7 @@
 				8E112D8B199E5F870029CD38 /* FlagSet.hpp in Headers */,
 				8E019A5519C602BF009318C5 /* Config.hpp in Headers */,
 				8EF702031A76F90B00454341 /* inftrees.h in Headers */,
+				8E88765C1B60F84800F35493 /* Arena.hpp in Headers */,
 				8EC31EA21B1F2C5A00AF9582 /* STLBufferIterator.hpp in Headers */,
 				8E2864541B4694E100FD436D /* Generators.hpp in Headers */,
 				8EC31E9E1B1E08D800AF9582 /* IndexBuffer.hpp in Headers */,
