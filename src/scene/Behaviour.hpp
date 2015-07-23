@@ -8,6 +8,7 @@
 
 #include "system/Config.hpp"
 #include "container/Array.hpp"
+#include "memory/Arena.hpp"
 #include "runtime/FrameContext.hpp"
 
 #include <functional>
@@ -66,51 +67,47 @@ class Behaviour {
 		void run_(Time t) final { t_.run(t); }
 	};
 
-	memory::GrowableArena objects_;
-	container::Array<uint32> offsets_;
+	memory::ArenaAllocator arena_;
+	container::Array<BehaviourConcept*> items_;
 	uint32 count_;
 
 public:
-	Behaviour(memory::Allocator& allocator, uint32 initialCapacity, uint32 averageElementSize = 16)
-	: objects_(allocator, initialCapacity * averageElementSize)
-	, offsets_(allocator, initialCapacity)
+	Behaviour(memory::Allocator& allocator)
+	: arena_(allocator)
+	, items_(allocator, 128)
 	, count_(0)
 	{}
 	
 	~Behaviour() {
 		for (auto b = 0u; b < count_; ++b)
-			reinterpret_cast<BehaviourConcept*>(base_ + offsets_[b])->~BehaviourConcept();
+			items_[b]->~BehaviourConcept();
 	}
 
 	struct Handle { uint32 ref; };
 
 	template <typename T>
 	Handle append(const T& t) {
-		auto space = reinterpret_cast<BehaviourInstance<T>*>(cur_);
-		cur_ += sizeof(BehaviourInstance<T>);
+		auto space = static_cast<BehaviourInstance<T>*>(arena_.alloc(sizeof(BehaviourInstance<T>)));
 		new (space) BehaviourInstance<T>{t};
-		offsets_[count_] = (uint8*)space - base_;
-		
+		items_.emplaceBack(space);
 		return { count_++ };
 	}
 	
 	template <typename T, typename... Args>
 	Handle emplace(Args&&... args) {
-		auto space = reinterpret_cast<BehaviourInstance<T>*>(cur_);
-		cur_ += sizeof(BehaviourInstance<T>);
+		auto space = static_cast<BehaviourInstance<T>*>(arena_.alloc(sizeof(BehaviourInstance<T>)));
 		new (space) BehaviourInstance<T>(ConstructInPlace{}, std::forward<Args>(args)...);
-		offsets_[count_] = (uint8*)space - base_;
-		
+		items_.emplaceBack(space);
 		return { count_++ };
 	}
 	
 	void run(Handle h, Time t) {
-		reinterpret_cast<BehaviourConcept*>(base_ + offsets_[h.ref])->run_(t);
+		reinterpret_cast<BehaviourConcept*>(items_[h.ref])->run_(t);
 	}
 	
 	void runAll(Time t) {
 		for (auto b = 0u; b < count_; ++b)
-			reinterpret_cast<BehaviourConcept*>(base_ + offsets_[b])->run_(t);
+			reinterpret_cast<BehaviourConcept*>(items_[b])->run_(t);
 	}
 };
 
