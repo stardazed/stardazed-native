@@ -95,7 +95,12 @@ constexpr uint32 roundUpPowerOf2(uint32 n) {
 // alignUp
 // round val up to closest alignmentPow2
 
-constexpr uint32 alignUp(uint32 val, uint32 alignmentPow2) {
+constexpr uint32 alignUp(uint32 val, uint alignmentPow2) {
+	return (val + alignmentPow2 - 1) & (~(alignmentPow2 - 1));
+}
+
+
+constexpr uint64 alignUp(uint64 val, uint alignmentPow2) {
 	return (val + alignmentPow2 - 1) & (~(alignmentPow2 - 1));
 }
 
@@ -104,6 +109,11 @@ constexpr uint32 alignUp(uint32 val, uint32 alignmentPow2) {
 // round val down to closest alignmentPow2
 
 constexpr uint32 alignDown(uint32 val, uint32 alignmentPow2) {
+	return val & (~(alignmentPow2 - 1));
+}
+
+
+constexpr uint64 alignDown(uint64 val, uint alignmentPow2) {
 	return val & (~(alignmentPow2 - 1));
 }
 

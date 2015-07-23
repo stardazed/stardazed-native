@@ -53,7 +53,7 @@ public:
 	}
 	
 	template <typename T>
-	void readValueArray(T* array, size_t N) {
+	void readValueArray(T* array, int64 N) {
 		readBytes(array, sizeof(T) * N);
 	}
 	

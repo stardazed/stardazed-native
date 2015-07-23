@@ -29,7 +29,7 @@ MeshData& rotate(MeshData& mesh, const Quat& rotation) {
 	
 	auto rotMat = rotation.toMatrix4();
 	
-	for (size_t ix=0; ix < vertexCount; ++ix) {
+	for (uint ix=0; ix < vertexCount; ++ix) {
 		mesh.vertexes[ix] = rotMat * mesh.vertexes[ix];
 		mesh.vertexNormals[ix] = rotMat * mesh.vertexNormals[ix];
 		// FIXME: tangents?
