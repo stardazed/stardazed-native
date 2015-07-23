@@ -226,14 +226,37 @@ public:
 
 	// -- subscripting
 	
-	T& operator[](size_t index) {
+	T& operator[](uint index) {
 		assert(index < count());
 		return *(data_ + index);
 	}
 
-	const T& operator[](size_t index) const {
+	const T& operator[](uint index) const {
 		assert(index < count());
 		return *(data_ + index);
+	}
+
+
+	// -- front and back
+	
+	T& front() {
+		assert(count_ > 0);
+		return *data_;
+	}
+
+	const T& front() const {
+		assert(count_ > 0);
+		return *data_;
+	}
+
+	T& back() {
+		assert(count_ > 0);
+		return *data_ + count_ - 1;
+	}
+	
+	const T& back() const {
+		assert(count_ > 0);
+		return *data_ + count_ - 1;
 	}
 };
 
