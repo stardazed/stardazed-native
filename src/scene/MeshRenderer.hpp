@@ -11,12 +11,13 @@
 #include "math/Matrix.hpp"
 #include "render/common/RenderPass.hpp"
 
-#include <type_traits>
-
 namespace stardazed {
 namespace scene {
 
 
+struct Entity;
+	
+	
 struct ProjectionSetup {
 	math::Mat4 projMat, viewMat;
 	
@@ -27,79 +28,59 @@ struct ProjectionSetup {
 };
 
 
-struct Entity;
-
-
 struct Renderable {
 	virtual ~Renderable() = default;
 	virtual void render(render::RenderPass&, const ProjectionSetup&, const Entity&) const = 0;
 };
 
 
-struct MeshRenderer {
-	bool castShadows = true;
-	bool receiveShadows = true;
+struct MeshRendererDescriptor {
+	bool castShadows = false;
+	bool receiveShadows = false;
+	uint32 materialIndex = 0;
 	Renderable* renderable = nullptr;
 };
 
 
-
-
 class MeshRendererC {
-	memory::ArenaAllocator arena_;
 	container::MultiElementArrayBuffer<
 		bool, // castShadows
 		bool, // receiveShadows
+		uint32, // materialIndex
 		Renderable*
-	> items_;
+	> instanceData_;
+	
+	bool* castShadowsBase_;
+	bool* receiveShadowsBase_;
+	uint32* materialIndexBase_;
+	Renderable** renderableBase_;
+
+	void rebase() {
+		castShadowsBase_ = instanceData_.elementsBasePtr<0>();
+		receiveShadowsBase_ = instanceData_.elementsBasePtr<1>();
+		materialIndexBase_ = instanceData_.elementsBasePtr<2>();
+		renderableBase_ = instanceData_.elementsBasePtr<3>();
+	}
 
 public:
-	MeshRendererC(memory::Allocator& allocator)
-	: arena_(allocator)
-	, items_(allocator, 1024)
-	{}
-	
-	~MeshRendererC() {
-		auto renderables = items_.elementsBasePtr<2>();
-		auto count = items_.count();
-		while (count--) {
-			(*renderables)->~Renderable();
-			++renderables;
-		}
-	}
+	MeshRendererC(memory::Allocator& allocator);
 
 	struct Handle { uint32 ref; };
 
-	template <typename Rend>
-	Handle append(const Rend& renderable) {
-		static_assert(std::is_base_of<Renderable, Rend>::value, "Instance must be a Renderable");
+	// -- shared Component `interface`
+	uint32 count() const { return instanceData_.count(); }
+	Handle append(const MeshRendererDescriptor& desc);
 
-		auto space = static_cast<Renderable*>(arena_.alloc(sizeof(Rend)));
-		
-		if (std::is_trivially_copy_constructible<Rend>)
-			;
-		new (space) Renderable{t};
-
-		items_.emplaceBack(space);
-		return { count_++ };
-	}
+	// -- single instance data access
+	bool castsShadows(Handle h) const { return castShadowsBase_[h.ref]; }
+	bool receivesShadows(Handle h) const { return receiveShadowsBase_[h.ref]; }
+	uint32 materialIndex(Handle h) const { return materialIndexBase_[h.ref]; }
+	Renderable* renderable(Handle h) const { return renderableBase_[h.ref]; }
 	
-	template <typename T, typename... Args>
-	Handle emplace(Args&&... args) {
-		auto space = static_cast<RendererInstance<T>*>(arena_.alloc(sizeof(RendererInstance<T>)));
-		new (space) RendererInstance<T>(ConstructInPlace{}, std::forward<Args>(args)...);
-		items_.emplaceBack(space);
-		return { count_++ };
-	}
-	
-	void run(Handle h, Time t) {
-		reinterpret_cast<RendererConcept*>(items_[h.ref])->run_(t);
-	}
-	
-	void runAll(Time t) {
-		for (auto b = 0u; b < count_; ++b)
-			reinterpret_cast<RendererConcept*>(items_[b])->run_(t);
-	}
+	void setCastsShadows(Handle h, bool newCastShadows);
+	void setReceivesShadows(Handle h, bool newReceivesShadows);
+	void setMaterialIndex(Handle h, uint32 newMaterialIndex);
+	void setRenderer(Handle h, Renderable& newRenderer);
 };
 
 

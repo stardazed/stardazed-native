@@ -64,10 +64,10 @@ public:
 	const math::Vec3& scale(Handle h) const { return scaleBase_[h.ref]; }
 	const math::Mat4& modelMatrix(Handle h) const { return modelMatrixBase_[h.ref]; }
 
-	void setParent(const Handle h, const Handle newParent);
-	void setPosition(const Handle h, const math::Vec3& newPosition);
-	void setRotation(const Handle h, const math::Quat& newRotation);
-	void setPositionAndRotation(const Handle h, const math::Vec3& newPosition, const math::Quat& newRotation);
+	void setParent(const Handle, const Handle newParent);
+	void setPosition(const Handle, const math::Vec3&);
+	void setRotation(const Handle, const math::Quat&);
+	void setPositionAndRotation(const Handle, const math::Vec3&, const math::Quat&);
 	void setScale(const Handle h, const math::Vec3& newScale);
 
 	// -- single instance state modifiers

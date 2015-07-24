@@ -116,6 +116,10 @@ public:
 	
 	uint32 capacity() const { return capacity_; }
 	uint32 count() const { return count_; }
+	uint32 backIndex() const {
+		assert(count() > 0);
+		return count() - 1;
+	}
 
 	
 	InvalidatePointers reserve(uint32 newCapacity) {
