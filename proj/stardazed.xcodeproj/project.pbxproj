@@ -133,6 +133,7 @@
 		8EC8C53F1B506B1E00EAADE9 /* Allocator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EC8C53D1B506B1E00EAADE9 /* Allocator.hpp */; };
 		8EC8C5401B506B1E00EAADE9 /* Allocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C53E1B506B1E00EAADE9 /* Allocator.cpp */; };
 		8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */; };
+		8EDA06811B6683C7001898EA /* RingBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA06801B6683C7001898EA /* RingBuffer.hpp */; };
 		8EDD58221B4EB45E00749BC0 /* Light.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58211B4EB45E00749BC0 /* Light.hpp */; };
 		8EDD58241B4EB4AD00749BC0 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD58231B4EB4AD00749BC0 /* Light.cpp */; };
 		8EDD58261B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */; };
@@ -290,6 +291,7 @@
 		8EC8C53D1B506B1E00EAADE9 /* Allocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Allocator.hpp; sourceTree = "<group>"; };
 		8EC8C53E1B506B1E00EAADE9 /* Allocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Allocator.cpp; sourceTree = "<group>"; };
 		8ED0F5001A41DF04009AFBA8 /* mac_X360Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_X360Controller.cpp; sourceTree = "<group>"; };
+		8EDA06801B6683C7001898EA /* RingBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RingBuffer.hpp; sourceTree = "<group>"; };
 		8EDD58211B4EB45E00749BC0 /* Light.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
 		8EDD58231B4EB4AD00749BC0 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MultiElementArrayBuffer.hpp; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 			children = (
 				8E112D87199E5F870029CD38 /* FlagSet.hpp */,
 				8E8876501B5E4C9300F35493 /* Array.hpp */,
+				8EDA06801B6683C7001898EA /* RingBuffer.hpp */,
 				8E8876581B5FD2E500F35493 /* ArenaSet.hpp */,
 				8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */,
 				8EC31EA11B1F2C5A00AF9582 /* STLBufferIterator.hpp */,
@@ -748,6 +751,7 @@
 				8E7749CF1B25BFD2003843FA /* Units.hpp in Headers */,
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
 				8EF701FE1A76F90B00454341 /* inffast.h in Headers */,
+				8EDA06811B6683C7001898EA /* RingBuffer.hpp in Headers */,
 				8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */,
 				8E2864581B46963900FD436D /* StandardModel.hpp in Headers */,
 				8E8D22B51B1A0A6500A876E5 /* ShaderLibrary.hpp in Headers */,

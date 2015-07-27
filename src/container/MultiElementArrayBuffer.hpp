@@ -93,7 +93,7 @@ class MultiElementArrayBuffer {
 	memory::Allocator& allocator_;
 
 public:
-	static constexpr const uint32 elementCount = sizeof...(Ts);
+	static constexpr uint32 elementCount = sizeof...(Ts);
 
 	
 	template <uint32 Index>
