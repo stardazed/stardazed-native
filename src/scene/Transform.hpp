@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// scene::Transform - stardazed
+// scene::TransformComponent - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
@@ -12,6 +12,7 @@
 #include "math/Matrix.hpp"
 #include "math/Quaternion.hpp"
 #include "container/MultiElementArrayBuffer.hpp"
+#include "scene/Entity.hpp"
 
 namespace stardazed {
 namespace scene {
@@ -24,7 +25,7 @@ struct TransformDescriptor {
 };
 
 
-class Transform {
+class TransformComponent {
 public:
 	struct Handle { uint32 ref; };
 	
@@ -48,7 +49,7 @@ private:
 	uint32 nextRef_ = 1;
 
 public:
-	Transform();
+	TransformComponent();
 	
 	static const Handle root() { return {0}; }
 

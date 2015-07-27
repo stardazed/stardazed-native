@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// scene::Transform - stardazed
+// scene::TransformComponent - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
@@ -38,15 +38,14 @@ inline void recalcModelMatrix(const math::Vec3& pos, const math::Quat& rot, cons
 }
 
 
-
-Transform::Transform()
+TransformComponent::TransformComponent()
 : instanceData_{ memory::SystemAllocator::sharedInstance(), 512 }
 {
 	rebase();
 }
 
 
-void Transform::rebase() {
+void TransformComponent::rebase() {
 	parentBase_ = instanceData_.elementsBasePtr<0>();
 	positionBase_ = instanceData_.elementsBasePtr<1>();
 	rotationBase_ = instanceData_.elementsBasePtr<2>();
@@ -55,7 +54,7 @@ void Transform::rebase() {
 }
 
 
-Transform::Handle Transform::append(const Handle parent) {
+TransformComponent::Handle TransformComponent::append(const Handle parent) {
 	if (__builtin_expect(instanceData_.append() == container::InvalidatePointers::Yes, 0)) {
 		rebase();
 	}
@@ -71,7 +70,7 @@ Transform::Handle Transform::append(const Handle parent) {
 }
 
 
-Transform::Handle Transform::append(const TransformDescriptor& desc, const Handle parent) {
+TransformComponent::Handle TransformComponent::append(const TransformDescriptor& desc, const Handle parent) {
 	if (__builtin_expect(instanceData_.append() == container::InvalidatePointers::Yes, 0)) {
 		rebase();
 	}
@@ -89,13 +88,13 @@ Transform::Handle Transform::append(const TransformDescriptor& desc, const Handl
 }
 
 
-void Transform::setParent(const Handle h, const Handle newParent) {
+void TransformComponent::setParent(const Handle h, const Handle newParent) {
 	assert(h.ref != 0);
 	parentBase_[h.ref] = newParent;
 }
 
 
-void Transform::setPosition(const Handle h, const math::Vec3& newPosition) {
+void TransformComponent::setPosition(const Handle h, const math::Vec3& newPosition) {
 	assert(h.ref != 0);
 
 	positionBase_[h.ref] = newPosition;
@@ -103,7 +102,7 @@ void Transform::setPosition(const Handle h, const math::Vec3& newPosition) {
 }
 
 
-void Transform::setRotation(const Handle h, const math::Quat& newRotation) {
+void TransformComponent::setRotation(const Handle h, const math::Quat& newRotation) {
 	assert(h.ref != 0);
 
 	rotationBase_[h.ref] = newRotation;
@@ -111,7 +110,7 @@ void Transform::setRotation(const Handle h, const math::Quat& newRotation) {
 }
 
 
-void Transform::setPositionAndRotation(const Handle h, const math::Vec3& newPosition, const math::Quat& newRotation) {
+void TransformComponent::setPositionAndRotation(const Handle h, const math::Vec3& newPosition, const math::Quat& newRotation) {
 	assert(h.ref != 0);
 
 	positionBase_[h.ref] = newPosition;
@@ -120,7 +119,7 @@ void Transform::setPositionAndRotation(const Handle h, const math::Vec3& newPosi
 }
 
 
-void Transform::setScale(const Handle h, const math::Vec3& newScale) {
+void TransformComponent::setScale(const Handle h, const math::Vec3& newScale) {
 	assert(h.ref != 0);
 
 	scaleBase_[h.ref] = newScale;
@@ -128,7 +127,7 @@ void Transform::setScale(const Handle h, const math::Vec3& newScale) {
 }
 
 
-void Transform::lookAt(const Handle h, const math::Vec3& target, const math::Vec3& up) {
+void TransformComponent::lookAt(const Handle h, const math::Vec3& target, const math::Vec3& up) {
 	setRotation(h, lookAtImpl(target - position(h), up));
 }
 
