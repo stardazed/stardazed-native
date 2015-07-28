@@ -9,6 +9,20 @@ namespace stardazed {
 namespace scene {
 
 
+Scene::Scene()
+: entities_()
+, transform_()
+{}
+
+
+Entity Scene::makeEntity() {
+	auto ent = entities_.create();
+	transform_.assign(ent);
+	return ent;
+}
+
+
+/*
 Scene::Scene() {
 	// FIXME: make this settable by client
 	entityPool_.reserve(512);
@@ -52,7 +66,7 @@ MeshRenderer* Scene::makeMeshRenderer(Renderable& renderable) {
 	meshRenderer.renderable = &renderable;
 	return &meshRenderer;
 }
-
+*/
 		
 } // ns scene
 } // ns stardazed

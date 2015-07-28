@@ -8,19 +8,28 @@
 
 #include "system/Config.hpp"
 #include "scene/Entity.hpp"
-#include "scene/Camera.hpp"
-#include "scene/Behaviour.hpp"
-#include "scene/MeshRenderer.hpp"
-#include "scene/Light.hpp"
-#include "physics/PhysicsContext.hpp"
-
-#include <vector>
-#include <memory>
+#include "scene/Transform.hpp"
+//#include "scene/Camera.hpp"
+//#include "scene/Behaviour.hpp"
+//#include "scene/MeshRenderer.hpp"
 
 namespace stardazed {
 namespace scene {
 
 
+class Scene {
+	EntityManager entities_;
+	TransformComponent transform_;
+
+public:
+	Scene();
+	
+	Entity makeEntity();
+	
+};
+
+
+/*
 class Scene {
 	// -- storage
 	std::unique_ptr<Camera> camera_;
@@ -28,9 +37,6 @@ class Scene {
 	std::vector<MeshRenderer> meshRendererPool_;
 	std::vector<std::unique_ptr<Renderable>> renderablePool_; // polymorphic
 	std::vector<std::unique_ptr<BehaviourX>> behaviourPool_; // polymorphic
-
-	// -- subsystems
-	physics::PhysicsContext physicsCtx_ {};
 
 public:
 	Scene();
@@ -77,7 +83,7 @@ public:
 	
 	physics::PhysicsContext& physics() { return physicsCtx_; }
 };
-
+*/
 
 } // ns scene
 } // ns stardazed
