@@ -11,28 +11,36 @@
 
 #include "system/Config.hpp"
 #include "container/Array.hpp"
-#include "container/RingBuffer.hpp"
+#include "container/Deque.hpp"
 
 namespace stardazed {
 namespace scene {
 
 
+struct Handle {
+	uint ref;
+
+	constexpr bool operator ==(Handle other) const { return ref == other.ref; }
+	constexpr bool operator !=(Handle other) const { return ref != other.ref; }
+};
+
+
 struct Entity {
+	uint id = 0;
+	
 	static constexpr uint indexBits = 24;
 	static constexpr uint generationBits = 8;
 
-	static_assert(indexBits + generationBits <= 32, "Only 32 bits avail for index and gen");
+	static_assert(indexBits + generationBits <= sizeof(id) * 8, "Index and gen bits won't fit in the id");
 	
 	static constexpr uint indexMask = (1 << indexBits) - 1;
 	static constexpr uint generationMask = (1 << generationBits) - 1;
 	
-	uint id = 0;
-	
 	constexpr uint index() const { return id & indexMask; }
 	constexpr uint generation() const { return (id >> indexBits) & generationMask; }
 
-	constexpr bool operator ==(Entity other) { return id == other.id; }
-	constexpr bool operator !=(Entity other) { return id != other.id; }
+	constexpr bool operator ==(Entity other) const { return id == other.id; }
+	constexpr bool operator !=(Entity other) const { return id != other.id; }
 	
 	constexpr Entity() = default;
 
@@ -50,7 +58,9 @@ private:
 
 class EntityManager {
 	container::Array<uint8> generation_;
-	container::RingBuffer<uint> freedIndices_;
+	container::Deque<uint> freedIndices_;
+	
+	static constexpr uint minFreedBuildup = 1024;
 	
 public:
 	EntityManager()
@@ -63,7 +73,7 @@ public:
 	Entity create() {
 		uint index;
 		
-		if (freedIndices_.full()) {
+		if (freedIndices_.count() >= minFreedBuildup) {
 			index = freedIndices_.front();
 			freedIndices_.popFront();
 		}
