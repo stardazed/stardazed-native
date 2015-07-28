@@ -108,6 +108,7 @@ public:
 	
 	uint32 capacity() const { return capacity_; }
 	uint32 count() const { return count_; }
+	uint32 empty() const { return count_ = 0; }
 	
 	const T* elementsBasePtr() const { return const_cast<const T*>(data_); }
 	T* elementsBasePtr() { return data_; }
