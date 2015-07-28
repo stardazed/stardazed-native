@@ -10,9 +10,10 @@
 #include "math/Vector.hpp"
 #include "render/common/Mesh.hpp"
 #include "render/common/Texture.hpp"
-#include "render/common/Buffer.hpp"
 #include "render/common/Pipeline.hpp"
 #include "render/common/RenderPass.hpp"
+#include "render/opengl/Buffer.hpp"
+#include "render/RenderContext.hpp"
 #include "scene/MeshRenderer.hpp"
 #include "scene/Entity.hpp"
 

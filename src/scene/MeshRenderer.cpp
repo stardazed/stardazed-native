@@ -16,14 +16,7 @@ MeshRendererC::MeshRendererC(memory::Allocator& allocator)
 }
 
 
-void MeshRendererC::rebase() {
-	castShadowsBase_ = items_.elementsBasePtr<0>();
-	receiveShadowsBase_ = items_.elementsBasePtr<1>();
-	renderableBase_ = items_.elementsBasePtr<2>();
-}
-
-
-Handle append(const MeshRendererDescriptor& desc) {
+MeshRendererC::Handle MeshRendererC::append(const MeshRendererDescriptor& desc) {
 	if (__builtin_expect(instanceData_.append() == container::InvalidatePointers::Yes, 0)) {
 		rebase();
 	}

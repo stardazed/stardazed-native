@@ -9,6 +9,7 @@
 #include "system/Config.hpp"
 #include "scene/Scene.hpp"
 #include "system/Time.hpp"
+#include "runtime/Client.hpp"
 
 namespace stardazed {
 namespace scene {
