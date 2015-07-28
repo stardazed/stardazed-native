@@ -37,7 +37,7 @@ private:
 		math::Vec3, // scale
 		math::Mat4  // modelMatrix
 	> instanceData_;
-	
+
 	Handle* parentBase_;
 	math::Vec3* positionBase_;
 	math::Quat* rotationBase_;
@@ -45,18 +45,16 @@ private:
 	math::Mat4* modelMatrixBase_;
 	
 	void rebase();
-	
-	uint32 nextRef_ = 1;
 
 public:
 	TransformComponent();
 	
 	static const Handle root() { return {0}; }
 
-	// -- shared Component `interface`
+	// -- array access
 	uint32 count() const { return instanceData_.count(); }
-	Handle append(const Handle parent = root());
-	Handle append(const TransformDescriptor&, const Handle parent = root());
+	Handle assign(Entity linkedEntity, const Handle parent = root());
+	Handle assign(Entity linkedEntity, const TransformDescriptor&, const Handle parent = root());
 
 	// -- single instance data access
 	Handle parent(Handle h) const { return parentBase_[h.ref]; }
@@ -72,6 +70,8 @@ public:
 	void setScale(const Handle h, const math::Vec3& newScale);
 
 	// -- single instance state modifiers
+	Handle forEntity(Entity) const;
+	
 	void rotate(const Handle h, math::Angle overX, math::Angle overY, math::Angle overZ) {
 		setRotation(h, rotation(h) * math::Quat::fromEuler(overZ, overY, overX));
 	}

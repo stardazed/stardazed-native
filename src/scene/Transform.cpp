@@ -14,6 +14,7 @@ namespace scene {
 static math::Quat lookAtImpl(math::Vec3 localForward, const math::Vec3& worldUp) {
 	using namespace math;
 
+
 	auto localUp = worldUp;
 	orthoNormalize(localForward, localUp);
 	auto localRight = cross(localUp, localForward);
@@ -54,12 +55,17 @@ void TransformComponent::rebase() {
 }
 
 
-TransformComponent::Handle TransformComponent::append(const Handle parent) {
-	if (__builtin_expect(instanceData_.append() == container::InvalidatePointers::Yes, 0)) {
-		rebase();
+TransformComponent::Handle TransformComponent::assign(Entity linkedEntity, const Handle parent) {
+	auto entIndex = linkedEntity.index();
+
+	if (instanceData_.count() < entIndex) {
+		auto newCount = math::roundUpPowerOf2(entIndex);
+		if (instanceData_.resize(newCount) == container::InvalidatePointers::Yes) {
+			rebase();
+		}
 	}
 	
-	Handle h { nextRef_++ };
+	Handle h { entIndex };
 
 	parentBase_[h.ref] = parent;
 	rotationBase_[h.ref] = math::Quat::identity();
@@ -70,12 +76,17 @@ TransformComponent::Handle TransformComponent::append(const Handle parent) {
 }
 
 
-TransformComponent::Handle TransformComponent::append(const TransformDescriptor& desc, const Handle parent) {
-	if (__builtin_expect(instanceData_.append() == container::InvalidatePointers::Yes, 0)) {
-		rebase();
+TransformComponent::Handle TransformComponent::assign(Entity linkedEntity, const TransformDescriptor& desc, const Handle parent) {
+	auto entIndex = linkedEntity.index();
+	
+	if (instanceData_.count() < entIndex) {
+		auto newCount = math::roundUpPowerOf2(entIndex);
+		if (instanceData_.resize(newCount) == container::InvalidatePointers::Yes) {
+			rebase();
+		}
 	}
 	
-	Handle h { nextRef_++ };
+	Handle h { entIndex };
 	
 	parentBase_[h.ref] = parent;
 	positionBase_[h.ref] = desc.position;
@@ -84,7 +95,11 @@ TransformComponent::Handle TransformComponent::append(const TransformDescriptor&
 	recalcModelMatrix(desc.position, desc.rotation, desc.scale, modelMatrixBase_[h.ref]);
 	
 	return h;
-	
+}
+
+
+TransformComponent::Handle TransformComponent::forEntity(Entity ent) const {
+	return { ent.index() };
 }
 
 
