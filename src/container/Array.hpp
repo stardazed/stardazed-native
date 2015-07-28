@@ -75,12 +75,13 @@ public:
 			}
 		}
 	}
-	
+
 	Array(Array&& rhs)
 	: allocator_(rhs.allocator)
 	{
 		if (std::is_trivially_move_constructible<T>::value) {
 			data_ = rhs.data();
+			capacity_ = rhs.capacity();
 		}
 		else {
 			reserve(rhs.count());
