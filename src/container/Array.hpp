@@ -50,7 +50,54 @@ public:
 			destructRange(data_, count());
 		}
 
-		allocator_.free(data_);
+		if (data_) {
+			allocator_.free(data_);
+		}
+	}
+	
+	Array(const Array& rhs)
+	: allocator_(rhs.allocator)
+	{
+		reserve(rhs.count());
+		
+		if (std::is_trivially_copy_constructible<T>::value) {
+			memcpy(data_, rhs.data(), rhs.count() * elementSizeBytes());
+		}
+		else {
+			auto elementsToCopy = rhs.count();
+			auto rhsElementPtr = rhs.data();
+			auto newElementPtr = data_;
+
+			while (elementsToCopy--) {
+				new (newElementPtr) T(*rhsElementPtr);
+				++newElementPtr;
+				++rhsElementPtr;
+			}
+		}
+	}
+	
+	Array(Array&& rhs)
+	: allocator_(rhs.allocator)
+	{
+		if (std::is_trivially_move_constructible<T>::value) {
+			data_ = rhs.data();
+		}
+		else {
+			reserve(rhs.count());
+
+			auto elementsToMove = rhs.count();
+			auto rhsElementPtr = rhs.data();
+			auto newElementPtr = data_;
+
+			while (elementsToMove--) {
+				new (newElementPtr) T(std::move(*rhsElementPtr));
+				++newElementPtr;
+				++rhsElementPtr;
+			}
+		}
+
+		rhs.count_ = 0;
+		rhs.data_ = nullptr;
 	}
 
 
