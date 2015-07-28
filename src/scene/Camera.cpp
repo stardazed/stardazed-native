@@ -27,7 +27,7 @@ namespace detail {
 }
 
 
-Camera::Camera(Entity& linkedEntity, uint32 pixelWidth, uint32 pixelHeight)
+Camera::Camera(Entity linkedEntity, uint32 pixelWidth, uint32 pixelHeight)
 : entity_(linkedEntity)
 , pixelWidth_(pixelWidth)
 , pixelHeight_(pixelHeight)

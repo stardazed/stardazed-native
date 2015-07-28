@@ -17,7 +17,7 @@ namespace scene {
 
 
 class Camera {
-	Entity& entity_;
+	Entity entity_;
 	uint32 pixelWidth_, pixelHeight_;
 
 	math::Angle fov_ = math::Degrees{90};
@@ -26,14 +26,14 @@ class Camera {
 	math::Mat4 projection_;
 
 public:
-	Camera(Entity& linkedEntity, uint32 pixelWidth, uint32 pixelHeight);
+	Camera(Entity linkedEntity, uint32 pixelWidth, uint32 pixelHeight);
 
 	// -- observers
-	Entity& entity() { return entity_; }
-	const Entity& entity() const { return entity_; }
+	Entity entity() { return entity_; }
+	const Entity entity() const { return entity_; }
 
-	physics::Transform& transform() { return entity_.transform; }
-	const physics::Transform& transform() const { return entity_.transform; }
+//	physics::Transform& transform() { return entity_.transform; }
+//	const physics::Transform& transform() const { return entity_.transform; }
 
 	// -- projection
 	const math::Mat4& projectionMatrix() const { return projection_; }

@@ -25,7 +25,10 @@ public:
 	Scene();
 	
 	Entity makeEntity();
+	Entity makeEntity(const TransformDescriptor&);
+	Entity makeEntity(const math::Vec3& pos, const math::Quat& rot = math::Quat::identity(), const math::Vec3& scale = math::Vec3::one());
 	
+	TransformComponent& transform() { return transform_; }
 };
 
 

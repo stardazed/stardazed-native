@@ -22,6 +22,20 @@ Entity Scene::makeEntity() {
 }
 
 
+Entity Scene::makeEntity(const TransformDescriptor& td) {
+	auto ent = entities_.create();
+	transform_.assign(ent, td);
+	return ent;
+}
+
+
+Entity Scene::makeEntity(const math::Vec3& pos, const math::Quat& rot, const math::Vec3& scale) {
+	auto ent = entities_.create();
+	transform_.assign(ent, { pos, rot, scale });
+	return ent;
+}
+
+
 /*
 Scene::Scene() {
 	// FIXME: make this settable by client

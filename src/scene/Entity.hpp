@@ -26,13 +26,15 @@ struct Entity {
 	static constexpr uint indexMask = (1 << indexBits) - 1;
 	static constexpr uint generationMask = (1 << generationBits) - 1;
 	
-	uint id;
+	uint id = 0;
 	
 	constexpr uint index() const { return id & indexMask; }
 	constexpr uint generation() const { return (id >> indexBits) & generationMask; }
 
 	constexpr bool operator ==(Entity other) { return id == other.id; }
 	constexpr bool operator !=(Entity other) { return id != other.id; }
+	
+	constexpr Entity() = default;
 
 private:
 	friend class EntityManager;
