@@ -8,6 +8,7 @@
 
 #include "system/Config.hpp"
 #include "container/Array.hpp"
+#include "container/Algorithm.hpp"
 
 #include <type_traits>
 
@@ -25,19 +26,8 @@ class Deque {
 	uint tailBlock_, tailIndex_;
 	uint count_;
 
-	uint next(uint index) const {
-		++index;
-		if (index == capacity())
-			index = 0;
-		return index;
-	}
 
-	uint prev(uint index) const {
-		if (index == 0)
-			index = capacity();
-		return index - 1;
-	}
-
+	// -- block access
 	static constexpr uint blockCapacity = sizeof32<T>() < 256 ? 32768 / sizeof32<T>() : 128;
 	static constexpr uint blockSizeBytes = blockCapacity * sizeof32<T>();
 	
@@ -62,54 +52,56 @@ public:
 	}
 	
 	~Deque() {
-//		clear();
-//		allocator_.free(data_);
+		clear();
+		
+		// clear() removes all blocks past the first, so we only
+		// need to free the last remaining one here
+		allocator_.free(blocks_.front());
 	}
 
 
-	// -- adding elements	
-	void append(T t) {
+	// -- adding elements
+	template <typename... Args>
+	void emplaceBack(Args&&... args) {
 		if (tailIndex_ == blockCapacity) {
-			assert(tailBlock_ == blocks_.count());
-
-			blocks_.append(newBlock());
-			tailBlock_++;
-			tailIndex_ = 0;
-		}
-
-		new (tailPtr()) T(t);
-		++tailIndex_;
-		++count_;
-	}
-	
-	void prepend(T t) {
-		if (headIndex_ == 0) {
-			assert(headBlock_ == 0);
+			if (tailBlock_ == blocks_.count() - 1) {
+				blocks_.append(newBlock());
+			}
 			
-			blocks_.append(nullptr);
 			tailBlock_++;
 			tailIndex_ = 0;
 		}
-
-		head_ = prev(head_);
-		data_[head_] = t;
+		
+		new (tailPtr()) T{std::forward<Args>(args)...};
+		++tailIndex_;
 		++count_;
 	}
 
 	template <typename... Args>
 	void emplaceFront(Args&&... args) {
-		head_ = prev(head_);
-		new (&data_[head_]) T(std::forward<Args>(args)...);
+		if (headIndex_ == 0) {
+			if (headBlock_ == 0) {
+				blocks_.prepend(newBlock());
+				++tailBlock_;
+			}
+			else {
+				--headBlock_;
+			}
+			
+			headIndex_ = blockCapacity;
+		}
+
+		--headIndex_;
+		new (headPtr()) T{std::forward<Args>(args)...};
 		++count_;
 	}
-	
-	template <typename... Args>
-	void emplaceBack(Args&&... args) {
-		assert(count() < capacity());
 
-		new (&data_[tail_]) T(std::forward<Args>(args)...);
-		tail_ = next(tail_);
-		++count_;
+	void append(const T& t) {
+		emplaceBack(t);
+	}
+	
+	void prepend(const T& t) {
+		emplaceFront(t);
 	}
 
 
@@ -118,35 +110,87 @@ public:
 		assert(count() > 0);
 
 		if (! canSkipElementDestructor) {
-			data_[head_].~T();
+			headPtr()->~T();
 		}
 
-		head_ = next(head_);
+		++headIndex_;
+
+		if (headIndex_ == blockCapacity) {
+			// Strategy: keep max. 1 block before head if it was previously created.
+			// Once we get to 2 empty blocks before head, then remove the front block.
+
+			if (headBlock_ == 0) {
+				++headBlock_;
+			}
+			else if (headBlock_ == 1) {
+				allocator_.free(blocks_.front());
+				blocks_.popFront();
+				tailBlock_--;
+			}
+
+			headIndex_ = 0;
+		}
+
 		--count_;
 	}
+
 	
 	void popBack() {
 		assert(count() > 0);
 
-		tail_ = prev(tail_);
-		if (! canSkipElementDestructor) {
-			data_[tail_].~T();
+		if (tailIndex_ == 0) {
+			// Strategy: keep max. 1 block after tail if it was previously created.
+			// Once we get to 2 empty blocks after tail, then remove the back block.
+			
+			auto lastBlockIndex = blocks_.count() - 1;
+
+			if (tailBlock_ == lastBlockIndex - 1) {
+				allocator_.free(blocks_.back());
+				blocks_.popBack();
+			}
+			
+			--tailBlock_;
+			tailIndex_ = blockCapacity;
 		}
+
+		--tailIndex_;
+		
+		if (! canSkipElementDestructor) {
+			tailPtr()->~T();
+		}
+
 		--count_;
 	}
 
-	void clear() {
-		if (! canSkipElementDestructor) {
-			auto h = head_;
-			auto base = data();
 
-			for (uint c = count(); c; --c) {
-				base[h].~T();
-				h = next(h);
+	void clear() {
+		// destruct elements if needed
+		if (count() && ! canSkipElementDestructor) {
+			while (count_--) {
+				headPtr()->~T();
+				++headIndex_;
+
+				if (headIndex_ == blockCapacity) {
+					++headBlock_;
+					headIndex_ = 0;
+				}
 			}
 		}
 
-		head_ = tail_ = 0;
+		// free all blocks save 1
+		if (blocks_.count() > 1) {
+			auto allBlocks = blocks_.all();
+			allBlocks.next(); // skip first
+			
+			while (allBlocks.next()) {
+				allocator_.free(allBlocks.current());
+			}
+			
+			blocks_.resize(1);
+		}
+
+		headBlock_ = 0; tailBlock_ = 0;
+		headIndex_ = 0; tailIndex_ = 0;
 		count_ = 0;
 	}
 	
@@ -159,22 +203,22 @@ public:
 
 	const T& front() const {
 		assert(count_ > 0);
-		return data_[head_];
+		return *headPtr();
 	}
 
 	T& front() {
 		assert(count_ > 0);
-		return data_[head_];
+		return *headPtr();
 	}
 	
 	const T& back() const {
 		assert(count_ > 0);
-		return data_[prev(tail_)];
+		return (__builtin_expect(tailIndex_ > 0, 1)) ? *(tailPtr() - 1) : (blocks_[tailBlock_ - 1] + blockCapacity - 1);
 	}
 
 	T& back() {
 		assert(count_ > 0);
-		return data_[prev(tail_)];
+		return (__builtin_expect(tailIndex_ > 0, 1)) ? *(tailPtr() - 1) : (blocks_[tailBlock_ - 1] + blockCapacity - 1);
 	}
 };
 

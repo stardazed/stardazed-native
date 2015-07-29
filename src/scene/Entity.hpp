@@ -65,7 +65,7 @@ class EntityManager {
 public:
 	EntityManager()
 	: generation_(memory::SystemAllocator::sharedInstance(), 2048)
-	, freedIndices_(memory::SystemAllocator::sharedInstance(), 1024)
+	, freedIndices_(memory::SystemAllocator::sharedInstance())
 	{
 		generation_.append(0);	// entity id 0 is reserved
 	}

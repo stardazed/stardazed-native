@@ -104,7 +104,6 @@
 		8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBDE1A9650BD001BCBCE /* Plane.hpp */; };
 		8E8876511B5E4C9300F35493 /* Array.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E8876501B5E4C9300F35493 /* Array.hpp */; };
 		8E8876571B5FBE9F00F35493 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E8876561B5FBE9F00F35493 /* Block.cpp */; };
-		8E8876591B5FD2E500F35493 /* ArenaSet.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E8876581B5FD2E500F35493 /* ArenaSet.hpp */; };
 		8E88765C1B60F84800F35493 /* Arena.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E88765B1B60F84800F35493 /* Arena.hpp */; };
 		8E88765F1B62759700F35493 /* MeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E88765E1B62759700F35493 /* MeshRenderer.cpp */; };
 		8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */; };
@@ -264,7 +263,6 @@
 		8E86FBDE1A9650BD001BCBCE /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
 		8E8876501B5E4C9300F35493 /* Array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Array.hpp; sourceTree = "<group>"; };
 		8E8876561B5FBE9F00F35493 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Block.cpp; sourceTree = "<group>"; };
-		8E8876581B5FD2E500F35493 /* ArenaSet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ArenaSet.hpp; sourceTree = "<group>"; };
 		8E88765B1B60F84800F35493 /* Arena.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Arena.hpp; sourceTree = "<group>"; };
 		8E88765E1B62759700F35493 /* MeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshRenderer.cpp; sourceTree = "<group>"; };
 		8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_GLRenderContext.hpp; sourceTree = "<group>"; };
@@ -436,7 +434,6 @@
 				8E8876501B5E4C9300F35493 /* Array.hpp */,
 				8EDA06821B67C646001898EA /* Deque.hpp */,
 				8EDA06801B6683C7001898EA /* RingBuffer.hpp */,
-				8E8876581B5FD2E500F35493 /* ArenaSet.hpp */,
 				8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */,
 				8EC31EA11B1F2C5A00AF9582 /* STLBufferIterator.hpp */,
 			);
@@ -713,7 +710,6 @@
 				8E147FAD19BB7644002836CA /* Game.hpp in Headers */,
 				8E112D97199E5FC70029CD38 /* StringFormat.hpp in Headers */,
 				8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */,
-				8E8876591B5FD2E500F35493 /* ArenaSet.hpp in Headers */,
 				8E9214491B15FBE7006CBE05 /* RenderPass.hpp in Headers */,
 				8E53725F1B31B0AC002C1538 /* Bounds.hpp in Headers */,
 				8EA7093019D75FC000129E2D /* RenderContext.hpp in Headers */,
