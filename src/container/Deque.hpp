@@ -28,9 +28,11 @@ class Deque {
 
 
 	// -- block access
+public:
 	static constexpr uint blockCapacity = sizeof32<T>() < 256 ? 32768 / sizeof32<T>() : 128;
 	static constexpr uint blockSizeBytes = blockCapacity * sizeof32<T>();
-	
+
+private:
 	T* newBlock() const {
 		return static_cast<T*>(allocator_.alloc(blockSizeBytes));
 	}
