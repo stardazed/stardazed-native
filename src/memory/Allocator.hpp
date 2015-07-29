@@ -94,7 +94,7 @@ struct SystemAllocator final : Allocator {
 	}
 
 	void free(void* ptr) final {
-		free(ptr);
+		::free(ptr);
 	}
 	
 	bool allocZeroesMemory() const final { return true; }

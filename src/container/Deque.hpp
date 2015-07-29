@@ -28,11 +28,9 @@ class Deque {
 
 
 	// -- block access
-public:
 	static constexpr uint blockCapacity = sizeof32<T>() < 256 ? 32768 / sizeof32<T>() : 128;
 	static constexpr uint blockSizeBytes = blockCapacity * sizeof32<T>();
 
-private:
 	T* newBlock() const {
 		return static_cast<T*>(allocator_.alloc(blockSizeBytes));
 	}
@@ -215,12 +213,12 @@ public:
 	
 	const T& back() const {
 		assert(count_ > 0);
-		return (__builtin_expect(tailIndex_ > 0, 1)) ? *(tailPtr() - 1) : (blocks_[tailBlock_ - 1] + blockCapacity - 1);
+		return (__builtin_expect(tailIndex_ > 0, 1)) ? *(tailPtr() - 1) : *(blocks_[tailBlock_ - 1] + blockCapacity - 1);
 	}
 
 	T& back() {
 		assert(count_ > 0);
-		return (__builtin_expect(tailIndex_ > 0, 1)) ? *(tailPtr() - 1) : (blocks_[tailBlock_ - 1] + blockCapacity - 1);
+		return (__builtin_expect(tailIndex_ > 0, 1)) ? *(tailPtr() - 1) : *(blocks_[tailBlock_ - 1] + blockCapacity - 1);
 	}
 };
 

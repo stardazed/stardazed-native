@@ -206,7 +206,7 @@ public:
 			reserve(capacity() * 2);
 		}
 
-		arrayBlockMove(data_ + 1, data_, count() - 1);
+		arrayBlockMove(data_ + 1, data_, count());
 		new (data_) T{t};
 		
 		++count_;
@@ -317,12 +317,12 @@ public:
 
 	T& back() {
 		assert(count_ > 0);
-		return *data_ + count_ - 1;
+		return *(data_ + count_ - 1);
 	}
 	
 	const T& back() const {
 		assert(count_ > 0);
-		return *data_ + count_ - 1;
+		return *(data_ + count_ - 1);
 	}
 
 
