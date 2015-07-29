@@ -8,6 +8,7 @@
 
 #include "system/Config.hpp"
 #include "memory/Allocator.hpp"
+#include "container/Algorithm.hpp"
 
 #include <type_traits>
 
@@ -24,12 +25,12 @@ class Array {
 	static constexpr bool canSkipElementConstructor = std::is_trivially_default_constructible<T>::value;
 	static constexpr bool canSkipElementDestructor = std::is_trivially_destructible<T>::value;
 
-	uint32 capacity_ = 0, count_ = 0;
+	uint capacity_ = 0, count_ = 0;
 	T* data_ = nullptr;
 	memory::Allocator& allocator_;
 	
 
-	void destructRange(T* first, uint32 count) {
+	void destructRange(T* first, uint count) {
 		// Call destructor for each deleted value for Ts that need it.
 		while (count--) {
 			first->~T();
@@ -39,7 +40,7 @@ class Array {
 
 
 public:
-	Array(memory::Allocator& allocator, uint32 initialCapacity)
+	Array(memory::Allocator& allocator, uint initialCapacity)
 	: allocator_(allocator)
 	{
 		reserve(initialCapacity);
@@ -106,9 +107,9 @@ public:
 
 	static constexpr size32 elementSizeBytes() { return sizeof32<T>(); }
 	
-	uint32 capacity() const { return capacity_; }
-	uint32 count() const { return count_; }
-	uint32 empty() const { return count_ = 0; }
+	uint capacity() const { return capacity_; }
+	uint count() const { return count_; }
+	uint empty() const { return count_ = 0; }
 	
 	const T* elementsBasePtr() const { return const_cast<const T*>(data_); }
 	T* elementsBasePtr() { return data_; }
@@ -116,7 +117,7 @@ public:
 
 	// -- storage sizing and object lifetime
 
-	void reserve(uint32 newCapacity) {
+	void reserve(uint newCapacity) {
 		assert(newCapacity > 0);
 
 		if (newCapacity <= capacity()) {
@@ -145,21 +146,7 @@ public:
 	}
 
 	
-	void clear() {
-		if (! canSkipElementDestructor) {
-			destructRange(data_, count());
-		}
-
-		// Clear memory for potential newly default-constructed values after the clear()
-		if (canSkipElementConstructor) {
-			memset(data_, 0, count() * elementSizeBytes());
-		}
-
-		count_ = 0;
-	}
-
-	
-	void resize(uint32 newCount) {
+	void resize(uint newCount) {
 		auto oldCount = count();
 
 		if (newCount > oldCount) {
@@ -212,6 +199,18 @@ public:
 		
 		++count_;
 	}
+	
+	
+	void prepend(const T& t) {
+		if (__builtin_expect(count() == capacity(), 0)) {
+			reserve(capacity() * 2);
+		}
+
+		arrayBlockMove(data_ + 1, data_, count() - 1);
+		new (data_) T{t};
+		
+		++count_;
+	}
 
 
 	void emplaceBack() {
@@ -243,7 +242,7 @@ public:
 
 	// -- removing elements
 	
-	void remove(uint32 startIndex, uint32 elementsToRemove = 1) {
+	void remove(uint startIndex, uint elementsToRemove = 1) {
 		assert(startIndex + elementsToRemove - 1 < count());
 
 		// Call destructor for each deleted value for Ts that need it.
@@ -254,14 +253,8 @@ public:
 		// Shift back items beyond the deleted range
 		int elementsToCopy = count() - startIndex - elementsToRemove;
 		if (elementsToCopy > 0) {
-			// FIXME: check for trivially_copyable
-			memmove(
-					data_ + startIndex,
-					data_ + startIndex + elementsToRemove,
-					elementSizeBytes() * elementsToCopy
-			);
+			arrayBlockMove(data_ + startIndex, data_ + startIndex + elementsToRemove, elementsToCopy);
 		}
-
 		count_ -= elementsToRemove;
 		
 		// Pre-clear now unused object space
@@ -271,8 +264,32 @@ public:
 			memset(firstDeletedElementPtr, 0, elementSizeBytes() * elementsToClear);
 		}
 	}
+	
+	
+	void popFront() {
+		remove(0);
+	}
+	
+
+	void popBack() {
+		remove(count() - 1);
+	}
 
 
+	void clear() {
+		if (! canSkipElementDestructor) {
+			destructRange(data_, count());
+		}
+
+		// Clear memory for potential newly default-constructed values after the clear()
+		if (canSkipElementConstructor) {
+			memset(data_, 0, count() * elementSizeBytes());
+		}
+
+		count_ = 0;
+	}
+
+	
 	// -- subscripting
 	
 	T& operator[](uint index) {
@@ -306,6 +323,31 @@ public:
 	const T& back() const {
 		assert(count_ > 0);
 		return *data_ + count_ - 1;
+	}
+
+
+	// -- ranges
+private:
+	class Range {
+		T *cur_, *end_;
+		
+	public:
+		Range(T* first, T* end)
+		: cur_(first - 1)
+		, end_(end)
+		{}
+
+		bool next() {
+			++cur_;
+			return cur_ < end_;
+		}
+
+		T& current() { return *cur_; }
+	};
+
+public:
+	Range all() {
+		return { data_, data_ + count() };
 	}
 };
 

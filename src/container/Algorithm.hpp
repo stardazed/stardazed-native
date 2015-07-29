@@ -8,19 +8,45 @@
 
 #include "system/Config.hpp"
 
+#include <cstring>
+#include <cstdlib>
 #include <type_traits>
 
 namespace stardazed {
 namespace container {
 
 
-template <typename T, bool Trivial = std::is_trivially_copy_constructible<T>::value>
-void arrayBlockMove(T*, const T*, uint count);
-
-
 template <typename T>
-void arrayBlockMove<true>(T* dest, const T* src, uint count) {
+void arrayBlockMove(T* dest, const T* src, uint count) {
+	if (std::is_trivially_copy_constructible<T>::value) {
+		memmove(dest, src, count * sizeof(T));
+	}
+	else {
+		auto absDistBytes = std::abs(ptrdiff_t(dest) - ptrdiff_t(src));
+		bool noOverlap = absDistBytes >= ptrdiff_t(count * sizeof(T));
+
+		if (noOverlap || dest < src) {
+			while (count--)
+				*dest++ = *src++;
+		}
+		else {
+			auto srcEnd = src + count - 1;
+			auto destEnd = dest + count - 1;
+			
+			while (count--)
+				*destEnd-- = *srcEnd--;
+		}
+	}
+}
+
+
+template <typename C, typename F>
+void forEach(C& cont, F&& fn) {
+	auto all = cont.all();
 	
+	while (all.next()) {
+		fn(all.current());
+	}
 }
 
 
