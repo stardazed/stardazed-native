@@ -46,16 +46,6 @@ public:
 		reserve(initialCapacity);
 	}
 
-	~Array() {
-		if (! canSkipElementDestructor) {
-			destructRange(data_, count());
-		}
-
-		if (data_) {
-			allocator_.free(data_);
-		}
-	}
-	
 	Array(const Array& rhs)
 	: allocator_(rhs.allocator_)
 	{
@@ -90,6 +80,16 @@ public:
 		rhs.data_ = nullptr;
 	}
 
+	~Array() {
+		if (! canSkipElementDestructor) {
+			destructRange(data_, count());
+		}
+		
+		if (data_) {
+			allocator_.free(data_);
+		}
+	}
+	
 
 	// -- observers
 
