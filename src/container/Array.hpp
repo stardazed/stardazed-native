@@ -25,9 +25,9 @@ class Array {
 	static constexpr bool canSkipElementConstructor = std::is_trivially_default_constructible<T>::value;
 	static constexpr bool canSkipElementDestructor = std::is_trivially_destructible<T>::value;
 
+	memory::Allocator& allocator_;
 	uint capacity_ = 0, count_ = 0;
 	T* data_ = nullptr;
-	memory::Allocator& allocator_;
 	
 
 	void destructRange(T* first, uint count) {
@@ -57,16 +57,17 @@ public:
 	}
 	
 	Array(const Array& rhs)
-	: allocator_(rhs.allocator)
+	: allocator_(rhs.allocator_)
 	{
-		reserve(rhs.count());
+		count_ = rhs.count();
+		reserve(count_);
 		
 		if (std::is_trivially_copy_constructible<T>::value) {
-			memcpy(data_, rhs.data(), rhs.count() * elementSizeBytes());
+			memcpy(data_, rhs.elementsBasePtr(), rhs.count() * elementSizeBytes());
 		}
 		else {
 			auto elementsToCopy = rhs.count();
-			auto rhsElementPtr = rhs.data();
+			auto rhsElementPtr = rhs.elementsBasePtr();
 			auto newElementPtr = data_;
 
 			while (elementsToCopy--) {
@@ -78,26 +79,13 @@ public:
 	}
 
 	Array(Array&& rhs)
-	: allocator_(rhs.allocator)
+	: allocator_(rhs.allocator_)
 	{
-		if (std::is_trivially_move_constructible<T>::value) {
-			data_ = rhs.data();
-			capacity_ = rhs.capacity();
-		}
-		else {
-			reserve(rhs.count());
+		capacity_ = rhs.capacity();
+		count_ = rhs.count();
+		data_ = rhs.elementsBasePtr();
 
-			auto elementsToMove = rhs.count();
-			auto rhsElementPtr = rhs.data();
-			auto newElementPtr = data_;
-
-			while (elementsToMove--) {
-				new (newElementPtr) T(std::move(*rhsElementPtr));
-				++newElementPtr;
-				++rhsElementPtr;
-			}
-		}
-
+		rhs.capacity_ = 0;
 		rhs.count_ = 0;
 		rhs.data_ = nullptr;
 	}
@@ -109,7 +97,7 @@ public:
 	
 	uint capacity() const { return capacity_; }
 	uint count() const { return count_; }
-	uint empty() const { return count_ = 0; }
+	uint empty() const { return count_ == 0; }
 	
 	const T* elementsBasePtr() const { return const_cast<const T*>(data_); }
 	T* elementsBasePtr() { return data_; }
