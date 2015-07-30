@@ -57,8 +57,8 @@ private:
 
 
 class EntityManager {
-	container::Array<uint8> generation_;
-	container::Deque<uint> freedIndices_;
+	Array<uint8> generation_;
+	Deque<uint> freedIndices_;
 	
 	static constexpr uint minFreedBuildup = 1024;
 	

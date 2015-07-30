@@ -21,7 +21,7 @@ class Deque {
 	static constexpr bool canSkipElementDestructor = std::is_trivially_destructible<T>::value;
 
 	memory::Allocator& allocator_;
-	container::Array<T*> blocks_;
+	Array<T*> blocks_;
 	uint headBlock_, headIndex_;
 	uint tailBlock_, tailIndex_;
 	uint count_;
@@ -224,6 +224,12 @@ public:
 
 
 } // ns container
+
+
+// -- export to sd namespace
+using container::Deque;
+
+
 } // ns stardazed
 
 #endif

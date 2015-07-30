@@ -341,6 +341,12 @@ public:
 
 
 } // ns container
+
+
+// -- export to sd namespace
+using container::Array;
+
+
 } // ns stardazed
 
 #endif

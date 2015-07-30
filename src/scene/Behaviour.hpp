@@ -68,7 +68,7 @@ class Behaviour {
 	};
 
 	memory::ArenaAllocator arena_;
-	container::Array<BehaviourConcept*> items_;
+	Array<BehaviourConcept*> items_;
 	uint32 count_;
 
 public:

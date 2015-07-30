@@ -18,7 +18,7 @@ namespace memory {
 class ArenaAllocator : Allocator {
 	Allocator& blockAlloc_;
 	uint32 blockSize_, offsetInCurBlock_;
-	container::Array<uint8*> blockList_;
+	Array<uint8*> blockList_;
 	uint8* curBlock_;
 	
 	void nextBlock() {
