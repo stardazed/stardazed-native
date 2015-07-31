@@ -17,7 +17,7 @@ MeshRendererC::MeshRendererC(memory::Allocator& allocator)
 
 
 MeshRendererC::Handle MeshRendererC::append(const MeshRendererDescriptor& desc) {
-	if (__builtin_expect(instanceData_.append() == container::InvalidatePointers::Yes, 0)) {
+	if (__builtin_expect(instanceData_.extend() == container::InvalidatePointers::Yes, 0)) {
 		rebase();
 	}
 	

@@ -86,7 +86,6 @@ enum class InvalidatePointers : int {
 
 
 template <typename... Ts>
-// requires TrivialType<Ts...>
 class MultiArrayBuffer {
 	memory::Allocator* allocator_;
 	uint32 capacity_ = 0, count_ = 0;
@@ -120,6 +119,8 @@ public:
 		assert(count() > 0);
 		return count() - 1;
 	}
+	
+	memory::Allocator& allocator() const { return *allocator_; }
 
 	
 	InvalidatePointers reserve(uint32 newCapacity) {
@@ -206,7 +207,7 @@ public:
 	}
 	
 	
-	InvalidatePointers append() {
+	InvalidatePointers extend() {
 		auto invalidation = InvalidatePointers::No;
 
 		if (count_ == capacity_) {

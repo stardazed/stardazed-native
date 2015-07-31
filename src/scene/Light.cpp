@@ -27,7 +27,7 @@ void Light::rebase() {
 
 
 Light::Handle Light::append(const LightDescriptor& desc) {
-	if (__builtin_expect(instanceData_.append() == container::InvalidatePointers::Yes, 0)) {
+	if (__builtin_expect(instanceData_.extend() == container::InvalidatePointers::Yes, 0)) {
 		rebase();
 	}
 
