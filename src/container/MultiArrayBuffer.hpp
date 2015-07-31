@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// container::MultiElementArrayBuffer - stardazed
+// container::MultiArrayBuffer - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_CONTAINER_MULTIELEMENTARRAYBUFFER_H
-#define SD_CONTAINER_MULTIELEMENTARRAYBUFFER_H
+#ifndef SD_CONTAINER_MULTIARRAYBUFFER_H
+#define SD_CONTAINER_MULTIARRAYBUFFER_H
 
 #include "system/Config.hpp"
 #include "memory/Allocator.hpp"
@@ -87,7 +87,7 @@ enum class InvalidatePointers : int {
 
 template <typename... Ts>
 // requires TrivialType<Ts...>
-class MultiElementArrayBuffer {
+class MultiArrayBuffer {
 	memory::Allocator* allocator_;
 	uint32 capacity_ = 0, count_ = 0;
 	void* data_ = nullptr;
@@ -102,14 +102,14 @@ public:
 	}
 
 
-	MultiElementArrayBuffer(memory::Allocator& allocator, uint32 initialCapacity)
+	MultiArrayBuffer(memory::Allocator& allocator, uint32 initialCapacity)
 	: allocator_(&allocator)
 	{
 		reserve(initialCapacity);
 	}
 
 	
-	~MultiElementArrayBuffer() {
+	~MultiArrayBuffer() {
 		allocator_->free(data_);
 	}
 
@@ -225,7 +225,7 @@ public:
 	}
 	
 	
-	void swap(MultiElementArrayBuffer& other) {
+	void swap(MultiArrayBuffer& other) {
 		std::swap(allocator_, other.allocator_);
 		std::swap(capacity_, other.capacity_);
 		std::swap(count_, other.count_);

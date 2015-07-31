@@ -11,7 +11,7 @@
 #include "math/Vector.hpp"
 #include "math/Matrix.hpp"
 #include "math/Quaternion.hpp"
-#include "container/MultiElementArrayBuffer.hpp"
+#include "container/MultiArrayBuffer.hpp"
 #include "scene/Entity.hpp"
 
 namespace stardazed {
@@ -30,7 +30,7 @@ public:
 	struct Handle { uint32 ref; };
 	
 private:
-	container::MultiElementArrayBuffer<
+	container::MultiArrayBuffer<
 		Handle,     // parentHandle
 		math::Vec3, // position
 		math::Quat, // rotation

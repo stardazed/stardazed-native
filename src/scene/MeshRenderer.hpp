@@ -7,7 +7,7 @@
 #define SD_SCENE_MESHRENDERER_H
 
 #include "system/Config.hpp"
-#include "container/MultiElementArrayBuffer.hpp"
+#include "container/MultiArrayBuffer.hpp"
 #include "math/Matrix.hpp"
 #include "render/common/RenderPass.hpp"
 
@@ -43,7 +43,7 @@ struct MeshRendererDescriptor {
 
 
 class MeshRendererC {
-	container::MultiElementArrayBuffer<
+	container::MultiArrayBuffer<
 		bool, // castShadows
 		bool, // receiveShadows
 		uint32, // materialIndex

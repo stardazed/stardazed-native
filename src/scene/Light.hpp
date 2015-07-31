@@ -9,7 +9,7 @@
 #include "system/Config.hpp"
 #include "math/Angle.hpp"
 #include "math/Vector.hpp"
-#include "container/MultiElementArrayBuffer.hpp"
+#include "container/MultiArrayBuffer.hpp"
 
 namespace stardazed {
 namespace scene {
@@ -37,7 +37,7 @@ LightDescriptor makeSpotLightDesc(const math::Vec3& colour, float intensity, flo
 
 
 class Light {
-	container::MultiElementArrayBuffer<
+	container::MultiArrayBuffer<
 		LightType,  // type
 		bool8,      // enabled
 		math::Vec3, // colour

@@ -9,7 +9,7 @@
 #define SD_CONTAINER_HASHMAP_H
 
 #include "system/Config.hpp"
-#include "container/MultiElementArrayBuffer.hpp"
+#include "container/MultiArrayBuffer.hpp"
 #include "util/Hash.hpp"
 
 #include <type_traits>
@@ -31,7 +31,7 @@ class HashMap {
 		BucketState state:2;
 	};
 
-	MultiElementArrayBuffer<
+	MultiArrayBuffer<
 		Key,
 		Bucket,
 		Value,

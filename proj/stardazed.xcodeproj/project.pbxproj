@@ -141,7 +141,7 @@
 		8EDA06921B6BA9B7001898EA /* Hash.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA06911B6BA9B7001898EA /* Hash.hpp */; };
 		8EDD58221B4EB45E00749BC0 /* Light.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58211B4EB45E00749BC0 /* Light.hpp */; };
 		8EDD58241B4EB4AD00749BC0 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD58231B4EB4AD00749BC0 /* Light.cpp */; };
-		8EDD58261B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */; };
+		8EDD58261B4FCD5900749BC0 /* MultiArrayBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58251B4FCD5900749BC0 /* MultiArrayBuffer.hpp */; };
 		8EF701F91A76F90B00454341 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EA1A76F90B00454341 /* adler32.c */; };
 		8EF701FA1A76F90B00454341 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EB1A76F90B00454341 /* crc32.c */; };
 		8EF701FB1A76F90B00454341 /* crc32.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701EC1A76F90B00454341 /* crc32.h */; };
@@ -304,7 +304,7 @@
 		8EDA06911B6BA9B7001898EA /* Hash.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Hash.hpp; sourceTree = "<group>"; };
 		8EDD58211B4EB45E00749BC0 /* Light.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
 		8EDD58231B4EB4AD00749BC0 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
-		8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MultiElementArrayBuffer.hpp; sourceTree = "<group>"; };
+		8EDD58251B4FCD5900749BC0 /* MultiArrayBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MultiArrayBuffer.hpp; sourceTree = "<group>"; };
 		8EF701EA1A76F90B00454341 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
 		8EF701EB1A76F90B00454341 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
 		8EF701EC1A76F90B00454341 /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc32.h; sourceTree = "<group>"; };
@@ -440,7 +440,7 @@
 				8E112D87199E5F870029CD38 /* FlagSet.hpp */,
 				8EDA06841B67DCCE001898EA /* Algorithm.hpp */,
 				8E8876501B5E4C9300F35493 /* Array.hpp */,
-				8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */,
+				8EDD58251B4FCD5900749BC0 /* MultiArrayBuffer.hpp */,
 				8EDA06821B67C646001898EA /* Deque.hpp */,
 				8EDA06801B6683C7001898EA /* RingBuffer.hpp */,
 				8EDA06871B6B8073001898EA /* HashMap.hpp */,
@@ -793,7 +793,7 @@
 				8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */,
 				8E43CDA01B4C7F89009D24B5 /* Light.hpp in Headers */,
 				8EDD58221B4EB45E00749BC0 /* Light.hpp in Headers */,
-				8EDD58261B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp in Headers */,
+				8EDD58261B4FCD5900749BC0 /* MultiArrayBuffer.hpp in Headers */,
 				8EDA06851B67DCCE001898EA /* Algorithm.hpp in Headers */,
 				8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */,
 			);
