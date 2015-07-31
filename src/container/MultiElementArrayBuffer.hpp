@@ -88,9 +88,9 @@ enum class InvalidatePointers : int {
 template <typename... Ts>
 // requires TrivialType<Ts...>
 class MultiElementArrayBuffer {
+	memory::Allocator* allocator_;
 	uint32 capacity_ = 0, count_ = 0;
 	void* data_ = nullptr;
-	memory::Allocator& allocator_;
 
 public:
 	static constexpr uint32 elementCount = sizeof...(Ts);
@@ -103,14 +103,14 @@ public:
 
 
 	MultiElementArrayBuffer(memory::Allocator& allocator, uint32 initialCapacity)
-	: allocator_(allocator)
+	: allocator_(&allocator)
 	{
 		reserve(initialCapacity);
 	}
 
 	
 	~MultiElementArrayBuffer() {
-		allocator_.free(data_);
+		allocator_->free(data_);
 	}
 
 	
@@ -141,12 +141,12 @@ public:
 		auto invalidation = InvalidatePointers::No;
 		auto newSizeBytes = newCapacity * detail::elementSumSize<Ts...>();
 		
-		auto newData = allocator_.alloc(newSizeBytes);
+		auto newData = allocator_->alloc(newSizeBytes);
 		assert(newData);
 		
 		// Not all Allocators return zero-filled memory but this container guarantees
 		// zeroed elements so we clear the memory explicitly if necessary.
-		if (! allocator_.allocZeroesMemory()) {
+		if (! allocator_->allocZeroesMemory()) {
 			memset(newData, 0, newSizeBytes);
 		}
 
@@ -164,7 +164,7 @@ public:
 					newDataPtr += elementSizeBytes * newCapacity;
 				});
 			
-			allocator_.free(data_);
+			allocator_->free(data_);
 			invalidation = InvalidatePointers::Yes;
 		}
 		
@@ -222,6 +222,14 @@ public:
 	auto elementsBasePtr() const {
 		auto basePtr = static_cast<uint8_t*>(data_) + (detail::elementOffset<Index, Ts...>() * capacity_);
 		return reinterpret_cast<typename detail::ElementType<Index, Ts...>::Type*>(basePtr);
+	}
+	
+	
+	void swap(MultiElementArrayBuffer& other) {
+		std::swap(allocator_, other.allocator_);
+		std::swap(capacity_, other.capacity_);
+		std::swap(count_, other.count_);
+		std::swap(data_, other.data_);
 	}
 };
 
