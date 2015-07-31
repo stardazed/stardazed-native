@@ -31,11 +31,7 @@ class HashMap {
 		BucketState state:2;
 	};
 
-	MultiArrayBuffer<
-		Key,
-		Bucket,
-		Value,
-	> data_;
+	MultiArrayBuffer<Key, Bucket, Value> data_;
 	uint count_;
 
 
@@ -43,8 +39,8 @@ class HashMap {
 	
 
 	template <typename F>
-	void scanBuckets(uint index, F&& fn) {
-		auto bucketBase = data_.elementsBasePtr<1>();
+	void scanBuckets(uint index, F&& fn) const {
+		auto bucketBase = data_.template elementsBasePtr<1>();
 		auto bucketFirst = bucketBase + index;
 		auto bucketEnd = bucketBase + data_.capacity();
 
@@ -64,10 +60,9 @@ class HashMap {
 
 	
 	template <typename F>
-	void withFirstFillableBucket(uint index, F&& fn) {
-		auto bucketBase = data_.elementsBasePtr<1>();
+	void withFirstFillableBucket(Bucket* bucketBase, uint bucketCount, uint index, F&& fn) {
 		auto bucketFirst = bucketBase + index;
-		auto bucketEnd = bucketBase + data_.capacity();
+		auto bucketEnd = bucketBase + bucketCount;
 		
 		auto bucketCur = bucketFirst;
 		while (bucketCur != bucketEnd) {
@@ -97,26 +92,26 @@ class HashMap {
 
 
 	Key* keyPtrAtIndex(uint index) const {
-		return data_.elementsBasePtr<0>() + index;
+		return data_.template elementsBasePtr<0>() + index;
 	}
 	
 	Bucket* bucketPtrAtIndex(uint index) const {
-		return data_.elementsBasePtr<1>() + index;
+		return data_.template elementsBasePtr<1>() + index;
 	}
 
 	Value* valuePtrAtIndex(uint index) const {
-		return data_.elementsBasePtr<2>() + index;
+		return data_.template elementsBasePtr<2>() + index;
 	}
 	
 	
-	bool findIndex(const Key& key, uint& outIndex) {
+	bool findIndex(const Key& key, uint& outIndex) const {
 		auto keyHash = hash(key) & lower62Bits;
 		auto firstBucket = static_cast<uint>(keyHash % data_.capacity());
 
 		bool found = false;
 
 		scanBuckets(firstBucket,
-			[this, keyHash, &key, &found, &]
+			[this, keyHash, &key, &found, &outIndex]
 			(uint index, Bucket* bucket) {
 				if (bucket->state == BucketState::Filled && bucket->hash == keyHash) {
 					auto testKey = keyPtrAtIndex(index);
@@ -143,7 +138,7 @@ public:
 	: data_{ allocator, initialCapacity * 3 / 2 }
 	, count_(0)
 	{
-		assert(initialCapacity > 64);
+		assert(initialCapacity >= 64);
 	}
 	
 	
@@ -174,6 +169,10 @@ public:
 
 
 	uint count() const { return count_; }
+	bool empty() const { return count_ == 0; }
+	uint bucketCount() const { return data_.count(); }
+	
+	memory::Allocator& allocator() const { return data_.allocator(); }
 
 
 	void insert(const Key& key, const Value& value) {
@@ -184,8 +183,9 @@ public:
 		auto keyHash = hash(key) & lower62Bits;
 		auto firstBucket = static_cast<uint>(keyHash % data_.capacity());
 
-		withFirstFillableBucket(firstBucket,
-			[keyHash, this](uint index, Bucket* bucket) {
+		withFirstFillableBucket(data_.template elementsBasePtr<1>(), data_.capacity(), firstBucket,
+			[this, keyHash, &key, &value]
+			(uint index, Bucket* bucket) {
 				bucket->hash = keyHash;
 				bucket->state = BucketState::Filled;
 				
@@ -197,7 +197,7 @@ public:
 	}
 	
 
-	Value* find(const Key& key) {
+	Value* find(const Key& key) const {
 		uint index = 0;
 		
 		if (findIndex(key, index)) {
@@ -237,12 +237,17 @@ public:
 	
 	
 	void rehash(uint newBucketCount) {
-		if (newBucketCount < data_.capacity())
-			return;
+		auto minimumBuckets = count() * 3 / 2;
+		if (newBucketCount < minimumBuckets)
+			newBucketCount = minimumBuckets;
 
 		decltype(data_) newData { data_.allocator(), newBucketCount };
 		// MAB may decide to create bigger arrays for alignment purposes
 		newBucketCount = newData.capacity();
+
+		auto newKeys = newData.template elementsBasePtr<0>();
+		auto newBuckets = newData.template elementsBasePtr<1>();
+		auto newValues = newData.template elementsBasePtr<2>();
 		
 		auto bucket = bucketPtrAtIndex(0);
 		auto key = keyPtrAtIndex(0);
@@ -253,21 +258,22 @@ public:
 				auto keyHash = bucket->hash;
 				auto firstBucket = static_cast<uint>(keyHash % newBucketCount);
 				
-				withFirstFillableBucket(firstBucket,
+				withFirstFillableBucket(newBuckets, newBucketCount, firstBucket,
 					[=](uint index, Bucket* bk) {
 						bk->hash = keyHash;
 						bk->state = BucketState::Filled;
 						
-						new (keyPtrAtIndex(index)) Key{ *key };
-						new (valuePtrAtIndex(index)) Value{ *value };
+						new (newKeys + index) Key{ *key };
+						new (newValues + index) Value{ *value };
 					});
-				
 			}
 			
 			++bucket;
 			++key;
 			++value;
 		}
+		
+		data_.swap(newData);
 	}
 };
 

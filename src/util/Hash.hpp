@@ -8,7 +8,7 @@
 #define SD_UTIL_HASH_H
 
 #include "system/Config.hpp"
-#include "farmhash.hpp"
+#include "farmhash.h"
 
 namespace stardazed {
 
@@ -36,7 +36,7 @@ to specialize the hash function for a custom type:
 
 
 uint64 hashBlock(const void* data, size_t byteSize) {
-	util::Hash64(static_cast<char*>(data), byteSize);
+	return util::Hash64(static_cast<const char*>(data), byteSize);
 }
 
 
