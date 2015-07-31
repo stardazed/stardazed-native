@@ -135,6 +135,10 @@
 		8EDA06811B6683C7001898EA /* RingBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA06801B6683C7001898EA /* RingBuffer.hpp */; };
 		8EDA06831B67C646001898EA /* Deque.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA06821B67C646001898EA /* Deque.hpp */; };
 		8EDA06851B67DCCE001898EA /* Algorithm.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA06841B67DCCE001898EA /* Algorithm.hpp */; };
+		8EDA06881B6B8073001898EA /* HashMap.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA06871B6B8073001898EA /* HashMap.hpp */; };
+		8EDA068C1B6B85EB001898EA /* farmhash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA068A1B6B85EB001898EA /* farmhash.cpp */; };
+		8EDA068D1B6B85EB001898EA /* farmhash.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA068B1B6B85EB001898EA /* farmhash.h */; };
+		8EDA06921B6BA9B7001898EA /* Hash.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA06911B6BA9B7001898EA /* Hash.hpp */; };
 		8EDD58221B4EB45E00749BC0 /* Light.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58211B4EB45E00749BC0 /* Light.hpp */; };
 		8EDD58241B4EB4AD00749BC0 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD58231B4EB4AD00749BC0 /* Light.cpp */; };
 		8EDD58261B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */; };
@@ -294,6 +298,10 @@
 		8EDA06801B6683C7001898EA /* RingBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RingBuffer.hpp; sourceTree = "<group>"; };
 		8EDA06821B67C646001898EA /* Deque.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Deque.hpp; sourceTree = "<group>"; };
 		8EDA06841B67DCCE001898EA /* Algorithm.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Algorithm.hpp; sourceTree = "<group>"; };
+		8EDA06871B6B8073001898EA /* HashMap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HashMap.hpp; sourceTree = "<group>"; };
+		8EDA068A1B6B85EB001898EA /* farmhash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = farmhash.cpp; sourceTree = "<group>"; };
+		8EDA068B1B6B85EB001898EA /* farmhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = farmhash.h; sourceTree = "<group>"; };
+		8EDA06911B6BA9B7001898EA /* Hash.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Hash.hpp; sourceTree = "<group>"; };
 		8EDD58211B4EB45E00749BC0 /* Light.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
 		8EDD58231B4EB4AD00749BC0 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MultiElementArrayBuffer.hpp; sourceTree = "<group>"; };
@@ -432,9 +440,10 @@
 				8E112D87199E5F870029CD38 /* FlagSet.hpp */,
 				8EDA06841B67DCCE001898EA /* Algorithm.hpp */,
 				8E8876501B5E4C9300F35493 /* Array.hpp */,
+				8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */,
 				8EDA06821B67C646001898EA /* Deque.hpp */,
 				8EDA06801B6683C7001898EA /* RingBuffer.hpp */,
-				8EDD58251B4FCD5900749BC0 /* MultiElementArrayBuffer.hpp */,
+				8EDA06871B6B8073001898EA /* HashMap.hpp */,
 				8EC31EA11B1F2C5A00AF9582 /* STLBufferIterator.hpp */,
 			);
 			path = container;
@@ -448,6 +457,7 @@
 				8E112D92199E5FC70029CD38 /* StringFormat.hpp */,
 				8E112D93199E5FC70029CD38 /* TextFile.cpp */,
 				8E112D94199E5FC70029CD38 /* TextFile.hpp */,
+				8EDA06911B6BA9B7001898EA /* Hash.hpp */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -637,9 +647,19 @@
 			path = jpgd;
 			sourceTree = "<group>";
 		};
+		8EDA06891B6B8593001898EA /* farmhash */ = {
+			isa = PBXGroup;
+			children = (
+				8EDA068B1B6B85EB001898EA /* farmhash.h */,
+				8EDA068A1B6B85EB001898EA /* farmhash.cpp */,
+			);
+			path = farmhash;
+			sourceTree = "<group>";
+		};
 		8EF701E81A76F25900454341 /* ext */ = {
 			isa = PBXGroup;
 			children = (
+				8EDA06891B6B8593001898EA /* farmhash */,
 				8EC342AB1ACC905D0020F3EC /* jpgd */,
 				8EF701E91A76F8F200454341 /* zlibredux */,
 			);
@@ -692,6 +712,7 @@
 				8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */,
 				8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */,
 				8E5372631B332C3A002C1538 /* PhysicMaterial.hpp in Headers */,
+				8EDA068D1B6B85EB001898EA /* farmhash.h in Headers */,
 				8EC342AF1ACC90A50020F3EC /* jpgd.h in Headers */,
 				8E90F1271A6D636500AD015B /* Texture.hpp in Headers */,
 				8E6A0DBA19B39E1E00DF0921 /* DevicesContext.hpp in Headers */,
@@ -719,6 +740,7 @@
 				8E187C6A1B3F3DCD003FA0BC /* MeshRenderer.hpp in Headers */,
 				8EC8C53F1B506B1E00EAADE9 /* Allocator.hpp in Headers */,
 				8EF701FC1A76F90B00454341 /* gzguts.h in Headers */,
+				8EDA06881B6B8073001898EA /* HashMap.hpp in Headers */,
 				8EFEA1B21B27320200C6406C /* Transform.hpp in Headers */,
 				8EF702011A76F90B00454341 /* inflate.h in Headers */,
 				8E54FE591A6F0AD3003D649A /* Texture.hpp in Headers */,
@@ -728,6 +750,7 @@
 				8E112DDF199E60A50029CD38 /* SceneController.hpp in Headers */,
 				8E112DE2199E60A50029CD38 /* Scene.hpp in Headers */,
 				8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */,
+				8EDA06921B6BA9B7001898EA /* Hash.hpp in Headers */,
 				8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */,
 				8E5C53AB1B1869B100F74804 /* RenderPass.hpp in Headers */,
 				8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */,
@@ -842,6 +865,7 @@
 				8EF702001A76F90B00454341 /* inflate.c in Sources */,
 				8E842E581B2B79B900A8557D /* RigidBody.cpp in Sources */,
 				8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */,
+				8EDA068C1B6B85EB001898EA /* farmhash.cpp in Sources */,
 				8E221FB51B56FEAE006E5CFD /* Transform.cpp in Sources */,
 				8E88765F1B62759700F35493 /* MeshRenderer.cpp in Sources */,
 				8E5372611B31B49E002C1538 /* Collider.cpp in Sources */,
@@ -940,6 +964,7 @@
 					"-Werror=uninitialized",
 				);
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -992,6 +1017,7 @@
 					"-Werror=uninitialized",
 				);
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
