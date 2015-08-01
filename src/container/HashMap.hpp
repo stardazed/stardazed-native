@@ -36,13 +36,14 @@ class HashMap {
 
 
 	static constexpr uint64 lower62Bits = (uint64_t)(-1) ^ (3ull << 62);
+	static constexpr bool trivialDestructors = (std::is_trivially_destructible<Key>::value && std::is_trivially_destructible<Value>::value);
 	
 
 	template <typename F>
 	void scanBuckets(uint index, F&& fn) const {
 		auto bucketBase = data_.template elementsBasePtr<1>();
 		auto bucketFirst = bucketBase + index;
-		auto bucketEnd = bucketBase + data_.capacity();
+		auto bucketEnd = bucketBase + bucketCount();
 
 		auto bucketCur = bucketFirst;
 		while (bucketCur != bucketEnd) {
@@ -106,7 +107,7 @@ class HashMap {
 	
 	bool findIndex(const Key& key, uint& outIndex) const {
 		auto keyHash = hash(key) & lower62Bits;
-		auto firstBucket = static_cast<uint>(keyHash % data_.capacity());
+		auto firstBucket = static_cast<uint>(keyHash % bucketCount());
 
 		bool found = false;
 
@@ -143,47 +144,29 @@ public:
 	
 	
 	~HashMap() {
-		if (std::is_trivially_destructible<Key>::value && std::is_trivially_destructible<Value>::value)
-			return;
-
-		auto bucket = bucketPtrAtIndex(0);
-		auto key = keyPtrAtIndex(0);
-		auto value = valuePtrAtIndex(0);
-		
-		for (uint x=0, num = data_.capacity(); x < num; ++x) {
-			if (bucket->state == BucketState::Filled) {
-				if (! std::is_trivially_destructible<Key>::value) {
-					key->~Key();
-				}
-				
-				if (! std::is_trivially_destructible<Value>::value) {
-					value->~Value();
-				}
-			}
-			
-			++bucket;
-			++key;
-			++value;
+		if (! trivialDestructors) {
+			clear();
 		}
 	}
 
 
 	uint count() const { return count_; }
 	bool empty() const { return count_ == 0; }
-	uint bucketCount() const { return data_.count(); }
+	uint bucketCount() const { return data_.capacity(); }
 	
 	memory::Allocator& allocator() const { return data_.allocator(); }
 
 
 	void insert(const Key& key, const Value& value) {
-		if (count() * 3 / 2 > data_.capacity()) {
-			rehash(data_.capacity() * 2);
+		if (count() * 3 / 2 >= bucketCount()) {
+			rehash(bucketCount() * 2);
 		}
 		
 		auto keyHash = hash(key) & lower62Bits;
-		auto firstBucket = static_cast<uint>(keyHash % data_.capacity());
+		auto firstBucket = static_cast<uint>(keyHash % bucketCount());
+		auto bucketBase = data_.template elementsBasePtr<1>();
 
-		withFirstFillableBucket(data_.template elementsBasePtr<1>(), data_.capacity(), firstBucket,
+		withFirstFillableBucket(bucketBase, bucketCount(), firstBucket,
 			[this, keyHash, &key, &value]
 			(uint index, Bucket* bucket) {
 				bucket->hash = keyHash;
@@ -229,6 +212,39 @@ public:
 			--count_;
 		}
 	}
+	
+	
+	void clear() {
+		auto bucket = bucketPtrAtIndex(0);
+
+		if (trivialDestructors) {
+			memset(bucket, 0, sizeof(Bucket) * bucketCount());
+		}
+		else {
+			auto key = keyPtrAtIndex(0);
+			auto value = valuePtrAtIndex(0);
+			
+			for (uint x=0, num = bucketCount(); x < num; ++x) {
+				if (bucket->state == BucketState::Filled) {
+					if (! std::is_trivially_destructible<Key>::value) {
+						key->~Key();
+					}
+					
+					if (! std::is_trivially_destructible<Value>::value) {
+						value->~Value();
+					}
+				}
+
+				bucket->state = BucketState::Empty;
+				
+				++bucket;
+				++key;
+				++value;
+			}
+		}
+		
+		count_ = 0;
+	}
 
 
 	void reserve(uint newCapacity) {
@@ -253,7 +269,7 @@ public:
 		auto key = keyPtrAtIndex(0);
 		auto value = valuePtrAtIndex(0);
 
-		for (uint x=0, num = data_.capacity(); x < num; ++x) {
+		for (uint x=0, num = bucketCount(); x < num; ++x) {
 			if (bucket->state == BucketState::Filled) {
 				auto keyHash = bucket->hash;
 				auto firstBucket = static_cast<uint>(keyHash % newBucketCount);
