@@ -81,11 +81,11 @@ public:
 	}
 
 	~Array() {
-		if (! canSkipElementDestructor) {
-			destructRange(data_, count());
-		}
-		
 		if (data_) {
+			if (! canSkipElementDestructor) {
+				destructRange(data_, count());
+			}
+		
 			allocator_.free(data_);
 		}
 	}

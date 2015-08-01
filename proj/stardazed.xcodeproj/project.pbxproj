@@ -437,10 +437,10 @@
 		8E112D86199E5F870029CD38 /* container */ = {
 			isa = PBXGroup;
 			children = (
-				8E112D87199E5F870029CD38 /* FlagSet.hpp */,
 				8EDA06841B67DCCE001898EA /* Algorithm.hpp */,
-				8E8876501B5E4C9300F35493 /* Array.hpp */,
 				8EDD58251B4FCD5900749BC0 /* MultiArrayBuffer.hpp */,
+				8E112D87199E5F870029CD38 /* FlagSet.hpp */,
+				8E8876501B5E4C9300F35493 /* Array.hpp */,
 				8EDA06821B67C646001898EA /* Deque.hpp */,
 				8EDA06801B6683C7001898EA /* RingBuffer.hpp */,
 				8EDA06871B6B8073001898EA /* HashMap.hpp */,
