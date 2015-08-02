@@ -18,7 +18,7 @@ namespace container {
 
 template <typename T>
 void arrayBlockMove(T* dest, const T* src, uint count) {
-	if (std::is_trivially_copy_constructible<T>::value) {
+	if (std::is_trivially_copy_assignable<T>::value) {
 		memmove(dest, src, count * sizeof(T));
 	}
 	else {

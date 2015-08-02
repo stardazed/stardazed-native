@@ -59,7 +59,7 @@ namespace detail {
 	
 	
 	// -- Call a callback with base pointer and element size info for each T
-	// Used internally to in MEAB::reserve
+	// Used internally to in MAB::reserve
 	
 	using ItFn = std::function<void(void*, uint32)>;
 	
