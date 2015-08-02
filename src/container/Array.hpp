@@ -132,7 +132,7 @@ public:
 		data_ = newData;
 		capacity_ = newCapacity;
 	}
-
+	
 	
 	void resize(uint newCount) {
 		auto oldCount = count();
@@ -173,7 +173,7 @@ public:
 
 		count_ = newCount;
 	}
-	
+
 
 	// -- adding elements
 
@@ -225,6 +225,47 @@ public:
 		new (data_ + count_) T{std::forward<Args>(args)...};
 		
 		++count_;
+	}
+	
+	
+	// -- mass append operations
+	
+	void appendBlock(const T* items, uint itemCount) {
+		auto firstPtr = prepareForBlockCopy(itemCount);
+
+		if (std::is_trivially_copy_constructible<T>::value) {
+			memcpy(firstPtr, items, itemCount * elementSizeBytes());
+		}
+		else {
+			while (itemCount--) {
+				new (firstPtr) T{ *items };
+				++firstPtr;
+				++items;
+			}
+		}
+	}
+
+
+	// This method is used when you need the Array to be ready
+	// for an external, indirect copy of itemCount items.
+	// This ensures that there is enough capacity for the required
+	// number of items (using an append()-like growth strategy)
+	// and returns a pointer to the first item to copy. The count
+	// is already updated.
+	T* prepareForBlockCopy(uint itemCount) {
+		auto free = capacity() - count();
+		auto desiredCapacity = capacity();
+		
+		while (free < itemCount) {
+			desiredCapacity *= 2;
+			free = desiredCapacity - count();
+		}
+		
+		reserve(desiredCapacity);
+		
+		T* firstPtr = data_ + count_;
+		count_ += itemCount;
+		return firstPtr;
 	}
 
 
