@@ -14,7 +14,7 @@ namespace model {
 
 using namespace render;
 
-
+/*
 struct ConstStandardMaterial {
 	// this is a direct mirror of the non-sampler data in StandardMaterialDescriptor
 	// the layouts of these structures must be exactly the same
@@ -196,7 +196,7 @@ void StandardShader::setMaterial(StandardMaterial::Index matIndex, const Standar
 //	frag->setTexture(material.albedoMap, 0, fsAlbedoMap);
 //	frag->setTexture(material.normalMap, 1, fsNormalMap);
 }
-
+*/
 
 } // ns model
 } // ns stardazed

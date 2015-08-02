@@ -62,6 +62,7 @@ void Game::setSceneController(scene::SceneController& ctl) {
 
 
 void Game::simulationStep() {
+/*
 	runtime::FrameContext frame{ client_, physicsFixedStepTime_ };
 	auto& scene = controller_->scene();
 
@@ -72,6 +73,7 @@ void Game::simulationStep() {
 			if (entity.behaviour)
 				entity.behaviour->update(entity, scene, frame);
 		});
+*/
 }
 
 

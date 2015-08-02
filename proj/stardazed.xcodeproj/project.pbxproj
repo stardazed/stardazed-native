@@ -31,8 +31,6 @@
 		8E112DBF199E5FE20029CD38 /* Pipeline.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DAA199E5FE20029CD38 /* Pipeline.hpp */; };
 		8E112DC0199E5FE20029CD38 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DAB199E5FE20029CD38 /* Shader.cpp */; };
 		8E112DC1199E5FE20029CD38 /* Shader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DAC199E5FE20029CD38 /* Shader.hpp */; };
-		8E112DDA199E60A50029CD38 /* Behaviour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DCF199E60A50029CD38 /* Behaviour.cpp */; };
-		8E112DDB199E60A50029CD38 /* Behaviour.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD0199E60A50029CD38 /* Behaviour.hpp */; };
 		8E112DDC199E60A50029CD38 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD1199E60A50029CD38 /* Camera.cpp */; };
 		8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112DD2199E60A50029CD38 /* Camera.hpp */; };
 		8E112DDE199E60A50029CD38 /* SceneController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E112DD3199E60A50029CD38 /* SceneController.cpp */; };
@@ -48,7 +46,6 @@
 		8E1599271AF9012C00A62CE1 /* PixelFormat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E1599261AF9012C00A62CE1 /* PixelFormat.hpp */; };
 		8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1599291AF9034700A62CE1 /* PixelBuffer.cpp */; };
 		8E15992C1AF9054200A62CE1 /* PixelFormat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E15992B1AF9054200A62CE1 /* PixelFormat.hpp */; };
-		8E187C6A1B3F3DCD003FA0BC /* MeshRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E187C691B3F3DCD003FA0BC /* MeshRenderer.hpp */; };
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
 		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
@@ -105,7 +102,6 @@
 		8E8876511B5E4C9300F35493 /* Array.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E8876501B5E4C9300F35493 /* Array.hpp */; };
 		8E8876571B5FBE9F00F35493 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E8876561B5FBE9F00F35493 /* Block.cpp */; };
 		8E88765C1B60F84800F35493 /* Arena.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E88765B1B60F84800F35493 /* Arena.hpp */; };
-		8E88765F1B62759700F35493 /* MeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E88765E1B62759700F35493 /* MeshRenderer.cpp */; };
 		8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */; };
 		8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */; };
 		8E8D22B51B1A0A6500A876E5 /* ShaderLibrary.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */; };
@@ -139,8 +135,6 @@
 		8EDA068C1B6B85EB001898EA /* farmhash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDA068A1B6B85EB001898EA /* farmhash.cpp */; };
 		8EDA068D1B6B85EB001898EA /* farmhash.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA068B1B6B85EB001898EA /* farmhash.h */; };
 		8EDA06921B6BA9B7001898EA /* Hash.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA06911B6BA9B7001898EA /* Hash.hpp */; };
-		8EDD58221B4EB45E00749BC0 /* Light.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58211B4EB45E00749BC0 /* Light.hpp */; };
-		8EDD58241B4EB4AD00749BC0 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD58231B4EB4AD00749BC0 /* Light.cpp */; };
 		8EDD58261B4FCD5900749BC0 /* MultiArrayBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58251B4FCD5900749BC0 /* MultiArrayBuffer.hpp */; };
 		8EF701F91A76F90B00454341 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EA1A76F90B00454341 /* adler32.c */; };
 		8EF701FA1A76F90B00454341 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EB1A76F90B00454341 /* crc32.c */; };
@@ -194,8 +188,6 @@
 		8E112DAA199E5FE20029CD38 /* Pipeline.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Pipeline.hpp; sourceTree = "<group>"; };
 		8E112DAB199E5FE20029CD38 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		8E112DAC199E5FE20029CD38 /* Shader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
-		8E112DCF199E60A50029CD38 /* Behaviour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Behaviour.cpp; sourceTree = "<group>"; };
-		8E112DD0199E60A50029CD38 /* Behaviour.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Behaviour.hpp; sourceTree = "<group>"; };
 		8E112DD1199E60A50029CD38 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		8E112DD2199E60A50029CD38 /* Camera.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 		8E112DD3199E60A50029CD38 /* SceneController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneController.cpp; sourceTree = "<group>"; };
@@ -211,7 +203,6 @@
 		8E1599261AF9012C00A62CE1 /* PixelFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
 		8E1599291AF9034700A62CE1 /* PixelBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelBuffer.cpp; sourceTree = "<group>"; };
 		8E15992B1AF9054200A62CE1 /* PixelFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
-		8E187C691B3F3DCD003FA0BC /* MeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MeshRenderer.hpp; sourceTree = "<group>"; };
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
 		8E19672519ACD69F009CB5E6 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
@@ -268,7 +259,6 @@
 		8E8876501B5E4C9300F35493 /* Array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Array.hpp; sourceTree = "<group>"; };
 		8E8876561B5FBE9F00F35493 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Block.cpp; sourceTree = "<group>"; };
 		8E88765B1B60F84800F35493 /* Arena.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Arena.hpp; sourceTree = "<group>"; };
-		8E88765E1B62759700F35493 /* MeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshRenderer.cpp; sourceTree = "<group>"; };
 		8E89E99A19AD4896001AB2AF /* mac_GLRenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_GLRenderContext.hpp; sourceTree = "<group>"; };
 		8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_GLRenderContext.mm; sourceTree = "<group>"; };
 		8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderLibrary.hpp; sourceTree = "<group>"; };
@@ -302,8 +292,6 @@
 		8EDA068A1B6B85EB001898EA /* farmhash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = farmhash.cpp; sourceTree = "<group>"; };
 		8EDA068B1B6B85EB001898EA /* farmhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = farmhash.h; sourceTree = "<group>"; };
 		8EDA06911B6BA9B7001898EA /* Hash.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Hash.hpp; sourceTree = "<group>"; };
-		8EDD58211B4EB45E00749BC0 /* Light.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
-		8EDD58231B4EB4AD00749BC0 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		8EDD58251B4FCD5900749BC0 /* MultiArrayBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MultiArrayBuffer.hpp; sourceTree = "<group>"; };
 		8EF701EA1A76F90B00454341 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
 		8EF701EB1A76F90B00454341 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
@@ -520,14 +508,8 @@
 				8E112DD5199E60A50029CD38 /* Entity.hpp */,
 				8E221FB21B56F6F8006E5CFD /* Transform.hpp */,
 				8E221FB41B56FEAE006E5CFD /* Transform.cpp */,
-				8E112DD0199E60A50029CD38 /* Behaviour.hpp */,
-				8E112DCF199E60A50029CD38 /* Behaviour.cpp */,
-				8E187C691B3F3DCD003FA0BC /* MeshRenderer.hpp */,
-				8E88765E1B62759700F35493 /* MeshRenderer.cpp */,
 				8E112DD2199E60A50029CD38 /* Camera.hpp */,
 				8E112DD1199E60A50029CD38 /* Camera.cpp */,
-				8EDD58211B4EB45E00749BC0 /* Light.hpp */,
-				8EDD58231B4EB4AD00749BC0 /* Light.cpp */,
 				8E112DD7199E60A50029CD38 /* Scene.hpp */,
 				8E112DD6199E60A50029CD38 /* Scene.cpp */,
 				8E112DD4199E60A50029CD38 /* SceneController.hpp */,
@@ -720,7 +702,6 @@
 				8EA7093119D75FC000129E2D /* Shader.hpp in Headers */,
 				8E2864561B4694E100FD436D /* Manipulators.hpp in Headers */,
 				8E112DB9199E5FE20029CD38 /* Buffer.hpp in Headers */,
-				8E112DDB199E60A50029CD38 /* Behaviour.hpp in Headers */,
 				8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */,
 				8E71E4551A40FB170060DC95 /* Controller.hpp in Headers */,
 				8E28645D1B46D4C500FD436D /* Buffer.hpp in Headers */,
@@ -737,7 +718,6 @@
 				8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */,
 				8E15992C1AF9054200A62CE1 /* PixelFormat.hpp in Headers */,
 				8E112DEC199E60B70029CD38 /* Logging.hpp in Headers */,
-				8E187C6A1B3F3DCD003FA0BC /* MeshRenderer.hpp in Headers */,
 				8EC8C53F1B506B1E00EAADE9 /* Allocator.hpp in Headers */,
 				8EF701FC1A76F90B00454341 /* gzguts.h in Headers */,
 				8EDA06881B6B8073001898EA /* HashMap.hpp in Headers */,
@@ -792,7 +772,6 @@
 				8EF702071A76F90B00454341 /* zutil.h in Headers */,
 				8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */,
 				8E43CDA01B4C7F89009D24B5 /* Light.hpp in Headers */,
-				8EDD58221B4EB45E00749BC0 /* Light.hpp in Headers */,
 				8EDD58261B4FCD5900749BC0 /* MultiArrayBuffer.hpp in Headers */,
 				8EDA06851B67DCCE001898EA /* Algorithm.hpp in Headers */,
 				8E112D99199E5FC70029CD38 /* TextFile.hpp in Headers */,
@@ -867,9 +846,7 @@
 				8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */,
 				8EDA068C1B6B85EB001898EA /* farmhash.cpp in Sources */,
 				8E221FB51B56FEAE006E5CFD /* Transform.cpp in Sources */,
-				8E88765F1B62759700F35493 /* MeshRenderer.cpp in Sources */,
 				8E5372611B31B49E002C1538 /* Collider.cpp in Sources */,
-				8EDD58241B4EB4AD00749BC0 /* Light.cpp in Sources */,
 				8E25240D1B4D291200CC4789 /* Light.cpp in Sources */,
 				8EC31EA01B1E0ABF00AF9582 /* IndexBuffer.cpp in Sources */,
 				8EF702061A76F90B00454341 /* zutil.c in Sources */,
@@ -889,7 +866,6 @@
 				8EF701FA1A76F90B00454341 /* crc32.c in Sources */,
 				8E112D48199E55100029CD38 /* Matrix.cpp in Sources */,
 				8E28645A1B469ECD00FD436D /* StandardModel.cpp in Sources */,
-				8E112DDA199E60A50029CD38 /* Behaviour.cpp in Sources */,
 				8E8D22B91B1B264F00A876E5 /* VertexLayout.cpp in Sources */,
 				8E112D98199E5FC70029CD38 /* TextFile.cpp in Sources */,
 				8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */,
@@ -952,6 +928,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					../src/,
+					../ext/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1005,6 +982,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					../src/,
+					../ext/,
 				);
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
