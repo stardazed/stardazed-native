@@ -14,7 +14,13 @@ namespace model {
 
 using namespace render;
 
-/*
+
+//  ___ _                _             _ __  __      _           _      _
+// / __| |_ __ _ _ _  __| |__ _ _ _ __| |  \/  |__ _| |_ ___ _ _(_)__ _| |
+// \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _` |  _/ -_) '_| / _` | |
+// |___/\__\__,_|_|\_\__,_\__,_|_| \__,_|_|  |_\__,_|\__\___|_| |_\__,_|_|
+//
+
 struct ConstStandardMaterial {
 	// this is a direct mirror of the non-sampler data in StandardMaterialDescriptor
 	// the layouts of these structures must be exactly the same
@@ -27,7 +33,7 @@ struct ConstStandardMaterial {
 };
 
 
-StandardMaterial::StandardMaterial()
+StandardMaterialComponent::StandardMaterialComponent()
 : materialsConstBuffer_{ BufferRole::ConstantBuffer, BufferUpdateFrequency::Never, BufferClientAccess::WriteOnly }
 {
 	materialsPerBlock_ = ConstantBufferLimits::maximumAccessibleArrayElementsPerBlock<ConstStandardMaterial>();
@@ -44,7 +50,7 @@ StandardMaterial::StandardMaterial()
 }
 
 
-StandardMaterial::Index StandardMaterial::alloc(const StandardMaterialDescriptor& matDesc) {
+auto StandardMaterialComponent::append(const StandardMaterialDescriptor& matDesc) -> Index {
 	assert(nextIndex_ <= maxIndex_);
 
 	size32 sizeBytes = sizeof32<ConstStandardMaterial>();
@@ -55,7 +61,7 @@ StandardMaterial::Index StandardMaterial::alloc(const StandardMaterialDescriptor
 }
 
 
-void StandardMaterial::allocMultiple(const StandardMaterialDescriptor* base, uint32 count, StandardMaterial::Index* outIndexesBase) {
+void StandardMaterialComponent::appendMultiple(const StandardMaterialDescriptor* base, uint32 count, Index* outIndexesBase) {
 	assert(nextIndex_ + count <= maxIndex_);
 
 	size32 structSizeBytes = sizeof32<ConstStandardMaterial>();
@@ -85,7 +91,7 @@ void StandardMaterial::allocMultiple(const StandardMaterialDescriptor* base, uin
 }
 
 
-void StandardMaterial::mapMaterialAtBindPoint(Index material, uint32 bindPoint) {
+void StandardMaterialComponent::mapMaterialAtBindPoint(Index material, uint32 bindPoint) {
 	auto blockIndex = material.index / materialsPerBlock_;
 	auto offset = blockIndex * rangeBlockSizeBytesAligned_;
 	firstBoundMaterialIndex_ = blockIndex * materialsPerBlock_;
@@ -96,23 +102,43 @@ void StandardMaterial::mapMaterialAtBindPoint(Index material, uint32 bindPoint) 
 }
 
 
+//  ___ _                _             _ __  __         _     _
+// / __| |_ __ _ _ _  __| |__ _ _ _ __| |  \/  |___  __| |___| |
+// \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _ \/ _` / -_) |
+// |___/\__\__,_|_|\_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|
+//
 
-StandardModel::StandardModel(const StandardModelDescriptor& desc, StandardShader& shader)
-: descriptor_(desc)
-, mesh_(*desc.mesh)
-, shader_(shader)
-{
-	materialIndexes_.resize(desc.materials.size());
-	standardMaterial().allocMultiple(desc.materials.data(), size32_cast(desc.materials.size()), materialIndexes_.data());
+StandardModelComponent::StandardModelComponent(StandardShader& shader, StandardMaterialComponent& stdMaterial, scene::TransformComponent& transform)
+: stdShader_(shader)
+, stdMaterialComponent_(stdMaterial)
+, transformComponent_(transform)
+, materialIndexes_{ memory::SystemAllocator::sharedInstance(), 4096 }
+, faceGroups_{ memory::SystemAllocator::sharedInstance(), 4096 }
+, instanceData_{ memory::SystemAllocator::sharedInstance(), 2048 }
+{}
+
+
+scene::Handle StandardModelComponent::append(const StandardModelDescriptor& desc) {
+	auto materialCount = size32_cast(desc.materials.size());
+	uint matIndexIndex = materialIndexes_.count();
+	auto matIndexPtr = materialIndexes_.prepareForBlockCopy(materialCount);
+	stdMaterialComponent_.appendMultiple(desc.materials.data(), materialCount, matIndexPtr);
+	
+	auto faceGroupCount = size32_cast(desc.faceGroups.size());
+	uint faceGroupIndex = faceGroups_.count();
+	faceGroups_.appendBlock(desc.faceGroups.data(), faceGroupCount);
+	
+	instanceData_.extend();
+	uint instanceIndex = instanceData_.count();
+	*(instanceData_.elementsBasePtr<0>() + instanceIndex) = desc.mesh;
+	*(instanceData_.elementsBasePtr<1>() + instanceIndex) = matIndexIndex;
+	*(instanceData_.elementsBasePtr<2>() + instanceIndex) = faceGroupIndex;
+	
+	return { instanceIndex };
 }
 
 
-StandardMaterial& StandardModel::standardMaterial() {
-	static StandardMaterial sm_s;
-	return sm_s;
-}
-
-
+/*
 void StandardModel::render(RenderPass& renderPass, const scene::ProjectionSetup& proj, const scene::Entity& entity) const {
 	renderPass.setPipeline(shader_.pipeline());
 	renderPass.setMesh(mesh_);
@@ -135,8 +161,14 @@ void StandardModel::render(RenderPass& renderPass, const scene::ProjectionSetup&
 		renderPass.drawIndexedPrimitives(startIndex, indexCount);
 	}
 }
+*/
 
 
+//  ___ _                _             _ ___ _            _
+// / __| |_ __ _ _ _  __| |__ _ _ _ __| / __| |_  __ _ __| |___ _ _
+// \__ \  _/ _` | ' \/ _` / _` | '_/ _` \__ \ ' \/ _` / _` / -_) '_|
+// |___/\__\__,_|_|\_\__,_\__,_|_| \__,_|___/_||_\__,_\__,_\___|_|
+//
 
 StandardShader::StandardShader(RenderContext& renderCtx) {
 	auto vert = renderCtx.loadShaderNamed("StandardShader.vert");
@@ -189,14 +221,14 @@ void StandardShader::setLights(const math::Vec3 dirLight) {
 }
 
 
-void StandardShader::setMaterial(StandardMaterial::Index matIndex, const StandardMaterialDescriptor& material) {
+void StandardShader::setMaterial(StandardMaterialComponent::Index matIndex, const StandardMaterialDescriptor& material) {
 	auto frag = pipeline_->fragmentShader();
 
 	frag->setUniform(fsMatIndex, matIndex.index);
 //	frag->setTexture(material.albedoMap, 0, fsAlbedoMap);
 //	frag->setTexture(material.normalMap, 1, fsNormalMap);
 }
-*/
+
 
 } // ns model
 } // ns stardazed

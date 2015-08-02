@@ -8,21 +8,31 @@
 
 #include "system/Config.hpp"
 #include "math/Vector.hpp"
+#include "container/Array.hpp"
+#include "container/MultiArrayBuffer.hpp"
 #include "render/common/Mesh.hpp"
 #include "render/common/Texture.hpp"
 #include "render/common/Pipeline.hpp"
 #include "render/common/RenderPass.hpp"
+
 #include "render/opengl/Buffer.hpp"
+
 #include "render/RenderContext.hpp"
 #include "scene/MeshRenderer.hpp"
-#include "scene/Entity.hpp"
 
-#include <vector>
+#include "scene/Entity.hpp"
+#include "scene/Transform.hpp"
+
 
 namespace stardazed {
 namespace model {
 
 
+//  ___ _                _             _ __  __      _           _      _
+// / __| |_ __ _ _ _  __| |__ _ _ _ __| |  \/  |__ _| |_ ___ _ _(_)__ _| |
+// \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _` |  _/ -_) '_| / _` | |
+// |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\__,_|\__\___|_| |_\__,_|_|
+//
 struct StandardMaterialDescriptor {
 	// colours
 	math::Vec3 mainColour = math::Vec3::one();        // single colour or tint for albedo
@@ -39,7 +49,7 @@ struct StandardMaterialDescriptor {
 };
 
 
-class StandardMaterial {
+class StandardMaterialComponent {
 	render::Buffer materialsConstBuffer_;
 	uint32 materialsPerBlock_;
 	uint32 rangeBlockSizeBytes_, rangeBlockSizeBytesAligned_;
@@ -48,21 +58,26 @@ class StandardMaterial {
 	uint32 firstBoundMaterialIndex_ = 0;
 	
 public:
-	StandardMaterial();
-	SD_NOCOPYORMOVE_CLASS(StandardMaterial)
+	StandardMaterialComponent();
+	SD_NOCOPYORMOVE_CLASS(StandardMaterialComponent)
 
 	struct Index { uint32 index; };
 	
-	Index alloc(const StandardMaterialDescriptor&);
-	void allocMultiple(const StandardMaterialDescriptor* base, uint32 count, Index* outIndexesBase);
+	Index append(const StandardMaterialDescriptor&);
+	void appendMultiple(const StandardMaterialDescriptor* base, uint32 count, Index* outIndexesBase);
 	
 	void mapMaterialAtBindPoint(Index material, uint32 bindPoint);
 	uint32 firstBoundMaterialIndex() const { return firstBoundMaterialIndex_; };
 };
 
 
+//  ___ _                _             _ __  __         _     _
+// / __| |_ __ _ _ _  __| |__ _ _ _ __| |  \/  |___  __| |___| |
+// \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _ \/ _` / -_) |
+// |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|
+//
 struct FaceGroup {
-	uint32 materialIx, fromFaceIx, toFaceIx;          // materialIx is a model-local index (not a StandardMaterial::Index val)
+	uint32 materialIx, fromFaceIx, toFaceIx;  // materialIx is a model-local index (not a StandardMaterial::Index val)
 };
 
 
@@ -76,20 +91,35 @@ struct StandardModelDescriptor {
 class StandardShader;
 
 
-class StandardModel : public scene::Renderable {
-	StandardModelDescriptor descriptor_;
-	std::vector<StandardMaterial::Index> materialIndexes_;
-	render::Mesh& mesh_;
-	StandardShader& shader_;
+class StandardModelComponent {
+//	StandardModelDescriptor descriptor_;
+//	std::vector<StandardMaterialComponent::Index> materialIndexes_;
+//	render::Mesh& mesh_;
+	StandardShader& stdShader_;
+	StandardMaterialComponent& stdMaterialComponent_;
+	scene::TransformComponent& transformComponent_;
 	
-	static StandardMaterial& standardMaterial();
+	Array<StandardMaterialComponent::Index> materialIndexes_;
+	Array<FaceGroup> faceGroups_;
+	container::MultiArrayBuffer<
+		render::Mesh*,
+		uint,  // index within materialIndexes_
+		uint   // index within faceGroups_
+	> instanceData_;
 
 public:
-	StandardModel(const StandardModelDescriptor&, StandardShader&);
-	void render(render::RenderPass&, const scene::ProjectionSetup&, const scene::Entity&) const final;
+	StandardModelComponent(StandardShader&, StandardMaterialComponent&, scene::TransformComponent&);
+	
+	scene::Handle append(const StandardModelDescriptor&);
+//	void render(render::RenderPass&, const scene::ProjectionSetup&, const scene::Entity&) const;
 };
 
 
+//  ___ _                _             _ ___ _            _
+// / __| |_ __ _ _ _  __| |__ _ _ _ __| / __| |_  __ _ __| |___ _ _
+// \__ \  _/ _` | ' \/ _` / _` | '_/ _` \__ \ ' \/ _` / _` / -_) '_|
+// |___/\__\__,_|_||_\__,_\__,_|_| \__,_|___/_||_\__,_\__,_\___|_|
+//
 class StandardShader {
 	render::Pipeline* pipeline_;
 	GLint vsMV, vsMVP, vsNM, fsNM;
@@ -102,7 +132,7 @@ public:
 	
 	void setMatrices(const math::Mat4& projection, const math::Mat4& view, const math::Mat4& model);
 	void setLights(const math::Vec3 dirLight); // FIXME
-	void setMaterial(StandardMaterial::Index, const StandardMaterialDescriptor&);
+	void setMaterial(StandardMaterialComponent::Index, const StandardMaterialDescriptor&);
 };
 
 
