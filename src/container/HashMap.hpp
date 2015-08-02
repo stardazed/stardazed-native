@@ -37,7 +37,7 @@ class HashMap {
 
 	static constexpr uint64 lower62Bits = (uint64_t)(-1) ^ (3ull << 62);
 	static constexpr bool trivialDestructors = (std::is_trivially_destructible<Key>::value && std::is_trivially_destructible<Value>::value);
-	
+
 
 	template <typename F>
 	void scanBuckets(uint index, F&& fn) const {

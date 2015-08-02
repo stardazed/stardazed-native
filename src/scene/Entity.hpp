@@ -12,6 +12,7 @@
 #include "system/Config.hpp"
 #include "container/Array.hpp"
 #include "container/Deque.hpp"
+#include "util/Hash.hpp"
 
 namespace stardazed {
 namespace scene {
@@ -41,6 +42,8 @@ struct Entity {
 
 	constexpr bool operator ==(Entity other) const { return id == other.id; }
 	constexpr bool operator !=(Entity other) const { return id != other.id; }
+	
+	constexpr explicit operator bool() const { return id != 0; }
 	
 	constexpr Entity() = default;
 
@@ -98,6 +101,17 @@ public:
 
 
 } // ns scene
+
+
+// -- Hash specialization for Entity
+template <>
+struct Hash<scene::Entity> {
+	static constexpr uint64 hash(scene::Entity ent) {
+		return ent.id;
+	}
+};
+
+
 } // ns stardazed
 
 #endif
