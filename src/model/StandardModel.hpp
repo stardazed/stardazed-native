@@ -92,9 +92,6 @@ class StandardShader;
 
 
 class StandardModelComponent {
-//	StandardModelDescriptor descriptor_;
-//	std::vector<StandardMaterialComponent::Index> materialIndexes_;
-//	render::Mesh& mesh_;
 	StandardShader& stdShader_;
 	StandardMaterialComponent& stdMaterialComponent_;
 	scene::TransformComponent& transformComponent_;
@@ -111,7 +108,7 @@ public:
 	StandardModelComponent(StandardShader&, StandardMaterialComponent&, scene::TransformComponent&);
 	
 	scene::Handle append(const StandardModelDescriptor&);
-//	void render(render::RenderPass&, const scene::ProjectionSetup&, const scene::Entity&) const;
+	void render(render::RenderPass&, const scene::ProjectionSetup&, const scene::Entity&) const;
 };
 
 

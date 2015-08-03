@@ -18,7 +18,7 @@ using namespace render;
 //  ___ _                _             _ __  __      _           _      _
 // / __| |_ __ _ _ _  __| |__ _ _ _ __| |  \/  |__ _| |_ ___ _ _(_)__ _| |
 // \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _` |  _/ -_) '_| / _` | |
-// |___/\__\__,_|_|\_\__,_\__,_|_| \__,_|_|  |_\__,_|\__\___|_| |_\__,_|_|
+// |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\__,_|\__\___|_| |_\__,_|_|
 //
 
 struct ConstStandardMaterial {
@@ -105,7 +105,7 @@ void StandardMaterialComponent::mapMaterialAtBindPoint(Index material, uint32 bi
 //  ___ _                _             _ __  __         _     _
 // / __| |_ __ _ _ _  __| |__ _ _ _ __| |  \/  |___  __| |___| |
 // \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _ \/ _` / -_) |
-// |___/\__\__,_|_|\_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|
+// |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|
 //
 
 StandardModelComponent::StandardModelComponent(StandardShader& shader, StandardMaterialComponent& stdMaterial, scene::TransformComponent& transform)
@@ -138,36 +138,36 @@ scene::Handle StandardModelComponent::append(const StandardModelDescriptor& desc
 }
 
 
-/*
-void StandardModel::render(RenderPass& renderPass, const scene::ProjectionSetup& proj, const scene::Entity& entity) const {
-	renderPass.setPipeline(shader_.pipeline());
-	renderPass.setMesh(mesh_);
+
+void StandardModelComponent::render(RenderPass& renderPass, const scene::ProjectionSetup& proj, scene::Handle instance) const {
+	renderPass.setPipeline(stdShader_.pipeline());
+	renderPass.setMesh(**(instanceData_.elementsBasePtr<0>() + instance.ref));
 	
 	// TODO: add some material-range thing here
-	standardMaterial().mapMaterialAtBindPoint(materialIndexes_[0], 0);
-	auto firstBoundMatIndex = standardMaterial().firstBoundMaterialIndex();
+	stdMaterialComponent_.mapMaterialAtBindPoint(materialIndexes_[0], 0);
+	auto firstBoundMatIndex = stdMaterialComponent_.firstBoundMaterialIndex();
 
-	shader_.setMatrices(proj.projMat, proj.viewMat, entity.transform.toMatrix4());
-	shader_.setLights(math::Vec3{ -0.4, 1, 0.4 });
+	stdShader_.setMatrices(proj.projMat, proj.viewMat, entity.transform.toMatrix4());
+	stdShader_.setLights(math::Vec3{ -0.4, 1, 0.4 });
 
 	for (const FaceGroup& fg : descriptor_.faceGroups) {
 		auto& material = descriptor_.materials[fg.materialIx];
 		auto matIndex = materialIndexes_[fg.materialIx];
 		matIndex.index -= firstBoundMatIndex;
-		shader_.setMaterial(matIndex, material);
+		stdShader_.setMaterial(matIndex, material);
 
 		uint32 startIndex = fg.fromFaceIx * 3;
 		uint32 indexCount = (fg.toFaceIx - fg.fromFaceIx) * 3;
 		renderPass.drawIndexedPrimitives(startIndex, indexCount);
 	}
 }
-*/
+
 
 
 //  ___ _                _             _ ___ _            _
 // / __| |_ __ _ _ _  __| |__ _ _ _ __| / __| |_  __ _ __| |___ _ _
 // \__ \  _/ _` | ' \/ _` / _` | '_/ _` \__ \ ' \/ _` / _` / -_) '_|
-// |___/\__\__,_|_|\_\__,_\__,_|_| \__,_|___/_||_\__,_\__,_\___|_|
+// |___/\__\__,_|_||_\__,_\__,_|_| \__,_|___/_||_\__,_\__,_\___|_|
 //
 
 StandardShader::StandardShader(RenderContext& renderCtx) {

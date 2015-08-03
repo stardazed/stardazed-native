@@ -59,7 +59,7 @@ class HashMap {
 		}
 	}
 
-	
+
 	template <typename F>
 	void withFirstFillableBucket(Bucket* bucketBase, uint bucketCount, uint index, F&& fn) {
 		auto bucketFirst = bucketBase + index;
@@ -283,7 +283,7 @@ public:
 						new (newValues + index) Value{ *value };
 					});
 			}
-			
+
 			++bucket;
 			++key;
 			++value;
