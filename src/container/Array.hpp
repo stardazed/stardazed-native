@@ -17,11 +17,9 @@ namespace container {
 
 
 template <typename T>
-// requires DefaultConstructible<T>
+// requires DefaultConstructible<T> for resize() where newCount > count() and emplaceBack()
 // prefers TriviallyDefaultConstructible<T> && TriviallyDestructible<T>
 class Array {
-	static_assert(std::is_default_constructible<T>::value, "T must be default constructible");
-	
 	static constexpr bool canSkipElementConstructor = std::is_trivially_default_constructible<T>::value;
 	static constexpr bool canSkipElementDestructor = std::is_trivially_destructible<T>::value;
 
@@ -49,6 +47,7 @@ public:
 	Array() : Array{memory::SystemAllocator::sharedInstance(), 2} {}
 	explicit Array(uint initialCapacity) : Array{memory::SystemAllocator::sharedInstance(), initialCapacity} {}
 
+
 	Array(const Array& rhs)
 	: allocator_(rhs.allocator_)
 	{
@@ -71,6 +70,7 @@ public:
 		}
 	}
 
+
 	Array(Array&& rhs)
 	: allocator_(rhs.allocator_)
 	{
@@ -82,6 +82,52 @@ public:
 		rhs.count_ = 0;
 		rhs.data_ = nullptr;
 	}
+
+	
+	Array& operator =(const Array& rhs) {
+		if (&rhs != this) {
+			if (! canSkipElementDestructor) {
+				destructRange(data_, count());
+			}
+
+			count_ = 0;
+			auto newCount = rhs.count_;
+			reserve(newCount);
+			
+			if (newCount > 0) {
+				count_ = newCount;
+
+				if (canSkipElementConstructor) {
+					memcpy(data_, rhs.data_, count_ * elementSizeBytes());
+				}
+				else {
+					auto myElem = data_;
+					auto rhsElem = rhs.data_;
+
+					while (newCount--) {
+						new (myElem) T{ *rhsElem };
+						++myElem;
+						++rhsElem;
+					}
+				}
+			}
+		}
+		
+		return *this;
+	}
+	
+	
+	Array& operator =(Array&& rhs) {
+		// FIXME
+		assert(allocator_ == rhs.allocator_);
+		
+		std::swap(capacity_, rhs.capacity);
+		std::swap(count_, rhs.count_);
+		std::swap(data_, rhs.data_);
+
+		return *this;
+	}
+
 
 	~Array() {
 		if (data_) {
@@ -126,8 +172,9 @@ public:
 			memset(newData, 0, newSizeBytes);
 		}
 
-		if (data_) {
+		if (data_ && (count() > 0)) {
 			// Copy over the data to the new buffer and free the old one
+			// FIXME: must take non-triv copy-ctor into account
 			memcpy(newData, data_, count() * elementSizeBytes());
 			allocator_.free(data_);
 		}
@@ -139,7 +186,7 @@ public:
 	
 	void resize(uint newCount) {
 		auto oldCount = count();
-
+		
 		if (newCount > oldCount) {
 			if (newCount > capacity()) {
 				reserve(newCount);
@@ -149,6 +196,8 @@ public:
 			// or if explicit field initialization was used then we need to default-construct
 			// new values (in-place).
 			if (! canSkipElementConstructor) {
+				static_assert(std::is_default_constructible<T>::value, "T must be default constructible for growing resize");
+
 				auto elementsToConstruct = newCount - oldCount;
 				auto newElementPtr = data_ + oldCount;
 
@@ -205,6 +254,8 @@ public:
 
 
 	void emplaceBack() {
+		static_assert(canSkipElementConstructor || std::is_default_constructible<T>::value, "T must be default constructible");
+
 		if (__builtin_expect(count() == capacity(), 0)) {
 			reserve(capacity() * 2);
 		}
@@ -382,6 +433,13 @@ public:
 		return { data_, data_ + count() };
 	}
 };
+
+
+// for compat with stl algorithms and for-in
+template <typename T> T* begin(Array<T>& arr) { return arr.elementsBasePtr(); }
+template <typename T> const T* begin(const Array<T>& arr) { return arr.elementsBasePtr(); }
+template <typename T> T* end(Array<T>& arr) { return arr.elementsBasePtr() + arr.count(); }
+template <typename T> const T* end(const Array<T>& arr) { return arr.elementsBasePtr() + arr.count(); }
 
 
 } // ns container
