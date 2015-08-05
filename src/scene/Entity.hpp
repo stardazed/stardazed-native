@@ -18,11 +18,12 @@ namespace stardazed {
 namespace scene {
 
 
-struct Handle {
+template <typename Component>
+struct Instance {
 	uint ref;
 
-	constexpr bool operator ==(Handle other) const { return ref == other.ref; }
-	constexpr bool operator !=(Handle other) const { return ref != other.ref; }
+	constexpr bool operator ==(Instance other) const { return ref == other.ref; }
+	constexpr bool operator !=(Instance other) const { return ref != other.ref; }
 };
 
 
