@@ -45,6 +45,9 @@ public:
 	{
 		reserve(initialCapacity);
 	}
+	
+	Array() : Array{memory::SystemAllocator::sharedInstance(), 2} {}
+	explicit Array(uint initialCapacity) : Array{memory::SystemAllocator::sharedInstance(), initialCapacity} {}
 
 	Array(const Array& rhs)
 	: allocator_(rhs.allocator_)

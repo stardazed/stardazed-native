@@ -141,7 +141,9 @@ public:
 	{
 		assert(initialCapacity >= 64);
 	}
-	
+
+	HashMap() : HashMap{ memory::SystemAllocator::sharedInstance(), 64 } {}
+	explicit HashMap(uint initialCapacity) : HashMap{ memory::SystemAllocator::sharedInstance(), initialCapacity } {}
 	
 	~HashMap() {
 		if (! trivialDestructors) {

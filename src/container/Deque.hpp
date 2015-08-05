@@ -51,6 +51,8 @@ public:
 		count_ = 0;
 	}
 	
+	Deque() : Deque{ memory::SystemAllocator::sharedInstance() } {}
+	
 	~Deque() {
 		clear();
 		
