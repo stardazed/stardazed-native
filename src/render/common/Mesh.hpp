@@ -8,10 +8,9 @@
 
 #include "system/Config.hpp"
 #include "math/Vector.hpp"
+#include "container/Array.hpp"
 #include "render/common/VertexBuffer.hpp"
 #include "render/common/IndexBuffer.hpp"
-
-#include <vector>
 
 namespace stardazed {
 namespace render {
@@ -49,9 +48,16 @@ struct IndexBufferBinding {
 };
 
 
+struct FaceGroup {
+	uint32 fromFaceIx, faceCount;
+	uint32 materialIx; // model-local index (starting at 0); representation of Materials is external to MeshData
+};
+
+
 struct MeshDescriptor {
-	std::vector<VertexBufferBinding> vertexBindings;
+	Array<VertexBufferBinding> vertexBindings;
 	IndexBufferBinding indexBinding;
+	Array<FaceGroup> faceGroups;
 };
 
 
@@ -60,8 +66,9 @@ public:
 	MeshData() = default;
 	MeshData(const VertexAttributeList&);
 
-	std::vector<VertexBuffer> vertexBuffers;
+	Array<VertexBuffer> vertexBuffers;
 	IndexBuffer indexBuffer;
+	Array<FaceGroup> faceGroups;
 
 	VertexBuffer& primaryVertexBuffer();
 	MeshDescriptor defaultDescriptor() const;

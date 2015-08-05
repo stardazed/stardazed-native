@@ -150,7 +150,7 @@ void Mesh::initWithDescriptor(const MeshDescriptor& desc) {
 	glBindVertexArray(name());
 	
 	// -- reserve space in the buffers vector for all buffer objects
-	uint32 bufferCount = size32_cast(desc.vertexBindings.size());
+	uint32 bufferCount = desc.vertexBindings.count();
 	if (desc.indexBinding.indexBuffer) ++bufferCount;
 	buffers_.reserve(bufferCount);
 
@@ -158,7 +158,7 @@ void Mesh::initWithDescriptor(const MeshDescriptor& desc) {
 		assert(vertexBinding.vertexBuffer);
 
 		// -- allocate sized attribute buffer
-		buffers_.emplace_back(BufferRole::VertexAttribute, vertexBinding.updateFrequency, vertexBinding.clientAccess);
+		buffers_.emplaceBack(BufferRole::VertexAttribute, vertexBinding.updateFrequency, vertexBinding.clientAccess);
 		auto& buffer = buffers_.back();
 		buffer.allocateFromVertexBuffer(*vertexBinding.vertexBuffer);
 
@@ -169,7 +169,7 @@ void Mesh::initWithDescriptor(const MeshDescriptor& desc) {
 	
 	if (desc.indexBinding.indexBuffer) {
 		// -- allocate sized index buffer
-		buffers_.emplace_back(BufferRole::VertexIndex, desc.indexBinding.updateFrequency, desc.indexBinding.clientAccess);
+		buffers_.emplaceBack(BufferRole::VertexIndex, desc.indexBinding.updateFrequency, desc.indexBinding.clientAccess);
 		auto& indexBuffer = buffers_.back();
 		indexBuffer.allocateFromIndexBuffer(*desc.indexBinding.indexBuffer);
 		
@@ -181,13 +181,16 @@ void Mesh::initWithDescriptor(const MeshDescriptor& desc) {
 		// -- bind index buffer to VAO
 		indexBuffer.bind();
 	}
+
+	// copy the facegroups
+	faceGroups_ = desc.faceGroups;
 	
 	glBindVertexArray(0);
 }
 
 
 Buffer* Mesh::vertexBufferAtIndex(uint32 vertexBufferIndex) {
-	size32 vertexBufferCount = size32_cast(buffers_.size());
+	size32 vertexBufferCount = buffers_.count();
 	if (hasIndexBuffer())
 		--vertexBufferCount;
 	
@@ -200,7 +203,7 @@ Buffer* Mesh::vertexBufferAtIndex(uint32 vertexBufferIndex) {
 Buffer* Mesh::indexBuffer() {
 	// the index buffer, when present, is always the last one
 	if (hasIndexBuffer())
-		return &buffers_[buffers_.size() - 1];
+		return &buffers_[buffers_.count() - 1];
 	return nullptr;
 }
 

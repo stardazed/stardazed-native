@@ -14,12 +14,12 @@ namespace render {
 
 
 MeshData::MeshData(const VertexAttributeList& attrs) {
-	vertexBuffers.emplace_back(attrs);
+	vertexBuffers.emplaceBack(attrs);
 }
 
 
 VertexBuffer& MeshData::primaryVertexBuffer() {
-	assert(vertexBuffers.size() > 0);
+	assert(vertexBuffers.count() > 0);
 	return vertexBuffers.front();
 }
 
@@ -35,7 +35,7 @@ MeshDescriptor MeshData::defaultDescriptor() const {
 		vbb.baseAttributeIndex = curAttrIndex;
 		curAttrIndex += vertexBuffer.attributeCount();
 		
-		md.vertexBindings.push_back(vbb);
+		md.vertexBindings.append(vbb);
 	}
 	
 	md.indexBinding.indexBuffer = &indexBuffer;

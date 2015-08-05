@@ -7,6 +7,7 @@
 #define SD_RENDER_OPENGL_MESH_H
 
 #include "system/Config.hpp"
+#include "container/Array.hpp"
 #include "util/ConceptTraits.hpp"
 #include "render/common/Mesh.hpp"
 #include "render/opengl/Buffer.hpp"
@@ -18,9 +19,9 @@ namespace render {
 class Mesh {
 	GLResource resource_ {};
 
-	std::vector<Buffer> buffers_;
+	Array<Buffer> buffers_;
+	Array<FaceGroup> faceGroups_;
 
-	// FIXME: should we just store the MeshDescriptor?
 	GLenum glPrimitiveType_ = GL_NONE;
 	GLenum glIndexElementType_ = GL_NONE;
 	size32 indexElementSizeBytes_ = 0;
