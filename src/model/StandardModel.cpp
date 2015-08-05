@@ -33,7 +33,7 @@ struct ConstStandardMaterial {
 };
 
 
-StandardMaterialComponent::StandardMaterialComponent()
+StandardMaterialBuffer::StandardMaterialBuffer()
 : materialsConstBuffer_{ BufferRole::ConstantBuffer, BufferUpdateFrequency::Never, BufferClientAccess::WriteOnly }
 {
 	materialsPerBlock_ = ConstantBufferLimits::maximumAccessibleArrayElementsPerBlock<ConstStandardMaterial>();
@@ -50,7 +50,7 @@ StandardMaterialComponent::StandardMaterialComponent()
 }
 
 
-auto StandardMaterialComponent::append(const StandardMaterialDescriptor& matDesc) -> Index {
+auto StandardMaterialBuffer::append(const StandardMaterialDescriptor& matDesc) -> Index {
 	assert(nextIndex_ <= maxIndex_);
 
 	size32 sizeBytes = sizeof32<ConstStandardMaterial>();
@@ -61,7 +61,7 @@ auto StandardMaterialComponent::append(const StandardMaterialDescriptor& matDesc
 }
 
 
-void StandardMaterialComponent::appendMultiple(const StandardMaterialDescriptor* base, uint32 count, Index* outIndexesBase) {
+void StandardMaterialBuffer::appendMultiple(const StandardMaterialDescriptor* base, uint32 count, Index* outIndexesBase) {
 	assert(nextIndex_ + count <= maxIndex_);
 
 	size32 structSizeBytes = sizeof32<ConstStandardMaterial>();
@@ -91,7 +91,7 @@ void StandardMaterialComponent::appendMultiple(const StandardMaterialDescriptor*
 }
 
 
-void StandardMaterialComponent::mapMaterialAtBindPoint(Index material, uint32 bindPoint) {
+void StandardMaterialBuffer::mapMaterialAtBindPoint(Index material, uint32 bindPoint) {
 	auto blockIndex = material.index / materialsPerBlock_;
 	auto offset = blockIndex * rangeBlockSizeBytesAligned_;
 	firstBoundMaterialIndex_ = blockIndex * materialsPerBlock_;
@@ -100,68 +100,6 @@ void StandardMaterialComponent::mapMaterialAtBindPoint(Index material, uint32 bi
 	offset = math::alignDown(offset, uniformOffsetAlignment_);
 	IndexedUniformBlocks::bindBufferRangeToBindPoint(materialsConstBuffer_, offset, rangeBlockSizeBytes_, bindPoint);
 }
-
-
-//  ___ _                _             _ __  __         _     _
-// / __| |_ __ _ _ _  __| |__ _ _ _ __| |  \/  |___  __| |___| |
-// \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _ \/ _` / -_) |
-// |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|
-//
-
-StandardModelComponent::StandardModelComponent(StandardShader& shader, StandardMaterialComponent& stdMaterial, scene::TransformComponent& transform)
-: stdShader_(shader)
-, stdMaterialComponent_(stdMaterial)
-, transformComponent_(transform)
-, materialIndexes_{ memory::SystemAllocator::sharedInstance(), 4096 }
-, faceGroups_{ memory::SystemAllocator::sharedInstance(), 4096 }
-, instanceData_{ memory::SystemAllocator::sharedInstance(), 2048 }
-{}
-
-
-scene::Handle StandardModelComponent::append(const StandardModelDescriptor& desc) {
-	auto materialCount = size32_cast(desc.materials.size());
-	uint matIndexIndex = materialIndexes_.count();
-	auto matIndexPtr = materialIndexes_.prepareForBlockCopy(materialCount);
-	stdMaterialComponent_.appendMultiple(desc.materials.data(), materialCount, matIndexPtr);
-	
-	auto faceGroupCount = size32_cast(desc.faceGroups.size());
-	uint faceGroupIndex = faceGroups_.count();
-	faceGroups_.appendBlock(desc.faceGroups.data(), faceGroupCount);
-	
-	instanceData_.extend();
-	uint instanceIndex = instanceData_.count();
-	*(instanceData_.elementsBasePtr<0>() + instanceIndex) = desc.mesh;
-	*(instanceData_.elementsBasePtr<1>() + instanceIndex) = matIndexIndex;
-	*(instanceData_.elementsBasePtr<2>() + instanceIndex) = faceGroupIndex;
-	
-	return { instanceIndex };
-}
-
-
-
-void StandardModelComponent::render(RenderPass& renderPass, const scene::ProjectionSetup& proj, scene::Handle instance) const {
-	renderPass.setPipeline(stdShader_.pipeline());
-	renderPass.setMesh(**(instanceData_.elementsBasePtr<0>() + instance.ref));
-	
-	// TODO: add some material-range thing here
-	stdMaterialComponent_.mapMaterialAtBindPoint(materialIndexes_[0], 0);
-	auto firstBoundMatIndex = stdMaterialComponent_.firstBoundMaterialIndex();
-
-	stdShader_.setMatrices(proj.projMat, proj.viewMat, entity.transform.toMatrix4());
-	stdShader_.setLights(math::Vec3{ -0.4, 1, 0.4 });
-
-	for (const FaceGroup& fg : descriptor_.faceGroups) {
-		auto& material = descriptor_.materials[fg.materialIx];
-		auto matIndex = materialIndexes_[fg.materialIx];
-		matIndex.index -= firstBoundMatIndex;
-		stdShader_.setMaterial(matIndex, material);
-
-		uint32 startIndex = fg.fromFaceIx * 3;
-		uint32 indexCount = (fg.toFaceIx - fg.fromFaceIx) * 3;
-		renderPass.drawIndexedPrimitives(startIndex, indexCount);
-	}
-}
-
 
 
 //  ___ _                _             _ ___ _            _
@@ -221,12 +159,73 @@ void StandardShader::setLights(const math::Vec3 dirLight) {
 }
 
 
-void StandardShader::setMaterial(StandardMaterialComponent::Index matIndex, const StandardMaterialDescriptor& material) {
+void StandardShader::setMaterial(StandardMaterialBuffer::Index matIndex, const StandardMaterialDescriptor& material) {
 	auto frag = pipeline_->fragmentShader();
 
 	frag->setUniform(fsMatIndex, matIndex.index);
 //	frag->setTexture(material.albedoMap, 0, fsAlbedoMap);
 //	frag->setTexture(material.normalMap, 1, fsNormalMap);
+}
+
+
+//  ___ _                _             _ __  __         _     _ __  __
+// / __| |_ __ _ _ _  __| |__ _ _ _ __| |  \/  |___  __| |___| |  \/  |__ _ _ _
+// \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _ \/ _` / -_) | |\/| / _` | '_|
+// |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|_|  |_\__, |_|
+//                                                                    |___/
+
+StandardModelManager::StandardModelManager(RenderContext& renderCtx, scene::TransformComponent& transform)
+: stdShader_{renderCtx}
+, stdMaterialBuffer_{}
+, transformComponent_{transform}
+, materialIndexes_{ memory::SystemAllocator::sharedInstance(), 4096 }
+, faceGroups_{ memory::SystemAllocator::sharedInstance(), 4096 }
+, instanceData_{ memory::SystemAllocator::sharedInstance(), 2048 }
+{}
+
+
+auto StandardModelManager::create(const StandardModelDescriptor& desc) -> Instance {
+	auto materialCount = desc.materials.count();
+	uint matIndexIndex = materialIndexes_.count();
+	auto matIndexPtr = materialIndexes_.prepareForBlockCopy(materialCount);
+	stdMaterialBuffer_.appendMultiple(desc.materials.elementsBasePtr(), materialCount, matIndexPtr);
+	
+	auto faceGroupCount = desc.faceGroups.count();
+	uint faceGroupIndex = faceGroups_.count();
+	faceGroups_.appendBlock(desc.faceGroups.elementsBasePtr(), faceGroupCount);
+	
+	instanceData_.extend();
+	uint instanceIndex = instanceData_.count();
+	*(instanceData_.elementsBasePtr<0>() + instanceIndex) = desc.mesh;
+	*(instanceData_.elementsBasePtr<1>() + instanceIndex) = matIndexIndex;
+	*(instanceData_.elementsBasePtr<2>() + instanceIndex) = faceGroupIndex;
+	
+	return { instanceIndex };
+}
+
+
+void StandardModelManager::render(RenderPass& renderPass, const scene::ProjectionSetup& proj, Instance instance) {
+	renderPass.setPipeline(stdShader_.pipeline());
+	renderPass.setMesh(**(instanceData_.elementsBasePtr<0>() + instance.ref));
+	
+	// TODO: add some material-range thing here
+	stdMaterialBuffer_.mapMaterialAtBindPoint(materialIndexes_[0], 0);
+	auto firstBoundMatIndex = stdMaterialBuffer_.firstBoundMaterialIndex();
+
+	auto transH = transformComponent_.forEntity(XXXXXXXXX);
+	stdShader_.setMatrices(proj.projMat, proj.viewMat, transformComponent_.modelMatrix(transH));
+	stdShader_.setLights(math::Vec3{ -0.4, 1, 0.4 });
+
+	for (const FaceGroup& fg : descriptor_.faceGroups) {
+		auto& material = descriptor_.materials[fg.materialIx];
+		auto matIndex = materialIndexes_[fg.materialIx];
+		matIndex.index -= firstBoundMatIndex;
+		stdShader_.setMaterial(matIndex, material);
+
+		uint32 startIndex = fg.fromFaceIx * 3;
+		uint32 indexCount = fg.faceCount * 3;
+		renderPass.drawIndexedPrimitives(startIndex, indexCount);
+	}
 }
 
 

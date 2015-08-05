@@ -8,17 +8,18 @@
 
 #include "system/Config.hpp"
 #include "math/Vector.hpp"
+
 #include "container/Array.hpp"
 #include "container/MultiArrayBuffer.hpp"
+#include "container/HashMap.hpp"
+
 #include "render/common/Mesh.hpp"
 #include "render/common/Texture.hpp"
 #include "render/common/Pipeline.hpp"
 #include "render/common/RenderPass.hpp"
+#include "render/RenderContext.hpp"
 
 #include "render/opengl/Buffer.hpp"
-
-#include "render/RenderContext.hpp"
-#include "scene/MeshRenderer.hpp"
 
 #include "scene/Entity.hpp"
 #include "scene/Transform.hpp"
@@ -49,7 +50,7 @@ struct StandardMaterialDescriptor {
 };
 
 
-class StandardMaterialComponent {
+class StandardMaterialBuffer {
 	render::Buffer materialsConstBuffer_;
 	uint32 materialsPerBlock_;
 	uint32 rangeBlockSizeBytes_, rangeBlockSizeBytesAligned_;
@@ -58,8 +59,8 @@ class StandardMaterialComponent {
 	uint32 firstBoundMaterialIndex_ = 0;
 	
 public:
-	StandardMaterialComponent();
-	SD_NOCOPYORMOVE_CLASS(StandardMaterialComponent)
+	StandardMaterialBuffer();
+	SD_NOCOPYORMOVE_CLASS(StandardMaterialBuffer)
 
 	struct Index { uint32 index; };
 	
@@ -69,48 +70,7 @@ public:
 	void mapMaterialAtBindPoint(Index material, uint32 bindPoint);
 	uint32 firstBoundMaterialIndex() const { return firstBoundMaterialIndex_; };
 };
-
-
-//  ___ _                _             _ __  __         _     _
-// / __| |_ __ _ _ _  __| |__ _ _ _ __| |  \/  |___  __| |___| |
-// \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _ \/ _` / -_) |
-// |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|
-//
-struct FaceGroup {
-	uint32 materialIx, fromFaceIx, toFaceIx;  // materialIx is a model-local index (not a StandardMaterial::Index val)
-};
-
-
-struct StandardModelDescriptor {
-	render::Mesh* mesh;
-	std::vector<StandardMaterialDescriptor> materials;
-	std::vector<FaceGroup> faceGroups;
-};
-
-
-class StandardShader;
-
-
-class StandardModelComponent {
-	StandardShader& stdShader_;
-	StandardMaterialComponent& stdMaterialComponent_;
-	scene::TransformComponent& transformComponent_;
 	
-	Array<StandardMaterialComponent::Index> materialIndexes_;
-	Array<FaceGroup> faceGroups_;
-	container::MultiArrayBuffer<
-		render::Mesh*,
-		uint,  // index within materialIndexes_
-		uint   // index within faceGroups_
-	> instanceData_;
-
-public:
-	StandardModelComponent(StandardShader&, StandardMaterialComponent&, scene::TransformComponent&);
-	
-	scene::Handle append(const StandardModelDescriptor&);
-	void render(render::RenderPass&, const scene::ProjectionSetup&, const scene::Entity&) const;
-};
-
 
 //  ___ _                _             _ ___ _            _
 // / __| |_ __ _ _ _  __| |__ _ _ _ __| / __| |_  __ _ __| |___ _ _
@@ -121,15 +81,53 @@ class StandardShader {
 	render::Pipeline* pipeline_;
 	GLint vsMV, vsMVP, vsNM, fsNM;
 	GLint fsLightDir, fsMatIndex;
-//	GLint fsAlbedoMap, fsNormalMap;
-
+	//	GLint fsAlbedoMap, fsNormalMap;
+	
 public:
 	StandardShader(render::RenderContext&);
-	const render::Pipeline& pipeline() { return *pipeline_; }
+	const render::Pipeline& pipeline() const { return *pipeline_; }
 	
 	void setMatrices(const math::Mat4& projection, const math::Mat4& view, const math::Mat4& model);
 	void setLights(const math::Vec3 dirLight); // FIXME
-	void setMaterial(StandardMaterialComponent::Index, const StandardMaterialDescriptor&);
+	void setMaterial(StandardMaterialBuffer::Index, const StandardMaterialDescriptor&);
+};
+
+
+//  ___ _                _             _ __  __         _     _ __  __
+// / __| |_ __ _ _ _  __| |__ _ _ _ __| |  \/  |___  __| |___| |  \/  |__ _ _ _
+// \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _ \/ _` / -_) | |\/| / _` | '_|
+// |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|_|  |_\__, |_|
+//                                                                    |___/
+struct StandardModelDescriptor {
+	render::Mesh* mesh;
+	Array<StandardMaterialDescriptor> materials;
+	Array<render::FaceGroup> faceGroups;
+};
+
+
+class StandardModelManager {
+public:
+	using Instance = scene::Instance<StandardModelManager>;
+
+private:
+	StandardShader stdShader_;
+	StandardMaterialBuffer stdMaterialBuffer_;
+	scene::TransformComponent& transformComponent_;
+	
+	Array<StandardMaterialBuffer::Index> materialIndexes_;
+	Array<render::FaceGroup> faceGroups_;
+	HashMap<scene::Entity, Instance> kaas_;
+	container::MultiArrayBuffer<
+		render::Mesh*,
+		uint,  // index within materialIndexes_
+		uint   // index within faceGroups_
+	> instanceData_;
+
+public:
+	StandardModelManager(render::RenderContext&, scene::TransformComponent&);
+
+	Instance create(const StandardModelDescriptor&);
+	void render(render::RenderPass& renderPass, const scene::ProjectionSetup& proj, Instance instance);
 };
 
 
