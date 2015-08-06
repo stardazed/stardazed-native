@@ -17,7 +17,7 @@ namespace container {
 
 
 template <typename T>
-// requires DefaultConstructible<T> for resize() where newCount > count() and emplaceBack()
+// requires DefaultConstructible<T> for resize(newCount) where newCount > count() and emplaceBack()
 // prefers TriviallyDefaultConstructible<T> && TriviallyDestructible<T>
 class Array {
 	static constexpr bool canSkipElementConstructor = std::is_trivially_default_constructible<T>::value;
@@ -35,6 +35,18 @@ class Array {
 			++first;
 		}
 	}
+	
+
+	template <typename It>
+	void importRange(T* dst, It src, uint elementsToImport) {
+		while (elementsToImport--) {
+			new (dst) T{ std::move(*src) }; // move-construct element in new array
+			++src;
+			++dst;
+		}
+		
+		count_ = capacity_;
+	}
 
 
 public:
@@ -46,6 +58,22 @@ public:
 	
 	Array() : Array{memory::SystemAllocator::sharedInstance(), 2} {}
 	explicit Array(uint initialCapacity) : Array{memory::SystemAllocator::sharedInstance(), initialCapacity} {}
+	
+	
+	Array(std::initializer_list<T> vals)
+	: Array(static_cast<uint32>(vals.size()))
+	{
+		importRange(data_, vals.begin(), capacity());
+		count_ = capacity_;
+	}
+	
+	
+	Array(memory::Allocator& allocator, std::initializer_list<T> vals)
+	: Array(allocator, static_cast<uint32>(vals.size()))
+	{
+		importRange(data_, vals.begin(), capacity());
+		count_ = capacity_;
+	}
 
 
 	Array(const Array& rhs)
