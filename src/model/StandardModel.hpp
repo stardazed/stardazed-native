@@ -98,6 +98,24 @@ public:
 // \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _ \/ _` / -_) | |\/| / _` | '_|
 // |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|_|  |_\__, |_|
 //                                                                    |___/
+enum class ShadowFlags : uint8 {
+	CastShadows,
+	ReceiveShadows
+};
+
+
+enum class ShadowType : uint8 {
+	Soft,
+	Hard
+};
+
+
+struct ShadowingDescriptor {
+	ShadowFlags flags;
+	ShadowType type;
+};
+
+
 struct StandardModelDescriptor {
 	render::Mesh* mesh;
 	Array<StandardMaterialDescriptor> materials;
@@ -116,11 +134,16 @@ private:
 	
 	Array<StandardMaterialBuffer::Index> materialIndexes_;
 	Array<render::FaceGroup> faceGroups_;
-	HashMap<scene::Entity, Instance> kaas_;
+
+	struct IndexRange {
+		uint first, count;
+	};
+
 	container::MultiArrayBuffer<
 		render::Mesh*,
-		uint,  // index within materialIndexes_
-		uint   // index within faceGroups_
+		IndexRange,  // range within materialIndexes_
+		IndexRange   // range within faceGroups_
+	
 	> instanceData_;
 
 public:

@@ -16,12 +16,12 @@ MeshRendererC::MeshRendererC(memory::Allocator& allocator)
 }
 
 
-MeshRendererC::Handle MeshRendererC::append(const MeshRendererDescriptor& desc) {
+auto MeshRendererC::create(const MeshRendererDescriptor& desc) -> Instance {
 	if (__builtin_expect(instanceData_.extend() == container::InvalidatePointers::Yes, 0)) {
 		rebase();
 	}
 	
-	Handle h { instanceData_.backIndex() };
+	Instance h { instanceData_.backIndex() };
 
 	castShadowsBase_[h.ref] = desc.castShadows;
 	receiveShadowsBase_[h.ref] = desc.receiveShadows;

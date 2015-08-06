@@ -10,6 +10,7 @@
 #include "container/MultiArrayBuffer.hpp"
 #include "math/Matrix.hpp"
 #include "render/common/RenderPass.hpp"
+#include "scene/Entity.hpp"
 
 namespace stardazed {
 namespace scene {
@@ -43,6 +44,9 @@ struct MeshRendererDescriptor {
 
 
 class MeshRendererC {
+	using Instance = scene::Instance<MeshRendererC>;
+	
+public:
 	container::MultiArrayBuffer<
 		bool, // castShadows
 		bool, // receiveShadows
@@ -65,22 +69,20 @@ class MeshRendererC {
 public:
 	MeshRendererC(memory::Allocator& allocator);
 
-	struct Handle { uint32 ref; };
-
 	// -- shared Component `interface`
 	uint32 count() const { return instanceData_.count(); }
-	Handle append(const MeshRendererDescriptor& desc);
+	Instance create(const MeshRendererDescriptor& desc);
 
 	// -- single instance data access
-	bool castsShadows(Handle h) const { return castShadowsBase_[h.ref]; }
-	bool receivesShadows(Handle h) const { return receiveShadowsBase_[h.ref]; }
-	uint32 materialIndex(Handle h) const { return materialIndexBase_[h.ref]; }
-	Renderable* renderable(Handle h) const { return renderableBase_[h.ref]; }
+	bool castsShadows(Instance h) const { return castShadowsBase_[h.ref]; }
+	bool receivesShadows(Instance h) const { return receiveShadowsBase_[h.ref]; }
+	uint32 materialIndex(Instance h) const { return materialIndexBase_[h.ref]; }
+	Renderable* renderable(Instance h) const { return renderableBase_[h.ref]; }
 	
-	void setCastsShadows(Handle h, bool newCastShadows);
-	void setReceivesShadows(Handle h, bool newReceivesShadows);
-	void setMaterialIndex(Handle h, uint32 newMaterialIndex);
-	void setRenderer(Handle h, Renderable& newRenderer);
+	void setCastsShadows(Instance, bool newCastShadows);
+	void setReceivesShadows(Instance, bool newReceivesShadows);
+	void setMaterialIndex(Instance, uint32 newMaterialIndex);
+	void setRenderer(Instance, Renderable& newRenderer);
 };
 
 
