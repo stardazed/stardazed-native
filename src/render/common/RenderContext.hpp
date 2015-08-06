@@ -23,7 +23,7 @@ struct RenderContextDescriptor {
 	bool fullscreen = false;
 	bool verticalSync = false;
 	BufferingMethod bufferMethod = BufferingMethod::DoubleBuffer;
-	// colour buffers have a fixed 24-8 pixel format
+	// default colour buffers have a fixed 24-8 pixel format
 };
 
 

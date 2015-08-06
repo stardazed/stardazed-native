@@ -39,6 +39,8 @@ MeshDescriptor MeshData::defaultDescriptor() const {
 	}
 	
 	md.indexBinding.indexBuffer = &indexBuffer;
+	
+	md.faceGroups = faceGroups;
 
 	return md;
 }

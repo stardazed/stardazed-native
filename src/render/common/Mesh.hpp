@@ -50,7 +50,7 @@ struct IndexBufferBinding {
 
 struct FaceGroup {
 	uint32 fromFaceIx, faceCount;
-	uint32 materialIx; // model-local index (starting at 0); representation of Materials is external to MeshData
+	uint32 materialIx; // mesh-local index (starting at 0); representation of Materials is external to MeshData
 };
 
 
