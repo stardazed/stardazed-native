@@ -11,6 +11,7 @@
 #include "container/Algorithm.hpp"
 
 #include <type_traits>
+#include <initializer_list>
 
 namespace stardazed {
 namespace container {
@@ -57,11 +58,14 @@ public:
 	}
 	
 	Array() : Array{memory::SystemAllocator::sharedInstance(), 2} {}
-	explicit Array(uint initialCapacity) : Array{memory::SystemAllocator::sharedInstance(), initialCapacity} {}
+	
+	static Array withCapacity(uint initialCapacity) {
+		return { memory::SystemAllocator::sharedInstance(), initialCapacity };
+	}
 	
 	
 	Array(std::initializer_list<T> vals)
-	: Array(static_cast<uint32>(vals.size()))
+	: Array(memory::SystemAllocator::sharedInstance(), static_cast<uint32>(vals.size()))
 	{
 		importRange(data_, vals.begin(), capacity());
 		count_ = capacity_;
