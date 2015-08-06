@@ -7,9 +7,9 @@
 #define SD_RENDER_VERTEXLAYOUT_H
 
 #include "system/Config.hpp"
+#include "container/Array.hpp"
 
 #include <array>
-#include <vector>
 #include <functional>
 
 namespace stardazed {
@@ -246,7 +246,7 @@ constexpr VertexAttribute attrTangent4()  { return { VertexField::Floatx4, Verte
 
 // -- A VertexAttributeList defines the structure of a VertexBuffer
 
-using VertexAttributeList = std::vector<VertexAttribute>;
+using VertexAttributeList = Array<VertexAttribute>;
 
 
 // -- Common AttributeList shortcuts

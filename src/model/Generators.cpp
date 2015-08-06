@@ -9,6 +9,7 @@
 #include "math/Algorithm.hpp"
 
 #include <cmath>
+#include <vector>
 
 namespace stardazed {
 namespace model {

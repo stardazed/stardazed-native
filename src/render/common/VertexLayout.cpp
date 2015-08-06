@@ -26,7 +26,7 @@ constexpr size32 alignVertexField(VertexField field, size32 offset) {
 
 
 VertexLayout::VertexLayout(const VertexAttributeList& attrList)
-: attributeCount_(size32_cast(attrList.size()))
+: attributeCount_(attrList.count())
 {
 	assert(attributeCount() <= maxVertexAttributes());
 
