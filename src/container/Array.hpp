@@ -118,7 +118,8 @@ public:
 	
 	
 	Array& operator =(Array&& rhs) {
-		// FIXME
+		// FIXME: stl does optional alloc propagation, for now I just require them
+		// to be the same
 		assert(&allocator_ == &rhs.allocator_);
 		
 		std::swap(capacity_, rhs.capacity_);
@@ -176,8 +177,22 @@ public:
 
 		if (data_ && (count() > 0)) {
 			// Copy over the data to the new buffer and free the old one
-			// FIXME: must take non-triv copy-ctor into account
-			memcpy(newData, data_, count() * elementSizeBytes());
+			if (std::is_trivially_move_constructible<T>::value) {
+				memcpy(newData, data_, count() * elementSizeBytes());
+			}
+			else {
+				auto elementsToCopy = count();
+				T* src = data_;
+				T* dst = newData;
+
+				while (elementsToCopy--) {
+					new (dst) T{ std::move(*src) }; // move-construct element in new array
+					src->~T();                      // still need to destroy element after move
+					++src;
+					++dst;
+				}
+			}
+
 			allocator_.free(data_);
 		}
 		
@@ -411,7 +426,7 @@ public:
 	}
 
 
-	// -- ranges
+	// -- ranges (experimental)
 private:
 	class Range {
 		T *cur_, *end_;
