@@ -119,9 +119,9 @@ public:
 	
 	Array& operator =(Array&& rhs) {
 		// FIXME
-		assert(allocator_ == rhs.allocator_);
+		assert(&allocator_ == &rhs.allocator_);
 		
-		std::swap(capacity_, rhs.capacity);
+		std::swap(capacity_, rhs.capacity_);
 		std::swap(count_, rhs.count_);
 		std::swap(data_, rhs.data_);
 
@@ -150,6 +150,8 @@ public:
 	
 	const T* elementsBasePtr() const { return const_cast<const T*>(data_); }
 	T* elementsBasePtr() { return data_; }
+	
+	memory::Allocator& allocator() const { return allocator_; }
 	
 
 	// -- storage sizing and object lifetime
@@ -435,7 +437,7 @@ public:
 };
 
 
-// for compat with stl algorithms and for-in
+// for compat with stl algorithms and range-for
 template <typename T> T* begin(Array<T>& arr) { return arr.elementsBasePtr(); }
 template <typename T> const T* begin(const Array<T>& arr) { return arr.elementsBasePtr(); }
 template <typename T> T* end(Array<T>& arr) { return arr.elementsBasePtr() + arr.count(); }

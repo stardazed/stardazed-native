@@ -116,8 +116,8 @@ public:
 	constexpr const MatrixIterator<UseRow, M, N, T>& operator ++() { offset += stride; return *this; }
 	constexpr MatrixIterator<UseRow, M, N, T> operator ++(int) { auto ret = *this; offset += stride; return ret; }
 	
-	constexpr bool operator ==(const MatrixIterator<UseRow, M, N, T>& other) { return offset == other.offset; }
-	constexpr bool operator !=(const MatrixIterator<UseRow, M, N, T>& other) { return ! this->operator==(other); }
+	constexpr bool operator ==(const MatrixIterator<UseRow, M, N, T>& other) const { return offset == other.offset; }
+	constexpr bool operator !=(const MatrixIterator<UseRow, M, N, T>& other) const { return ! this->operator==(other); }
 };
 
 
