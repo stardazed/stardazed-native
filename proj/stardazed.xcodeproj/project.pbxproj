@@ -110,8 +110,7 @@
 		8E90F1251A6D51B700AD015B /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E90F1241A6D51B700AD015B /* Texture.cpp */; };
 		8E90F1271A6D636500AD015B /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E90F1261A6D636500AD015B /* Texture.hpp */; };
 		8E9214491B15FBE7006CBE05 /* RenderPass.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E9214481B15FBE7006CBE05 /* RenderPass.hpp */; };
-		8EA1AB5B1B6F7BB2002F3126 /* MeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EA1AB591B6F7BB2002F3126 /* MeshRenderer.cpp */; };
-		8EA1AB5C1B6F7BB2002F3126 /* MeshRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA1AB5A1B6F7BB2002F3126 /* MeshRenderer.hpp */; };
+		8EA1AB5C1B6F7BB2002F3126 /* RendererShared.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA1AB5A1B6F7BB2002F3126 /* RendererShared.hpp */; };
 		8EA7092C19D75FC000129E2D /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EA7092319D75FC000129E2D /* Mesh.cpp */; };
 		8EA7092D19D75FC000129E2D /* Mesh.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA7092419D75FC000129E2D /* Mesh.hpp */; };
 		8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EA7092519D75FC000129E2D /* Pipeline.hpp */; };
@@ -269,8 +268,7 @@
 		8E90F1241A6D51B700AD015B /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Texture.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E90F1261A6D636500AD015B /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Texture.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E9214481B15FBE7006CBE05 /* RenderPass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderPass.hpp; sourceTree = "<group>"; };
-		8EA1AB591B6F7BB2002F3126 /* MeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshRenderer.cpp; sourceTree = "<group>"; };
-		8EA1AB5A1B6F7BB2002F3126 /* MeshRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MeshRenderer.hpp; sourceTree = "<group>"; };
+		8EA1AB5A1B6F7BB2002F3126 /* RendererShared.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RendererShared.hpp; sourceTree = "<group>"; };
 		8EA7092319D75FC000129E2D /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Mesh.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8EA7092419D75FC000129E2D /* Mesh.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Mesh.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8EA7092519D75FC000129E2D /* Pipeline.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Pipeline.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -514,10 +512,9 @@
 				8E221FB41B56FEAE006E5CFD /* Transform.cpp */,
 				8E112DD2199E60A50029CD38 /* Camera.hpp */,
 				8E112DD1199E60A50029CD38 /* Camera.cpp */,
+				8EA1AB5A1B6F7BB2002F3126 /* RendererShared.hpp */,
 				8E112DD7199E60A50029CD38 /* Scene.hpp */,
 				8E112DD6199E60A50029CD38 /* Scene.cpp */,
-				8EA1AB5A1B6F7BB2002F3126 /* MeshRenderer.hpp */,
-				8EA1AB591B6F7BB2002F3126 /* MeshRenderer.cpp */,
 				8E112DD4199E60A50029CD38 /* SceneController.hpp */,
 				8E112DD3199E60A50029CD38 /* SceneController.cpp */,
 			);
@@ -776,7 +773,7 @@
 				8EBB0AB619C1022700843A1F /* FrameContext.hpp in Headers */,
 				8EF702041A76F90B00454341 /* zconf.h in Headers */,
 				8EF702071A76F90B00454341 /* zutil.h in Headers */,
-				8EA1AB5C1B6F7BB2002F3126 /* MeshRenderer.hpp in Headers */,
+				8EA1AB5C1B6F7BB2002F3126 /* RendererShared.hpp in Headers */,
 				8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */,
 				8E43CDA01B4C7F89009D24B5 /* Light.hpp in Headers */,
 				8EDD58261B4FCD5900749BC0 /* MultiArrayBuffer.hpp in Headers */,
@@ -871,7 +868,6 @@
 				8EF7020B1A77036000454341 /* PNGFile.cpp in Sources */,
 				8E53725B1B3185F5002C1538 /* mac_Time.cpp in Sources */,
 				8EF701FA1A76F90B00454341 /* crc32.c in Sources */,
-				8EA1AB5B1B6F7BB2002F3126 /* MeshRenderer.cpp in Sources */,
 				8E112D48199E55100029CD38 /* Matrix.cpp in Sources */,
 				8E28645A1B469ECD00FD436D /* StandardModel.cpp in Sources */,
 				8E8D22B91B1B264F00A876E5 /* VertexLayout.cpp in Sources */,

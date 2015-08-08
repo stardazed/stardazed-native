@@ -23,6 +23,7 @@
 
 #include "scene/Entity.hpp"
 #include "scene/Transform.hpp"
+#include "scene/RendererShared.hpp"
 
 
 namespace stardazed {
@@ -89,7 +90,7 @@ public:
 	
 	void setMatrices(const math::Mat4& projection, const math::Mat4& view, const math::Mat4& model);
 	void setLights(const math::Vec3 dirLight); // FIXME
-	void setMaterial(StandardMaterialBuffer::Index, const StandardMaterialDescriptor&);
+	void setMaterial(StandardMaterialBuffer::Index/* , const StandardMaterialDescriptor&*/);
 };
 
 
@@ -98,24 +99,6 @@ public:
 // \__ \  _/ _` | ' \/ _` / _` | '_/ _` | |\/| / _ \/ _` / -_) | |\/| / _` | '_|
 // |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|_|  |_\__, |_|
 //                                                                    |___/
-enum class ShadowFlags : uint8 {
-	CastShadows,
-	ReceiveShadows
-};
-
-
-enum class ShadowType : uint8 {
-	Soft,
-	Hard
-};
-
-
-struct ShadowingDescriptor {
-	ShadowFlags flags;
-	ShadowType type;
-};
-
-
 struct StandardModelDescriptor {
 	render::Mesh* mesh;
 	Array<StandardMaterialDescriptor> materials;
@@ -130,7 +113,6 @@ public:
 private:
 	StandardShader stdShader_;
 	StandardMaterialBuffer stdMaterialBuffer_;
-	scene::TransformComponent& transformComponent_;
 	
 	Array<StandardMaterialBuffer::Index> materialIndexes_;
 	Array<render::FaceGroup> faceGroups_;
@@ -143,14 +125,17 @@ private:
 		render::Mesh*,
 		IndexRange,  // range within materialIndexes_
 		IndexRange   // range within faceGroups_
-	
 	> instanceData_;
 
+	HashMap<scene::Entity, Instance> entityMap_;
+
 public:
-	StandardModelManager(render::RenderContext&, scene::TransformComponent&);
+	StandardModelManager(render::RenderContext&);
 
 	Instance create(const StandardModelDescriptor&);
-	void render(render::RenderPass& renderPass, const scene::ProjectionSetup& proj, Instance instance);
+	void linkEntityToModel(scene::Entity, Instance);
+	Instance forEntity(scene::Entity) const;
+	void render(render::RenderPass& renderPass, const scene::ProjectionSetup& proj, const math::Mat4& modelMatrix, Instance instance);
 };
 
 

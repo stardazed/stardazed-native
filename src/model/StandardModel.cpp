@@ -159,7 +159,7 @@ void StandardShader::setLights(const math::Vec3 dirLight) {
 }
 
 
-void StandardShader::setMaterial(StandardMaterialBuffer::Index matIndex, const StandardMaterialDescriptor& material) {
+void StandardShader::setMaterial(StandardMaterialBuffer::Index matIndex /*, const StandardMaterialDescriptor& material */) {
 	auto frag = pipeline_->fragmentShader();
 
 	frag->setUniform(fsMatIndex, matIndex.index);
@@ -174,10 +174,9 @@ void StandardShader::setMaterial(StandardMaterialBuffer::Index matIndex, const S
 // |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|_|  |_\__, |_|
 //                                                                    |___/
 
-StandardModelManager::StandardModelManager(RenderContext& renderCtx, scene::TransformComponent& transform)
+StandardModelManager::StandardModelManager(RenderContext& renderCtx)
 : stdShader_{renderCtx}
 , stdMaterialBuffer_{}
-, transformComponent_{transform}
 , materialIndexes_{ memory::SystemAllocator::sharedInstance(), 4096 }
 , faceGroups_{ memory::SystemAllocator::sharedInstance(), 4096 }
 , instanceData_{ memory::SystemAllocator::sharedInstance(), 2048 }
@@ -195,32 +194,48 @@ auto StandardModelManager::create(const StandardModelDescriptor& desc) -> Instan
 	faceGroups_.appendBlock(desc.faceGroups.elementsBasePtr(), faceGroupCount);
 	
 	instanceData_.extend();
-	uint instanceIndex = instanceData_.count();
+	uint instanceIndex = instanceData_.count() - 1;
 	*(instanceData_.elementsBasePtr<0>() + instanceIndex) = desc.mesh;
-	*(instanceData_.elementsBasePtr<1>() + instanceIndex) = matIndexIndex;
-	*(instanceData_.elementsBasePtr<2>() + instanceIndex) = faceGroupIndex;
+	*(instanceData_.elementsBasePtr<1>() + instanceIndex) = { matIndexIndex, materialCount };
+	*(instanceData_.elementsBasePtr<2>() + instanceIndex) = { faceGroupIndex, faceGroupCount };
 	
 	return { instanceIndex };
 }
 
 
-void StandardModelManager::render(RenderPass& renderPass, const scene::ProjectionSetup& proj, Instance instance) {
+void StandardModelManager::linkEntityToModel(scene::Entity entity, Instance instance) {
+	entityMap_.insert(entity, instance);
+}
+
+
+auto StandardModelManager::forEntity(scene::Entity entity) const -> Instance {
+	auto result = entityMap_.find(entity);
+	assert(result);
+	return *result;
+}
+
+
+void StandardModelManager::render(RenderPass& renderPass, const scene::ProjectionSetup& proj, const math::Mat4& modelMatrix, Instance instance) {
+	// get instance data
+	auto mesh = *(instanceData_.elementsBasePtr<0>() + instance.ref);
+	auto matIndexRange = *(instanceData_.elementsBasePtr<1>() + instance.ref);
+	auto faceGroupIndexRange = *(instanceData_.elementsBasePtr<2>() + instance.ref);
+
 	renderPass.setPipeline(stdShader_.pipeline());
-	renderPass.setMesh(**(instanceData_.elementsBasePtr<0>() + instance.ref));
+	renderPass.setMesh(*mesh);
 	
 	// TODO: add some material-range thing here
-	stdMaterialBuffer_.mapMaterialAtBindPoint(materialIndexes_[0], 0);
+	stdMaterialBuffer_.mapMaterialAtBindPoint(materialIndexes_[matIndexRange.first], 0);
 	auto firstBoundMatIndex = stdMaterialBuffer_.firstBoundMaterialIndex();
 
-	auto transH = transformComponent_.forEntity(XXXXXXXXX);
-	stdShader_.setMatrices(proj.projMat, proj.viewMat, transformComponent_.modelMatrix(transH));
+	stdShader_.setMatrices(proj.projMat, proj.viewMat, modelMatrix);
 	stdShader_.setLights(math::Vec3{ -0.4, 1, 0.4 });
 
-	for (const FaceGroup& fg : descriptor_.faceGroups) {
-		auto& material = descriptor_.materials[fg.materialIx];
+	for (auto fgIx = faceGroupIndexRange.first, uptoIx = fgIx + faceGroupIndexRange.count; fgIx < uptoIx; ++fgIx) {
+		auto& fg = faceGroups_[fgIx];
 		auto matIndex = materialIndexes_[fg.materialIx];
 		matIndex.index -= firstBoundMatIndex;
-		stdShader_.setMaterial(matIndex, material);
+		stdShader_.setMaterial(matIndex);
 
 		uint32 startIndex = fg.fromFaceIx * 3;
 		uint32 indexCount = fg.faceCount * 3;
