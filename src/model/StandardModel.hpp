@@ -135,6 +135,7 @@ public:
 	Instance create(const StandardModelDescriptor&);
 	void linkEntityToModel(scene::Entity, Instance);
 	Instance forEntity(scene::Entity) const;
+
 	void render(render::RenderPass& renderPass, const scene::ProjectionSetup& proj, const math::Mat4& modelMatrix, Instance instance);
 };
 

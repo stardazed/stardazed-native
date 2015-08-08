@@ -27,8 +27,9 @@ namespace detail {
 }
 
 
-Camera::Camera(Entity linkedEntity, uint32 pixelWidth, uint32 pixelHeight)
-: entity_(linkedEntity)
+Camera::Camera(TransformComponent& tc, TransformComponent::Instance transform, uint32 pixelWidth, uint32 pixelHeight)
+: transformComp_(tc)
+, transform_(transform)
 , pixelWidth_(pixelWidth)
 , pixelHeight_(pixelHeight)
 {
@@ -56,22 +57,23 @@ void Camera::setFieldOfView(math::Angle fov) {
 
 math::Mat4 Camera::viewMatrix() const {
 	using namespace math;
-	
-//	auto& trans = transform();
-//	auto m = inverse(trans.rotation).toMatrix4();
+
+	auto rotation = transformComp_.rotation(transform_);
+	auto position = transformComp_.position(transform_);
+	auto m = inverse(rotation).toMatrix4();
 
 	// translation
-//    m[3].xyz = {
-//		-dot(Vec3{m[0][0], m[1][0], m[2][0]}, trans.position),
-//		-dot(Vec3{m[0][1], m[1][1], m[2][1]}, trans.position),
-//		-dot(Vec3{m[0][2], m[1][2], m[2][2]}, trans.position)
-//	};
+    m[3].xyz = {
+		-dot(Vec3{m[0][0], m[1][0], m[2][0]}, position),
+		-dot(Vec3{m[0][1], m[1][1], m[2][1]}, position),
+		-dot(Vec3{m[0][2], m[1][2], m[2][2]}, position)
+	};
 
 // TODO: the above does not take scale into account, use this instead
 // also see notes at Transform::toMatrix4()
 //	auto m = inverse(trans.toMatrix4());
 
-	return {1};
+	return m;
 }
 
 
