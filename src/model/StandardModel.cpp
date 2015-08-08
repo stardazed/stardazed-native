@@ -174,8 +174,9 @@ void StandardShader::setMaterial(StandardMaterialBuffer::Index matIndex /*, cons
 // |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|_|  |_\__, |_|
 //                                                                    |___/
 
-StandardModelManager::StandardModelManager(RenderContext& renderCtx)
-: stdShader_{renderCtx}
+StandardModelManager::StandardModelManager(RenderContext& renderCtx, scene::TransformComponent& transformComp)
+: transformComp_(transformComp)
+, stdShader_{renderCtx}
 , stdMaterialBuffer_{}
 , materialIndexes_{ memory::SystemAllocator::sharedInstance(), 4096 }
 , faceGroups_{ memory::SystemAllocator::sharedInstance(), 4096 }
@@ -204,19 +205,17 @@ auto StandardModelManager::create(const StandardModelDescriptor& desc) -> Instan
 
 
 void StandardModelManager::linkEntityToModel(scene::Entity entity, Instance instance) {
-	entityMap_.insert(entity, instance);
+	entityMap_.insert(entity, { instance, transformComp_.forEntity(entity) });
 }
 
 
-auto StandardModelManager::forEntity(scene::Entity entity) const -> Instance {
-	auto result = entityMap_.find(entity);
-	assert(result);
-	return *result;
-}
-
-
-void StandardModelManager::render(RenderPass& renderPass, const scene::ProjectionSetup& proj, const math::Mat4& modelMatrix, Instance instance) {
+void StandardModelManager::render(RenderPass& renderPass, const scene::ProjectionSetup& proj, scene::Entity entity) {
 	// get instance data
+	auto modelTrans = entityMap_.find(entity);
+	assert(modelTrans);
+	auto instance = modelTrans->instance;
+	auto modelMatrix = transformComp_.modelMatrix(modelTrans->transformInstance);
+	
 	auto mesh = *(instanceData_.elementsBasePtr<0>() + instance.ref);
 	auto matIndexRange = *(instanceData_.elementsBasePtr<1>() + instance.ref);
 	auto faceGroupIndexRange = *(instanceData_.elementsBasePtr<2>() + instance.ref);

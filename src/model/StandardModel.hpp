@@ -111,6 +111,7 @@ public:
 	using Instance = scene::Instance<StandardModelManager>;
 
 private:
+	scene::TransformComponent& transformComp_;
 	StandardShader stdShader_;
 	StandardMaterialBuffer stdMaterialBuffer_;
 	
@@ -126,17 +127,21 @@ private:
 		IndexRange,  // range within materialIndexes_
 		IndexRange   // range within faceGroups_
 	> instanceData_;
+	
+	struct ModelTrans {
+		Instance instance;
+		scene::TransformComponent::Instance transformInstance;
+	};
 
-	HashMap<scene::Entity, Instance> entityMap_;
+	HashMap<scene::Entity, ModelTrans> entityMap_;
 
 public:
-	StandardModelManager(render::RenderContext&);
+	StandardModelManager(render::RenderContext&, scene::TransformComponent&);
 
 	Instance create(const StandardModelDescriptor&);
 	void linkEntityToModel(scene::Entity, Instance);
-	Instance forEntity(scene::Entity) const;
 
-	void render(render::RenderPass& renderPass, const scene::ProjectionSetup& proj, const math::Mat4& modelMatrix, Instance instance);
+	void render(render::RenderPass& renderPass, const scene::ProjectionSetup& proj, scene::Entity);
 };
 
 
