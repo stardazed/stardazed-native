@@ -233,7 +233,7 @@ void StandardModelManager::render(RenderPass& renderPass, const scene::Projectio
 	for (auto fgIx = faceGroupIndexRange.first, uptoIx = fgIx + faceGroupIndexRange.count; fgIx < uptoIx; ++fgIx) {
 		auto& fg = faceGroups_[fgIx];
 		auto matIndex = materialIndexes_[fg.materialIx];
-		matIndex.index -= firstBoundMatIndex;
+		matIndex.index += matIndexRange.first - firstBoundMatIndex;
 		stdShader_.setMaterial(matIndex);
 
 		uint32 startIndex = fg.fromFaceIx * 3;
