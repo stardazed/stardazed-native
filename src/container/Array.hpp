@@ -7,6 +7,7 @@
 #define SD_CONTAINER_ARRAY_H
 
 #include "system/Config.hpp"
+#include "math/Algorithm.hpp"
 #include "memory/Allocator.hpp"
 #include "container/Algorithm.hpp"
 
@@ -84,7 +85,7 @@ public:
 	: allocator_(rhs.allocator_)
 	{
 		count_ = rhs.count();
-		reserve(count_);
+		reserve(math::max(count_, 2u));
 		
 		if (std::is_trivially_copy_constructible<T>::value) {
 			memcpy(data_, rhs.elementsBasePtr(), rhs.count() * elementSizeBytes());
@@ -124,7 +125,7 @@ public:
 
 			count_ = 0;
 			auto newCount = rhs.count_;
-			reserve(newCount);
+			reserve(math::max(newCount, 2u));
 			
 			if (newCount > 0) {
 				count_ = newCount;
