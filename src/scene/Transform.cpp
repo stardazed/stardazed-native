@@ -55,7 +55,7 @@ void TransformComponent::rebase() {
 }
 
 
-TransformComponent::Handle TransformComponent::assign(Entity linkedEntity, const Handle parent) {
+TransformComponent::Instance TransformComponent::assign(Entity linkedEntity, const Instance parent) {
 	auto entIndex = linkedEntity.index();
 
 	if (instanceData_.count() < entIndex) {
@@ -65,7 +65,7 @@ TransformComponent::Handle TransformComponent::assign(Entity linkedEntity, const
 		}
 	}
 	
-	Handle h { entIndex };
+	Instance h { entIndex };
 
 	parentBase_[h.ref] = parent;
 	rotationBase_[h.ref] = math::Quat::identity();
@@ -76,7 +76,7 @@ TransformComponent::Handle TransformComponent::assign(Entity linkedEntity, const
 }
 
 
-TransformComponent::Handle TransformComponent::assign(Entity linkedEntity, const TransformDescriptor& desc, const Handle parent) {
+TransformComponent::Instance TransformComponent::assign(Entity linkedEntity, const TransformDescriptor& desc, const Instance parent) {
 	auto entIndex = linkedEntity.index();
 	
 	if (instanceData_.count() < entIndex) {
@@ -86,7 +86,7 @@ TransformComponent::Handle TransformComponent::assign(Entity linkedEntity, const
 		}
 	}
 	
-	Handle h { entIndex };
+	Instance h { entIndex };
 	
 	parentBase_[h.ref] = parent;
 	positionBase_[h.ref] = desc.position;
@@ -98,18 +98,18 @@ TransformComponent::Handle TransformComponent::assign(Entity linkedEntity, const
 }
 
 
-TransformComponent::Handle TransformComponent::forEntity(Entity ent) const {
+TransformComponent::Instance TransformComponent::forEntity(Entity ent) const {
 	return { ent.index() };
 }
 
 
-void TransformComponent::setParent(const Handle h, const Handle newParent) {
+void TransformComponent::setParent(const Instance h, const Instance newParent) {
 	assert(h.ref != 0);
 	parentBase_[h.ref] = newParent;
 }
 
 
-void TransformComponent::setPosition(const Handle h, const math::Vec3& newPosition) {
+void TransformComponent::setPosition(const Instance h, const math::Vec3& newPosition) {
 	assert(h.ref != 0);
 
 	positionBase_[h.ref] = newPosition;
@@ -117,7 +117,7 @@ void TransformComponent::setPosition(const Handle h, const math::Vec3& newPositi
 }
 
 
-void TransformComponent::setRotation(const Handle h, const math::Quat& newRotation) {
+void TransformComponent::setRotation(const Instance h, const math::Quat& newRotation) {
 	assert(h.ref != 0);
 
 	rotationBase_[h.ref] = newRotation;
@@ -125,7 +125,7 @@ void TransformComponent::setRotation(const Handle h, const math::Quat& newRotati
 }
 
 
-void TransformComponent::setPositionAndRotation(const Handle h, const math::Vec3& newPosition, const math::Quat& newRotation) {
+void TransformComponent::setPositionAndRotation(const Instance h, const math::Vec3& newPosition, const math::Quat& newRotation) {
 	assert(h.ref != 0);
 
 	positionBase_[h.ref] = newPosition;
@@ -134,7 +134,7 @@ void TransformComponent::setPositionAndRotation(const Handle h, const math::Vec3
 }
 
 
-void TransformComponent::setScale(const Handle h, const math::Vec3& newScale) {
+void TransformComponent::setScale(const Instance h, const math::Vec3& newScale) {
 	assert(h.ref != 0);
 
 	scaleBase_[h.ref] = newScale;
@@ -142,7 +142,7 @@ void TransformComponent::setScale(const Handle h, const math::Vec3& newScale) {
 }
 
 
-void TransformComponent::lookAt(const Handle h, const math::Vec3& target, const math::Vec3& up) {
+void TransformComponent::lookAt(const Instance h, const math::Vec3& target, const math::Vec3& up) {
 	setRotation(h, lookAtImpl(target - position(h), up));
 }
 
