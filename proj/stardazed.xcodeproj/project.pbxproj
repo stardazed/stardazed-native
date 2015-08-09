@@ -68,12 +68,10 @@
 		8E44B4031A3EFD390059C57D /* mac_AudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E44B4021A3EFD390059C57D /* mac_AudioContext.mm */; };
 		8E44B4051A3F41380059C57D /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E44B4041A3F41380059C57D /* AudioUnit.framework */; };
 		8E4C74081A07D0CF006CF46D /* VertexDerivedData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */; };
-		8E5372501B299CEC002C1538 /* PhysicsContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E53724F1B299CEC002C1538 /* PhysicsContext.cpp */; };
 		8E5372551B304201002C1538 /* Collider.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5372541B304201002C1538 /* Collider.hpp */; };
 		8E53725B1B3185F5002C1538 /* mac_Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E53725A1B3185F5002C1538 /* mac_Time.cpp */; };
 		8E53725E1B31B0AC002C1538 /* Bounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E53725C1B31B0AC002C1538 /* Bounds.cpp */; };
 		8E53725F1B31B0AC002C1538 /* Bounds.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E53725D1B31B0AC002C1538 /* Bounds.hpp */; };
-		8E5372611B31B49E002C1538 /* Collider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E5372601B31B49E002C1538 /* Collider.cpp */; };
 		8E5372631B332C3A002C1538 /* PhysicMaterial.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E5372621B332C3A002C1538 /* PhysicMaterial.hpp */; };
 		8E54FE591A6F0AD3003D649A /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E54FE581A6F0AD3003D649A /* Texture.hpp */; };
 		8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E54FE5A1A6F0BC7003D649A /* Texture.cpp */; };
@@ -95,9 +93,7 @@
 		8E71E4551A40FB170060DC95 /* Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4541A40FB170060DC95 /* Controller.hpp */; };
 		8E7749CF1B25BFD2003843FA /* Units.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E7749CE1B25BFD2003843FA /* Units.hpp */; };
 		8E7749D11B25E7B5003843FA /* RigidBody.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E7749D01B25E7B5003843FA /* RigidBody.hpp */; };
-		8E842E581B2B79B900A8557D /* RigidBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E842E571B2B79B900A8557D /* RigidBody.cpp */; };
 		8E842E5A1B2DED6D00A8557D /* PhysicsState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E842E591B2DED6D00A8557D /* PhysicsState.hpp */; };
-		8E842E5C1B2DEDE700A8557D /* PhysicsState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E842E5B1B2DEDE700A8557D /* PhysicsState.cpp */; };
 		8E86FBDA1A923BE5001BCBCE /* FileSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */; };
 		8E86FBDC1A923DD5001BCBCE /* mac_FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E86FBDB1A923DD5001BCBCE /* mac_FileSystem.cpp */; };
 		8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBDE1A9650BD001BCBCE /* Plane.hpp */; };
@@ -160,8 +156,6 @@
 		8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */; };
 		8EF963051AEFE7C80012ED72 /* PixelBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */; };
 		8EFEA1AE1B26FB3900C6406C /* PhysicsContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1AD1B26FB3900C6406C /* PhysicsContext.hpp */; };
-		8EFEA1B11B27320200C6406C /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EFEA1AF1B27320200C6406C /* Transform.cpp */; };
-		8EFEA1B21B27320200C6406C /* Transform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1B01B27320200C6406C /* Transform.hpp */; };
 		8EFEA1B41B289EC700C6406C /* Integratable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1B31B289EC700C6406C /* Integratable.hpp */; };
 /* End PBXBuildFile section */
 
@@ -320,8 +314,6 @@
 		8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameBuffer.hpp; sourceTree = "<group>"; };
 		8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelBuffer.hpp; sourceTree = "<group>"; };
 		8EFEA1AD1B26FB3900C6406C /* PhysicsContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PhysicsContext.hpp; sourceTree = "<group>"; };
-		8EFEA1AF1B27320200C6406C /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
-		8EFEA1B01B27320200C6406C /* Transform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Transform.hpp; sourceTree = "<group>"; };
 		8EFEA1B31B289EC700C6406C /* Integratable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Integratable.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -573,8 +565,6 @@
 			isa = PBXGroup;
 			children = (
 				8E7749CE1B25BFD2003843FA /* Units.hpp */,
-				8EFEA1B01B27320200C6406C /* Transform.hpp */,
-				8EFEA1AF1B27320200C6406C /* Transform.cpp */,
 				8E842E591B2DED6D00A8557D /* PhysicsState.hpp */,
 				8E842E5B1B2DEDE700A8557D /* PhysicsState.cpp */,
 				8E5372621B332C3A002C1538 /* PhysicMaterial.hpp */,
@@ -731,7 +721,6 @@
 				8EC8C53F1B506B1E00EAADE9 /* Allocator.hpp in Headers */,
 				8EF701FC1A76F90B00454341 /* gzguts.h in Headers */,
 				8EDA06881B6B8073001898EA /* HashMap.hpp in Headers */,
-				8EFEA1B21B27320200C6406C /* Transform.hpp in Headers */,
 				8EF702011A76F90B00454341 /* inflate.h in Headers */,
 				8E54FE591A6F0AD3003D649A /* Texture.hpp in Headers */,
 				8EF702091A76FA6600454341 /* PNGFile.hpp in Headers */,
@@ -854,11 +843,9 @@
 				8E8876571B5FBE9F00F35493 /* Block.cpp in Sources */,
 				8EF702001A76F90B00454341 /* inflate.c in Sources */,
 				8E07941C1B77DEBD00766FFB /* Behaviour.cpp in Sources */,
-				8E842E581B2B79B900A8557D /* RigidBody.cpp in Sources */,
 				8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */,
 				8EDA068C1B6B85EB001898EA /* farmhash.cpp in Sources */,
 				8E221FB51B56FEAE006E5CFD /* Transform.cpp in Sources */,
-				8E5372611B31B49E002C1538 /* Collider.cpp in Sources */,
 				8E25240D1B4D291200CC4789 /* Light.cpp in Sources */,
 				8EC31EA01B1E0ABF00AF9582 /* IndexBuffer.cpp in Sources */,
 				8EF702061A76F90B00454341 /* zutil.c in Sources */,
@@ -871,7 +858,6 @@
 				8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */,
 				8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */,
 				8E5C92701A212567007E3774 /* Mesh.cpp in Sources */,
-				8EFEA1B11B27320200C6406C /* Transform.cpp in Sources */,
 				8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */,
 				8EF7020B1A77036000454341 /* PNGFile.cpp in Sources */,
 				8E53725B1B3185F5002C1538 /* mac_Time.cpp in Sources */,
@@ -883,14 +869,12 @@
 				8ED0F5011A41DF04009AFBA8 /* mac_X360Controller.cpp in Sources */,
 				8E54FE5B1A6F0BC7003D649A /* Texture.cpp in Sources */,
 				8E2864551B4694E100FD436D /* Manipulators.cpp in Sources */,
-				8E5372501B299CEC002C1538 /* PhysicsContext.cpp in Sources */,
 				8E112D96199E5FC70029CD38 /* StringFormat.cpp in Sources */,
 				8EF702021A76F90B00454341 /* inftrees.c in Sources */,
 				8E86FBDC1A923DD5001BCBCE /* mac_FileSystem.cpp in Sources */,
 				8E2864531B4694E100FD436D /* Generators.cpp in Sources */,
 				8E6E53A61A7FC10700844C70 /* FrameBuffer.cpp in Sources */,
 				8E112DB8199E5FE20029CD38 /* Buffer.cpp in Sources */,
-				8E842E5C1B2DEDE700A8557D /* PhysicsState.cpp in Sources */,
 				8E112DDE199E60A50029CD38 /* SceneController.cpp in Sources */,
 				8E6A0DC419B3A7D900DF0921 /* Keyboard.cpp in Sources */,
 				8EC31EA41B209AC700AF9582 /* VertexDerivedData.cpp in Sources */,

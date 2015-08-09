@@ -8,7 +8,8 @@
 
 #include "system/Config.hpp"
 #include "util/ConceptTraits.hpp"
-#include "physics/Transform.hpp"
+#include "math/Vector.hpp"
+#include "math/Quaternion.hpp"
 
 namespace stardazed {
 namespace physics {
