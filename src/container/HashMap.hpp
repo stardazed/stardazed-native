@@ -143,6 +143,7 @@ public:
 	}
 
 	HashMap() : HashMap{ memory::SystemAllocator::sharedInstance(), 64 } {}
+	explicit HashMap(memory::Allocator& allocator) : HashMap{ allocator, 64 } {}
 	explicit HashMap(uint initialCapacity) : HashMap{ memory::SystemAllocator::sharedInstance(), initialCapacity } {}
 	
 	~HashMap() {
@@ -292,6 +293,49 @@ public:
 		}
 		
 		data_.swap(newData);
+	}
+
+
+	// -- ranges (experimental)
+private:
+	class Range {
+		Key *keyPtr_, *endKeyPtr_;
+		Bucket* bucketPtr_;
+		Value* valuePtr_;
+		
+	public:
+		Range(decltype(data_)& dr) {
+			keyPtr_ = dr.template elementsBasePtr<0>() - 1;
+			endKeyPtr_ = keyPtr_ + dr.capacity();
+			bucketPtr_ = dr.template elementsBasePtr<1>() - 1;
+			valuePtr_ = dr.template elementsBasePtr<2>() - 1;
+		}
+		
+		bool next() {
+			while (keyPtr_ != endKeyPtr_) {
+				++keyPtr_;
+				++bucketPtr_;
+				++valuePtr_;
+				
+				if (keyPtr_ != endKeyPtr_ && bucketPtr_->state == BucketState::Filled)
+					break;
+			}
+			return keyPtr_ != endKeyPtr_;
+		}
+		
+		struct KeyVal {
+			const Key& key;
+			const Value& val;
+		};
+		
+		KeyVal current() {
+			return { *keyPtr_, *valuePtr_ };
+		}
+	};
+
+public:
+	Range all() {
+		return { data_ };
 	}
 };
 
