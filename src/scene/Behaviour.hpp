@@ -8,8 +8,10 @@
 
 #include "system/Config.hpp"
 #include "container/Array.hpp"
+#include "container/HashMap.hpp"
 #include "memory/Arena.hpp"
 #include "runtime/FrameContext.hpp"
+#include "scene/Entity.hpp"
 
 #include <functional>
 
@@ -21,33 +23,31 @@ struct Entity;
 class Scene;
 
 
-struct BehaviourX {
-	virtual ~BehaviourX() = default;
-	virtual void update(Entity&, Scene&, runtime::FrameContext&) = 0;
-};
-
-
-class PluggableBehaviour : public BehaviourX {
-	using SimpleBehaviourHandler = std::function<void(Entity&, Scene&, runtime::FrameContext&)>;
+class PluggableBehaviour {
+	using SimpleBehaviourHandler = std::function<void(Entity, Scene&, runtime::FrameContext&)>;
 
 	SimpleBehaviourHandler updateFunc_;
 
 public:
 	PluggableBehaviour();
+	PluggableBehaviour(const SimpleBehaviourHandler&);
 
-	void update(Entity&, Scene&, runtime::FrameContext&) override;
+	void update(Entity, Scene&, runtime::FrameContext&);
 	void setUpdateHandler(SimpleBehaviourHandler);
 };
 
 
 
 class Behaviour {
+public:
+	using Instance = scene::Instance<Behaviour>;
+
+private:
 	struct ConstructInPlace {};
 
 	struct BehaviourConcept {
 		virtual ~BehaviourConcept() = default;
-
-		virtual void run_(Time t) = 0;
+		virtual void update(Entity, Scene&, runtime::FrameContext&) = 0;
 	};
 	
 	template <typename T>
@@ -64,17 +64,21 @@ class Behaviour {
 		BehaviourInstance(ConstructInPlace, Args&&... args)
 		: t_(std::forward<Args>(args)...) {}
 
-		void run_(Time t) final { t_.run(t); }
+		void update(Entity ent, Scene& scene, runtime::FrameContext& fc) final {
+			t_.render(ent, scene, fc);
+		}
 	};
 
 	memory::ArenaAllocator arena_;
 	Array<BehaviourConcept*> items_;
+	HashMap<Entity, BehaviourConcept*> entityMap_;
 	uint32 count_;
 
 public:
 	Behaviour(memory::Allocator& allocator)
 	: arena_(allocator)
 	, items_(allocator, 128)
+	, entityMap_(allocator)
 	, count_(0)
 	{}
 	
@@ -82,32 +86,33 @@ public:
 		for (auto b = 0u; b < count_; ++b)
 			items_[b]->~BehaviourConcept();
 	}
-
-	struct Handle { uint32 ref; };
-
-	template <typename T>
-	Handle append(const T& t) {
-		auto space = static_cast<BehaviourInstance<T>*>(arena_.alloc(sizeof(BehaviourInstance<T>)));
-		new (space) BehaviourInstance<T>{t};
+	
+	template <typename B, typename... Args>
+	Instance append(const B& beh) {
+		auto space = static_cast<BehaviourInstance<B>*>(arena_.alloc(sizeof(BehaviourInstance<B>)));
+		new (space) BehaviourInstance<B>(beh);
 		items_.emplaceBack(space);
 		return { count_++ };
 	}
-	
-	template <typename T, typename... Args>
-	Handle emplace(Args&&... args) {
-		auto space = static_cast<BehaviourInstance<T>*>(arena_.alloc(sizeof(BehaviourInstance<T>)));
-		new (space) BehaviourInstance<T>(ConstructInPlace{}, std::forward<Args>(args)...);
+
+	template <typename B, typename... Args>
+	Instance emplace(Args&&... args) {
+		auto space = static_cast<BehaviourInstance<B>*>(arena_.alloc(sizeof(BehaviourInstance<B>)));
+		new (space) BehaviourInstance<B>(ConstructInPlace{}, std::forward<Args>(args)...);
 		items_.emplaceBack(space);
 		return { count_++ };
 	}
-	
-	void run(Handle h, Time t) {
-		reinterpret_cast<BehaviourConcept*>(items_[h.ref])->run_(t);
+
+	void linkEntityToInstance(Entity ent, Instance h) {
+		assert(h.ref < count_);
+		auto behaviour = items_[h.ref];
+		entityMap_.insert(ent, behaviour);
 	}
 	
-	void runAll(Time t) {
+	
+	void updateAll(Time t) {
 		for (auto b = 0u; b < count_; ++b)
-			reinterpret_cast<BehaviourConcept*>(items_[b])->run_(t);
+			;
 	}
 };
 

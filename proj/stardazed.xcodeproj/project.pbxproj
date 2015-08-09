@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8E019A5519C602BF009318C5 /* Config.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E019A5419C602BF009318C5 /* Config.hpp */; };
+		8E07941C1B77DEBD00766FFB /* Behaviour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E07941A1B77DEBD00766FFB /* Behaviour.cpp */; };
+		8E07941D1B77DEBD00766FFB /* Behaviour.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E07941B1B77DEBD00766FFB /* Behaviour.hpp */; };
 		8E0EF74619A0E0BC00CF38A2 /* AudioContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */; };
 		8E0EF75119A13E4E00CF38A2 /* Client.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E0EF75019A13E4E00CF38A2 /* Client.hpp */; };
 		8E112D45199E55100029CD38 /* Algorithm.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E112D3D199E55100029CD38 /* Algorithm.hpp */; };
@@ -165,6 +167,8 @@
 
 /* Begin PBXFileReference section */
 		8E019A5419C602BF009318C5 /* Config.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Config.hpp; sourceTree = "<group>"; };
+		8E07941A1B77DEBD00766FFB /* Behaviour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Behaviour.cpp; sourceTree = "<group>"; };
+		8E07941B1B77DEBD00766FFB /* Behaviour.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Behaviour.hpp; sourceTree = "<group>"; };
 		8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioContext.hpp; sourceTree = "<group>"; };
 		8E0EF75019A13E4E00CF38A2 /* Client.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Client.hpp; sourceTree = "<group>"; };
 		8E112D2D199E53CC0029CD38 /* libstardazed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libstardazed.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -513,6 +517,8 @@
 				8E112DD2199E60A50029CD38 /* Camera.hpp */,
 				8E112DD1199E60A50029CD38 /* Camera.cpp */,
 				8EA1AB5A1B6F7BB2002F3126 /* RendererShared.hpp */,
+				8E07941B1B77DEBD00766FFB /* Behaviour.hpp */,
+				8E07941A1B77DEBD00766FFB /* Behaviour.cpp */,
 				8E112DD7199E60A50029CD38 /* Scene.hpp */,
 				8E112DD6199E60A50029CD38 /* Scene.cpp */,
 				8E112DD4199E60A50029CD38 /* SceneController.hpp */,
@@ -709,6 +715,7 @@
 				8E71E4551A40FB170060DC95 /* Controller.hpp in Headers */,
 				8E28645D1B46D4C500FD436D /* Buffer.hpp in Headers */,
 				8E112D46199E55100029CD38 /* Angle.hpp in Headers */,
+				8E07941D1B77DEBD00766FFB /* Behaviour.hpp in Headers */,
 				8E112DBF199E5FE20029CD38 /* Pipeline.hpp in Headers */,
 				8E112DE0199E60A50029CD38 /* Entity.hpp in Headers */,
 				8E0EF75119A13E4E00CF38A2 /* Client.hpp in Headers */,
@@ -846,6 +853,7 @@
 				8EB49E8319FFEF7D003F687C /* VertexBuffer.cpp in Sources */,
 				8E8876571B5FBE9F00F35493 /* Block.cpp in Sources */,
 				8EF702001A76F90B00454341 /* inflate.c in Sources */,
+				8E07941C1B77DEBD00766FFB /* Behaviour.cpp in Sources */,
 				8E842E581B2B79B900A8557D /* RigidBody.cpp in Sources */,
 				8E15992A1AF9034700A62CE1 /* PixelBuffer.cpp in Sources */,
 				8EDA068C1B6B85EB001898EA /* farmhash.cpp in Sources */,
