@@ -63,6 +63,8 @@ void Game::setSceneController(scene::SceneController& ctl) {
 
 void Game::simulationStep() {
 /*
+ NOT CALLED AT THIS TIME (controller->simulationFrame is called instead
+
 	runtime::FrameContext frame{ client_, physicsFixedStepTime_ };
 	auto& scene = controller_->scene();
 
@@ -112,7 +114,7 @@ void Game::mainLoop() {
 			while (physicsLag_ >= physicsFixedStepTime_) {
 				// run as many simulation frames as needed to catch up
 				physicsLag_ -= physicsFixedStepTime_;
-				simulationStep();
+				controller_->simulationFrame(physicsFixedStepTime_);
 				stats.physicsStep();
 			}
 			stats.physicsDone();

@@ -29,7 +29,7 @@ struct BehaviourConcept {
 };
 
 
-class PluggableBehaviour : BehaviourConcept {
+class PluggableBehaviour : public BehaviourConcept {
 	using SimpleBehaviourHandler = std::function<void(Entity, Scene&, runtime::FrameContext&)>;
 
 	SimpleBehaviourHandler updateFunc_;
@@ -84,7 +84,7 @@ public:
 	}
 
 
-	void linkEntityToInstance(Entity ent, Instance h) {
+	void linkEntityToBehaviour(Entity ent, Instance h) {
 		assert(h.ref < count_);
 		auto behaviour = items_[h.ref];
 		entityMap_.insert(ent, behaviour);
