@@ -30,6 +30,6 @@ void PluggableBehaviour::setUpdateHandler(SimpleBehaviourHandler handler) {
 	updateFunc_ = handler;
 }
 
-	
+
 } // ns scene
 } // ns stardazed

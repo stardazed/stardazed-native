@@ -23,7 +23,13 @@ struct Entity;
 class Scene;
 
 
-class PluggableBehaviour {
+struct BehaviourConcept {
+	virtual ~BehaviourConcept() = default;
+	virtual void update(Entity, Scene&, runtime::FrameContext&) = 0;
+};
+
+
+class PluggableBehaviour : BehaviourConcept {
 	using SimpleBehaviourHandler = std::function<void(Entity, Scene&, runtime::FrameContext&)>;
 
 	SimpleBehaviourHandler updateFunc_;
@@ -32,7 +38,7 @@ public:
 	PluggableBehaviour();
 	PluggableBehaviour(const SimpleBehaviourHandler&);
 
-	void update(Entity, Scene&, runtime::FrameContext&);
+	void update(Entity, Scene&, runtime::FrameContext&) final;
 	void setUpdateHandler(SimpleBehaviourHandler);
 };
 
@@ -43,32 +49,6 @@ public:
 	using Instance = scene::Instance<Behaviour>;
 
 private:
-	struct ConstructInPlace {};
-
-	struct BehaviourConcept {
-		virtual ~BehaviourConcept() = default;
-		virtual void update(Entity, Scene&, runtime::FrameContext&) = 0;
-	};
-	
-	template <typename T>
-	struct BehaviourInstance : BehaviourConcept {
-		T t_;
-
-		BehaviourInstance(const T& t)
-		: t_(t) {}
-
-		BehaviourInstance(T&& t)
-		: t_(std::move(t)) {}
-
-		template <typename... Args>
-		BehaviourInstance(ConstructInPlace, Args&&... args)
-		: t_(std::forward<Args>(args)...) {}
-
-		void update(Entity ent, Scene& scene, runtime::FrameContext& fc) final {
-			t_.render(ent, scene, fc);
-		}
-	};
-
 	memory::ArenaAllocator arena_;
 	Array<BehaviourConcept*> items_;
 	HashMap<Entity, BehaviourConcept*> entityMap_;
@@ -89,19 +69,20 @@ public:
 	
 	template <typename B, typename... Args>
 	Instance append(const B& beh) {
-		auto space = static_cast<BehaviourInstance<B>*>(arena_.alloc(sizeof(BehaviourInstance<B>)));
-		new (space) BehaviourInstance<B>(beh);
+		auto space = static_cast<B*>(arena_.alloc(sizeof(B)));
+		new (space) B(beh);
 		items_.emplaceBack(space);
 		return { count_++ };
 	}
 
 	template <typename B, typename... Args>
 	Instance emplace(Args&&... args) {
-		auto space = static_cast<BehaviourInstance<B>*>(arena_.alloc(sizeof(BehaviourInstance<B>)));
-		new (space) BehaviourInstance<B>(ConstructInPlace{}, std::forward<Args>(args)...);
+		auto space = static_cast<B*>(arena_.alloc(sizeof(B)));
+		new (space) B(std::forward<Args>(args)...);
 		items_.emplaceBack(space);
 		return { count_++ };
 	}
+
 
 	void linkEntityToInstance(Entity ent, Instance h) {
 		assert(h.ref < count_);
@@ -110,9 +91,12 @@ public:
 	}
 	
 	
-	void updateAll(Time t) {
-		for (auto b = 0u; b < count_; ++b)
-			;
+	void updateAll(Scene& scene, runtime::FrameContext& fc) {
+		auto allLinkedBehaviours = entityMap_.all();
+		while (allLinkedBehaviours.next()) {
+			auto entBeh = allLinkedBehaviours.current();
+			entBeh.val->update(entBeh.key, scene, fc);
+		}
 	}
 };
 
