@@ -91,7 +91,6 @@
 		8E71E4511A40EE460060DC95 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E71E4501A40EE460060DC95 /* IOKit.framework */; };
 		8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */; };
 		8E71E4551A40FB170060DC95 /* Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4541A40FB170060DC95 /* Controller.hpp */; };
-		8E7749CF1B25BFD2003843FA /* Units.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E7749CE1B25BFD2003843FA /* Units.hpp */; };
 		8E7749D11B25E7B5003843FA /* RigidBody.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E7749D01B25E7B5003843FA /* RigidBody.hpp */; };
 		8E842E5A1B2DED6D00A8557D /* PhysicsState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E842E591B2DED6D00A8557D /* PhysicsState.hpp */; };
 		8E86FBDA1A923BE5001BCBCE /* FileSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */; };
@@ -247,7 +246,6 @@
 		8E71E4501A40EE460060DC95 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_X360Controller.hpp; sourceTree = "<group>"; };
 		8E71E4541A40FB170060DC95 /* Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
-		8E7749CE1B25BFD2003843FA /* Units.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Units.hpp; sourceTree = "<group>"; };
 		8E7749D01B25E7B5003843FA /* RigidBody.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RigidBody.hpp; sourceTree = "<group>"; };
 		8E842E571B2B79B900A8557D /* RigidBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RigidBody.cpp; sourceTree = "<group>"; };
 		8E842E591B2DED6D00A8557D /* PhysicsState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PhysicsState.hpp; sourceTree = "<group>"; };
@@ -564,10 +562,9 @@
 		8E7749CD1B248F95003843FA /* physics */ = {
 			isa = PBXGroup;
 			children = (
-				8E7749CE1B25BFD2003843FA /* Units.hpp */,
+				8E5372621B332C3A002C1538 /* PhysicMaterial.hpp */,
 				8E842E591B2DED6D00A8557D /* PhysicsState.hpp */,
 				8E842E5B1B2DEDE700A8557D /* PhysicsState.cpp */,
-				8E5372621B332C3A002C1538 /* PhysicMaterial.hpp */,
 				8EFEA1B31B289EC700C6406C /* Integratable.hpp */,
 				8E7749D01B25E7B5003843FA /* RigidBody.hpp */,
 				8E842E571B2B79B900A8557D /* RigidBody.cpp */,
@@ -752,7 +749,6 @@
 				8EA7092D19D75FC000129E2D /* Mesh.hpp in Headers */,
 				8E6E53A41A7FC0AF00844C70 /* FrameBuffer.hpp in Headers */,
 				8EF963051AEFE7C80012ED72 /* PixelBuffer.hpp in Headers */,
-				8E7749CF1B25BFD2003843FA /* Units.hpp in Headers */,
 				8EDA06831B67C646001898EA /* Deque.hpp in Headers */,
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
 				8EF701FE1A76F90B00454341 /* inffast.h in Headers */,

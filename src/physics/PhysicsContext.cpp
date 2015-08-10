@@ -11,14 +11,11 @@ namespace physics {
 
 
 PhysicsContext::PhysicsContext() {
-	rigidBodyPool_.reserve(128);
-	colliderPool_.reserve(256);
 }
 
 
 RigidBody* PhysicsContext::makeRigidBody(Transform& linkedTransform, float mass, float angInertia) {
-	rigidBodyPool_.emplace_back(linkedTransform, mass, angInertia);
-	return &rigidBodyPool_.back();
+	return nullptr;
 }
 
 
