@@ -92,7 +92,6 @@
 		8E71E4531A40F9550060DC95 /* mac_X360Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4521A40F9550060DC95 /* mac_X360Controller.hpp */; };
 		8E71E4551A40FB170060DC95 /* Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E71E4541A40FB170060DC95 /* Controller.hpp */; };
 		8E7749D11B25E7B5003843FA /* RigidBody.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E7749D01B25E7B5003843FA /* RigidBody.hpp */; };
-		8E842E5A1B2DED6D00A8557D /* PhysicsState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E842E591B2DED6D00A8557D /* PhysicsState.hpp */; };
 		8E86FBDA1A923BE5001BCBCE /* FileSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */; };
 		8E86FBDC1A923DD5001BCBCE /* mac_FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E86FBDB1A923DD5001BCBCE /* mac_FileSystem.cpp */; };
 		8E86FBDF1A9650BD001BCBCE /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E86FBDE1A9650BD001BCBCE /* Plane.hpp */; };
@@ -134,6 +133,7 @@
 		8EDA068D1B6B85EB001898EA /* farmhash.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA068B1B6B85EB001898EA /* farmhash.h */; };
 		8EDA06921B6BA9B7001898EA /* Hash.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDA06911B6BA9B7001898EA /* Hash.hpp */; };
 		8EDD58261B4FCD5900749BC0 /* MultiArrayBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EDD58251B4FCD5900749BC0 /* MultiArrayBuffer.hpp */; };
+		8EE35E981B7A6D5100DEA403 /* RigidBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E842E571B2B79B900A8557D /* RigidBody.cpp */; };
 		8EF701F91A76F90B00454341 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EA1A76F90B00454341 /* adler32.c */; };
 		8EF701FA1A76F90B00454341 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 8EF701EB1A76F90B00454341 /* crc32.c */; };
 		8EF701FB1A76F90B00454341 /* crc32.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EF701EC1A76F90B00454341 /* crc32.h */; };
@@ -154,7 +154,6 @@
 		8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF71ECB19D8600A00AA373B /* RenderContext.hpp */; };
 		8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */; };
 		8EF963051AEFE7C80012ED72 /* PixelBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */; };
-		8EFEA1AE1B26FB3900C6406C /* PhysicsContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1AD1B26FB3900C6406C /* PhysicsContext.hpp */; };
 		8EFEA1B41B289EC700C6406C /* Integratable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1B31B289EC700C6406C /* Integratable.hpp */; };
 /* End PBXBuildFile section */
 
@@ -221,7 +220,6 @@
 		8E44B4021A3EFD390059C57D /* mac_AudioContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_AudioContext.mm; sourceTree = "<group>"; };
 		8E44B4041A3F41380059C57D /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		8E4C74071A07D0CF006CF46D /* VertexDerivedData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexDerivedData.hpp; sourceTree = "<group>"; };
-		8E53724F1B299CEC002C1538 /* PhysicsContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsContext.cpp; sourceTree = "<group>"; };
 		8E5372541B304201002C1538 /* Collider.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Collider.hpp; sourceTree = "<group>"; };
 		8E53725A1B3185F5002C1538 /* mac_Time.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_Time.cpp; sourceTree = "<group>"; };
 		8E53725C1B31B0AC002C1538 /* Bounds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bounds.cpp; sourceTree = "<group>"; };
@@ -248,8 +246,6 @@
 		8E71E4541A40FB170060DC95 /* Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
 		8E7749D01B25E7B5003843FA /* RigidBody.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RigidBody.hpp; sourceTree = "<group>"; };
 		8E842E571B2B79B900A8557D /* RigidBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RigidBody.cpp; sourceTree = "<group>"; };
-		8E842E591B2DED6D00A8557D /* PhysicsState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PhysicsState.hpp; sourceTree = "<group>"; };
-		8E842E5B1B2DEDE700A8557D /* PhysicsState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsState.cpp; sourceTree = "<group>"; };
 		8E86FBD91A923BE5001BCBCE /* FileSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = FileSystem.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E86FBDB1A923DD5001BCBCE /* mac_FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_FileSystem.cpp; sourceTree = "<group>"; };
 		8E86FBDE1A9650BD001BCBCE /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
@@ -311,7 +307,6 @@
 		8EF71ECB19D8600A00AA373B /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
 		8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameBuffer.hpp; sourceTree = "<group>"; };
 		8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelBuffer.hpp; sourceTree = "<group>"; };
-		8EFEA1AD1B26FB3900C6406C /* PhysicsContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PhysicsContext.hpp; sourceTree = "<group>"; };
 		8EFEA1B31B289EC700C6406C /* Integratable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Integratable.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -563,15 +558,11 @@
 			isa = PBXGroup;
 			children = (
 				8E5372621B332C3A002C1538 /* PhysicMaterial.hpp */,
-				8E842E591B2DED6D00A8557D /* PhysicsState.hpp */,
-				8E842E5B1B2DEDE700A8557D /* PhysicsState.cpp */,
 				8EFEA1B31B289EC700C6406C /* Integratable.hpp */,
 				8E7749D01B25E7B5003843FA /* RigidBody.hpp */,
 				8E842E571B2B79B900A8557D /* RigidBody.cpp */,
 				8E5372541B304201002C1538 /* Collider.hpp */,
 				8E5372601B31B49E002C1538 /* Collider.cpp */,
-				8EFEA1AD1B26FB3900C6406C /* PhysicsContext.hpp */,
-				8E53724F1B299CEC002C1538 /* PhysicsContext.cpp */,
 			);
 			path = physics;
 			sourceTree = "<group>";
@@ -680,10 +671,8 @@
 				8E6A0DBE19B3A03600DF0921 /* Keyboard.hpp in Headers */,
 				8E221FB31B56F6F8006E5CFD /* Transform.hpp in Headers */,
 				8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */,
-				8EFEA1AE1B26FB3900C6406C /* PhysicsContext.hpp in Headers */,
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
 				8E7749D11B25E7B5003843FA /* RigidBody.hpp in Headers */,
-				8E842E5A1B2DED6D00A8557D /* PhysicsState.hpp in Headers */,
 				8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */,
 				8EFEA1B41B289EC700C6406C /* Integratable.hpp in Headers */,
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
@@ -856,6 +845,7 @@
 				8E5C92701A212567007E3774 /* Mesh.cpp in Sources */,
 				8E89E99D19AD4896001AB2AF /* mac_GLRenderContext.mm in Sources */,
 				8EF7020B1A77036000454341 /* PNGFile.cpp in Sources */,
+				8EE35E981B7A6D5100DEA403 /* RigidBody.cpp in Sources */,
 				8E53725B1B3185F5002C1538 /* mac_Time.cpp in Sources */,
 				8EF701FA1A76F90B00454341 /* crc32.c in Sources */,
 				8E112D48199E55100029CD38 /* Matrix.cpp in Sources */,
