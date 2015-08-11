@@ -22,8 +22,8 @@ template <typename T>
 // requires DefaultConstructible<T> for resize(newCount) where newCount > count() and emplaceBack()
 // prefers TriviallyDefaultConstructible<T> && TriviallyDestructible<T>
 class Array {
-	static constexpr bool canSkipElementConstructor = std::is_trivially_default_constructible<T>::value;
-	static constexpr bool canSkipElementDestructor = std::is_trivially_destructible<T>::value;
+	static constexpr bool canSkipElementConstructor() { return std::is_trivially_default_constructible<T>::value; }
+	static constexpr bool canSkipElementDestructor() { return std::is_trivially_destructible<T>::value; }
 
 	memory::Allocator& allocator_;
 	uint capacity_ = 0, count_ = 0;
@@ -119,7 +119,7 @@ public:
 	
 	Array& operator =(const Array& rhs) {
 		if (&rhs != this) {
-			if (! canSkipElementDestructor) {
+			if (! canSkipElementDestructor()) {
 				destructRange(data_, count());
 			}
 
@@ -130,7 +130,7 @@ public:
 			if (newCount > 0) {
 				count_ = newCount;
 
-				if (canSkipElementConstructor) {
+				if (canSkipElementConstructor()) {
 					memcpy(data_, rhs.data_, count_ * elementSizeBytes());
 				}
 				else {
@@ -165,7 +165,7 @@ public:
 
 	~Array() {
 		if (data_) {
-			if (! canSkipElementDestructor) {
+			if (! canSkipElementDestructor()) {
 				destructRange(data_, count());
 			}
 		
@@ -204,7 +204,7 @@ public:
 		
 		// Not all Allocators return zero-filled memory but this container guarantees
 		// zeroed elements for default constructed values so we pre-clear the memory
-		if (canSkipElementConstructor && ! allocator_.allocZeroesMemory()) {
+		if (canSkipElementConstructor() && ! allocator_.allocZeroesMemory()) {
 			memset(newData, 0, newSizeBytes);
 		}
 
@@ -219,8 +219,8 @@ public:
 				T* dst = newData;
 
 				while (elementsToCopy--) {
-					new (dst) T{ std::move(*src) }; // move-construct element in new array
-					src->~T();                      // still need to destroy element after move
+					new (dst) T(std::move(*src)); // move-construct element in new array
+					src->~T();                    // still need to destroy element after move
 					++src;
 					++dst;
 				}
@@ -245,7 +245,7 @@ public:
 			// Trivial types are just zeroed, but if there is a user-specified default constructor
 			// or if explicit field initialization was used then we need to default-construct
 			// new values (in-place).
-			if (! canSkipElementConstructor) {
+			if (! canSkipElementConstructor()) {
 				static_assert(std::is_default_constructible<T>::value, "T must be default constructible for growing resize");
 
 				auto elementsToConstruct = newCount - oldCount;
@@ -261,12 +261,12 @@ public:
 		}
 		else if (newCount < oldCount) {
 			// Call destructor for each deleted value for Ts that need it.
-			if (! canSkipElementDestructor) {
+			if (! canSkipElementDestructor()) {
 				destructRange(data_ + newCount, oldCount - newCount);
 			}
 
 			// For trivial Ts we zero the released memory now so append()s don't have to.
-			if (canSkipElementConstructor) {
+			if (canSkipElementConstructor()) {
 				auto elementsToClear = oldCount - newCount;
 				auto firstDeletedElementPtr = data_ + newCount;
 				memset(firstDeletedElementPtr, 0, elementSizeBytes() * elementsToClear);
@@ -304,14 +304,14 @@ public:
 
 
 	void emplaceBack() {
-		static_assert(canSkipElementConstructor || std::is_default_constructible<T>::value, "T must be default constructible");
+		static_assert(canSkipElementConstructor() || std::is_default_constructible<T>::value, "T must be default constructible");
 
 		if (__builtin_expect(count() == capacity(), 0)) {
 			reserve(capacity() * 2);
 		}
 
 		// default-construct in place
-		if (! canSkipElementConstructor) {
+		if (! canSkipElementConstructor()) {
 			new (data_ + count_) T{};
 		}
 		
@@ -379,7 +379,7 @@ public:
 		assert(startIndex + elementsToRemove - 1 < count());
 
 		// Call destructor for each deleted value for Ts that need it.
-		if (! canSkipElementDestructor) {
+		if (! canSkipElementDestructor()) {
 			destructRange(data_ + startIndex, elementsToRemove);
 		}
 
@@ -391,7 +391,7 @@ public:
 		count_ -= elementsToRemove;
 		
 		// Pre-clear now unused object space
-		if (canSkipElementConstructor) {
+		if (canSkipElementConstructor()) {
 			auto elementsToClear = elementsToRemove;
 			auto firstDeletedElementPtr = data_ + count();
 			memset(firstDeletedElementPtr, 0, elementSizeBytes() * elementsToClear);
@@ -410,12 +410,12 @@ public:
 
 
 	void clear() {
-		if (! canSkipElementDestructor) {
+		if (! canSkipElementDestructor()) {
 			destructRange(data_, count());
 		}
 
 		// Clear memory for potential newly default-constructed values after the clear()
-		if (canSkipElementConstructor) {
+		if (canSkipElementConstructor()) {
 			memset(data_, 0, count() * elementSizeBytes());
 		}
 
