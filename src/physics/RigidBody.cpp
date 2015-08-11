@@ -9,6 +9,26 @@ namespace stardazed {
 namespace physics {
 
 
+RigidBodyManager::RigidBodyManager(memory::Allocator& allocator, scene::TransformComponent& transform)
+: transform_(transform)
+, instanceData_{ allocator, 1024 }
+, entityMap_{ allocator, 1024 }
+{}
+
+
+auto RigidBodyManager::create(scene::Entity entity, float mass, float angularInertia) -> Instance {
+	instanceData_.extend();
+	uint index = instanceData_.count() - 1;
+
+	*(basePtr<InstField::Mass>() + index) = mass;
+	*(basePtr<InstField::AngularInertia>() + index) = angularInertia;
+
+	Instance h { index };
+	entityMap_.insert(entity, h);
+	return h;
+}
+
+
 //	void PhysicsState::recalcSecondaryValues() {
 //		velocity_ = momentum * oneOverMass_;
 //		angularVelocity_ = angularMomentum * oneOverAngularInertia_;
