@@ -10,7 +10,7 @@ namespace physics {
 
 
 RigidBodyManager::RigidBodyManager(memory::Allocator& allocator, scene::TransformComponent& transform)
-: transform_(transform)
+: transformMgr_(transform)
 , instanceData_{ allocator, 1024 }
 , entityMap_{ allocator, 1024 }
 {}
@@ -29,44 +29,50 @@ auto RigidBodyManager::create(scene::Entity entity, float mass, float angularIne
 }
 
 
-//	void PhysicsState::recalcSecondaryValues() {
-//		velocity_ = momentum * oneOverMass_;
-//		angularVelocity_ = angularMomentum * oneOverAngularInertia_;
-//		math::normalizeInPlace(transform.rotation);
-//		spin_ = 0.5 * math::Quat{angularVelocity_, 0} * transform.rotation;
-//	}
-//	
-//	
-//	void PhysicsState::copyPrimaryAndSecondaryValuesFrom(const PhysicsState& other) {
-//		transform = other.transform;
-//		momentum = other.momentum;
-//		angularMomentum = other.angularMomentum;
-//		
-//		velocity_ = other.velocity_;
-//		angularVelocity_ = other.angularVelocity_;
-//		spin_ = other.spin_;
-//	}
+void RigidBodyManager::recalcSecondaries(Instance h) {
+	velocity(h) = momentum(h) * inverseMass(h);
+	angularVelocity(h) = angularMomentum(h) * inverseAngInertia(h);
+	
+	auto transInst = linkedTransform(h);
+	auto rotation = transformMgr_.rotation(transInst);
+	transformMgr_.setRotation(transInst, math::normalize(rotation));
+	spin(h) = 0.5f * math::Quat{angularVelocity(h), 0} * rotation;
+}
+
+/*
+	
+	
+	void PhysicsState::copyPrimaryAndSecondaryValuesFrom(const PhysicsState& other) {
+		transform = other.transform;
+		momentum = other.momentum;
+		angularMomentum = other.angularMomentum;
+		
+		velocity_ = other.velocity_;
+		angularVelocity_ = other.angularVelocity_;
+		spin_ = other.spin_;
+	}
 
 
-//RigidBody::RigidBody(Transform& linkedTransform, float mass, float angularInertia)
-//: previousTransform_(linkedTransform)
-//, previous_{ previousTransform_, mass, angularInertia }
-//, current_ { linkedTransform, mass, angularInertia }
-//{}
-//
-//
-//void RigidBody::update(Time t, Time dt) {
-//	previous_.copyPrimaryAndSecondaryValuesFrom(current_);
-//	integrate(current_, t, dt);
-//	userForce = {0, 0, 0};
-//	userTorque = {0, 0, 0};
-//}
-//
-//
-//void RigidBody::calcForces(const PhysicsState& state, const Time /*globalTime*/, math::Vec3& outForce, math::Vec3& outTorque) const {
-//	outForce  = userForce - state.momentum * .5;
-//	outTorque = userTorque - state.angularMomentum * .5;
-//}
+	RigidBody::RigidBody(Transform& linkedTransform, float mass, float angularInertia)
+	: previousTransform_(linkedTransform)
+	, previous_{ previousTransform_, mass, angularInertia }
+	, current_ { linkedTransform, mass, angularInertia }
+	{}
+
+
+	void RigidBody::update(Time t, Time dt) {
+		previous_.copyPrimaryAndSecondaryValuesFrom(current_);
+		integrate(current_, t, dt);
+		userForce = {0, 0, 0};
+		userTorque = {0, 0, 0};
+	}
+
+
+	void RigidBody::calcForces(const PhysicsState& state, const Time globalTime, math::Vec3& outForce, math::Vec3& outTorque) const {
+		outForce  = userForce - state.momentum * .5;
+		outTorque = userTorque - state.angularMomentum * .5;
+	}
+*/
 
 
 } // ns physics

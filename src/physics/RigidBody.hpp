@@ -22,7 +22,7 @@ public:
 	using Instance = scene::Instance<RigidBodyManager>;
 
 private:
-	scene::TransformComponent& transform_;
+	scene::TransformComponent& transformMgr_;
 
 	container::MultiArrayBuffer<
 		// constant
@@ -40,6 +40,10 @@ private:
 		scene::TransformComponent::Instance, // linkedTransformInstance
 		math::Vec3, // momentum
 		math::Vec3, // angularMomentum
+	
+		// per-frame applied forces
+		math::Vec3, // currentForce
+		math::Vec3, // currentTorque
 	
 		// previous state
 		math::Vec3, // previousPosition
@@ -63,6 +67,9 @@ private:
 		Momentum,
 		AngularMomentum,
 		
+		CurrentForce,
+		CurrentTorque,
+		
 		PreviousPosition,
 		PreviousRotation,
 		PreviousVelocity
@@ -72,6 +79,11 @@ private:
 	auto basePtr() const {
 		return instanceData_.template elementsBasePtr<(uint)F>();
 	}
+	
+	template <InstField F>
+	auto instancePtr(Instance h) const {
+		return basePtr<F>() + h.ref;
+	}
 
 public:
 	RigidBodyManager(memory::Allocator&, scene::TransformComponent&);
@@ -79,16 +91,22 @@ public:
 	Instance create(scene::Entity, float mass, float angularInertia);
 	
 	// -- single instance access
-	float mass(Instance h) const { return *(basePtr<InstField::Mass>() + h.ref); }
-	float angularInertia(Instance h) const { return *(basePtr<InstField::AngularInertia>() + h.ref); }
+	float mass(Instance h) const { return *(instancePtr<InstField::Mass>(h)); }
+	float inverseMass(Instance h) const { return *(instancePtr<InstField::InverseMass>(h)); }
+	float angularInertia(Instance h) const { return *(instancePtr<InstField::AngularInertia>(h)); }
+	float inverseAngInertia(Instance h) const { return *(instancePtr<InstField::InverseAngInertia>(h)); }
 	
-	scene::TransformComponent::Instance transform(Instance h) const { return *(basePtr<InstField::Transform>() + h.ref); }
-	math::Vec3& momentum(Instance h) { return *(basePtr<InstField::Momentum>() + h.ref); }
-	math::Vec3& angularMomentum(Instance h) { return *(basePtr<InstField::AngularMomentum>() + h.ref); }
+	scene::TransformComponent::Instance linkedTransform(Instance h) const { return *(instancePtr<InstField::Transform>(h)); }
+	math::Vec3& momentum(Instance h) { return *(instancePtr<InstField::Momentum>(h)); }
+	math::Vec3& angularMomentum(Instance h) { return *(instancePtr<InstField::AngularMomentum>(h)); }
 	
-	const math::Vec3& velocity(Instance h) const { return *(basePtr<InstField::Velocity>() + h.ref); }
-	const math::Quat& spin(Instance h) const { return *(basePtr<InstField::Spin>() + h.ref); }
-	const math::Vec3& angularVelocity(Instance h) const { return *(basePtr<InstField::AngularVelocity>() + h.ref); }
+	math::Vec3& velocity(Instance h) { return *(instancePtr<InstField::Velocity>(h)); }
+	math::Quat& spin(Instance h) { return *(instancePtr<InstField::Spin>(h)); }
+	math::Vec3& angularVelocity(Instance h) { return *(instancePtr<InstField::AngularVelocity>(h)); }
+	
+	void addForce(Instance, const math::Vec3&);
+	void addTorque(Instance, const math::Vec3&);
+	void recalcSecondaries(Instance);
 };
 
 
