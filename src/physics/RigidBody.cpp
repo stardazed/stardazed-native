@@ -29,6 +29,18 @@ auto RigidBodyManager::create(scene::Entity entity, float mass, float angularIne
 }
 
 
+void RigidBodyManager::addForce(Instance h, const math::Vec3& force) {
+	auto fp = instancePtr<InstField::CurrentForce>(h);
+	*fp += force;
+}
+
+
+void RigidBodyManager::addTorque(Instance h, const math::Vec3& torque) {
+	auto tp = instancePtr<InstField::CurrentTorque>(h);
+	*tp += torque;
+}
+
+
 void RigidBodyManager::recalcSecondaries(Instance h) {
 	velocity(h) = momentum(h) * inverseMass(h);
 	angularVelocity(h) = angularMomentum(h) * inverseAngInertia(h);
@@ -38,6 +50,23 @@ void RigidBodyManager::recalcSecondaries(Instance h) {
 	transformMgr_.setRotation(transInst, math::normalize(rotation));
 	spin(h) = 0.5f * math::Quat{angularVelocity(h), 0} * rotation;
 }
+
+
+void RigidBodyManager::integrateAll(Time dt) {
+	auto transformBase = basePtr<InstField::Transform>();
+	auto invMassBase = basePtr<InstField::InverseMass>();
+	auto velocityBase = basePtr<InstField::Velocity>();
+
+/*
+	last_acceleration = acceleration
+	position += velocity * time_step + ( 0.5 * last_acceleration * time_step^2 )
+	new_acceleration = force / mass
+	avg_acceleration = ( last_acceleration + new_acceleration ) / 2
+	velocity += avg_acceleration * time_step
+*/
+//	auto curAccel =
+}
+
 
 /*
 	

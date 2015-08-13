@@ -37,7 +37,7 @@ private:
 		math::Quat, // spin
 
 		// primary
-		scene::TransformComponent::Instance, // linkedTransformInstance
+		scene::TransformComponent::Instance, // linkedTransform
 		math::Vec3, // momentum
 		math::Vec3, // angularMomentum
 	
@@ -106,7 +106,9 @@ public:
 	
 	void addForce(Instance, const math::Vec3&);
 	void addTorque(Instance, const math::Vec3&);
+
 	void recalcSecondaries(Instance);
+	void integrateAll(Time dt);
 };
 
 
