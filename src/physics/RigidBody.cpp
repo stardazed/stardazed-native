@@ -16,12 +16,13 @@ RigidBodyManager::RigidBodyManager(memory::Allocator& allocator, scene::Transfor
 {}
 
 
-auto RigidBodyManager::create(scene::Entity entity, float mass, float angularInertia) -> Instance {
+auto RigidBodyManager::create(scene::Entity entity, const RigidBodyDescriptor& desc) -> Instance {
 	instanceData_.extend();
 	uint index = instanceData_.count() - 1;
 
-	*(basePtr<InstField::Mass>() + index) = mass;
-	*(basePtr<InstField::AngularInertia>() + index) = angularInertia;
+	*(basePtr<InstField::Mass>() + index) = { desc.mass, 1.0f / desc.mass };
+	*(basePtr<InstField::Drag>() + index) = { desc.drag, 1.0f / desc.drag };
+	*(basePtr<InstField::AngularDrag>() + index) = { desc.angularDrag, 1.0f / desc.angularDrag };
 
 	Instance h { index };
 	entityMap_.insert(entity, h);
@@ -54,6 +55,7 @@ void RigidBodyManager::recalcSecondaries(Instance h) {
 
 void RigidBodyManager::integrateAll(Time dt) {
 	auto transformBase = basePtr<InstField::Transform>();
+	auto massBase = basePtr<InstField::Mass>();
 	auto invMassBase = basePtr<InstField::InverseMass>();
 	auto velocityBase = basePtr<InstField::Velocity>();
 
@@ -64,7 +66,13 @@ void RigidBodyManager::integrateAll(Time dt) {
 	avg_acceleration = ( last_acceleration + new_acceleration ) / 2
 	velocity += avg_acceleration * time_step
 */
-//	auto curAccel =
+	for (uint rbi=0; rbi < instanceData_.count(); ++rbi) {
+		auto transform = *transformBase;
+		auto curForce = *massBase * 9.80665f;
+		
+		
+		
+	}
 }
 
 
@@ -94,12 +102,6 @@ void RigidBodyManager::integrateAll(Time dt) {
 		integrate(current_, t, dt);
 		userForce = {0, 0, 0};
 		userTorque = {0, 0, 0};
-	}
-
-
-	void RigidBody::calcForces(const PhysicsState& state, const Time globalTime, math::Vec3& outForce, math::Vec3& outTorque) const {
-		outForce  = userForce - state.momentum * .5;
-		outTorque = userTorque - state.angularMomentum * .5;
 	}
 */
 

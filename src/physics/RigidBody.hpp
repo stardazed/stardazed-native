@@ -17,19 +17,37 @@ namespace stardazed {
 namespace physics {
 
 
+struct RigidBodyDescriptor {
+	float mass, drag, angularDrag;
+	bool obeysGravity;
+};
+
+
 class RigidBodyManager {
 public:
 	using Instance = scene::Instance<RigidBodyManager>;
 
 private:
 	scene::TransformComponent& transformMgr_;
+	
+	struct Properties {
+		bool8 asleep : 1;
+		bool8 gravity : 1;
+	};
+	
+	struct ValInv {
+		float value;
+		float reciprocal;
+	};
 
 	container::MultiArrayBuffer<
+		// packed flags and properties
+		Properties,
+
 		// constant
-		float, // mass / inertia
-		float, // inverseMass
-		float, // angularInertia
-		float, // inverseAngInertia
+		ValInv, // mass/inertia
+		ValInv, // drag
+		ValInv, // angularDrag
 
 		// secondary
 		math::Vec3, // velocity
@@ -42,8 +60,8 @@ private:
 		math::Vec3, // angularMomentum
 	
 		// per-frame applied forces
-		math::Vec3, // currentForce
-		math::Vec3, // currentTorque
+		math::Vec3, // externalForce
+		math::Vec3, // externalTorque
 	
 		// previous state
 		math::Vec3, // previousPosition
@@ -54,10 +72,11 @@ private:
 	HashMap<scene::Entity, Instance> entityMap_;
 	
 	enum class InstField : uint {
+		Properties,
+
 		Mass,
-		InverseMass,
-		AngularInertia,
-		InverseAngInertia,
+		Drag,
+		AngularDrag,
 		
 		Velocity,
 		AngularVelocity,
@@ -88,13 +107,13 @@ private:
 public:
 	RigidBodyManager(memory::Allocator&, scene::TransformComponent&);
 
-	Instance create(scene::Entity, float mass, float angularInertia);
+	Instance create(scene::Entity, const RigidBodyDescriptor&);
 	
 	// -- single instance access
-	float mass(Instance h) const { return *(instancePtr<InstField::Mass>(h)); }
-	float inverseMass(Instance h) const { return *(instancePtr<InstField::InverseMass>(h)); }
-	float angularInertia(Instance h) const { return *(instancePtr<InstField::AngularInertia>(h)); }
-	float inverseAngInertia(Instance h) const { return *(instancePtr<InstField::InverseAngInertia>(h)); }
+	Properties properties(Instance h) const { return *(instancePtr<InstField::Properties>(h)); }
+	ValInv mass(Instance h) const { return *(instancePtr<InstField::Mass>(h)); }
+	ValInv drag(Instance h) const { return *(instancePtr<InstField::Drag>(h)); }
+	ValInv angularDrag(Instance h) const { return *(instancePtr<InstField::AngularDrag>(h)); }
 	
 	scene::TransformComponent::Instance linkedTransform(Instance h) const { return *(instancePtr<InstField::Transform>(h)); }
 	math::Vec3& momentum(Instance h) { return *(instancePtr<InstField::Momentum>(h)); }
