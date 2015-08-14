@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// scene::TransformComponent - stardazed
+// scene::TransformManager - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
@@ -39,14 +39,14 @@ inline void recalcModelMatrix(const math::Vec3& pos, const math::Quat& rot, cons
 }
 
 
-TransformComponent::TransformComponent()
+TransformManager::TransformManager()
 : instanceData_{ memory::SystemAllocator::sharedInstance(), 512 }
 {
 	rebase();
 }
 
 
-void TransformComponent::rebase() {
+void TransformManager::rebase() {
 	parentBase_ = instanceData_.elementsBasePtr<0>();
 	positionBase_ = instanceData_.elementsBasePtr<1>();
 	rotationBase_ = instanceData_.elementsBasePtr<2>();
@@ -55,7 +55,7 @@ void TransformComponent::rebase() {
 }
 
 
-TransformComponent::Instance TransformComponent::assign(Entity linkedEntity, const Instance parent) {
+TransformManager::Instance TransformManager::assign(Entity linkedEntity, const Instance parent) {
 	auto entIndex = linkedEntity.index();
 
 	if (instanceData_.count() < entIndex) {
@@ -76,7 +76,7 @@ TransformComponent::Instance TransformComponent::assign(Entity linkedEntity, con
 }
 
 
-TransformComponent::Instance TransformComponent::assign(Entity linkedEntity, const TransformDescriptor& desc, const Instance parent) {
+TransformManager::Instance TransformManager::assign(Entity linkedEntity, const TransformDescriptor& desc, const Instance parent) {
 	auto entIndex = linkedEntity.index();
 	
 	if (instanceData_.count() < entIndex) {
@@ -98,18 +98,18 @@ TransformComponent::Instance TransformComponent::assign(Entity linkedEntity, con
 }
 
 
-TransformComponent::Instance TransformComponent::forEntity(Entity ent) const {
+TransformManager::Instance TransformManager::forEntity(Entity ent) const {
 	return { ent.index() };
 }
 
 
-void TransformComponent::setParent(const Instance h, const Instance newParent) {
+void TransformManager::setParent(const Instance h, const Instance newParent) {
 	assert(h.ref != 0);
 	parentBase_[h.ref] = newParent;
 }
 
 
-void TransformComponent::setPosition(const Instance h, const math::Vec3& newPosition) {
+void TransformManager::setPosition(const Instance h, const math::Vec3& newPosition) {
 	assert(h.ref != 0);
 
 	positionBase_[h.ref] = newPosition;
@@ -117,7 +117,7 @@ void TransformComponent::setPosition(const Instance h, const math::Vec3& newPosi
 }
 
 
-void TransformComponent::setRotation(const Instance h, const math::Quat& newRotation) {
+void TransformManager::setRotation(const Instance h, const math::Quat& newRotation) {
 	assert(h.ref != 0);
 
 	rotationBase_[h.ref] = newRotation;
@@ -125,7 +125,7 @@ void TransformComponent::setRotation(const Instance h, const math::Quat& newRota
 }
 
 
-void TransformComponent::setPositionAndRotation(const Instance h, const math::Vec3& newPosition, const math::Quat& newRotation) {
+void TransformManager::setPositionAndRotation(const Instance h, const math::Vec3& newPosition, const math::Quat& newRotation) {
 	assert(h.ref != 0);
 
 	positionBase_[h.ref] = newPosition;
@@ -134,7 +134,7 @@ void TransformComponent::setPositionAndRotation(const Instance h, const math::Ve
 }
 
 
-void TransformComponent::setScale(const Instance h, const math::Vec3& newScale) {
+void TransformManager::setScale(const Instance h, const math::Vec3& newScale) {
 	assert(h.ref != 0);
 
 	scaleBase_[h.ref] = newScale;
@@ -142,7 +142,7 @@ void TransformComponent::setScale(const Instance h, const math::Vec3& newScale) 
 }
 
 
-void TransformComponent::lookAt(const Instance h, const math::Vec3& target, const math::Vec3& up) {
+void TransformManager::lookAt(const Instance h, const math::Vec3& target, const math::Vec3& up) {
 	setRotation(h, lookAtImpl(target - position(h), up));
 }
 

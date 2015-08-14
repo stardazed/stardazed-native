@@ -17,8 +17,8 @@ namespace scene {
 
 
 class Camera {
-	TransformComponent& transformComp_;
-	TransformComponent::Instance transform_;
+	TransformManager& transformMgr_;
+	TransformManager::Instance transform_;
 	uint32 pixelWidth_, pixelHeight_;
 
 	math::Angle fov_ = math::Degrees{90};
@@ -27,7 +27,7 @@ class Camera {
 	math::Mat4 projection_;
 
 public:
-	Camera(TransformComponent&, TransformComponent::Instance, uint32 pixelWidth, uint32 pixelHeight);
+	Camera(TransformManager&, TransformManager::Instance, uint32 pixelWidth, uint32 pixelHeight);
 
 	auto transformInstance() const { return transform_; }
 

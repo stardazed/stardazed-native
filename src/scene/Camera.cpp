@@ -27,8 +27,8 @@ namespace detail {
 }
 
 
-Camera::Camera(TransformComponent& tc, TransformComponent::Instance transform, uint32 pixelWidth, uint32 pixelHeight)
-: transformComp_(tc)
+Camera::Camera(TransformManager& tm, TransformManager::Instance transform, uint32 pixelWidth, uint32 pixelHeight)
+: transformMgr_(tm)
 , transform_(transform)
 , pixelWidth_(pixelWidth)
 , pixelHeight_(pixelHeight)
@@ -58,8 +58,8 @@ void Camera::setFieldOfView(math::Angle fov) {
 math::Mat4 Camera::viewMatrix() const {
 	using namespace math;
 
-	auto rotation = transformComp_.rotation(transform_);
-	auto position = transformComp_.position(transform_);
+	auto rotation = transformMgr_.rotation(transform_);
+	auto position = transformMgr_.position(transform_);
 	auto m = inverse(rotation).toMatrix4();
 
 	// translation

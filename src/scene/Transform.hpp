@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// scene::TransformComponent - stardazed
+// scene::TransformManager - stardazed
 // (c) 2015 by Arthur Langereis
 // ------------------------------------------------------------------
 
@@ -25,9 +25,9 @@ struct TransformDescriptor {
 };
 
 
-class TransformComponent {
+class TransformManager {
 public:
-	using Instance = scene::Instance<TransformComponent>;
+	using Instance = scene::Instance<TransformManager>;
 	
 private:
 	container::MultiArrayBuffer<
@@ -47,7 +47,7 @@ private:
 	void rebase();
 
 public:
-	TransformComponent();
+	TransformManager();
 	
 	static const Instance root() { return {0}; }
 

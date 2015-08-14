@@ -9,9 +9,6 @@
 #include "system/Config.hpp"
 #include "scene/Entity.hpp"
 #include "scene/Transform.hpp"
-//#include "scene/Camera.hpp"
-//#include "scene/Behaviour.hpp"
-//#include "scene/MeshRenderer.hpp"
 
 namespace stardazed {
 namespace scene {
@@ -19,7 +16,7 @@ namespace scene {
 
 class Scene {
 	EntityManager entities_;
-	TransformComponent transform_;
+	TransformManager transform_;
 
 public:
 	Scene();
@@ -28,7 +25,7 @@ public:
 	Entity makeEntity(const TransformDescriptor&);
 	Entity makeEntity(const math::Vec3& pos, const math::Quat& rot = math::Quat::identity(), const math::Vec3& scale = math::Vec3::one());
 	
-	TransformComponent& transform() { return transform_; }
+	TransformManager& transform() { return transform_; }
 };
 
 

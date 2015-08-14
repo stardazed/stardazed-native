@@ -28,7 +28,7 @@ public:
 	using Instance = scene::Instance<RigidBodyManager>;
 
 private:
-	scene::TransformComponent& transformMgr_;
+	scene::TransformManager& transformMgr_;
 	
 	struct Properties {
 		bool8 awake : 1;
@@ -55,7 +55,7 @@ private:
 		math::Quat, // spin
 
 		// primary
-		scene::TransformComponent::Instance, // linkedTransform
+		scene::TransformManager::Instance, // linkedTransform
 	
 		// per-frame applied forces
 		math::Vec3, // externalForce
@@ -103,7 +103,7 @@ private:
 	}
 
 public:
-	RigidBodyManager(memory::Allocator&, scene::TransformComponent&);
+	RigidBodyManager(memory::Allocator&, scene::TransformManager&);
 
 	Instance create(scene::Entity, const RigidBodyDescriptor&);
 	
@@ -115,7 +115,7 @@ public:
 	const ValInv drag(Instance h) const { return *(instancePtr<InstField::Drag>(h)); }
 	const ValInv angularDrag(Instance h) const { return *(instancePtr<InstField::AngularDrag>(h)); }
 
-	const scene::TransformComponent::Instance linkedTransform(Instance h) const { return *(instancePtr<InstField::Transform>(h)); }
+	const scene::TransformManager::Instance linkedTransform(Instance h) const { return *(instancePtr<InstField::Transform>(h)); }
 
 	const math::Vec3& velocity(Instance h) const { return *(instancePtr<InstField::Velocity>(h)); }
 	void setVelocity(Instance, const math::Vec3&);

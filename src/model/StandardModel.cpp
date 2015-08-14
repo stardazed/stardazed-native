@@ -174,8 +174,8 @@ void StandardShader::setMaterial(StandardMaterialBuffer::Index matIndex /*, cons
 // |___/\__\__,_|_||_\__,_\__,_|_| \__,_|_|  |_\___/\__,_\___|_|_|  |_\__, |_|
 //                                                                    |___/
 
-StandardModelManager::StandardModelManager(RenderContext& renderCtx, scene::TransformComponent& transformComp)
-: transformComp_(transformComp)
+StandardModelManager::StandardModelManager(RenderContext& renderCtx, scene::TransformManager& tm)
+: transformMgr_(tm)
 , stdShader_{renderCtx}
 , stdMaterialBuffer_{}
 , materialIndexes_{ memory::SystemAllocator::sharedInstance(), 4096 }
@@ -205,7 +205,7 @@ auto StandardModelManager::create(const StandardModelDescriptor& desc) -> Instan
 
 
 void StandardModelManager::linkEntityToModel(scene::Entity entity, Instance instance) {
-	entityMap_.insert(entity, { instance, transformComp_.forEntity(entity) });
+	entityMap_.insert(entity, { instance, transformMgr_.forEntity(entity) });
 }
 
 
@@ -214,7 +214,7 @@ void StandardModelManager::render(RenderPass& renderPass, const scene::Projectio
 	auto modelTrans = entityMap_.find(entity);
 	assert(modelTrans);
 	auto instance = modelTrans->instance;
-	auto modelMatrix = transformComp_.modelMatrix(modelTrans->transformInstance);
+	auto modelMatrix = transformMgr_.modelMatrix(modelTrans->transformInstance);
 	
 	auto mesh = *(instanceData_.elementsBasePtr<0>() + instance.ref);
 	auto matIndexRange = *(instanceData_.elementsBasePtr<1>() + instance.ref);

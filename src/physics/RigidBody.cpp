@@ -9,7 +9,7 @@ namespace stardazed {
 namespace physics {
 
 
-RigidBodyManager::RigidBodyManager(memory::Allocator& allocator, scene::TransformComponent& transform)
+RigidBodyManager::RigidBodyManager(memory::Allocator& allocator, scene::TransformManager& transform)
 : transformMgr_(transform)
 , instanceData_{ allocator, 1024 }
 , entityMap_{ allocator, 1024 }

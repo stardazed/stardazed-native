@@ -111,7 +111,7 @@ public:
 	using Instance = scene::Instance<StandardModelManager>;
 
 private:
-	scene::TransformComponent& transformComp_;
+	scene::TransformManager& transformMgr_;
 	StandardShader stdShader_;
 	StandardMaterialBuffer stdMaterialBuffer_;
 	
@@ -130,13 +130,13 @@ private:
 	
 	struct ModelTrans {
 		Instance instance;
-		scene::TransformComponent::Instance transformInstance;
+		scene::TransformManager::Instance transformInstance;
 	};
 
 	HashMap<scene::Entity, ModelTrans> entityMap_;
 
 public:
-	StandardModelManager(render::RenderContext&, scene::TransformComponent&);
+	StandardModelManager(render::RenderContext&, scene::TransformManager&);
 
 	Instance create(const StandardModelDescriptor&);
 	void linkEntityToModel(scene::Entity, Instance);

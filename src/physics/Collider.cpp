@@ -10,7 +10,7 @@ namespace stardazed {
 namespace physics {
 
 
-ColliderManager::ColliderManager(memory::Allocator& allocator, scene::TransformComponent& tm, RigidBodyManager& rbm)
+ColliderManager::ColliderManager(memory::Allocator& allocator, scene::TransformManager& tm, RigidBodyManager& rbm)
 : transformMgr_(tm)
 , rigidBodyMgr_(rbm)
 , instanceData_(allocator, 1024)

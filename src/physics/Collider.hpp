@@ -29,12 +29,12 @@ public:
 	using Instance = scene::Instance<ColliderManager>;
 
 private:
-	scene::TransformComponent& transformMgr_;
+	scene::TransformManager& transformMgr_;
 	RigidBodyManager& rigidBodyMgr_;
 
 	container::MultiArrayBuffer<
 		ColliderType,
-		scene::TransformComponent::Instance,
+		scene::TransformManager::Instance,
 		RigidBodyManager::Instance,
 		math::Bounds, // localBounds
 		math::Bounds  // worldBounds
@@ -56,7 +56,7 @@ private:
 	}
 
 public:
-	ColliderManager(memory::Allocator&, scene::TransformComponent&, RigidBodyManager&);
+	ColliderManager(memory::Allocator&, scene::TransformManager&, RigidBodyManager&);
 	
 	Instance create(scene::Entity, ColliderType, const math::Vec3& localCenter, const math::Vec3& size);
 
