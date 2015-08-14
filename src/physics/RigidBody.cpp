@@ -83,9 +83,13 @@ void RigidBodyManager::integrateAll(Time dt) {
 			totalForce += massBase->value * gravityAccel;
 		
 		if (! (nearEqual(0.0f, lengthSquared(velocity)) && nearEqual(0.0f, dragArea)) ) {
-			// 1.2f is air drag (rho) at 15C at 0m elevation
 			auto signedDirection = math::sign(velocity);
+
+			// 1.2f is air drag (rho) at 15C at 0m elevation
 			totalForce -= .5f * 1.2f * dragArea * velocity * velocity * signedDirection;
+
+			// friction (fixed for now)
+			totalForce -= .5 * velocity;
 		}
 
 		totalForce += *externalForceBase;
@@ -110,7 +114,11 @@ void RigidBodyManager::integrateAll(Time dt) {
 
 		// -- update acceleration and velocity
 		Vec3 smoothedAccel = (acceleration + newAcceleration) * .5f;
-		*velocityBase = velocity + (smoothedAccel * dt);
+		auto newVelocity = velocity + (smoothedAccel * dt);
+		if (lengthSquared(newVelocity) < 0.01) // prevent endless drifting
+			newVelocity = Vec3::zero();
+
+		*velocityBase = newVelocity;
 		*accelerationBase = smoothedAccel;
 
 		++propertiesBase;
