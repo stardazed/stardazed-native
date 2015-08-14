@@ -31,7 +31,7 @@ private:
 	scene::TransformComponent& transformMgr_;
 	
 	struct Properties {
-		bool8 asleep : 1;
+		bool8 awake : 1;
 		bool8 gravity : 1;
 	};
 	
@@ -46,7 +46,7 @@ private:
 
 		// constant
 		ValInv, // mass/inertia
-		ValInv, // drag
+		ValInv, // drag           ---- This is the drag co-efficient (Cd) * an average intersection area (A)
 		ValInv, // angularDrag
 
 		// secondary
@@ -56,8 +56,6 @@ private:
 
 		// primary
 		scene::TransformComponent::Instance, // linkedTransform
-		math::Vec3, // momentum
-		math::Vec3, // angularMomentum
 	
 		// per-frame applied forces
 		math::Vec3, // externalForce
@@ -66,7 +64,7 @@ private:
 		// previous state
 		math::Vec3, // previousPosition
 		math::Quat, // previousRotation
-		math::Vec3  // previousVelocity
+		math::Vec3  // previousAcceleration
 	> instanceData_;
 	
 	HashMap<scene::Entity, Instance> entityMap_;
@@ -83,15 +81,13 @@ private:
 		Spin,
 		
 		Transform,
-		Momentum,
-		AngularMomentum,
 		
-		CurrentForce,
-		CurrentTorque,
+		ExternalForce,
+		ExternalTorque,
 		
 		PreviousPosition,
 		PreviousRotation,
-		PreviousVelocity
+		PreviousAcceleration
 	};
 	
 	template <InstField F>
@@ -108,25 +104,23 @@ public:
 	RigidBodyManager(memory::Allocator&, scene::TransformComponent&);
 
 	Instance create(scene::Entity, const RigidBodyDescriptor&);
-	
+
 	// -- single instance access
 	Properties properties(Instance h) const { return *(instancePtr<InstField::Properties>(h)); }
 	ValInv mass(Instance h) const { return *(instancePtr<InstField::Mass>(h)); }
 	ValInv drag(Instance h) const { return *(instancePtr<InstField::Drag>(h)); }
 	ValInv angularDrag(Instance h) const { return *(instancePtr<InstField::AngularDrag>(h)); }
-	
+
 	scene::TransformComponent::Instance linkedTransform(Instance h) const { return *(instancePtr<InstField::Transform>(h)); }
-	math::Vec3& momentum(Instance h) { return *(instancePtr<InstField::Momentum>(h)); }
-	math::Vec3& angularMomentum(Instance h) { return *(instancePtr<InstField::AngularMomentum>(h)); }
-	
+
 	math::Vec3& velocity(Instance h) { return *(instancePtr<InstField::Velocity>(h)); }
 	math::Quat& spin(Instance h) { return *(instancePtr<InstField::Spin>(h)); }
 	math::Vec3& angularVelocity(Instance h) { return *(instancePtr<InstField::AngularVelocity>(h)); }
-	
+
 	void addForce(Instance, const math::Vec3&);
 	void addTorque(Instance, const math::Vec3&);
 
-	void recalcSecondaries(Instance);
+//	void recalcSecondaries(Instance);
 	void integrateAll(Time dt);
 };
 
