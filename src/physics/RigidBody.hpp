@@ -64,7 +64,8 @@ private:
 		// previous state
 		math::Vec3, // previousPosition
 		math::Quat, // previousRotation
-		math::Vec3  // previousAcceleration
+		math::Vec3, // previousAcceleration
+		math::Vec3  // previousVelocity
 	> instanceData_;
 	
 	HashMap<scene::Entity, Instance> entityMap_;
@@ -87,7 +88,8 @@ private:
 		
 		PreviousPosition,
 		PreviousRotation,
-		PreviousAcceleration
+		PreviousAcceleration,
+		PreviousVelocity
 	};
 	
 	template <InstField F>
@@ -104,18 +106,25 @@ public:
 	RigidBodyManager(memory::Allocator&, scene::TransformComponent&);
 
 	Instance create(scene::Entity, const RigidBodyDescriptor&);
+	
+	Instance forEntity(scene::Entity);
 
 	// -- single instance access
-	Properties properties(Instance h) const { return *(instancePtr<InstField::Properties>(h)); }
-	ValInv mass(Instance h) const { return *(instancePtr<InstField::Mass>(h)); }
-	ValInv drag(Instance h) const { return *(instancePtr<InstField::Drag>(h)); }
-	ValInv angularDrag(Instance h) const { return *(instancePtr<InstField::AngularDrag>(h)); }
+	const Properties properties(Instance h) const { return *(instancePtr<InstField::Properties>(h)); }
+	const ValInv mass(Instance h) const { return *(instancePtr<InstField::Mass>(h)); }
+	const ValInv drag(Instance h) const { return *(instancePtr<InstField::Drag>(h)); }
+	const ValInv angularDrag(Instance h) const { return *(instancePtr<InstField::AngularDrag>(h)); }
 
-	scene::TransformComponent::Instance linkedTransform(Instance h) const { return *(instancePtr<InstField::Transform>(h)); }
+	const scene::TransformComponent::Instance linkedTransform(Instance h) const { return *(instancePtr<InstField::Transform>(h)); }
 
-	math::Vec3& velocity(Instance h) { return *(instancePtr<InstField::Velocity>(h)); }
-	math::Quat& spin(Instance h) { return *(instancePtr<InstField::Spin>(h)); }
-	math::Vec3& angularVelocity(Instance h) { return *(instancePtr<InstField::AngularVelocity>(h)); }
+	const math::Vec3& velocity(Instance h) const { return *(instancePtr<InstField::Velocity>(h)); }
+	void setVelocity(Instance, const math::Vec3&);
+	const math::Quat& spin(Instance h) const { return *(instancePtr<InstField::Spin>(h)); }
+	const math::Vec3& angularVelocity(Instance h) const { return *(instancePtr<InstField::AngularVelocity>(h)); }
+	
+	const math::Vec3& previousPosition(Instance h) const { return *(instancePtr<InstField::PreviousPosition>(h)); }
+	const math::Vec3& previousAcceleration(Instance h) const { return *(instancePtr<InstField::PreviousAcceleration>(h)); }
+	const math::Vec3& previousVelocity(Instance h) const { return *(instancePtr<InstField::PreviousVelocity>(h)); }
 
 	void addForce(Instance, const math::Vec3&);
 	void addTorque(Instance, const math::Vec3&);

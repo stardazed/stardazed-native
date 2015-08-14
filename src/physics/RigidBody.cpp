@@ -13,7 +13,9 @@ RigidBodyManager::RigidBodyManager(memory::Allocator& allocator, scene::Transfor
 : transformMgr_(transform)
 , instanceData_{ allocator, 1024 }
 , entityMap_{ allocator, 1024 }
-{}
+{
+	instanceData_.extend();  // index 0 is a null-instance
+}
 
 
 auto RigidBodyManager::create(scene::Entity entity, const RigidBodyDescriptor& desc) -> Instance {
@@ -22,6 +24,7 @@ auto RigidBodyManager::create(scene::Entity entity, const RigidBodyDescriptor& d
 	
 	// FIXME: calc average drag intersection area, right now A = 1
 
+	*(basePtr<InstField::Properties>() + index) = { true, desc.obeysGravity };
 	*(basePtr<InstField::Mass>() + index) = { desc.mass, 1.0f / desc.mass };
 	*(basePtr<InstField::Drag>() + index) = { desc.drag, 1.0f / desc.drag };
 	*(basePtr<InstField::AngularDrag>() + index) = { desc.angularDrag, 1.0f / desc.angularDrag };
@@ -30,6 +33,12 @@ auto RigidBodyManager::create(scene::Entity entity, const RigidBodyDescriptor& d
 	Instance h { index };
 	entityMap_.insert(entity, h);
 	return h;
+}
+
+
+auto RigidBodyManager::forEntity(scene::Entity ent) -> Instance {
+	Instance* result = entityMap_.find(ent);
+	return result ? *result : Instance{0};
 }
 
 
@@ -43,35 +52,25 @@ void RigidBodyManager::addTorque(Instance h, const math::Vec3& torque) {
 	auto tp = instancePtr<InstField::ExternalTorque>(h);
 	*tp += torque;
 }
-//
-//
-//void RigidBodyManager::recalcSecondaries(Instance h) {
-//	velocity(h) = momentum(h) * inverseMass(h);
-//	angularVelocity(h) = angularMomentum(h) * inverseAngInertia(h);
-//	
-//	auto transInst = linkedTransform(h);
-//	auto rotation = transformMgr_.rotation(transInst);
-//	transformMgr_.setRotation(transInst, math::normalize(rotation));
-//	spin(h) = 0.5f * math::Quat{angularVelocity(h), 0} * rotation;
-//}
 
 
 void RigidBodyManager::integrateAll(Time dt) {
-	auto propertiesBase = basePtr<InstField::Properties>();
-	auto massBase = basePtr<InstField::Mass>();
-	auto dragBase = basePtr<InstField::Drag>();
-	auto transformBase = basePtr<InstField::Transform>();
-	auto velocityBase = basePtr<InstField::Velocity>();
-	auto externalForceBase = basePtr<InstField::ExternalForce>();
-	auto accelerationBase = basePtr<InstField::PreviousAcceleration>();
-	auto previousPositionBase = basePtr<InstField::PreviousPosition>();
+	auto propertiesBase = basePtr<InstField::Properties>() + 1;
+	auto massBase = basePtr<InstField::Mass>() + 1;
+	auto dragBase = basePtr<InstField::Drag>() + 1;
+	auto transformBase = basePtr<InstField::Transform>() + 1;
+	auto velocityBase = basePtr<InstField::Velocity>() + 1;
+	auto externalForceBase = basePtr<InstField::ExternalForce>() + 1;
+	auto accelerationBase = basePtr<InstField::PreviousAcceleration>() + 1;
+	auto previousPositionBase = basePtr<InstField::PreviousPosition>() + 1;
+	auto previousVelocityBase = basePtr<InstField::PreviousVelocity>() + 1;
 
 	using namespace math;
 
-	const Vec3 gravityAccel { 0, 9.80665, 0 };
+	const Vec3 gravityAccel { 0, -9.80665, 0 };
 	const float halfTimeStepSquared = .5 * dt * dt;
 
-	for (uint rbi=0; rbi < instanceData_.count(); ++rbi) {
+	for (uint rbi=1, rbCount = instanceData_.count(); rbi < rbCount; ++rbi) {
 		auto properties = *propertiesBase;
 		auto transform = *transformBase;
 		auto velocity = *velocityBase;
@@ -89,23 +88,13 @@ void RigidBodyManager::integrateAll(Time dt) {
 			totalForce -= .5f * 1.2f * dragArea * velocity * velocity * signedDirection;
 
 			// friction (fixed for now)
-			totalForce -= .5 * velocity;
+			totalForce -= .5f * velocity;
 		}
 
 		totalForce += *externalForceBase;
-
 		auto newAcceleration = totalForce * massBase->reciprocal;
 		
-		/*
-		last_acceleration = acceleration
-		position += velocity * time_step + ( 0.5 * last_acceleration * time_step^2 )
-		new_acceleration = force / mass
-		avg_acceleration = ( last_acceleration + new_acceleration ) / 2
-		velocity += avg_acceleration * time_step
-		*/
-
 		// Velocity Verlet Integration
-
 		// -- update position and keep old position (for collision tests)
 		auto dX = velocity * dt + (halfTimeStepSquared * acceleration);
 		auto curPos = transformMgr_.position(transform);
@@ -118,6 +107,7 @@ void RigidBodyManager::integrateAll(Time dt) {
 		if (lengthSquared(newVelocity) < 0.01) // prevent endless drifting
 			newVelocity = Vec3::zero();
 
+		*previousVelocityBase = velocity;
 		*velocityBase = newVelocity;
 		*accelerationBase = smoothedAccel;
 
@@ -129,6 +119,7 @@ void RigidBodyManager::integrateAll(Time dt) {
 		++externalForceBase;
 		++accelerationBase;
 		++previousPositionBase;
+		++previousVelocityBase;
 	}
 	
 	// clear all external forces
@@ -136,34 +127,11 @@ void RigidBodyManager::integrateAll(Time dt) {
 }
 
 
-/*
-	
-	
-	void PhysicsState::copyPrimaryAndSecondaryValuesFrom(const PhysicsState& other) {
-		transform = other.transform;
-		momentum = other.momentum;
-		angularMomentum = other.angularMomentum;
-		
-		velocity_ = other.velocity_;
-		angularVelocity_ = other.angularVelocity_;
-		spin_ = other.spin_;
-	}
+void RigidBodyManager::setVelocity(Instance h, const math::Vec3& newVel) {
+	assert(valid(h));
+	*(basePtr<InstField::Velocity>() + h.ref) = newVel;
+}
 
-
-	RigidBody::RigidBody(Transform& linkedTransform, float mass, float angularInertia)
-	: previousTransform_(linkedTransform)
-	, previous_{ previousTransform_, mass, angularInertia }
-	, current_ { linkedTransform, mass, angularInertia }
-	{}
-
-
-	void RigidBody::update(Time t, Time dt) {
-		previous_.copyPrimaryAndSecondaryValuesFrom(current_);
-		integrate(current_, t, dt);
-		userForce = {0, 0, 0};
-		userTorque = {0, 0, 0};
-	}
-*/
 
 
 } // ns physics
