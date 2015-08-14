@@ -24,7 +24,13 @@ struct Instance {
 
 	constexpr bool operator ==(Instance other) const { return ref == other.ref; }
 	constexpr bool operator !=(Instance other) const { return ref != other.ref; }
+	
+	constexpr explicit operator bool() const { return ref != 0; }
 };
+
+
+template <typename Component>
+constexpr bool valid(Instance<Component> inst) { return inst.ref != 0; }
 
 
 struct Entity {
