@@ -8,58 +8,62 @@
 
 #include "system/Config.hpp"
 #include "math/Bounds.hpp"
+#include "container/MultiArrayBuffer.hpp"
+#include "container/HashMap.hpp"
 #include "physics/RigidBody.hpp"
+#include "scene/Transform.hpp"
+#include "scene/Entity.hpp"
 
 namespace stardazed {
 namespace physics {
 
 
-struct Collider {
-	virtual ~Collider() = default;
-
-	virtual const math::Bounds& worldBounds() = 0;
-	virtual Transform& linkedTransform() = 0;
-
-	virtual void linkToRigidBody(RigidBody&) = 0;
-	virtual RigidBody* linkedRigidBody() const = 0;
-	virtual bool isStatic() const = 0;
+enum class ColliderType : uint8 {
+	Box,
+	Sphere
 };
 
 
-class BoxCollider : public Collider {
-	math::Bounds localBounds_, worldBounds_;
-	Transform& transform_;
-	RigidBody* rigidBody_ = nullptr;
+class ColliderManager {
+public:
+	using Instance = scene::Instance<ColliderManager>;
+
+private:
+	scene::TransformComponent& transformMgr_;
+	RigidBodyManager& rigidBodyMgr_;
+
+	container::MultiArrayBuffer<
+		ColliderType,
+		scene::TransformComponent::Instance,
+		RigidBodyManager::Instance,
+		math::Bounds, // localBounds
+		math::Bounds  // worldBounds
+	> instanceData_;
+	
+	enum class InstField {
+		Type,
+		Transform,
+		RigidBody,
+		LocalBounds,
+		WorldBounds
+	};
+	
+	HashMap<scene::Entity, Instance> entityMap_;
+	
+	template <InstField F>
+	auto basePtr() const {
+		return instanceData_.template elementsBasePtr<(uint)F>();
+	}
 
 public:
-	BoxCollider(Transform&, const math::Vec3& localCenter, const math::Vec3& size);
-	const math::Bounds& worldBounds() final;
-	Transform& linkedTransform() final { return transform_; }
+	ColliderManager(memory::Allocator&, scene::TransformComponent&, RigidBodyManager&);
+	
+	Instance create(scene::Entity, ColliderType, const math::Vec3& localCenter, const math::Vec3& size);
 
-	void linkToRigidBody(RigidBody& rigidBody) final {
-		rigidBody_ = &rigidBody;
-	}
-	RigidBody* linkedRigidBody() const final { return rigidBody_; }
-	bool isStatic() const final { return rigidBody_ == nullptr; }
-};
-
-
-class SphereCollider : public Collider {
-	math::Bounds localBounds_, worldBounds_;
-	Transform& transform_;
-	RigidBody* rigidBody_ = nullptr;
-	float radius_;
-
-public:
-	SphereCollider(Transform&, const math::Vec3& localCenter, float radius);
-	const math::Bounds& worldBounds() final;
-	Transform& linkedTransform() final { return transform_; }
-
-	void linkToRigidBody(RigidBody& rigidBody) final {
-		rigidBody_ = &rigidBody;
-	}
-	RigidBody* linkedRigidBody() const final { return rigidBody_; }
-	bool isStatic() const final { return rigidBody_ == nullptr; }
+	void linkToRigidBody(Instance, RigidBodyManager::Instance);
+	RigidBodyManager::Instance linkedRigidBody(Instance) const;
+	
+	void resolveAll();
 };
 
 

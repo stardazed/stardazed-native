@@ -62,6 +62,7 @@
 		8E2864581B46963900FD436D /* StandardModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E2864571B46963900FD436D /* StandardModel.hpp */; };
 		8E28645A1B469ECD00FD436D /* StandardModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E2864591B469ECD00FD436D /* StandardModel.cpp */; };
 		8E28645D1B46D4C500FD436D /* Buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E28645C1B46D4C500FD436D /* Buffer.hpp */; };
+		8E307AD71B7E7BEB0012FD16 /* Collider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E5372601B31B49E002C1538 /* Collider.cpp */; };
 		8E31873619ED460000D3B189 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E31873519ED460000D3B189 /* OpenGL.framework */; };
 		8E3A702B1AD2ABAD00A9923B /* Mouse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E3A702A1AD2ABAD00A9923B /* Mouse.hpp */; };
 		8E43CDA01B4C7F89009D24B5 /* Light.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E43CD9F1B4C7F89009D24B5 /* Light.hpp */; };
@@ -839,6 +840,7 @@
 				8E5C53AD1B186B6900F74804 /* RenderPass.cpp in Sources */,
 				8EC145F91A869D12004D533A /* OpenGL.cpp in Sources */,
 				8EF701F91A76F90B00454341 /* adler32.c in Sources */,
+				8E307AD71B7E7BEB0012FD16 /* Collider.cpp in Sources */,
 				8E112DC0199E5FE20029CD38 /* Shader.cpp in Sources */,
 				8EC342AE1ACC90A50020F3EC /* jpgd.cpp in Sources */,
 				8E6A0DC019B3A53E00DF0921 /* mac_DevicesContext.mm in Sources */,
