@@ -808,6 +808,43 @@ Vector<4, T> mix(const Vector<4, T>& a, const Vector<4, T>& b, const Vector<4, T
 }
 
 
+// get signs of Vector2 elements as [-1, 0, 1]
+template <typename T>
+constexpr
+Vector<2, T> sign(const Vector<2, T>& a) {
+	return {
+		a.x > T{0} ? T{1} : (a.x < T{0} ? T{-1} : T{0}),
+		a.y > T{0} ? T{1} : (a.y < T{0} ? T{-1} : T{0})
+	};
+}
+
+
+// get signs of Vector3 elements as [-1, 0, 1]
+template <typename T>
+constexpr
+Vector<3, T> sign(const Vector<3, T>& a) {
+	return {
+		a.x > T{0} ? T{1} : (a.x < T{0} ? T{-1} : T{0}),
+		a.y > T{0} ? T{1} : (a.y < T{0} ? T{-1} : T{0}),
+		a.z > T{0} ? T{1} : (a.z < T{0} ? T{-1} : T{0})
+	};
+}
+
+
+// get signs of Vector4 elements as [-1, 0, 1]
+template <typename T>
+constexpr
+Vector<4, T> sign(const Vector<4, T>& a) {
+	return {
+		a.x > T{0} ? T{1} : (a.x < T{0} ? T{-1} : T{0}),
+		a.y > T{0} ? T{1} : (a.y < T{0} ? T{-1} : T{0}),
+		a.z > T{0} ? T{1} : (a.z < T{0} ? T{-1} : T{0}),
+		a.w > T{0} ? T{1} : (a.w < T{0} ? T{-1} : T{0})
+	};
+}
+
+
+
 // special mix variant with Vector<N, bool> ratios, where false yields a and true yields b (unoptimized, not specialized)
 template <size32 N, typename T>
 Vector<N, T> mix(const Vector<N, T>& a, const Vector<N, T>& b, const Vector<N, bool>& selects) {

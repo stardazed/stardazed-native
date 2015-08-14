@@ -63,6 +63,16 @@ T mix(T a, T b, T ratio) {
 }
 
 
+// sign
+// get signed 1 value of a value or 0 if it's 0
+
+template <typename T>
+constexpr
+T sign(T a) {
+	return a > T{0} ? T{1} : (a < T{0} ? T{-1} : T{0});
+}
+	
+	
 // texCoord
 // return fraction of number and 1-fract for negative numbers
 // to have linear increasing fractions for all numbers for e.g. uv-coords
