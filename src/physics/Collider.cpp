@@ -118,19 +118,15 @@ void ColliderManager::resolveAll() {
 				
 				// --
 				if (tEnterMin > 0.0f && tEnterMin < 100.0f) {
-					auto previousVelocity = rigidBodyMgr_.previousVelocity(rigidBodyA);
-					auto dVA = rigidBodyMgr_.velocity(rigidBodyA) - previousVelocity;
-					auto velAtHit = previousVelocity + (dVA * tEnterMin);
-					auto velOut = reflect(velAtHit, bounceNormal) * bounceFriction;
+//					auto previousVelocity = rigidBodyMgr_.previousVelocity(rigidBodyA);
+//					auto dVA = rigidBodyMgr_.velocity(rigidBodyA) - previousVelocity;
+//
+//					auto velAtHit = previousVelocity + (dVA * tEnterMin);
+//					auto velOut = reflect(velAtHit, bounceNormal) * bounceFriction;
 					
 					auto clippedPos = previousPosition + (dA * tEnterMin);
 					transformMgr_.setPosition(transA, clippedPos + ((1.0 - tEnterMin) * reflect(dA, bounceNormal) * bounciness));
-//					sd::log(rigidBodyA->previousState().transform.position, clippedPos, collA->linkedTransform().position);
-					
-					rigidBodyMgr_.setVelocity(rigidBodyA, velOut);
-//					rigidBodyA->state().recalcSecondaryValues();
-					
-					sd::log(previousVelocity, rigidBodyMgr_.velocity(rigidBodyA));
+//					rigidBodyMgr_.setVelocity(rigidBodyA, velOut);
 				}
 			}
 		}
