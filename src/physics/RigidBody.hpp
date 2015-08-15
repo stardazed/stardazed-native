@@ -46,13 +46,21 @@ private:
 
 		// constant
 		ValInv, // mass/inertia
-		ValInv, // drag           ---- This is the drag co-efficient (Cd) * an average intersection area (A)
+		ValInv, // dragArea       ---- This is the drag co-efficient (Cd) * an average intersection area (A)
 		ValInv, // angularDrag
-
+	
+		// external
+		math::Vec3, // externalForce
+	
 		// primary
 		scene::TransformManager::Instance, // linkedTransform
+		math::Vec3, // momentum
+	
+		// secondary
+		math::Vec3, // velocity
+
 		math::Vec3, // previousPosition
-		math::Vec3  // acceleration
+		math::Vec3  // previousVelocity
 	> instanceData_;
 	
 	HashMap<scene::Entity, Instance> entityMap_;
@@ -61,12 +69,18 @@ private:
 		Properties,
 
 		Mass,
-		Drag,
+		DragArea,
 		AngularDrag,
 		
+		ExternalForce,
+		
 		Transform,
+		Momentum,
+
+		Velocity,
+		
 		PreviousPosition,
-		Acceleration
+		PreviousVelocity
 	};
 	
 	template <InstField F>
@@ -89,18 +103,27 @@ public:
 	// -- single instance access
 	const Properties properties(Instance h) const { return *(instancePtr<InstField::Properties>(h)); }
 	const ValInv mass(Instance h) const { return *(instancePtr<InstField::Mass>(h)); }
-	const ValInv drag(Instance h) const { return *(instancePtr<InstField::Drag>(h)); }
-	const ValInv angularDrag(Instance h) const { return *(instancePtr<InstField::AngularDrag>(h)); }
 
 	const scene::TransformManager::Instance linkedTransform(Instance h) const { return *(instancePtr<InstField::Transform>(h)); }
 
+	const math::Vec3& momentum(Instance h) const { return *(instancePtr<InstField::Momentum>(h)); }
+	const math::Vec3& velocity(Instance h) const { return *(instancePtr<InstField::Velocity>(h)); }
+	void setMomentum(Instance h, const math::Vec3& newMomentum) {
+		*(instancePtr<InstField::Momentum>(h)) = newMomentum;
+		*(instancePtr<InstField::Velocity>(h)) = newMomentum * mass(h).reciprocal;
+	}
+
 	const math::Vec3& previousPosition(Instance h) const { return *(instancePtr<InstField::PreviousPosition>(h)); }
-	const math::Vec3& acceleration(Instance h) const { return *(instancePtr<InstField::Acceleration>(h)); }
+	const math::Vec3& previousVelocity(Instance h) const { return *(instancePtr<InstField::PreviousVelocity>(h)); }
 
-	void addAcceleration(Instance, const math::Vec3&);
+	void addExternalForce(Instance, const math::Vec3&);
+	
+	// TODO: to make full use of RK4, certain forces will be a function, so something like:
+	// void addContinuousForce(Instance, Vec3(Transform, Instance, Time)* );
+	// which will be called when needed to calculate a continuous time-based force
 
-	void accelerateAll(Time dt);
-	void inertiaAll();
+	// -- integration
+	void integrateAll(Time dt);
 };
 
 

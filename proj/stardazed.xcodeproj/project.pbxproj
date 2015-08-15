@@ -155,7 +155,7 @@
 		8EF71ECD19D8600A00AA373B /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF71ECB19D8600A00AA373B /* RenderContext.hpp */; };
 		8EF963031AEFDB890012ED72 /* FrameBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */; };
 		8EF963051AEFE7C80012ED72 /* PixelBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */; };
-		8EFEA1B41B289EC700C6406C /* Integratable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1B31B289EC700C6406C /* Integratable.hpp */; };
+		8EFEA1B41B289EC700C6406C /* RK4Integrator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8EFEA1B31B289EC700C6406C /* RK4Integrator.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -308,7 +308,7 @@
 		8EF71ECB19D8600A00AA373B /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
 		8EF963021AEFDB890012ED72 /* FrameBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameBuffer.hpp; sourceTree = "<group>"; };
 		8EF963041AEFE7C80012ED72 /* PixelBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PixelBuffer.hpp; sourceTree = "<group>"; };
-		8EFEA1B31B289EC700C6406C /* Integratable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Integratable.hpp; sourceTree = "<group>"; };
+		8EFEA1B31B289EC700C6406C /* RK4Integrator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RK4Integrator.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -559,7 +559,7 @@
 			isa = PBXGroup;
 			children = (
 				8E5372621B332C3A002C1538 /* PhysicMaterial.hpp */,
-				8EFEA1B31B289EC700C6406C /* Integratable.hpp */,
+				8EFEA1B31B289EC700C6406C /* RK4Integrator.hpp */,
 				8E7749D01B25E7B5003843FA /* RigidBody.hpp */,
 				8E842E571B2B79B900A8557D /* RigidBody.cpp */,
 				8E5372541B304201002C1538 /* Collider.hpp */,
@@ -675,7 +675,7 @@
 				8E112D4A199E55100029CD38 /* Quaternion.hpp in Headers */,
 				8E7749D11B25E7B5003843FA /* RigidBody.hpp in Headers */,
 				8E6A0DC219B3A5CB00DF0921 /* mac_VKeyCodes.hpp in Headers */,
-				8EFEA1B41B289EC700C6406C /* Integratable.hpp in Headers */,
+				8EFEA1B41B289EC700C6406C /* RK4Integrator.hpp in Headers */,
 				8E112D47199E55100029CD38 /* Constants.hpp in Headers */,
 				8EA7092E19D75FC000129E2D /* Pipeline.hpp in Headers */,
 				8E112DDD199E60A50029CD38 /* Camera.hpp in Headers */,
