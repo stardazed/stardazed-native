@@ -51,6 +51,8 @@
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
 		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
+		8E1E4B021B989D1B00784D25 /* LWOLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1E4B001B989D1B00784D25 /* LWOLoader.cpp */; settings = {ASSET_TAGS = (); }; };
+		8E1E4B031B989D1B00784D25 /* LWOLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E1E4B011B989D1B00784D25 /* LWOLoader.hpp */; settings = {ASSET_TAGS = (); }; };
 		8E221FB31B56F6F8006E5CFD /* Transform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E221FB21B56F6F8006E5CFD /* Transform.hpp */; };
 		8E221FB51B56FEAE006E5CFD /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E221FB41B56FEAE006E5CFD /* Transform.cpp */; };
 		8E2389C619F5A04400080E15 /* VertexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E2389C519F5A04400080E15 /* VertexBuffer.hpp */; };
@@ -204,6 +206,8 @@
 		8E19672319ACD69F009CB5E6 /* mac_Application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mac_Application.hpp; sourceTree = "<group>"; };
 		8E19672419ACD69F009CB5E6 /* mac_Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Application.mm; sourceTree = "<group>"; };
 		8E19672519ACD69F009CB5E6 /* mac_Logging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_Logging.mm; sourceTree = "<group>"; };
+		8E1E4B001B989D1B00784D25 /* LWOLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LWOLoader.cpp; sourceTree = "<group>"; };
+		8E1E4B011B989D1B00784D25 /* LWOLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LWOLoader.hpp; sourceTree = "<group>"; };
 		8E221FB21B56F6F8006E5CFD /* Transform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Transform.hpp; sourceTree = "<group>"; };
 		8E221FB41B56FEAE006E5CFD /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform.cpp; sourceTree = "<group>"; };
 		8E2389C519F5A04400080E15 /* VertexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = VertexBuffer.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -484,6 +488,8 @@
 		8E112DC6199E60150029CD38 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				8E1E4B001B989D1B00784D25 /* LWOLoader.cpp */,
+				8E1E4B011B989D1B00784D25 /* LWOLoader.hpp */,
 				8E2864571B46963900FD436D /* StandardModel.hpp */,
 				8E2864591B469ECD00FD436D /* StandardModel.cpp */,
 				8E2864501B4694E100FD436D /* Generators.hpp */,
@@ -742,6 +748,7 @@
 				8EDA06831B67C646001898EA /* Deque.hpp in Headers */,
 				8E112D4B199E55100029CD38 /* Vector.hpp in Headers */,
 				8EF701FE1A76F90B00454341 /* inffast.h in Headers */,
+				8E1E4B031B989D1B00784D25 /* LWOLoader.hpp in Headers */,
 				8EDA06811B6683C7001898EA /* RingBuffer.hpp in Headers */,
 				8E89E99C19AD4896001AB2AF /* mac_GLRenderContext.hpp in Headers */,
 				8E2864581B46963900FD436D /* StandardModel.hpp in Headers */,
@@ -834,6 +841,7 @@
 				8E221FB51B56FEAE006E5CFD /* Transform.cpp in Sources */,
 				8E25240D1B4D291200CC4789 /* Light.cpp in Sources */,
 				8EC31EA01B1E0ABF00AF9582 /* IndexBuffer.cpp in Sources */,
+				8E1E4B021B989D1B00784D25 /* LWOLoader.cpp in Sources */,
 				8EF702061A76F90B00454341 /* zutil.c in Sources */,
 				8EC8C5401B506B1E00EAADE9 /* Allocator.cpp in Sources */,
 				8E147FAF19BB9944002836CA /* Game.cpp in Sources */,
