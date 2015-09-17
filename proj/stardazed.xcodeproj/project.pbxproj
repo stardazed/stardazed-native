@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -801,7 +801,7 @@
 				ORGANIZATIONNAME = xfinitegames;
 			};
 			buildConfigurationList = 8E112D28199E53CC0029CD38 /* Build configuration list for PBXProject "stardazed" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
