@@ -26,7 +26,7 @@ enum class BufferClientAccess {
 
 enum class BufferUpdateFrequency {
 	Never,
-	Occassionally,
+	Occasionally,
 	Frequently
 };
 

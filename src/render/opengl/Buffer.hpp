@@ -26,7 +26,7 @@ namespace detail {
 			switch (frequency) {
 				case BufferUpdateFrequency::Never:
 					return GL_STATIC_COPY;
-				case BufferUpdateFrequency::Occassionally:
+				case BufferUpdateFrequency::Occasionally:
 					return GL_DYNAMIC_COPY;
 				case BufferUpdateFrequency::Frequently:
 					return GL_STREAM_COPY;
@@ -37,7 +37,7 @@ namespace detail {
 			switch (frequency) {
 				case BufferUpdateFrequency::Never:
 					return GL_STATIC_DRAW;
-				case BufferUpdateFrequency::Occassionally:
+				case BufferUpdateFrequency::Occasionally:
 					return GL_DYNAMIC_DRAW;
 				case BufferUpdateFrequency::Frequently:
 					return GL_STREAM_DRAW;
@@ -48,7 +48,7 @@ namespace detail {
 			switch (frequency) {
 				case BufferUpdateFrequency::Never:
 					return GL_STATIC_READ;
-				case BufferUpdateFrequency::Occassionally:
+				case BufferUpdateFrequency::Occasionally:
 					return GL_DYNAMIC_READ;
 				case BufferUpdateFrequency::Frequently:
 					return GL_STREAM_READ;
