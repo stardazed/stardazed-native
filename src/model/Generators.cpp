@@ -208,9 +208,9 @@ Sphere::Sphere(float radius, int rows, int segs, float sliceFrom, float sliceTo)
 , sliceFrom_(math::clamp(sliceFrom, 0.f, 1.f))
 , sliceTo_(math::clamp(sliceTo, 0.f, 1.f))
 {
-	assert(rows >= 2);
-	assert(segs >= 4);
-	assert(sliceTo > sliceFrom);
+	assert(rows_ >= 2);
+	assert(segs_ >= 4);
+	assert(sliceTo_ > sliceFrom_);
 }
 
 
@@ -220,67 +220,35 @@ void Sphere::generateImpl(const PositionAddFn& position, const FaceAddFn& face, 
 	
 	float slice = sliceTo_ - sliceFrom_,
 		  piFrom = sliceFrom_ * Pi.val(),
-		  piSlice = slice * Pi.val(),
-		  halfPiSlice = slice / 2;
+		  piSlice = slice * Pi.val();
 
 	int vix = 0;
 	
 	for (int row=0; row <= rows_; ++row) {
 		float y = std::cos(piFrom + (piSlice / rows_) * row) * radius_;
 		float segRad = std::sin(piFrom + (piSlice / rows_) * row) * radius_;
-		float texV = std::sin(piFrom + (halfPiSlice / rows_) * row);
+		float texV = sliceFrom_ + (((float)row / rows_) * slice);
 		
-		if (
-			(hasTopDisc() && row == 0) ||
-			(hasBottomDisc() && row == rows_)
-		) {
-			// center top or bottom
-			position(0, y, 0);
-			uv(0.5, texV);
-			++vix;
-		}
-		else {
-			for (int seg=0; seg < segs_; ++seg) {
-				float x = math::sin((Tau / segs_) * seg) * segRad;
-				float z = math::cos((Tau / segs_) * seg) * segRad;
-				float texU = math::sin(((Pi / 2) / rows_) * row);
+		for (int seg=0; seg <= segs_; ++seg) {
+			float x = math::sin((Tau / segs_) * seg) * segRad;
+			float z = math::cos((Tau / segs_) * seg) * segRad;
+			float texU = (float)seg / segs_;
 
-				position(x, y, z);
-				uv(texU, texV);
-				++vix;
-			}
+			position(x, y, z);
+			uv(texU, texV);
+			++vix;
 		}
 		
 		// construct row of faces
 		if (row > 0) {
-			int raix = vix,
-				rbix = vix,
-				ramul, rbmul;
-			
-			if (hasTopDisc() && row == 1) {
-				raix -= segs_ + 1;
-				rbix -= segs_;
-				ramul = 0;
-				rbmul = 1;
-			}
-			else if (hasBottomDisc() && row == rows_) {
-				raix -= segs_ + 1;
-				rbix -= 1;
-				ramul = 1;
-				rbmul = 0;
-			}
-			else {
-				raix -= segs_ * 2;
-				rbix -= segs_;
-				ramul = 1;
-				rbmul = 1;
-			}
-			
-			for (int seg=0; seg < segs_; ++seg) {
-				int ral = ramul * seg,
-					rar = ramul * ((seg + 1) % segs_),
-					rbl = rbmul * seg,
-					rbr = rbmul * ((seg + 1) % segs_);
+			int raix = vix - ((segs_ + 1) * 2),
+				rbix = vix - (segs_ + 1);
+
+			for (int seg=0; seg <= segs_; ++seg) {
+				int ral = seg,
+					rar = ((seg + 1) % (segs_ + 1)),
+					rbl = seg,
+					rbr = ((seg + 1) % (segs_ + 1));
 				
 				if (ral != rar)
 					face(raix + ral, rbix + rbl, raix + rar);

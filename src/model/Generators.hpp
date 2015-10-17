@@ -142,25 +142,16 @@ class Sphere : public MeshGenerator<Sphere> {
 	int rows_, segs_;
 	float radius_, sliceFrom_, sliceTo_;
 	
-	bool hasTopDisc() const { return sliceFrom_ == 0.f; }
-	bool hasBottomDisc() const { return sliceTo_ == 1.f; }
-
 public:
 	Sphere(float radius = 1.0f, int rows = 20, int segs = 30,
 		   float sliceFrom = 0.0f, float sliceTo = 1.0f);
 	
 	size32 vertexCount() const override {
-		size32 vc = segs_ * (rows_ - 1);
-		if (hasTopDisc()) ++vc;
-		if (hasBottomDisc()) ++vc;
-		return vc;
+		return (segs_ + 1) * (rows_ + 1);
 	}
 
 	size32 faceCount() const override {
-		size32 fc = 2u * segs_ * rows_;
-		if (hasTopDisc()) fc -= segs_;
-		if (hasBottomDisc()) fc -= segs_;
-		return fc;
+		return 2 * (segs_ + 1) * (rows_ + 1);
 	}
 	
 	void generateImpl(const PositionAddFn&, const FaceAddFn&, const UVAddFn&) const;
