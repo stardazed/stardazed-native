@@ -244,16 +244,14 @@ void Sphere::generateImpl(const PositionAddFn& position, const FaceAddFn& face, 
 			int raix = vix - ((segs_ + 1) * 2),
 				rbix = vix - (segs_ + 1);
 
-			for (int seg=0; seg <= segs_; ++seg) {
-				int ral = seg,
-					rar = ((seg + 1) % (segs_ + 1)),
-					rbl = seg,
-					rbr = ((seg + 1) % (segs_ + 1));
+			for (int seg=1; seg <= segs_; ++seg) {
+				int rl = seg,
+					rr = rl == segs_ ? 1 : seg + 1;
 				
-				if (ral != rar)
-					face(raix + ral, rbix + rbl, raix + rar);
-				if (rbl != rbr)
-					face(raix + rar, rbix + rbl, rbix + rbr);
+				if (row > 1)
+					face(raix + rl, rbix + rl, raix + rr);
+				if (row < rows_)
+					face(raix + rr, rbix + rl, rbix + rr);
 			}
 		}
 	}
