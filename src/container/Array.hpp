@@ -208,21 +208,23 @@ public:
 			memset(newData, 0, newSizeBytes);
 		}
 
-		if (data_ && (count() > 0)) {
-			// Copy over the data to the new buffer and free the old one
-			if (std::is_trivially_move_constructible<T>::value) {
-				memcpy(newData, data_, count() * elementSizeBytes());
-			}
-			else {
-				auto elementsToCopy = count();
-				T* src = data_;
-				T* dst = newData;
+		if (data_) {
+			if (count() > 0) {
+				// Copy over the data to the new buffer and free the old one
+				if (std::is_trivially_move_constructible<T>::value) {
+					memcpy(newData, data_, count() * elementSizeBytes());
+				}
+				else {
+					auto elementsToCopy = count();
+					T* src = data_;
+					T* dst = newData;
 
-				while (elementsToCopy--) {
-					new (dst) T(std::move(*src)); // move-construct element in new array
-					src->~T();                    // still need to destroy element after move
-					++src;
-					++dst;
+					while (elementsToCopy--) {
+						new (dst) T(std::move(*src)); // move-construct element in new array
+						src->~T();                    // still need to destroy element after move
+						++src;
+						++dst;
+					}
 				}
 			}
 

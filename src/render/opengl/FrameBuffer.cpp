@@ -115,7 +115,7 @@ FrameBuffer::FrameBuffer(const FrameBufferDescriptor& desc)
 
 		if (stencilTex) {
 			assert(pixelFormatIsStencilFormat(stencilTex->pixelFormat()));
-			attachTexture(GL_STENCIL_ATTACHMENT, desc.depthAttachment);
+			attachTexture(GL_STENCIL_ATTACHMENT, desc.stencilAttachment);
 		}
 	}
 

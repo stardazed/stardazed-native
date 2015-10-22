@@ -14,7 +14,7 @@ namespace runtime {
 
 
 struct FrameStatistics {
-	Time startTime, endTime;
+	Time startTime {}, endTime {};
 	Time inputEndTime {}, physicsEndTime {}, renderEndTime {}, swapEndTime {};
 	Time lagDuration {};
 	int physicsStepsRun = 0;
