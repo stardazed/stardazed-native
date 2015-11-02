@@ -194,7 +194,7 @@ public:
 
 			auto elementsToClear = count() - newCount;
 			detail::eachArrayBasePtr<Ts...>(data_, capacity_,
-				[elementsToClear, fromIndex = count()]
+				[elementsToClear, fromIndex = newCount]
 				(void* basePtr, uint32 elementSizeBytes) {
 					auto firstDeletedElementPtr = static_cast<uint8*>(basePtr) + (elementSizeBytes * fromIndex);
 					memset(firstDeletedElementPtr, 0, elementSizeBytes * elementsToClear);
@@ -211,7 +211,7 @@ public:
 		auto invalidation = InvalidatePointers::No;
 
 		if (count_ == capacity_) {
-			invalidation = reserve(capacity() * 2);
+			invalidation = reserve(capacity_ * 2);
 		}
 
 		++count_;
