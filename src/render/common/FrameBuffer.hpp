@@ -58,8 +58,8 @@ struct FrameBufferAllocationDescriptor {
 	PixelFormat depthFormat = PixelFormat::None;
 	PixelFormat stencilFormat = PixelFormat::None;
 	
-	// As depth and stencil buffers are almost exclusively used in FBO environment
-	// their default hint is set accordingly.
+	// As depth and stencil buffers are almost exclusively used in
+	// FBO environments, their default hint is set accordingly.
 	TextureUsageHint depthUsageHint = TextureUsageHint::RenderTargetOnly;
 	TextureUsageHint stencilUsageHint = TextureUsageHint::RenderTargetOnly;
 };
