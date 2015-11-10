@@ -31,10 +31,6 @@ constexpr GLenum glTypeForPrimitiveType(PrimitiveType pt) {
 
 constexpr GLenum glTypeForVertexField(VertexField vf) {
 	switch (vf) {
-		case VertexField::Undefined:
-			assert(!"Invalid VertexField");
-			return GL_NONE;
-			
 		case VertexField::Float:
 		case VertexField::Floatx2:
 		case VertexField::Floatx3:
@@ -94,6 +90,10 @@ constexpr GLenum glTypeForVertexField(VertexField vf) {
 			return GL_UNSIGNED_INT_10_10_10_2;
 		case VertexField::Norm_SInt2_10_10_10Rev:
 			return GL_INT_2_10_10_10_REV;
+
+		case VertexField::Undefined:
+			assert(!"Invalid VertexField");
+			return GL_NONE;			
 	}
 }
 

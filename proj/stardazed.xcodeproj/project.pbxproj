@@ -51,7 +51,7 @@
 		8E19672619ACD69F009CB5E6 /* mac_Application.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E19672319ACD69F009CB5E6 /* mac_Application.hpp */; };
 		8E19672719ACD69F009CB5E6 /* mac_Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672419ACD69F009CB5E6 /* mac_Application.mm */; };
 		8E19672819ACD69F009CB5E6 /* mac_Logging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E19672519ACD69F009CB5E6 /* mac_Logging.mm */; };
-		8E1E4B031B989D1B00784D25 /* LWOLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E1E4B011B989D1B00784D25 /* LWOLoader.hpp */; settings = {ASSET_TAGS = (); }; };
+		8E1E4B031B989D1B00784D25 /* LWOLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E1E4B011B989D1B00784D25 /* LWOLoader.hpp */; };
 		8E221FB31B56F6F8006E5CFD /* Transform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E221FB21B56F6F8006E5CFD /* Transform.hpp */; };
 		8E221FB51B56FEAE006E5CFD /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E221FB41B56FEAE006E5CFD /* Transform.cpp */; };
 		8E2389C619F5A04400080E15 /* VertexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8E2389C519F5A04400080E15 /* VertexBuffer.hpp */; };
@@ -260,7 +260,7 @@
 		8E89E99B19AD4896001AB2AF /* mac_GLRenderContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_GLRenderContext.mm; sourceTree = "<group>"; };
 		8E8D22B41B1A0A6500A876E5 /* ShaderLibrary.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderLibrary.hpp; sourceTree = "<group>"; };
 		8E8D22B61B1A1E4D00A876E5 /* VertexLayout.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = VertexLayout.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		8E8D22B81B1B264F00A876E5 /* VertexLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = VertexLayout.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		8E8D22B81B1B264F00A876E5 /* VertexLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = VertexLayout.cpp; sourceTree = "<group>"; };
 		8E90F1241A6D51B700AD015B /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Texture.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E90F1261A6D636500AD015B /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Texture.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		8E9214481B15FBE7006CBE05 /* RenderPass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderPass.hpp; sourceTree = "<group>"; };

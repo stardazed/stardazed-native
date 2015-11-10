@@ -96,7 +96,7 @@ void Shader::setTexture(const Texture* texture, uint32 bindPoint, GLint samplerU
 		bind(texture);
 	}
 	else {
-		// bind a null texture to an aribitrary texture target
+		// bind a null texture to an arbitrary texture target
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	
