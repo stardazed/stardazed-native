@@ -7,9 +7,7 @@
 #include "system/Time.hpp"
 #include "system/Logging.hpp"
 #include "util/ConceptTraits.hpp"
-#include "runtime/Game.hpp"
-
-#include <thread>
+#include "runtime/RunLoop.hpp"
 
 #import <AppKit/AppKit.h>
 
@@ -45,17 +43,14 @@ namespace stardazed {
 
 bool Application::quit_ = false;
 bool Application::active_ = true;
-runtime::Game* Application::game_ = nullptr;
 
 
 void Application::setActive(bool active) {
 	active_ = active;
-	if (game_) {
-		if (active_)
-			game_->resume();
-		else
-			game_->suspend();
-	}
+	if (active_)
+		defaultRunLoop().start();
+	else
+		defaultRunLoop().stop();
 }
 
 

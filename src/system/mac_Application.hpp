@@ -22,14 +22,9 @@ class Application {
 
 	static bool quit_;
 	static bool active_;
-	static runtime::Game* game_;
 
 public:
 	static void init();
-	
-	static void setGame(runtime::Game& game) {
-		game_ = &game;
-	}
 	
 	// -- resources
 	static const fs::Path& dataPath();

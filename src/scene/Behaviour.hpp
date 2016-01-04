@@ -7,10 +7,10 @@
 #define SD_SCENE_BEHAVIOUR_H
 
 #include "system/Config.hpp"
+#include "system/Time.hpp"
 #include "container/Array.hpp"
 #include "container/HashMap.hpp"
 #include "memory/Arena.hpp"
-#include "runtime/FrameContext.hpp"
 #include "scene/Entity.hpp"
 
 #include <functional>
@@ -25,12 +25,12 @@ class Scene;
 
 struct BehaviourConcept {
 	virtual ~BehaviourConcept() = default;
-	virtual void update(Entity, Scene&, runtime::FrameContext&) = 0;
+	virtual void update(Entity, Scene&, Time) = 0;
 };
 
 
 class PluggableBehaviour : public BehaviourConcept {
-	using SimpleBehaviourHandler = std::function<void(Entity, Scene&, runtime::FrameContext&)>;
+	using SimpleBehaviourHandler = std::function<void(Entity, Scene&, Time)>;
 
 	SimpleBehaviourHandler updateFunc_;
 
@@ -38,7 +38,7 @@ public:
 	PluggableBehaviour();
 	PluggableBehaviour(const SimpleBehaviourHandler&);
 
-	void update(Entity, Scene&, runtime::FrameContext&) final;
+	void update(Entity, Scene&, Time) final;
 	void setUpdateHandler(SimpleBehaviourHandler);
 };
 
@@ -91,11 +91,11 @@ public:
 	}
 	
 	
-	void updateAll(Scene& scene, runtime::FrameContext& fc) {
+	void updateAll(Scene& scene, Time dt) {
 		auto allLinkedBehaviours = entityMap_.all();
 		while (allLinkedBehaviours.next()) {
 			auto entBeh = allLinkedBehaviours.current();
-			entBeh.val->update(entBeh.key, scene, fc);
+			entBeh.val->update(entBeh.key, scene, dt);
 		}
 	}
 };

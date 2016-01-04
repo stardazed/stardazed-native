@@ -11,7 +11,7 @@ namespace scene {
 
 
 PluggableBehaviour::PluggableBehaviour() {
-	static auto noAction = [](Entity, Scene&, runtime::FrameContext&){};
+	static auto noAction = [](Entity, Scene&, Time dt){};
 	updateFunc_ = noAction;
 }
 
@@ -21,8 +21,8 @@ PluggableBehaviour::PluggableBehaviour(const SimpleBehaviourHandler& fn) {
 }
 	
 	
-void PluggableBehaviour::update(Entity entity, Scene& scene, runtime::FrameContext& frame) {
-	updateFunc_(entity, scene, frame);
+void PluggableBehaviour::update(Entity entity, Scene& scene, Time dt) {
+	updateFunc_(entity, scene, dt);
 }
 
 
