@@ -6,6 +6,7 @@
 #include "runtime/RunLoop.hpp"
 #include "system/Application.hpp"
 #include "system/Logging.hpp"
+#include "io/input.hpp"
 
 #include <thread>
 
@@ -41,6 +42,8 @@ void RunLoop::mainLoop() {
 		auto frameStartTime = time::now();
 		auto timeSinceLastFrameStart = frameStartTime - lastFrameTime_;
 		lastFrameTime_ = frameStartTime;
+
+		io::update();
 		
 		if (Application::isActive()) {
 			if (timeSinceLastFrameStart > maxFrameTime_) {
@@ -50,8 +53,6 @@ void RunLoop::mainLoop() {
 			}
 			globalTime_ += timeSinceLastFrameStart;
 			
-//			devices().frame();
-
 			if (controller_) {
 				controller_->simulationStep(timeSinceLastFrameStart);
 				controller_->renderFrame(timeSinceLastFrameStart);

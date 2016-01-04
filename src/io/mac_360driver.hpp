@@ -1,18 +1,16 @@
 // ------------------------------------------------------------------
-// device::mac_X360Controller - stardazed
-// (c) 2014 by Arthur Langereis
+// io::mac_360driver - stardazed
+// (c) 2016 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_DEVICE_MAC_X360CONTROLLER_H
-#define SD_DEVICE_MAC_X360CONTROLLER_H
+#ifndef SD_IO_MAC_360DRIVER_H
+#define SD_IO_MAC_360DRIVER_H
 
 #include "system/Config.hpp"
-#include "device/Controller.hpp"
-
-#include <IOKit/hid/IOHIDBase.h>
+#include "io/mac_controller.hpp"
 
 namespace stardazed {
-namespace device {
+namespace io {
 
 
 class X360ControllerDriver : public ControllerDriver {
@@ -22,7 +20,7 @@ public:
 };
 
 
-} // ns device
+} // ns io
 } // ns stardazed
 
 

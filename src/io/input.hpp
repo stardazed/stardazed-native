@@ -1,18 +1,49 @@
 // ------------------------------------------------------------------
-// device::Keyboard - stardazed
-// (c) 2014 by Arthur Langereis
+// io::input - stardazed
+// (c) 2016 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#ifndef SD_DEVICE_KEYBOARD_H
-#define SD_DEVICE_KEYBOARD_H
+#ifndef SD_IO_INPUT_H
+#define SD_IO_INPUT_H
 
 #include "system/Config.hpp"
-#include "util/ConceptTraits.hpp"
-
-#include <bitset>
+#include "container/MultiArrayBuffer.hpp"
 
 namespace stardazed {
-namespace device {
+namespace io {
+
+
+struct ButtonState {
+	bool8 endedDown;
+	uint8 halfTransitionCount;
+};
+
+
+struct DirectionalPad {
+	ButtonState left, right, up, down;
+};
+
+
+struct Stick {
+	float posX, posY;
+};
+
+
+inline Stick stickFromDPad(const DirectionalPad& dPad) {
+	Stick stick {};
+	
+	if (dPad.left.endedDown)
+		stick.posX = -1;
+	else if (dPad.right.endedDown)
+		stick.posX =  1;
+	
+	if (dPad.up.endedDown)
+		stick.posY = -1;
+	else if (dPad.down.endedDown)
+		stick.posY =  1;
+	
+	return stick;
+}
 
 
 // Key names based on ANSI/ISO keyboard layout
@@ -61,20 +92,39 @@ enum class Key : uint16 {
 
 
 class Keyboard {
-	std::bitset<128> pressed_;
+	container::MultiArrayBuffer<
+		bool8, // down
+		uint8  // halfTransitionCount
+	> keyData_;
 
-	SD_NOCOPYORMOVE_CLASS(Keyboard)
-
+	bool8* downBase_;
+	uint8* halfTransBase_;
+	
 public:
-	Keyboard() = default;
-
-	bool isPressed(Key) const;
-	void press(Key);
-	void release(Key);
+	Keyboard();
+	
+	ButtonState keyState(Key kc) const;
+	bool down(Key kc) const;
+	bool pressed(Key kc) const;
+	
+	uint8 halfTransitions(Key kc) const;
+	void resetHalfTransitions();
+	
+	void clear();
+	void keyDownEvent(Key kc);
+	void keyUpEvent(Key kc);
 };
 
 
-} // ns device
+// global instances
+extern Keyboard keyboard;
+
+
+// global functions (platform-dependent)
+void update();
+
+
+} // ns io
 } // ns stardazed
 
 #endif

@@ -1,14 +1,13 @@
 // ------------------------------------------------------------------
-// device::mac_X360Controller - stardazed
-// (c) 2014 by Arthur Langereis
+// io::mac_360driver - stardazed
+// (c) 2016 by Arthur Langereis
 // ------------------------------------------------------------------
 
-#include "device/mac_DevicesContext.hpp"
-#include "device/mac_X360Controller.hpp"
+#include "io/mac_360driver.hpp"
 #include "math/Algorithm.hpp"
 
 namespace stardazed {
-namespace device {
+namespace io {
 
 
 // taken from MSDN, defined in XInput.h
@@ -61,7 +60,7 @@ static void X360ValueCallback(void* context, IOReturn, void*, IOHIDValueRef valu
 	}
 	else {
 		// Buttons
-		Button* button {};
+		ButtonState* button {};
 		
 		switch (usage) {
 			case  1: button = &controller.A; break;
@@ -100,5 +99,5 @@ IOHIDValueCallback X360ControllerDriver::callbackForDevice(IOHIDDeviceRef, int, 
 }
 
 	
-} // ns device
+} // ns io
 } // ns stardazed
