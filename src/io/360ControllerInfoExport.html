@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SD 360Controller VenPro Export</title>
+<meta charset="utf-8">
+<script>
+
+/*
+
+360Controller controller info exporter
+Part of stardazed
+(c) 2016 by Arthur Langereis
+
+Put this page in the same dir as the Info.plist of the 360Controller project and open
+the page in a browser that has access to the local file system (easier in Safari than Chrome.)
+
+The Info.plist has a listing of all the supported controllers and their vendor/product ids.
+This script extracts the info and outputs some code that is used in the io/mac_360driver.cpp file.
+
+*/
+
+function findControllerDict(doc) {
+	var mainList = [].slice.call(doc.childNodes[1].firstElementChild.childNodes, 0);
+	var useNext = false;
+	for (var node of mainList) {
+		if (node.nodeType == 1) {
+			if (useNext)
+				return node;
+			if (node.nodeName == "key" && node.textContent.trim() == "IOKitPersonalities")
+				useNext = true;
+		}
+	}
+	return null;
+}
+
+
+function getVendorAndProductIDs(dict) {
+	var items = [].slice.call(dict.childNodes);
+	var nextIsVendor = false;
+	var nextIsProduct = false;
+
+	var result = {};
+
+	for (var item of items) {
+		if (item.nodeType == 1) {
+			if (item.nodeName == "key") {
+				var key = item.textContent.trim();
+				if (key == "idVendor") nextIsVendor = true;
+				if (key == "idProduct") nextIsProduct = true;
+			}
+			else if (item.nodeName == "integer") {
+				var val = item.textContent.trim();
+				if (nextIsVendor) result.vendor = parseInt(val);
+				if (nextIsProduct) result.product = parseInt(val);
+
+				nextIsVendor = false;
+				nextIsProduct = false;
+			}
+		}
+	}
+
+	if (result.product && result.vendor) {
+		return result;
+	}
+	return null;
+}
+
+
+function encodeVenPro(venPro) {
+	var combined = (venPro.vendor << 16) | venPro.product;
+	var out = "", d = "0123456789ABCDEF", digits = 8;
+	while (digits--) {
+		out = d[combined & 15] + out;
+		combined >>= 4;
+	}
+	return "0x" + out;
+}
+
+
+function convert() {
+	var xhr = new XMLHttpRequest();
+	xhr.open("get", "Info.plist", false);
+	xhr.send(null);
+
+	var doc = xhr.responseXML;
+	var listNode = findControllerDict(doc);
+	var listArray = [].slice.call(listNode.childNodes, 0);
+
+	var result = {};
+
+	var curName = "";
+	for (var nd of listArray) {
+		if (nd.nodeType == 1) {
+			if (nd.nodeName == "key") {
+				curName = nd.textContent.trim();
+			}
+			else if (nd.nodeName == "dict") {
+				var venPro = getVendorAndProductIDs(nd);
+				if (venPro) {
+					result[curName] = venPro;
+				}
+			}
+		}
+	}
+
+	console.info(result);
+	
+	var cppArraySource = [];
+	for (var name in result) {
+		var venPro = result[name];
+		cppArraySource.push("\t" + encodeVenPro(venPro) + ", // " + name);
+	}
+
+	// make it an array static
+	cppArraySource.unshift("static uint32 supportedVendorProductKeys[] = {")
+	cppArraySource.push("};")
+
+	document.querySelector("pre").textContent = cppArraySource.join("\n");
+}
+
+</script>
+</head>
+<body onload="convert()"><pre></pre></body>
+</html>
