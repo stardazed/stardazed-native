@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // RunLoop - stardazed
-// (c) 2015 by Arthur Langereis
+// (c) 2016 by Arthur Langereis
 // ------------------------------------------------------------------
 
 #include "runtime/RunLoop.hpp"
