@@ -28,7 +28,7 @@ void RunLoop::setRenderContext(render::RenderContext& rc) {
 
 
 void RunLoop::mainLoop() {
-	assert(controller_);
+	assert(renderCtx_);
 	
 	if (runState_ != RunLoopState::Idle)
 		return;
@@ -58,13 +58,11 @@ void RunLoop::mainLoop() {
 				controller_->renderFrame(timeSinceLastFrameStart);
 			}
 
-			if (renderCtx_) {
-				renderCtx_->swap();
-			}
+			renderCtx_->swap();
 			
 			auto totalFrameTime = time::now() - frameStartTime;
 			
-			if (renderCtx_ && !renderCtx_->usesVerticalSync()) {
+			if (! renderCtx_->usesVerticalSync()) {
 				auto sleepDuration = minFrameTime_ - totalFrameTime;
 				
 				if (sleepDuration > 0) {
