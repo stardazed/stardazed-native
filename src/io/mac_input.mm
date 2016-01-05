@@ -113,6 +113,8 @@ static bool shouldForwardEvent(NSEvent* event) {
 
 
 void update() {
+	keyboard.resetHalfTransitions();
+
 	@autoreleasepool {
 		NSEvent* ev;
 		
