@@ -17,6 +17,9 @@ the page in a browser that has access to the local file system (easier in Safari
 The Info.plist has a listing of all the supported controllers and their vendor/product ids.
 This script extracts the info and outputs some code that is used in the io/mac_360driver.cpp file.
 
+Currently (Jan 2016), the plist can be retrieved via:
+https://raw.githubusercontent.com/360Controller/360Controller/master/360Controller/Info.plist
+
 */
 
 function findControllerDict(doc) {
