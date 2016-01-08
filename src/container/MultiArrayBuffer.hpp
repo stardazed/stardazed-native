@@ -93,7 +93,7 @@ class MultiArrayBuffer {
 
 public:
 	static constexpr uint32 elementCount = sizeof...(Ts);
-
+	static constexpr float growthFactor_s = 1.5f;
 	
 	template <uint32 Index>
 	static constexpr size32 elementSizeBytes() {
@@ -211,7 +211,7 @@ public:
 		auto invalidation = InvalidatePointers::No;
 
 		if (count_ == capacity_) {
-			invalidation = reserve(capacity_ * 2);
+			invalidation = reserve(capacity_ * growthFactor_s);
 		}
 
 		++count_;

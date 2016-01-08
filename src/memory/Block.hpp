@@ -56,6 +56,8 @@ class GrowableArena {
 	uint8* base_;
 	uint8* cur_;
 	uint32 capacity_;
+	
+	static constexpr float growthFactor_s = 1.5f;
 
 public:
 	GrowableArena(Allocator& allocator, uint32 initialCapacity);

@@ -72,7 +72,7 @@ void* GrowableArena::alloc(uint32 sizeBytes, uint32 alignment) {
 	auto effectiveSizeBytes = alignmentPadding + sizeBytes;
 
 	if (__builtin_expect(usedBytes + effectiveSizeBytes > capacity_, 0)) {
-		auto newCapacity = capacity_ * 2;
+		auto newCapacity = capacity_ * growthFactor_s;
 		if (sizeBytes >= capacity_)
 			newCapacity += sizeBytes;
 

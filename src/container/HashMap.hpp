@@ -36,6 +36,8 @@ class HashMap {
 
 
 	static constexpr uint64 lower62Bits = (uint64_t)(-1) ^ (3ull << 62);
+	static constexpr float growthFactor_s = 1.5f;
+	
 	static constexpr bool trivialDestructors = (std::is_trivially_destructible<Key>::value && std::is_trivially_destructible<Value>::value);
 
 
@@ -162,7 +164,7 @@ public:
 
 	void insert(const Key& key, const Value& value) {
 		if (count() * 3 / 2 >= bucketCount()) {
-			rehash(bucketCount() * 2);
+			rehash(bucketCount() * growthFactor_s);
 		}
 		
 		auto keyHash = hash(key) & lower62Bits;

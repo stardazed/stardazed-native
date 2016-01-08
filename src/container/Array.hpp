@@ -24,6 +24,8 @@ template <typename T>
 class Array {
 	static constexpr bool canSkipElementConstructor() { return std::is_trivially_default_constructible<T>::value; }
 	static constexpr bool canSkipElementDestructor() { return std::is_trivially_destructible<T>::value; }
+	
+	static constexpr float growthFactor_s = 1.5;
 
 	memory::Allocator& allocator_;
 	uint capacity_ = 0, count_ = 0;
@@ -283,7 +285,7 @@ public:
 
 	void append(const T& t) {
 		if (__builtin_expect(count() == capacity(), 0)) {
-			reserve(capacity() * 2);
+			reserve(capacity() * growthFactor_s);
 		}
 
 		// copy construct in place
@@ -295,7 +297,7 @@ public:
 	
 	void prepend(const T& t) {
 		if (__builtin_expect(count() == capacity(), 0)) {
-			reserve(capacity() * 2);
+			reserve(capacity() * growthFactor_s);
 		}
 
 		arrayBlockMove(data_ + 1, data_, count());
@@ -309,7 +311,7 @@ public:
 		static_assert(canSkipElementConstructor() || std::is_default_constructible<T>::value, "T must be default constructible");
 
 		if (__builtin_expect(count() == capacity(), 0)) {
-			reserve(capacity() * 2);
+			reserve(capacity() * growthFactor_s);
 		}
 
 		// default-construct in place
@@ -324,7 +326,7 @@ public:
 	template <typename... Args>
 	void emplaceBack(Args&&... args) {
 		if (__builtin_expect(count() == capacity(), 0)) {
-			reserve(capacity() * 2);
+			reserve(capacity() * growthFactor_s);
 		}
 
 		// construct in place
