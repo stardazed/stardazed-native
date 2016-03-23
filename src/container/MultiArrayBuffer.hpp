@@ -20,28 +20,46 @@ namespace container {
 namespace detail {
 
 	// -- Compute the sum of the sizes of all types in Ts
-
-	template <typename T>
-	constexpr size32 elementSumSize(T* = nullptr) {
-		return sizeof32<T>();
+	
+	template <size_t Index, typename T, typename... Ts>
+	struct ElementSumSize {
+		static constexpr size32 value() {
+			return sizeof32<T>() + ElementSumSize<Index - 1, Ts...>::value();
+		}
 	};
-
+	
 	template <typename T, typename... Ts>
-	constexpr size32 elementSumSize(T* = nullptr, Ts*... ts = nullptr) {
-		return sizeof32<T>() + elementSumSize<Ts...>(std::forward<Ts*>(ts)...);
+	struct ElementSumSize<0, T, Ts...> {
+		static constexpr size32 value() {
+			return sizeof32<T>();
+		}
 	};
+	
+	template <typename... Ts>
+	constexpr size32 elementSumSize() {
+		return ElementSumSize<sizeof...(Ts) - 1, Ts...>::value();
+	}
 
 
 	// -- Compute the byte offset of type # Index in Ts
 
-	template <uint32 Index, typename T>
-	constexpr size32 elementOffset(T* = nullptr) {
-		return (Index == 0) ? 0u : sizeof32<T>();
+	template <size_t Index, typename T, typename... Ts>
+	struct ElementOffset {
+		static constexpr size32 value() {
+			return sizeof32<T>() + ElementOffset<Index - 1, Ts...>::value();
+		}
 	};
-
-	template <uint32 Index, typename T, typename... Ts>
-	constexpr size32 elementOffset(T* = nullptr, Ts*... ts = nullptr) {
-		return (Index == 0) ? 0u : sizeof32<T>() + elementOffset<Index - 1, Ts...>(std::forward<Ts*>(ts)...);
+	
+	template <typename T, typename... Ts>
+	struct ElementOffset<0, T, Ts...> {
+		static constexpr size32 value() {
+			return 0;
+		}
+	};
+	
+	template <size_t Index, typename... Ts>
+	constexpr size32 elementOffset() {
+		return ElementOffset<Index, Ts...>::value();
 	};
 
 
@@ -59,21 +77,30 @@ namespace detail {
 	
 	
 	// -- Call a callback with base pointer and element size info for each T
-	// Used internally to in MAB::reserve
+	// Used internally in MAB::reserve
 	
 	using ItFn = std::function<void(void*, uint32)>;
 	
-	template <typename T>
-	void eachArrayBasePtr(void* basePtr, uint32 /*capacity*/, const ItFn& fn, T* = nullptr) {
-		fn(basePtr, sizeof32<T>());
-	}
+	template <size_t Counter, typename T, typename... Ts>
+	struct EachArrayBasePtr {
+		static void apply(void* basePtr, uint32 capacity, const ItFn& fn) {
+			fn(basePtr, sizeof32<T>());
+			
+			auto bytePtr = static_cast<uint8*>(basePtr);
+			EachArrayBasePtr<Counter - 1, Ts...>::apply(bytePtr + (capacity * sizeof(T)), capacity, fn);
+		}
+	};
 	
 	template <typename T, typename... Ts>
-	void eachArrayBasePtr(void* basePtr, uint32 capacity, const ItFn& fn, T* = nullptr, Ts*... ts = nullptr) {
-		fn(basePtr, sizeof32<T>());
-
-		auto bytePtr = static_cast<uint8*>(basePtr);
-		eachArrayBasePtr<Ts...>(bytePtr + (capacity * sizeof(T)), capacity, fn, std::forward<Ts*>(ts)...);
+	struct EachArrayBasePtr<0, T, Ts...> {
+		static void apply(void* basePtr, uint32 /*capacity*/, const ItFn& fn) {
+			fn(basePtr, sizeof32<T>());
+		}
+	};
+	
+	template <typename... Ts>
+	void eachArrayBasePtr(void* basePtr, uint32 capacity, const ItFn& fn) {
+		EachArrayBasePtr<sizeof...(Ts) - 1, Ts...>::apply(basePtr, capacity, fn);
 	}
 
 } // ns detail
