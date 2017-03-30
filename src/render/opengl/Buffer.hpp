@@ -268,6 +268,9 @@ namespace detail {
 			glBindBufferRange(target, bindPoint, buffer.name(), static_cast<GLintptr>(offset), bytes);
 		}
 	};
+	
+	template <GLenum target>
+	GLint IndexedBufferOps<target>::maxIndex_ = -1;
 
 } // ns detail
 

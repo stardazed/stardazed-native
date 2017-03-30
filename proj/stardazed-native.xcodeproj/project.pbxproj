@@ -159,7 +159,7 @@
 		8E07941A1B77DEBD00766FFB /* Behaviour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Behaviour.cpp; sourceTree = "<group>"; };
 		8E07941B1B77DEBD00766FFB /* Behaviour.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Behaviour.hpp; sourceTree = "<group>"; };
 		8E0EF74519A0E0BC00CF38A2 /* AudioContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioContext.hpp; sourceTree = "<group>"; };
-		8E112D2D199E53CC0029CD38 /* libstardazed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libstardazed.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E112D2D199E53CC0029CD38 /* libstardazed-native.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libstardazed-native.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E112D3D199E55100029CD38 /* Algorithm.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Algorithm.hpp; sourceTree = "<group>"; };
 		8E112D3E199E55100029CD38 /* Angle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Angle.hpp; sourceTree = "<group>"; };
 		8E112D3F199E55100029CD38 /* Constants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Constants.hpp; sourceTree = "<group>"; };
@@ -349,7 +349,7 @@
 		8E112D2E199E53CC0029CD38 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8E112D2D199E53CC0029CD38 /* libstardazed.a */,
+				8E112D2D199E53CC0029CD38 /* libstardazed-native.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -753,9 +753,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8E112D2C199E53CC0029CD38 /* stardazed */ = {
+		8E112D2C199E53CC0029CD38 /* stardazed-native */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8E112D31199E53CC0029CD38 /* Build configuration list for PBXNativeTarget "stardazed" */;
+			buildConfigurationList = 8E112D31199E53CC0029CD38 /* Build configuration list for PBXNativeTarget "stardazed-native" */;
 			buildPhases = (
 				8E112D29199E53CC0029CD38 /* Sources */,
 				8E112D2A199E53CC0029CD38 /* Frameworks */,
@@ -765,9 +765,9 @@
 			);
 			dependencies = (
 			);
-			name = stardazed;
+			name = "stardazed-native";
 			productName = stardazed;
-			productReference = 8E112D2D199E53CC0029CD38 /* libstardazed.a */;
+			productReference = 8E112D2D199E53CC0029CD38 /* libstardazed-native.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -776,10 +776,10 @@
 		8E112D25199E53CC0029CD38 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = xfinitegames;
 			};
-			buildConfigurationList = 8E112D28199E53CC0029CD38 /* Build configuration list for PBXProject "stardazed" */;
+			buildConfigurationList = 8E112D28199E53CC0029CD38 /* Build configuration list for PBXProject "stardazed-native" */;
 			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -791,7 +791,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8E112D2C199E53CC0029CD38 /* stardazed */,
+				8E112D2C199E53CC0029CD38 /* stardazed-native */,
 			);
 		};
 /* End PBXProject section */
@@ -871,8 +871,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.2;
@@ -932,8 +934,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.2;
@@ -998,7 +1002,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8E112D28199E53CC0029CD38 /* Build configuration list for PBXProject "stardazed" */ = {
+		8E112D28199E53CC0029CD38 /* Build configuration list for PBXProject "stardazed-native" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E112D2F199E53CC0029CD38 /* Debug */,
@@ -1007,7 +1011,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8E112D31199E53CC0029CD38 /* Build configuration list for PBXNativeTarget "stardazed" */ = {
+		8E112D31199E53CC0029CD38 /* Build configuration list for PBXNativeTarget "stardazed-native" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E112D32199E53CC0029CD38 /* Debug */,

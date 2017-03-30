@@ -8,12 +8,6 @@
 
 namespace stardazed {
 namespace render {
-		
-
-namespace detail {
-	template <GLenum target>
-	GLint IndexedBufferOps<target>::maxIndex_ = -1;
-}
 
 
 namespace ConstantBufferLimits {

@@ -95,7 +95,7 @@ public:
 	
 	PixelBuffer pixelBufferForLevel(uint32 level) const override;
 };
-	
+
 	
 class BMPDataProvider : public PixelDataProvider {
 	uint32 width_, height_;

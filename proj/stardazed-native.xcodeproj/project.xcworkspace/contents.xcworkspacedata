@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:stardazed.xcodeproj">
+      location = "self:/Users/arthur/Documents/Creations/lib/stardazed/proj/stardazed-native.xcodeproj">
    </FileRef>
 </Workspace>
