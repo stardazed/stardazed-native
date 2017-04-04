@@ -19,23 +19,11 @@ Project Goals
   * Rendering techniques, working towards physically based rendering
 
 
-Status (June 2015)
-------------------
+Status
+------
 
 Nearing completion of render types with GL 4.1 implementation borrowing
 from Metal for low-level render interfaces. Audio, input, scene graph and
 other sections functional but simple.
 
-### Next
-
-* Refactor scene graph and connect down with render system
-* FBX scene loading (it sucks, but everyone uses it)
-
-
-Work is ongoing whenever I have time, I should be updating
-[my blog](http://zenmumbler.net/) regularly with updates about
-development. I'm also [on twitter](https://twitter.com/zenmumbler).
-
-----
-
-(c) 2015 by Arthur Langereis (@zenmumbler), all rights reserved
+(c) 2015-2017 by Arthur Langereis (@zenmumbler), all rights reserved
