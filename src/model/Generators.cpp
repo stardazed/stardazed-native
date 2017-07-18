@@ -25,9 +25,9 @@ namespace gen {
 Plane::Plane(float width, float height, float tileMaxDim, float tileUVStep, const PlaneYGenerator& yGen)
 : yGen_(yGen)
 {
-	tilesWide_ = math::max(1.f, width / tileMaxDim),
-	tilesHigh_ = math::max(1.f, height / tileMaxDim),
-	tileDimX_  = width / tilesWide_,
+	tilesWide_ = math::max(1.f, width / tileMaxDim);
+	tilesHigh_ = math::max(1.f, height / tileMaxDim);
+	tileDimX_  = width / tilesWide_;
 	tileDimZ_  = height / tilesHigh_;
 	
 	tileUVStep_ = tileUVStep;
